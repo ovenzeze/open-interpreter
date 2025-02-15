@@ -1,0 +1,789 @@
+2025-02-15 02:27:03,631 - interpreter_server - INFO - Server starting on http://0.0.0.0:5001
+2025-02-15 02:27:39,740 - interpreter_server - INFO - Chat lock acquired successfully
+2025-02-15 02:27:39,740 - interpreter_server - DEBUG - Received request data: {'messages': [{'role': 'user', 'type': 'message', 'content': 'Hello!'}], 'stream': False}
+2025-02-15 02:27:39,740 - interpreter_server - INFO - No session_id provided, creating new session
+2025-02-15 02:27:39,741 - interpreter_server - DEBUG - Created new session: 65051d26-3893-419d-a42a-c33a066491cd
+2025-02-15 02:27:39,741 - interpreter_server - INFO - Processing chat request with 1 messages for session 65051d26-3893-419d-a42a-c33a066491cd
+2025-02-15 02:27:39,741 - interpreter_server - DEBUG - Starting chat with interpreter
+2025-02-15 02:27:45,884 - interpreter_server - DEBUG - Got response from interpreter
+2025-02-15 02:27:45,885 - interpreter_server - DEBUG - Processing non-streaming response
+2025-02-15 02:27:45,885 - interpreter_server - DEBUG - Got 1 response messages
+2025-02-15 02:27:45,885 - interpreter_server - DEBUG - Saving message to session: <interpreter.server.message.Message object at 0x10c5b3370>
+2025-02-15 02:34:48,358 - interpreter_server - INFO - Application initialized successfully
+2025-02-15 02:36:32,324 - interpreter_server - INFO - Initializing server...
+2025-02-15 02:36:32,330 - interpreter_server - INFO - Application initialized successfully
+2025-02-15 02:36:32,330 - interpreter_server - INFO - Starting server in DEBUG mode on http://0.0.0.0:5001
+2025-02-15 02:36:38,261 - interpreter_server - INFO - Initializing server...
+2025-02-15 02:36:38,266 - interpreter_server - INFO - Application initialized successfully
+2025-02-15 02:36:38,266 - interpreter_server - INFO - Starting server in DEBUG mode on http://0.0.0.0:5001
+2025-02-15 02:38:37,818 - interpreter_server - INFO - Initializing server...
+2025-02-15 02:38:37,823 - interpreter_server - INFO - Application initialized successfully
+2025-02-15 02:38:37,823 - interpreter_server - INFO - Starting server on http://0.0.0.0:5001
+2025-02-15 02:39:02,012 - interpreter_server - INFO - Chat lock acquired successfully
+2025-02-15 02:39:02,012 - interpreter_server - DEBUG - Received request data: {'messages': [{'role': 'user', 'type': 'message', 'content': 'Count from 1 to 3'}], 'stream': True}
+2025-02-15 02:39:02,012 - interpreter_server - INFO - No session_id provided, creating new session
+2025-02-15 02:39:02,013 - interpreter_server - DEBUG - Created new session: 985323ac-bb91-4bd8-a10e-8683e2f98b09
+2025-02-15 02:39:02,013 - interpreter_server - INFO - Processing chat request with 1 messages for session 985323ac-bb91-4bd8-a10e-8683e2f98b09
+2025-02-15 02:39:02,013 - interpreter_server - DEBUG - Starting chat with interpreter
+2025-02-15 02:39:02,187 - interpreter_server - DEBUG - Got response from interpreter
+2025-02-15 02:39:02,187 - interpreter_server - INFO - Starting streaming response
+2025-02-15 02:39:02,187 - interpreter_server - DEBUG - Starting stream generation
+2025-02-15 02:39:03,422 - interpreter_server - ERROR - Error processing chunk: 'content'
+Traceback (most recent call last):
+  File "/Users/clay/Code/open-interpreter/interpreter/server/routes/chat.py", line 141, in generate
+    chunk = StreamingChunk.from_dict(chunk)
+  File "/Users/clay/Code/open-interpreter/interpreter/server/message.py", line 56, in from_dict
+    content=data["content"],
+KeyError: 'content'
+2025-02-15 02:39:03,425 - interpreter_server - DEBUG - Processing chunk: <interpreter.server.message.StreamingChunk object at 0x10af4f0a0>
+2025-02-15 02:39:03,425 - interpreter_server - DEBUG - Sending formatted chunk: {"role": "assistant", "type": "message", "content": "Here", "id": "b7835e67-27b1-4f07-a206-27767bf2dbd3", "created_at": "2025-02-15T02:39:03.425563"}
+2025-02-15 02:39:03,425 - interpreter_server - DEBUG - Chunk sent successfully
+2025-02-15 02:39:03,428 - interpreter_server - DEBUG - Processing chunk: <interpreter.server.message.StreamingChunk object at 0x107fa7580>
+2025-02-15 02:39:03,428 - interpreter_server - DEBUG - Sending formatted chunk: {"role": "assistant", "type": "message", "content": " is", "id": "b3fb4f04-d45c-4f8a-8e29-eb68c7d3b8fe", "created_at": "2025-02-15T02:39:03.428128"}
+2025-02-15 02:39:03,428 - interpreter_server - DEBUG - Chunk sent successfully
+2025-02-15 02:39:03,430 - interpreter_server - DEBUG - Processing chunk: <interpreter.server.message.StreamingChunk object at 0x107fa7580>
+2025-02-15 02:39:03,431 - interpreter_server - DEBUG - Sending formatted chunk: {"role": "assistant", "type": "message", "content": " some", "id": "4224aead-1e5c-4882-ae2e-f07f0a893000", "created_at": "2025-02-15T02:39:03.430879"}
+2025-02-15 02:39:03,431 - interpreter_server - DEBUG - Chunk sent successfully
+2025-02-15 02:39:03,433 - interpreter_server - DEBUG - Processing chunk: <interpreter.server.message.StreamingChunk object at 0x10af38730>
+2025-02-15 02:39:03,433 - interpreter_server - DEBUG - Sending formatted chunk: {"role": "assistant", "type": "message", "content": " Python", "id": "915794ca-6fe2-491a-8c1e-86151228aa29", "created_at": "2025-02-15T02:39:03.433351"}
+2025-02-15 02:39:03,433 - interpreter_server - DEBUG - Chunk sent successfully
+2025-02-15 02:39:03,435 - interpreter_server - DEBUG - Processing chunk: <interpreter.server.message.StreamingChunk object at 0x10af38730>
+2025-02-15 02:39:03,436 - interpreter_server - DEBUG - Sending formatted chunk: {"role": "assistant", "type": "message", "content": " code", "id": "f4b27b34-5eb6-468c-a442-bc97ca88eef8", "created_at": "2025-02-15T02:39:03.435778"}
+2025-02-15 02:39:03,436 - interpreter_server - DEBUG - Chunk sent successfully
+2025-02-15 02:39:03,438 - interpreter_server - DEBUG - Processing chunk: <interpreter.server.message.StreamingChunk object at 0x10af38730>
+2025-02-15 02:39:03,438 - interpreter_server - DEBUG - Sending formatted chunk: {"role": "assistant", "type": "message", "content": " to", "id": "0843360c-23fa-4035-bb8a-160a23074d46", "created_at": "2025-02-15T02:39:03.438134"}
+2025-02-15 02:39:03,438 - interpreter_server - DEBUG - Chunk sent successfully
+2025-02-15 02:39:03,440 - interpreter_server - DEBUG - Processing chunk: <interpreter.server.message.StreamingChunk object at 0x10af38730>
+2025-02-15 02:39:03,440 - interpreter_server - DEBUG - Sending formatted chunk: {"role": "assistant", "type": "message", "content": " count", "id": "4171f94c-3d19-4e68-b728-cea4fc793716", "created_at": "2025-02-15T02:39:03.440186"}
+2025-02-15 02:39:03,440 - interpreter_server - DEBUG - Chunk sent successfully
+2025-02-15 02:39:03,442 - interpreter_server - DEBUG - Processing chunk: <interpreter.server.message.StreamingChunk object at 0x10af38730>
+2025-02-15 02:39:03,442 - interpreter_server - DEBUG - Sending formatted chunk: {"role": "assistant", "type": "message", "content": " from", "id": "cbf7b3b7-8dd8-4723-bcd6-37a96783a7ed", "created_at": "2025-02-15T02:39:03.442197"}
+2025-02-15 02:39:03,442 - interpreter_server - DEBUG - Chunk sent successfully
+2025-02-15 02:39:03,444 - interpreter_server - DEBUG - Processing chunk: <interpreter.server.message.StreamingChunk object at 0x10af38730>
+2025-02-15 02:39:03,444 - interpreter_server - DEBUG - Sending formatted chunk: {"role": "assistant", "type": "message", "content": " ", "id": "9ca4d18b-e60d-40f8-8656-98f83b7f009a", "created_at": "2025-02-15T02:39:03.444114"}
+2025-02-15 02:39:03,444 - interpreter_server - DEBUG - Chunk sent successfully
+2025-02-15 02:39:03,446 - interpreter_server - DEBUG - Processing chunk: <interpreter.server.message.StreamingChunk object at 0x10af38730>
+2025-02-15 02:39:03,446 - interpreter_server - DEBUG - Sending formatted chunk: {"role": "assistant", "type": "message", "content": "1", "id": "9d34e2df-d7e9-4cad-8bf4-fceed9a78717", "created_at": "2025-02-15T02:39:03.446081"}
+2025-02-15 02:39:03,446 - interpreter_server - DEBUG - Chunk sent successfully
+2025-02-15 02:39:03,670 - interpreter_server - DEBUG - Processing chunk: <interpreter.server.message.StreamingChunk object at 0x10af38730>
+2025-02-15 02:39:03,670 - interpreter_server - DEBUG - Sending formatted chunk: {"role": "assistant", "type": "message", "content": " ", "id": "e24af42f-d745-4540-900a-5c5d26348be8", "created_at": "2025-02-15T02:39:03.670303"}
+2025-02-15 02:39:03,671 - interpreter_server - DEBUG - Chunk sent successfully
+2025-02-15 02:39:03,673 - interpreter_server - DEBUG - Processing chunk: <interpreter.server.message.StreamingChunk object at 0x10af38730>
+2025-02-15 02:39:03,673 - interpreter_server - DEBUG - Sending formatted chunk: {"role": "assistant", "type": "message", "content": "to", "id": "baecca43-9bb0-4e21-acca-e6335a3d7257", "created_at": "2025-02-15T02:39:03.673510"}
+2025-02-15 02:39:03,674 - interpreter_server - DEBUG - Chunk sent successfully
+2025-02-15 02:39:03,675 - interpreter_server - DEBUG - Processing chunk: <interpreter.server.message.StreamingChunk object at 0x10af38730>
+2025-02-15 02:39:03,675 - interpreter_server - DEBUG - Sending formatted chunk: {"role": "assistant", "type": "message", "content": " ", "id": "f714724d-a1ae-46a6-8b83-9b8525be4898", "created_at": "2025-02-15T02:39:03.675646"}
+2025-02-15 02:39:03,676 - interpreter_server - DEBUG - Chunk sent successfully
+2025-02-15 02:39:03,678 - interpreter_server - DEBUG - Processing chunk: <interpreter.server.message.StreamingChunk object at 0x10af38730>
+2025-02-15 02:39:03,678 - interpreter_server - DEBUG - Sending formatted chunk: {"role": "assistant", "type": "message", "content": "3", "id": "2810a4bf-ae74-4cc3-883b-440d43ed308e", "created_at": "2025-02-15T02:39:03.678153"}
+2025-02-15 02:39:03,678 - interpreter_server - DEBUG - Chunk sent successfully
+2025-02-15 02:39:03,680 - interpreter_server - DEBUG - Processing chunk: <interpreter.server.message.StreamingChunk object at 0x10af38730>
+2025-02-15 02:39:03,680 - interpreter_server - DEBUG - Sending formatted chunk: {"role": "assistant", "type": "message", "content": ":", "id": "992654de-138c-44f5-a8b4-206f762e3d50", "created_at": "2025-02-15T02:39:03.680591"}
+2025-02-15 02:39:03,681 - interpreter_server - DEBUG - Chunk sent successfully
+2025-02-15 02:39:04,744 - interpreter_server - ERROR - Error processing chunk: 'content'
+Traceback (most recent call last):
+  File "/Users/clay/Code/open-interpreter/interpreter/server/routes/chat.py", line 141, in generate
+    chunk = StreamingChunk.from_dict(chunk)
+  File "/Users/clay/Code/open-interpreter/interpreter/server/message.py", line 56, in from_dict
+    content=data["content"],
+KeyError: 'content'
+2025-02-15 02:39:04,747 - interpreter_server - ERROR - Error processing chunk: 'content'
+Traceback (most recent call last):
+  File "/Users/clay/Code/open-interpreter/interpreter/server/routes/chat.py", line 141, in generate
+    chunk = StreamingChunk.from_dict(chunk)
+  File "/Users/clay/Code/open-interpreter/interpreter/server/message.py", line 56, in from_dict
+    content=data["content"],
+KeyError: 'content'
+2025-02-15 02:39:04,748 - interpreter_server - DEBUG - Processing chunk: <interpreter.server.message.StreamingChunk object at 0x10af38580>
+2025-02-15 02:39:04,748 - interpreter_server - DEBUG - Sending formatted chunk: {"role": "assistant", "type": "code", "content": "for i in range(1, 4):\n    print(i)", "id": "df91fba8-19af-4191-83c2-ea5e5c307594", "created_at": "2025-02-15T02:39:04.748079", "format": "pyt"}
+2025-02-15 02:39:04,748 - interpreter_server - INFO - Releasing chat lock in stream mode
+2025-02-15 02:40:00,959 - interpreter_server - INFO - Initializing server...
+2025-02-15 02:40:00,964 - interpreter_server - INFO - Application initialized successfully
+2025-02-15 02:40:00,964 - interpreter_server - INFO - Starting server on http://0.0.0.0:5001
+2025-02-15 02:40:07,937 - interpreter_server - INFO - Chat lock acquired successfully
+2025-02-15 02:40:07,937 - interpreter_server - DEBUG - Received request data: {'messages': [{'role': 'user', 'type': 'message', 'content': 'Count from 1 to 3'}], 'stream': True}
+2025-02-15 02:40:07,937 - interpreter_server - INFO - No session_id provided, creating new session
+2025-02-15 02:40:07,938 - interpreter_server - DEBUG - Created new session: 68e68e34-85c9-490b-a12e-f522538df4b0
+2025-02-15 02:40:07,938 - interpreter_server - INFO - Processing chat request with 1 messages for session 68e68e34-85c9-490b-a12e-f522538df4b0
+2025-02-15 02:40:07,943 - interpreter_server - DEBUG - Starting chat with interpreter
+2025-02-15 02:40:08,075 - interpreter_server - DEBUG - Got response from interpreter
+2025-02-15 02:40:08,075 - interpreter_server - INFO - Starting streaming response
+2025-02-15 02:40:08,076 - interpreter_server - DEBUG - Starting stream generation
+2025-02-15 02:40:09,098 - interpreter_server - DEBUG - Processing chunk: <interpreter.server.message.StreamingChunk object at 0x10fe3d310>
+2025-02-15 02:40:09,098 - interpreter_server - DEBUG - Sending formatted chunk: {"role": "assistant", "type": "message", "content": "", "id": "3f3d59a9-ec0a-4212-be05-6b2562dae3f2", "created_at": "2025-02-15T02:40:09.098403"}
+2025-02-15 02:40:09,099 - interpreter_server - DEBUG - Chunk sent successfully
+2025-02-15 02:40:09,101 - interpreter_server - DEBUG - Processing chunk: <interpreter.server.message.StreamingChunk object at 0x10fe25b50>
+2025-02-15 02:40:09,102 - interpreter_server - DEBUG - Sending formatted chunk: {"role": "assistant", "type": "message", "content": "Here", "id": "85178d8b-170f-4d6d-893a-3583ef34e661", "created_at": "2025-02-15T02:40:09.101853"}
+2025-02-15 02:40:09,102 - interpreter_server - DEBUG - Chunk sent successfully
+2025-02-15 02:40:09,103 - interpreter_server - DEBUG - Processing chunk: <interpreter.server.message.StreamingChunk object at 0x10fe25b50>
+2025-02-15 02:40:09,104 - interpreter_server - DEBUG - Sending formatted chunk: {"role": "assistant", "type": "message", "content": "'s", "id": "bb64059c-dc6a-40b5-ad0d-3a892bb4b113", "created_at": "2025-02-15T02:40:09.103918"}
+2025-02-15 02:40:09,104 - interpreter_server - DEBUG - Chunk sent successfully
+2025-02-15 02:40:09,106 - interpreter_server - DEBUG - Processing chunk: <interpreter.server.message.StreamingChunk object at 0x10fe25b50>
+2025-02-15 02:40:09,106 - interpreter_server - DEBUG - Sending formatted chunk: {"role": "assistant", "type": "message", "content": " some", "id": "2f2d5b5f-facf-40e6-8311-88409da409f0", "created_at": "2025-02-15T02:40:09.106011"}
+2025-02-15 02:40:09,106 - interpreter_server - DEBUG - Chunk sent successfully
+2025-02-15 02:40:09,108 - interpreter_server - DEBUG - Processing chunk: <interpreter.server.message.StreamingChunk object at 0x10fe25b50>
+2025-02-15 02:40:09,108 - interpreter_server - DEBUG - Sending formatted chunk: {"role": "assistant", "type": "message", "content": " Python", "id": "f17f411b-99ff-407a-a1ac-4459dd8535e0", "created_at": "2025-02-15T02:40:09.108285"}
+2025-02-15 02:40:09,109 - interpreter_server - DEBUG - Chunk sent successfully
+2025-02-15 02:40:09,203 - interpreter_server - DEBUG - Processing chunk: <interpreter.server.message.StreamingChunk object at 0x10fe25b50>
+2025-02-15 02:40:09,203 - interpreter_server - DEBUG - Sending formatted chunk: {"role": "assistant", "type": "message", "content": " code", "id": "7204644c-4290-4719-91df-ca8ab1c927ed", "created_at": "2025-02-15T02:40:09.203363"}
+2025-02-15 02:40:09,204 - interpreter_server - DEBUG - Chunk sent successfully
+2025-02-15 02:40:09,206 - interpreter_server - DEBUG - Processing chunk: <interpreter.server.message.StreamingChunk object at 0x10fe25b50>
+2025-02-15 02:40:09,206 - interpreter_server - DEBUG - Sending formatted chunk: {"role": "assistant", "type": "message", "content": " to", "id": "8ea1dc80-bde5-4f53-9da6-b8feeb36ac4e", "created_at": "2025-02-15T02:40:09.206489"}
+2025-02-15 02:40:09,207 - interpreter_server - DEBUG - Chunk sent successfully
+2025-02-15 02:40:09,208 - interpreter_server - DEBUG - Processing chunk: <interpreter.server.message.StreamingChunk object at 0x10fe25b50>
+2025-02-15 02:40:09,209 - interpreter_server - DEBUG - Sending formatted chunk: {"role": "assistant", "type": "message", "content": " count", "id": "e2acd8a6-a483-4662-8b36-bb8ce8e0da44", "created_at": "2025-02-15T02:40:09.208823"}
+2025-02-15 02:40:09,209 - interpreter_server - DEBUG - Chunk sent successfully
+2025-02-15 02:40:09,210 - interpreter_server - DEBUG - Processing chunk: <interpreter.server.message.StreamingChunk object at 0x10fe25b50>
+2025-02-15 02:40:09,211 - interpreter_server - DEBUG - Sending formatted chunk: {"role": "assistant", "type": "message", "content": " from", "id": "043c2672-7343-46aa-9a59-c263c3689cd8", "created_at": "2025-02-15T02:40:09.210871"}
+2025-02-15 02:40:09,211 - interpreter_server - DEBUG - Chunk sent successfully
+2025-02-15 02:40:09,213 - interpreter_server - DEBUG - Processing chunk: <interpreter.server.message.StreamingChunk object at 0x10fe25b50>
+2025-02-15 02:40:09,213 - interpreter_server - DEBUG - Sending formatted chunk: {"role": "assistant", "type": "message", "content": " ", "id": "3f5579ae-3c3b-412b-80bf-e4b6f52ea7ef", "created_at": "2025-02-15T02:40:09.213344"}
+2025-02-15 02:40:09,213 - interpreter_server - DEBUG - Chunk sent successfully
+2025-02-15 02:40:09,215 - interpreter_server - DEBUG - Processing chunk: <interpreter.server.message.StreamingChunk object at 0x10fe25b50>
+2025-02-15 02:40:09,215 - interpreter_server - DEBUG - Sending formatted chunk: {"role": "assistant", "type": "message", "content": "1", "id": "70f5a768-34bc-41dc-af7b-542073acca2c", "created_at": "2025-02-15T02:40:09.215404"}
+2025-02-15 02:40:09,216 - interpreter_server - DEBUG - Chunk sent successfully
+2025-02-15 02:40:09,585 - interpreter_server - DEBUG - Processing chunk: <interpreter.server.message.StreamingChunk object at 0x10fe25b50>
+2025-02-15 02:40:09,585 - interpreter_server - DEBUG - Sending formatted chunk: {"role": "assistant", "type": "message", "content": " ", "id": "56f69129-aac6-4e91-920f-7310a6efc766", "created_at": "2025-02-15T02:40:09.585138"}
+2025-02-15 02:40:09,585 - interpreter_server - DEBUG - Chunk sent successfully
+2025-02-15 02:40:09,587 - interpreter_server - DEBUG - Processing chunk: <interpreter.server.message.StreamingChunk object at 0x10fe25b50>
+2025-02-15 02:40:09,587 - interpreter_server - DEBUG - Sending formatted chunk: {"role": "assistant", "type": "message", "content": "to", "id": "d2c97604-c2cb-44b5-8374-01db265a498e", "created_at": "2025-02-15T02:40:09.587558"}
+2025-02-15 02:40:09,588 - interpreter_server - DEBUG - Chunk sent successfully
+2025-02-15 02:40:09,590 - interpreter_server - DEBUG - Processing chunk: <interpreter.server.message.StreamingChunk object at 0x10fe25b50>
+2025-02-15 02:40:09,590 - interpreter_server - DEBUG - Sending formatted chunk: {"role": "assistant", "type": "message", "content": " ", "id": "d9e3c25f-976c-4852-b8a4-e23d3ae8e767", "created_at": "2025-02-15T02:40:09.590043"}
+2025-02-15 02:40:09,590 - interpreter_server - DEBUG - Chunk sent successfully
+2025-02-15 02:40:09,592 - interpreter_server - DEBUG - Processing chunk: <interpreter.server.message.StreamingChunk object at 0x10fe25b50>
+2025-02-15 02:40:09,592 - interpreter_server - DEBUG - Sending formatted chunk: {"role": "assistant", "type": "message", "content": "3", "id": "275456b8-1728-4c6b-a479-896f6227d8c8", "created_at": "2025-02-15T02:40:09.592269"}
+2025-02-15 02:40:09,592 - interpreter_server - DEBUG - Chunk sent successfully
+2025-02-15 02:40:09,594 - interpreter_server - DEBUG - Processing chunk: <interpreter.server.message.StreamingChunk object at 0x10fe25b50>
+2025-02-15 02:40:09,594 - interpreter_server - DEBUG - Sending formatted chunk: {"role": "assistant", "type": "message", "content": ":", "id": "059ba91e-3690-4830-858b-79fc1a939ddf", "created_at": "2025-02-15T02:40:09.594373"}
+2025-02-15 02:40:09,595 - interpreter_server - DEBUG - Chunk sent successfully
+2025-02-15 02:40:10,511 - interpreter_server - DEBUG - Processing chunk: <interpreter.server.message.StreamingChunk object at 0x10fe25b50>
+2025-02-15 02:40:10,512 - interpreter_server - DEBUG - Sending formatted chunk: {"role": "assistant", "type": "message", "content": "", "id": "9cab5da5-f6f3-4797-9b84-212c76c35f45", "created_at": "2025-02-15T02:40:10.511386"}
+2025-02-15 02:40:10,512 - interpreter_server - DEBUG - Chunk sent successfully
+2025-02-15 02:40:10,515 - interpreter_server - DEBUG - Processing chunk: <interpreter.server.message.StreamingChunk object at 0x10a526370>
+2025-02-15 02:40:10,515 - interpreter_server - DEBUG - Sending formatted chunk: {"role": "assistant", "type": "code", "content": "", "id": "70186a1a-4215-455e-9c8d-9cb29f2eb8d8", "created_at": "2025-02-15T02:40:10.515197", "format": "python"}
+2025-02-15 02:40:10,515 - interpreter_server - DEBUG - Chunk sent successfully
+2025-02-15 02:40:10,515 - interpreter_server - DEBUG - Processing chunk: <interpreter.server.message.StreamingChunk object at 0x10a526370>
+2025-02-15 02:40:10,516 - interpreter_server - DEBUG - Sending formatted chunk: {"role": "assistant", "type": "code", "content": "for i ", "id": "305af64f-3b34-45d1-a047-5f1001549068", "created_at": "2025-02-15T02:40:10.515907", "format": "python"}
+2025-02-15 02:40:10,516 - interpreter_server - DEBUG - Chunk sent successfully
+2025-02-15 02:40:10,562 - interpreter_server - DEBUG - Processing chunk: <interpreter.server.message.StreamingChunk object at 0x10a526370>
+2025-02-15 02:40:10,562 - interpreter_server - DEBUG - Sending formatted chunk: {"role": "assistant", "type": "code", "content": "in ra", "id": "afaa186a-116b-43d1-8e21-fec196ed9a61", "created_at": "2025-02-15T02:40:10.562434", "format": "python"}
+2025-02-15 02:40:10,563 - interpreter_server - DEBUG - Chunk sent successfully
+2025-02-15 02:40:10,565 - interpreter_server - DEBUG - Processing chunk: <interpreter.server.message.StreamingChunk object at 0x10a526370>
+2025-02-15 02:40:10,565 - interpreter_server - DEBUG - Sending formatted chunk: {"role": "assistant", "type": "code", "content": "nge(1, 4)", "id": "9e879e8c-9476-4a5a-bc10-7131886e5f22", "created_at": "2025-02-15T02:40:10.565272", "format": "python"}
+2025-02-15 02:40:10,566 - interpreter_server - DEBUG - Chunk sent successfully
+2025-02-15 02:40:10,569 - interpreter_server - DEBUG - Processing chunk: <interpreter.server.message.StreamingChunk object at 0x10a526370>
+2025-02-15 02:40:10,570 - interpreter_server - DEBUG - Sending formatted chunk: {"role": "assistant", "type": "code", "content": ":\n    p", "id": "f79c5512-a785-493d-86ad-7efd4e85ff49", "created_at": "2025-02-15T02:40:10.569671", "format": "python"}
+2025-02-15 02:40:10,570 - interpreter_server - DEBUG - Chunk sent successfully
+2025-02-15 02:40:10,573 - interpreter_server - DEBUG - Processing chunk: <interpreter.server.message.StreamingChunk object at 0x10a526370>
+2025-02-15 02:40:10,574 - interpreter_server - DEBUG - Sending formatted chunk: {"role": "assistant", "type": "code", "content": "rint(i)", "id": "c4b47c18-2bd9-468b-b298-683635728c2c", "created_at": "2025-02-15T02:40:10.573748", "format": "python"}
+2025-02-15 02:40:10,574 - interpreter_server - DEBUG - Chunk sent successfully
+2025-02-15 02:40:10,578 - interpreter_server - DEBUG - Processing chunk: <interpreter.server.message.StreamingChunk object at 0x10a526370>
+2025-02-15 02:40:10,579 - interpreter_server - DEBUG - Sending formatted chunk: {"role": "assistant", "type": "code", "content": "", "id": "f6c9c567-08fc-40a3-bda4-8777d53c514b", "created_at": "2025-02-15T02:40:10.578918", "format": "python"}
+2025-02-15 02:40:10,579 - interpreter_server - DEBUG - Chunk sent successfully
+2025-02-15 02:40:12,128 - interpreter_server - DEBUG - Processing chunk: <interpreter.server.message.StreamingChunk object at 0x10a526370>
+2025-02-15 02:40:12,128 - interpreter_server - DEBUG - Sending formatted chunk: {"role": "computer", "type": "console", "content": "", "id": "776bffcd-6cf7-45e3-b008-3b9caa4167e8", "created_at": "2025-02-15T02:40:12.128348"}
+2025-02-15 02:40:12,129 - interpreter_server - DEBUG - Chunk sent successfully
+2025-02-15 02:40:12,133 - interpreter_server - DEBUG - Processing chunk: <interpreter.server.message.StreamingChunk object at 0x10a526370>
+2025-02-15 02:40:12,133 - interpreter_server - DEBUG - Sending formatted chunk: {"role": "computer", "type": "console", "content": 2, "id": "0a9b96b0-e9c5-4c20-83d9-98230879281c", "created_at": "2025-02-15T02:40:12.133259", "format": "active_line"}
+2025-02-15 02:40:12,133 - interpreter_server - DEBUG - Chunk sent successfully
+2025-02-15 02:40:12,245 - interpreter_server - DEBUG - Processing chunk: <interpreter.server.message.StreamingChunk object at 0x10a50ce80>
+2025-02-15 02:40:12,246 - interpreter_server - DEBUG - Sending formatted chunk: {"role": "computer", "type": "console", "content": "1\n2\n3\n", "id": "36e22388-835f-4984-8d1d-6031ba5a17e8", "created_at": "2025-02-15T02:40:12.245935", "format": "output"}
+2025-02-15 02:40:12,246 - interpreter_server - DEBUG - Chunk sent successfully
+2025-02-15 02:40:12,666 - interpreter_server - DEBUG - Processing chunk: <interpreter.server.message.StreamingChunk object at 0x10a50ce80>
+2025-02-15 02:40:12,667 - interpreter_server - DEBUG - Sending formatted chunk: {"role": "computer", "type": "console", "content": null, "id": "b6e5f9c7-e2e7-4933-993b-6c182b97f275", "created_at": "2025-02-15T02:40:12.666914", "format": "active_line"}
+2025-02-15 02:40:12,667 - interpreter_server - DEBUG - Chunk sent successfully
+2025-02-15 02:40:13,306 - interpreter_server - DEBUG - Processing chunk: <interpreter.server.message.StreamingChunk object at 0x10a50ce80>
+2025-02-15 02:40:13,307 - interpreter_server - DEBUG - Sending formatted chunk: {"role": "computer", "type": "console", "content": "", "id": "53c7a9be-1641-4bb2-a52a-d4919f40e03d", "created_at": "2025-02-15T02:40:13.306946"}
+2025-02-15 02:40:13,308 - interpreter_server - DEBUG - Chunk sent successfully
+2025-02-15 02:40:13,317 - interpreter_server - DEBUG - Processing chunk: <interpreter.server.message.StreamingChunk object at 0x10a50ce80>
+2025-02-15 02:40:13,318 - interpreter_server - DEBUG - Sending formatted chunk: {"role": "assistant", "type": "message", "content": "", "id": "56410f6d-ec4b-4ebf-9a93-00644702f9e2", "created_at": "2025-02-15T02:40:13.317828"}
+2025-02-15 02:40:13,318 - interpreter_server - DEBUG - Chunk sent successfully
+2025-02-15 02:40:13,319 - interpreter_server - DEBUG - Processing chunk: <interpreter.server.message.StreamingChunk object at 0x10a50ce80>
+2025-02-15 02:40:13,319 - interpreter_server - DEBUG - Sending formatted chunk: {"role": "assistant", "type": "message", "content": "\n\nThis", "id": "91bebea5-4e27-4ce8-a24f-8de53ee91fee", "created_at": "2025-02-15T02:40:13.319609"}
+2025-02-15 02:40:13,319 - interpreter_server - DEBUG - Chunk sent successfully
+2025-02-15 02:40:13,321 - interpreter_server - DEBUG - Processing chunk: <interpreter.server.message.StreamingChunk object at 0x10a50ce80>
+2025-02-15 02:40:13,322 - interpreter_server - DEBUG - Sending formatted chunk: {"role": "assistant", "type": "message", "content": " uses", "id": "d0bbcadb-79f3-46f8-afbc-804826f28e50", "created_at": "2025-02-15T02:40:13.321693"}
+2025-02-15 02:40:13,322 - interpreter_server - DEBUG - Chunk sent successfully
+2025-02-15 02:40:13,324 - interpreter_server - DEBUG - Processing chunk: <interpreter.server.message.StreamingChunk object at 0x10a50ce80>
+2025-02-15 02:40:13,324 - interpreter_server - DEBUG - Sending formatted chunk: {"role": "assistant", "type": "message", "content": " a", "id": "6680742d-8deb-4801-a81f-2f54da0a7d50", "created_at": "2025-02-15T02:40:13.324568"}
+2025-02-15 02:40:13,325 - interpreter_server - DEBUG - Chunk sent successfully
+2025-02-15 02:40:13,326 - interpreter_server - DEBUG - Processing chunk: <interpreter.server.message.StreamingChunk object at 0x10a50ce80>
+2025-02-15 02:40:13,327 - interpreter_server - DEBUG - Sending formatted chunk: {"role": "assistant", "type": "message", "content": " `", "id": "420a80f5-675a-4e1b-95ec-e4561d03c10c", "created_at": "2025-02-15T02:40:13.326831"}
+2025-02-15 02:40:13,327 - interpreter_server - DEBUG - Chunk sent successfully
+2025-02-15 02:40:13,427 - interpreter_server - DEBUG - Processing chunk: <interpreter.server.message.StreamingChunk object at 0x10a50ce80>
+2025-02-15 02:40:13,428 - interpreter_server - DEBUG - Sending formatted chunk: {"role": "assistant", "type": "message", "content": "for", "id": "330ed373-46d9-4614-923a-ae06b424b092", "created_at": "2025-02-15T02:40:13.427675"}
+2025-02-15 02:40:13,428 - interpreter_server - DEBUG - Chunk sent successfully
+2025-02-15 02:40:13,430 - interpreter_server - DEBUG - Processing chunk: <interpreter.server.message.StreamingChunk object at 0x10a50ce80>
+2025-02-15 02:40:13,431 - interpreter_server - DEBUG - Sending formatted chunk: {"role": "assistant", "type": "message", "content": "`", "id": "fdb61f23-798b-4011-b44c-396aabe8c197", "created_at": "2025-02-15T02:40:13.430803"}
+2025-02-15 02:40:13,431 - interpreter_server - DEBUG - Chunk sent successfully
+2025-02-15 02:40:13,433 - interpreter_server - DEBUG - Processing chunk: <interpreter.server.message.StreamingChunk object at 0x10a50ce80>
+2025-02-15 02:40:13,433 - interpreter_server - DEBUG - Sending formatted chunk: {"role": "assistant", "type": "message", "content": " loop", "id": "be1a59f2-f0f3-43a3-9f37-43a62d53193f", "created_at": "2025-02-15T02:40:13.433093"}
+2025-02-15 02:40:13,433 - interpreter_server - DEBUG - Chunk sent successfully
+2025-02-15 02:40:13,435 - interpreter_server - DEBUG - Processing chunk: <interpreter.server.message.StreamingChunk object at 0x10a50ce80>
+2025-02-15 02:40:13,435 - interpreter_server - DEBUG - Sending formatted chunk: {"role": "assistant", "type": "message", "content": " with", "id": "6c49ac78-14f8-400e-8c62-9bbeabb97c2b", "created_at": "2025-02-15T02:40:13.435123"}
+2025-02-15 02:40:13,435 - interpreter_server - DEBUG - Chunk sent successfully
+2025-02-15 02:40:13,437 - interpreter_server - DEBUG - Processing chunk: <interpreter.server.message.StreamingChunk object at 0x10a50ce80>
+2025-02-15 02:40:13,437 - interpreter_server - DEBUG - Sending formatted chunk: {"role": "assistant", "type": "message", "content": " the", "id": "992fe19d-b767-4984-8773-6904a62cbd84", "created_at": "2025-02-15T02:40:13.437321"}
+2025-02-15 02:40:13,437 - interpreter_server - DEBUG - Chunk sent successfully
+2025-02-15 02:40:13,439 - interpreter_server - DEBUG - Processing chunk: <interpreter.server.message.StreamingChunk object at 0x10a50ce80>
+2025-02-15 02:40:13,439 - interpreter_server - DEBUG - Sending formatted chunk: {"role": "assistant", "type": "message", "content": " `", "id": "6196657d-d3cc-4dbc-b982-17a5bab4839d", "created_at": "2025-02-15T02:40:13.439374"}
+2025-02-15 02:40:13,439 - interpreter_server - DEBUG - Chunk sent successfully
+2025-02-15 02:40:13,550 - interpreter_server - DEBUG - Processing chunk: <interpreter.server.message.StreamingChunk object at 0x10a50ce80>
+2025-02-15 02:40:13,550 - interpreter_server - DEBUG - Sending formatted chunk: {"role": "assistant", "type": "message", "content": "range", "id": "d8ac93cc-9081-4e6a-bfd0-be0e6d56e951", "created_at": "2025-02-15T02:40:13.550481"}
+2025-02-15 02:40:13,551 - interpreter_server - DEBUG - Chunk sent successfully
+2025-02-15 02:40:13,553 - interpreter_server - DEBUG - Processing chunk: <interpreter.server.message.StreamingChunk object at 0x10a50ce80>
+2025-02-15 02:40:13,554 - interpreter_server - DEBUG - Sending formatted chunk: {"role": "assistant", "type": "message", "content": "()", "id": "842a001e-2d83-4eac-9aed-225ce5b83ea9", "created_at": "2025-02-15T02:40:13.553703"}
+2025-02-15 02:40:13,554 - interpreter_server - DEBUG - Chunk sent successfully
+2025-02-15 02:40:13,556 - interpreter_server - DEBUG - Processing chunk: <interpreter.server.message.StreamingChunk object at 0x10a50ce80>
+2025-02-15 02:40:13,556 - interpreter_server - DEBUG - Sending formatted chunk: {"role": "assistant", "type": "message", "content": "`", "id": "c7e05cd1-5bcb-46cb-8cf3-44b106309c5f", "created_at": "2025-02-15T02:40:13.556304"}
+2025-02-15 02:40:13,556 - interpreter_server - DEBUG - Chunk sent successfully
+2025-02-15 02:40:13,558 - interpreter_server - DEBUG - Processing chunk: <interpreter.server.message.StreamingChunk object at 0x10a50ce80>
+2025-02-15 02:40:13,558 - interpreter_server - DEBUG - Sending formatted chunk: {"role": "assistant", "type": "message", "content": " function", "id": "23127abe-c07b-4614-9a08-55a759d287a5", "created_at": "2025-02-15T02:40:13.558599"}
+2025-02-15 02:40:13,559 - interpreter_server - DEBUG - Chunk sent successfully
+2025-02-15 02:40:13,560 - interpreter_server - DEBUG - Processing chunk: <interpreter.server.message.StreamingChunk object at 0x10a50ce80>
+2025-02-15 02:40:13,561 - interpreter_server - DEBUG - Sending formatted chunk: {"role": "assistant", "type": "message", "content": " to", "id": "2354e366-f191-4b46-8687-b7a23377fc28", "created_at": "2025-02-15T02:40:13.560793"}
+2025-02-15 02:40:13,561 - interpreter_server - DEBUG - Chunk sent successfully
+2025-02-15 02:40:13,630 - interpreter_server - DEBUG - Processing chunk: <interpreter.server.message.StreamingChunk object at 0x10a50ce80>
+2025-02-15 02:40:13,631 - interpreter_server - DEBUG - Sending formatted chunk: {"role": "assistant", "type": "message", "content": " iterate", "id": "fc635bdf-12fe-45aa-ac68-8ce5921241fb", "created_at": "2025-02-15T02:40:13.630806"}
+2025-02-15 02:40:13,631 - interpreter_server - DEBUG - Chunk sent successfully
+2025-02-15 02:40:13,633 - interpreter_server - DEBUG - Processing chunk: <interpreter.server.message.StreamingChunk object at 0x10a50ce80>
+2025-02-15 02:40:13,634 - interpreter_server - DEBUG - Sending formatted chunk: {"role": "assistant", "type": "message", "content": " over", "id": "1fda6700-23c2-4ebd-b03c-8d32b063545d", "created_at": "2025-02-15T02:40:13.633868"}
+2025-02-15 02:40:13,634 - interpreter_server - DEBUG - Chunk sent successfully
+2025-02-15 02:40:13,636 - interpreter_server - DEBUG - Processing chunk: <interpreter.server.message.StreamingChunk object at 0x10a50ce80>
+2025-02-15 02:40:13,636 - interpreter_server - DEBUG - Sending formatted chunk: {"role": "assistant", "type": "message", "content": " the", "id": "7508a62c-507d-4b45-8592-0730a9863fd8", "created_at": "2025-02-15T02:40:13.636370"}
+2025-02-15 02:40:13,636 - interpreter_server - DEBUG - Chunk sent successfully
+2025-02-15 02:40:13,638 - interpreter_server - DEBUG - Processing chunk: <interpreter.server.message.StreamingChunk object at 0x10a50ce80>
+2025-02-15 02:40:13,638 - interpreter_server - DEBUG - Sending formatted chunk: {"role": "assistant", "type": "message", "content": " values", "id": "7c76230f-de50-435f-9ad3-810a30b77b7e", "created_at": "2025-02-15T02:40:13.638563"}
+2025-02-15 02:40:13,639 - interpreter_server - DEBUG - Chunk sent successfully
+2025-02-15 02:40:13,640 - interpreter_server - DEBUG - Processing chunk: <interpreter.server.message.StreamingChunk object at 0x10a50ce80>
+2025-02-15 02:40:13,641 - interpreter_server - DEBUG - Sending formatted chunk: {"role": "assistant", "type": "message", "content": " ", "id": "cbca1875-a1cf-4381-92d1-cdfb98e6eb72", "created_at": "2025-02-15T02:40:13.640766"}
+2025-02-15 02:40:13,641 - interpreter_server - DEBUG - Chunk sent successfully
+2025-02-15 02:40:13,643 - interpreter_server - DEBUG - Processing chunk: <interpreter.server.message.StreamingChunk object at 0x10a50ce80>
+2025-02-15 02:40:13,643 - interpreter_server - DEBUG - Sending formatted chunk: {"role": "assistant", "type": "message", "content": "1", "id": "b90cc061-ba3a-4a97-909e-cbf976ee5cdf", "created_at": "2025-02-15T02:40:13.643012"}
+2025-02-15 02:40:13,643 - interpreter_server - DEBUG - Chunk sent successfully
+2025-02-15 02:40:13,672 - interpreter_server - DEBUG - Processing chunk: <interpreter.server.message.StreamingChunk object at 0x10a50ce80>
+2025-02-15 02:40:13,672 - interpreter_server - DEBUG - Sending formatted chunk: {"role": "assistant", "type": "message", "content": ",", "id": "80fd5207-9a1e-4938-bd5c-2574eb033a24", "created_at": "2025-02-15T02:40:13.672585"}
+2025-02-15 02:40:13,673 - interpreter_server - DEBUG - Chunk sent successfully
+2025-02-15 02:40:13,675 - interpreter_server - DEBUG - Processing chunk: <interpreter.server.message.StreamingChunk object at 0x10a50ce80>
+2025-02-15 02:40:13,675 - interpreter_server - DEBUG - Sending formatted chunk: {"role": "assistant", "type": "message", "content": " ", "id": "b4a9b1f2-04bf-4f08-b7c8-f75d7d1162ed", "created_at": "2025-02-15T02:40:13.675210"}
+2025-02-15 02:40:13,675 - interpreter_server - DEBUG - Chunk sent successfully
+2025-02-15 02:40:13,677 - interpreter_server - DEBUG - Processing chunk: <interpreter.server.message.StreamingChunk object at 0x10a50ce80>
+2025-02-15 02:40:13,677 - interpreter_server - DEBUG - Sending formatted chunk: {"role": "assistant", "type": "message", "content": "2", "id": "f7e0c127-8da2-4539-931e-210f7c9d046f", "created_at": "2025-02-15T02:40:13.677416"}
+2025-02-15 02:40:13,677 - interpreter_server - DEBUG - Chunk sent successfully
+2025-02-15 02:40:13,679 - interpreter_server - DEBUG - Processing chunk: <interpreter.server.message.StreamingChunk object at 0x10a50ce80>
+2025-02-15 02:40:13,680 - interpreter_server - DEBUG - Sending formatted chunk: {"role": "assistant", "type": "message", "content": ",", "id": "32f34c29-80f0-4cad-9136-9f0fd9872812", "created_at": "2025-02-15T02:40:13.679769"}
+2025-02-15 02:40:13,680 - interpreter_server - DEBUG - Chunk sent successfully
+2025-02-15 02:40:13,681 - interpreter_server - DEBUG - Processing chunk: <interpreter.server.message.StreamingChunk object at 0x10a50ce80>
+2025-02-15 02:40:13,682 - interpreter_server - DEBUG - Sending formatted chunk: {"role": "assistant", "type": "message", "content": " an", "id": "cd60ca6c-f1e5-4a6f-93c9-90847cd53b86", "created_at": "2025-02-15T02:40:13.681925"}
+2025-02-15 02:40:13,682 - interpreter_server - DEBUG - Chunk sent successfully
+2025-02-15 02:40:13,832 - interpreter_server - DEBUG - Processing chunk: <interpreter.server.message.StreamingChunk object at 0x10a50ce80>
+2025-02-15 02:40:13,832 - interpreter_server - DEBUG - Sending formatted chunk: {"role": "assistant", "type": "message", "content": "d ", "id": "b40b4a92-7a22-4ec2-b973-65be5e1cb697", "created_at": "2025-02-15T02:40:13.832097"}
+2025-02-15 02:40:13,833 - interpreter_server - DEBUG - Chunk sent successfully
+2025-02-15 02:40:13,836 - interpreter_server - DEBUG - Processing chunk: <interpreter.server.message.StreamingChunk object at 0x10a50ce80>
+2025-02-15 02:40:13,836 - interpreter_server - DEBUG - Sending formatted chunk: {"role": "assistant", "type": "message", "content": "3", "id": "fc210ce7-3513-45bb-9c66-d32bf1be5113", "created_at": "2025-02-15T02:40:13.836167"}
+2025-02-15 02:40:13,836 - interpreter_server - DEBUG - Chunk sent successfully
+2025-02-15 02:40:13,839 - interpreter_server - DEBUG - Processing chunk: <interpreter.server.message.StreamingChunk object at 0x10a50ce80>
+2025-02-15 02:40:13,839 - interpreter_server - DEBUG - Sending formatted chunk: {"role": "assistant", "type": "message", "content": ",", "id": "a454358a-9c47-452b-ac3c-d1176ad0e06a", "created_at": "2025-02-15T02:40:13.839054"}
+2025-02-15 02:40:13,839 - interpreter_server - DEBUG - Chunk sent successfully
+2025-02-15 02:40:13,841 - interpreter_server - DEBUG - Processing chunk: <interpreter.server.message.StreamingChunk object at 0x10a50ce80>
+2025-02-15 02:40:13,842 - interpreter_server - DEBUG - Sending formatted chunk: {"role": "assistant", "type": "message", "content": " printing", "id": "499d8f5e-bcbf-4feb-9e6d-ceab72e93bfd", "created_at": "2025-02-15T02:40:13.841626"}
+2025-02-15 02:40:13,842 - interpreter_server - DEBUG - Chunk sent successfully
+2025-02-15 02:40:13,843 - interpreter_server - DEBUG - Processing chunk: <interpreter.server.message.StreamingChunk object at 0x10a50ce80>
+2025-02-15 02:40:13,844 - interpreter_server - DEBUG - Sending formatted chunk: {"role": "assistant", "type": "message", "content": " each", "id": "302bc689-8700-414f-a459-73c361c61b6c", "created_at": "2025-02-15T02:40:13.843938"}
+2025-02-15 02:40:13,844 - interpreter_server - DEBUG - Chunk sent successfully
+2025-02-15 02:40:13,846 - interpreter_server - DEBUG - Processing chunk: <interpreter.server.message.StreamingChunk object at 0x10a50ce80>
+2025-02-15 02:40:13,846 - interpreter_server - DEBUG - Sending formatted chunk: {"role": "assistant", "type": "message", "content": " one", "id": "bf0c9529-2693-4f88-808c-873f0cb0d4be", "created_at": "2025-02-15T02:40:13.846166"}
+2025-02-15 02:40:13,846 - interpreter_server - DEBUG - Chunk sent successfully
+2025-02-15 02:40:13,875 - interpreter_server - DEBUG - Processing chunk: <interpreter.server.message.StreamingChunk object at 0x10a50ce80>
+2025-02-15 02:40:13,876 - interpreter_server - DEBUG - Sending formatted chunk: {"role": "assistant", "type": "message", "content": ".", "id": "8119e79e-0f7c-48c2-904c-612861984f4b", "created_at": "2025-02-15T02:40:13.875812"}
+2025-02-15 02:40:13,876 - interpreter_server - DEBUG - Chunk sent successfully
+2025-02-15 02:40:13,879 - interpreter_server - DEBUG - Processing chunk: <interpreter.server.message.StreamingChunk object at 0x10faa65e0>
+2025-02-15 02:40:13,880 - interpreter_server - DEBUG - Sending formatted chunk: {"role": "assistant", "type": "message", "content": "", "id": "4d74117e-3ccc-4efb-b487-b81bc48c78d1", "created_at": "2025-02-15T02:40:13.879499"}
+2025-02-15 02:40:13,881 - interpreter_server - DEBUG - Chunk sent successfully
+2025-02-15 02:40:13,891 - interpreter_server - ERROR - Stream generation error: __init__() got an unexpected keyword argument 'session_id'
+Traceback (most recent call last):
+  File "/Users/clay/Code/open-interpreter/interpreter/server/routes/chat.py", line 194, in generate
+    final_chunk = StreamingChunk(
+  File "/Users/clay/Code/open-interpreter/interpreter/server/message.py", line 93, in __init__
+    super().__init__(*args, **kwargs)
+TypeError: __init__() got an unexpected keyword argument 'session_id'
+2025-02-15 02:40:13,892 - interpreter_server - INFO - Releasing chat lock in stream mode
+2025-02-15 02:40:43,289 - interpreter_server - INFO - Initializing server...
+2025-02-15 02:40:43,293 - interpreter_server - INFO - Application initialized successfully
+2025-02-15 02:40:43,293 - interpreter_server - INFO - Starting server on http://0.0.0.0:5001
+2025-02-15 02:40:50,079 - interpreter_server - INFO - Chat lock acquired successfully
+2025-02-15 02:40:50,079 - interpreter_server - DEBUG - Received request data: {'messages': [{'role': 'user', 'type': 'message', 'content': 'Count from 1 to 3'}], 'stream': True}
+2025-02-15 02:40:50,080 - interpreter_server - INFO - No session_id provided, creating new session
+2025-02-15 02:40:50,080 - interpreter_server - DEBUG - Created new session: 629ccde7-dfb6-4473-bc93-9217a76ab0c5
+2025-02-15 02:40:50,080 - interpreter_server - INFO - Processing chat request with 1 messages for session 629ccde7-dfb6-4473-bc93-9217a76ab0c5
+2025-02-15 02:40:50,085 - interpreter_server - DEBUG - Starting chat with interpreter
+2025-02-15 02:40:50,239 - interpreter_server - DEBUG - Got response from interpreter
+2025-02-15 02:40:50,240 - interpreter_server - INFO - Starting streaming response
+2025-02-15 02:40:50,240 - interpreter_server - DEBUG - Starting stream generation
+2025-02-15 02:40:51,362 - interpreter_server - DEBUG - Processing chunk: <interpreter.server.message.StreamingChunk object at 0x1096de370>
+2025-02-15 02:40:51,363 - interpreter_server - DEBUG - Sending formatted chunk: {"role": "assistant", "type": "message", "content": "", "id": "2e79c931-fdd8-48c0-b282-b3dceaa2948b", "created_at": "2025-02-15T02:40:51.362836"}
+2025-02-15 02:40:51,363 - interpreter_server - DEBUG - Chunk sent successfully
+2025-02-15 02:40:51,366 - interpreter_server - DEBUG - Processing chunk: <interpreter.server.message.StreamingChunk object at 0x1096cac70>
+2025-02-15 02:40:51,366 - interpreter_server - DEBUG - Sending formatted chunk: {"role": "assistant", "type": "message", "content": "Here", "id": "0dec5723-6210-4a03-97a6-a69f9d9a83ed", "created_at": "2025-02-15T02:40:51.366304"}
+2025-02-15 02:40:51,366 - interpreter_server - DEBUG - Chunk sent successfully
+2025-02-15 02:40:51,368 - interpreter_server - DEBUG - Processing chunk: <interpreter.server.message.StreamingChunk object at 0x1096cac70>
+2025-02-15 02:40:51,368 - interpreter_server - DEBUG - Sending formatted chunk: {"role": "assistant", "type": "message", "content": "'s", "id": "ede39aae-dadc-442f-8f0a-a739c0c432fb", "created_at": "2025-02-15T02:40:51.368649"}
+2025-02-15 02:40:51,369 - interpreter_server - DEBUG - Chunk sent successfully
+2025-02-15 02:40:51,371 - interpreter_server - DEBUG - Processing chunk: <interpreter.server.message.StreamingChunk object at 0x1096cac70>
+2025-02-15 02:40:51,371 - interpreter_server - DEBUG - Sending formatted chunk: {"role": "assistant", "type": "message", "content": " some", "id": "7fcf8d6b-19dd-46d7-b011-f29218e37b47", "created_at": "2025-02-15T02:40:51.371046"}
+2025-02-15 02:40:51,371 - interpreter_server - DEBUG - Chunk sent successfully
+2025-02-15 02:40:51,373 - interpreter_server - DEBUG - Processing chunk: <interpreter.server.message.StreamingChunk object at 0x1096cac70>
+2025-02-15 02:40:51,373 - interpreter_server - DEBUG - Sending formatted chunk: {"role": "assistant", "type": "message", "content": " Python", "id": "71561664-efe2-41b8-a7cb-ae1299311858", "created_at": "2025-02-15T02:40:51.373227"}
+2025-02-15 02:40:51,373 - interpreter_server - DEBUG - Chunk sent successfully
+2025-02-15 02:40:51,463 - interpreter_server - DEBUG - Processing chunk: <interpreter.server.message.StreamingChunk object at 0x1096cac70>
+2025-02-15 02:40:51,464 - interpreter_server - DEBUG - Sending formatted chunk: {"role": "assistant", "type": "message", "content": " code", "id": "4d08f6c8-3732-4e3d-897d-c8405c639c59", "created_at": "2025-02-15T02:40:51.463546"}
+2025-02-15 02:40:51,464 - interpreter_server - DEBUG - Chunk sent successfully
+2025-02-15 02:40:51,466 - interpreter_server - DEBUG - Processing chunk: <interpreter.server.message.StreamingChunk object at 0x1096cac70>
+2025-02-15 02:40:51,466 - interpreter_server - DEBUG - Sending formatted chunk: {"role": "assistant", "type": "message", "content": " to", "id": "942c4099-975d-4738-900b-e6a718cb21b3", "created_at": "2025-02-15T02:40:51.466718"}
+2025-02-15 02:40:51,467 - interpreter_server - DEBUG - Chunk sent successfully
+2025-02-15 02:40:51,468 - interpreter_server - DEBUG - Processing chunk: <interpreter.server.message.StreamingChunk object at 0x1096cac70>
+2025-02-15 02:40:51,469 - interpreter_server - DEBUG - Sending formatted chunk: {"role": "assistant", "type": "message", "content": " count", "id": "fbd8c660-b80c-4ec6-afa5-7a14ffe13130", "created_at": "2025-02-15T02:40:51.468800"}
+2025-02-15 02:40:51,469 - interpreter_server - DEBUG - Chunk sent successfully
+2025-02-15 02:40:51,471 - interpreter_server - DEBUG - Processing chunk: <interpreter.server.message.StreamingChunk object at 0x1096cac70>
+2025-02-15 02:40:51,471 - interpreter_server - DEBUG - Sending formatted chunk: {"role": "assistant", "type": "message", "content": " from", "id": "ea992938-f96c-4292-aa01-02f5caa44473", "created_at": "2025-02-15T02:40:51.471114"}
+2025-02-15 02:40:51,471 - interpreter_server - DEBUG - Chunk sent successfully
+2025-02-15 02:40:51,473 - interpreter_server - DEBUG - Processing chunk: <interpreter.server.message.StreamingChunk object at 0x1096cac70>
+2025-02-15 02:40:51,473 - interpreter_server - DEBUG - Sending formatted chunk: {"role": "assistant", "type": "message", "content": " ", "id": "ab5cf45b-bb64-4aa4-ac6e-6771bb14ee1d", "created_at": "2025-02-15T02:40:51.473414"}
+2025-02-15 02:40:51,474 - interpreter_server - DEBUG - Chunk sent successfully
+2025-02-15 02:40:51,475 - interpreter_server - DEBUG - Processing chunk: <interpreter.server.message.StreamingChunk object at 0x10936aeb0>
+2025-02-15 02:40:51,475 - interpreter_server - DEBUG - Sending formatted chunk: {"role": "assistant", "type": "message", "content": "1", "id": "5576ced4-299a-4101-bf0c-d9a8babad15d", "created_at": "2025-02-15T02:40:51.475531"}
+2025-02-15 02:40:51,476 - interpreter_server - DEBUG - Chunk sent successfully
+2025-02-15 02:40:51,832 - interpreter_server - DEBUG - Processing chunk: <interpreter.server.message.StreamingChunk object at 0x10936aeb0>
+2025-02-15 02:40:51,833 - interpreter_server - DEBUG - Sending formatted chunk: {"role": "assistant", "type": "message", "content": " ", "id": "ec811762-5a07-44be-80f3-145443e8eb3b", "created_at": "2025-02-15T02:40:51.832730"}
+2025-02-15 02:40:51,833 - interpreter_server - DEBUG - Chunk sent successfully
+2025-02-15 02:40:51,835 - interpreter_server - DEBUG - Processing chunk: <interpreter.server.message.StreamingChunk object at 0x10936aeb0>
+2025-02-15 02:40:51,835 - interpreter_server - DEBUG - Sending formatted chunk: {"role": "assistant", "type": "message", "content": "to", "id": "10d1efca-8287-4528-921c-c8e391ce8f27", "created_at": "2025-02-15T02:40:51.835575"}
+2025-02-15 02:40:51,836 - interpreter_server - DEBUG - Chunk sent successfully
+2025-02-15 02:40:51,838 - interpreter_server - DEBUG - Processing chunk: <interpreter.server.message.StreamingChunk object at 0x10936aeb0>
+2025-02-15 02:40:51,838 - interpreter_server - DEBUG - Sending formatted chunk: {"role": "assistant", "type": "message", "content": " ", "id": "fb20e319-ca4f-4fe6-bc6b-8a85e19a653b", "created_at": "2025-02-15T02:40:51.838418"}
+2025-02-15 02:40:51,839 - interpreter_server - DEBUG - Chunk sent successfully
+2025-02-15 02:40:51,840 - interpreter_server - DEBUG - Processing chunk: <interpreter.server.message.StreamingChunk object at 0x10936aeb0>
+2025-02-15 02:40:51,841 - interpreter_server - DEBUG - Sending formatted chunk: {"role": "assistant", "type": "message", "content": "3", "id": "4094ec6a-4e4d-456a-b5d4-b24f049b19aa", "created_at": "2025-02-15T02:40:51.840704"}
+2025-02-15 02:40:51,841 - interpreter_server - DEBUG - Chunk sent successfully
+2025-02-15 02:40:51,843 - interpreter_server - DEBUG - Processing chunk: <interpreter.server.message.StreamingChunk object at 0x10936aeb0>
+2025-02-15 02:40:51,843 - interpreter_server - DEBUG - Sending formatted chunk: {"role": "assistant", "type": "message", "content": ":", "id": "800def82-db3a-459a-9aca-16b739b15247", "created_at": "2025-02-15T02:40:51.843363"}
+2025-02-15 02:40:51,844 - interpreter_server - DEBUG - Chunk sent successfully
+2025-02-15 02:40:52,462 - interpreter_server - DEBUG - Processing chunk: <interpreter.server.message.StreamingChunk object at 0x10936aeb0>
+2025-02-15 02:40:52,463 - interpreter_server - DEBUG - Sending formatted chunk: {"role": "assistant", "type": "message", "content": "", "id": "2b036402-79c8-4cd4-9780-099ede042fb2", "created_at": "2025-02-15T02:40:52.462793"}
+2025-02-15 02:40:52,463 - interpreter_server - DEBUG - Chunk sent successfully
+2025-02-15 02:40:52,465 - interpreter_server - DEBUG - Processing chunk: <interpreter.server.message.StreamingChunk object at 0x109349a30>
+2025-02-15 02:40:52,466 - interpreter_server - DEBUG - Sending formatted chunk: {"role": "assistant", "type": "code", "content": "", "id": "6aea8984-a3aa-47b2-aeae-c130fb3da4be", "created_at": "2025-02-15T02:40:52.465977", "format": "python"}
+2025-02-15 02:40:52,466 - interpreter_server - DEBUG - Chunk sent successfully
+2025-02-15 02:40:52,466 - interpreter_server - DEBUG - Processing chunk: <interpreter.server.message.StreamingChunk object at 0x109349a30>
+2025-02-15 02:40:52,466 - interpreter_server - DEBUG - Sending formatted chunk: {"role": "assistant", "type": "code", "content": "for i in range(1, 4):\n    print(i)", "id": "21ae23f2-9966-4b47-8043-9abc04ccceca", "created_at": "2025-02-15T02:40:52.466484", "format": "python"}
+2025-02-15 02:40:52,466 - interpreter_server - DEBUG - Chunk sent successfully
+2025-02-15 02:40:52,509 - interpreter_server - DEBUG - Processing chunk: <interpreter.server.message.StreamingChunk object at 0x109349a30>
+2025-02-15 02:40:52,509 - interpreter_server - DEBUG - Sending formatted chunk: {"role": "assistant", "type": "code", "content": "", "id": "edbe881f-e895-46d2-967a-8b1e91d2995f", "created_at": "2025-02-15T02:40:52.509627", "format": "python"}
+2025-02-15 02:40:52,510 - interpreter_server - DEBUG - Chunk sent successfully
+2025-02-15 02:40:54,043 - interpreter_server - DEBUG - Processing chunk: <interpreter.server.message.StreamingChunk object at 0x1096c3fa0>
+2025-02-15 02:40:54,043 - interpreter_server - DEBUG - Sending formatted chunk: {"role": "computer", "type": "console", "content": "", "id": "ed53a892-e9c6-4628-b572-998f5609f053", "created_at": "2025-02-15T02:40:54.043412"}
+2025-02-15 02:40:54,044 - interpreter_server - DEBUG - Chunk sent successfully
+2025-02-15 02:40:54,048 - interpreter_server - DEBUG - Processing chunk: <interpreter.server.message.StreamingChunk object at 0x1096c3fa0>
+2025-02-15 02:40:54,048 - interpreter_server - DEBUG - Sending formatted chunk: {"role": "computer", "type": "console", "content": 2, "id": "2fbe17d7-c1ec-48d3-b00e-e0a32e80c1a5", "created_at": "2025-02-15T02:40:54.048167", "format": "active_line"}
+2025-02-15 02:40:54,048 - interpreter_server - DEBUG - Chunk sent successfully
+2025-02-15 02:40:54,161 - interpreter_server - DEBUG - Processing chunk: <interpreter.server.message.StreamingChunk object at 0x1096c3fa0>
+2025-02-15 02:40:54,161 - interpreter_server - DEBUG - Sending formatted chunk: {"role": "computer", "type": "console", "content": "1\n2\n3\n", "id": "94184a83-8ad9-4541-9ad4-147bf1ebacec", "created_at": "2025-02-15T02:40:54.161515", "format": "output"}
+2025-02-15 02:40:54,162 - interpreter_server - DEBUG - Chunk sent successfully
+2025-02-15 02:40:54,569 - interpreter_server - DEBUG - Processing chunk: <interpreter.server.message.StreamingChunk object at 0x1096c3fa0>
+2025-02-15 02:40:54,569 - interpreter_server - DEBUG - Sending formatted chunk: {"role": "computer", "type": "console", "content": null, "id": "57ea7c77-7b17-4980-b07c-1e0ad02c87c2", "created_at": "2025-02-15T02:40:54.569146", "format": "active_line"}
+2025-02-15 02:40:54,569 - interpreter_server - DEBUG - Chunk sent successfully
+2025-02-15 02:40:55,334 - interpreter_server - DEBUG - Processing chunk: <interpreter.server.message.StreamingChunk object at 0x1096c3fa0>
+2025-02-15 02:40:55,334 - interpreter_server - DEBUG - Sending formatted chunk: {"role": "computer", "type": "console", "content": "", "id": "25f9b971-1981-4aaf-a75c-4caed1a8a5f3", "created_at": "2025-02-15T02:40:55.334231"}
+2025-02-15 02:40:55,334 - interpreter_server - DEBUG - Chunk sent successfully
+2025-02-15 02:40:55,345 - interpreter_server - DEBUG - Processing chunk: <interpreter.server.message.StreamingChunk object at 0x103d9dc40>
+2025-02-15 02:40:55,345 - interpreter_server - DEBUG - Sending formatted chunk: {"role": "assistant", "type": "message", "content": "", "id": "9f9b30fe-884d-4fca-8468-76b3e455edcf", "created_at": "2025-02-15T02:40:55.344994"}
+2025-02-15 02:40:55,345 - interpreter_server - DEBUG - Chunk sent successfully
+2025-02-15 02:40:55,346 - interpreter_server - DEBUG - Processing chunk: <interpreter.server.message.StreamingChunk object at 0x103d9dc40>
+2025-02-15 02:40:55,346 - interpreter_server - DEBUG - Sending formatted chunk: {"role": "assistant", "type": "message", "content": "\n\nThe", "id": "21b52d9c-6324-474e-98eb-63d3a139aab4", "created_at": "2025-02-15T02:40:55.346690"}
+2025-02-15 02:40:55,346 - interpreter_server - DEBUG - Chunk sent successfully
+2025-02-15 02:40:55,348 - interpreter_server - DEBUG - Processing chunk: <interpreter.server.message.StreamingChunk object at 0x103d9dc40>
+2025-02-15 02:40:55,348 - interpreter_server - DEBUG - Sending formatted chunk: {"role": "assistant", "type": "message", "content": " key", "id": "d5f5c887-c6d3-4055-98f7-692ffa37e1d6", "created_at": "2025-02-15T02:40:55.348502"}
+2025-02-15 02:40:55,348 - interpreter_server - DEBUG - Chunk sent successfully
+2025-02-15 02:40:55,350 - interpreter_server - DEBUG - Processing chunk: <interpreter.server.message.StreamingChunk object at 0x103d9dc40>
+2025-02-15 02:40:55,350 - interpreter_server - DEBUG - Sending formatted chunk: {"role": "assistant", "type": "message", "content": " points", "id": "6f1cdf10-4c2f-4643-902a-6eb024e9c438", "created_at": "2025-02-15T02:40:55.350672"}
+2025-02-15 02:40:55,351 - interpreter_server - DEBUG - Chunk sent successfully
+2025-02-15 02:40:55,352 - interpreter_server - DEBUG - Processing chunk: <interpreter.server.message.StreamingChunk object at 0x103d9dc40>
+2025-02-15 02:40:55,353 - interpreter_server - DEBUG - Sending formatted chunk: {"role": "assistant", "type": "message", "content": ":", "id": "16ec02d5-c55f-4a2d-a01a-eaf2d5c9aef0", "created_at": "2025-02-15T02:40:55.352819"}
+2025-02-15 02:40:55,353 - interpreter_server - DEBUG - Chunk sent successfully
+2025-02-15 02:40:55,640 - interpreter_server - DEBUG - Processing chunk: <interpreter.server.message.StreamingChunk object at 0x103d9dc40>
+2025-02-15 02:40:55,641 - interpreter_server - DEBUG - Sending formatted chunk: {"role": "assistant", "type": "message", "content": "\n\n-", "id": "12953a86-23f8-4692-9f9d-1c53c33720fc", "created_at": "2025-02-15T02:40:55.640507"}
+2025-02-15 02:40:55,641 - interpreter_server - DEBUG - Chunk sent successfully
+2025-02-15 02:40:55,643 - interpreter_server - DEBUG - Processing chunk: <interpreter.server.message.StreamingChunk object at 0x103d9dc40>
+2025-02-15 02:40:55,644 - interpreter_server - DEBUG - Sending formatted chunk: {"role": "assistant", "type": "message", "content": " The", "id": "204d7a1e-9d1d-4bc7-b518-35c3c179c270", "created_at": "2025-02-15T02:40:55.643817"}
+2025-02-15 02:40:55,644 - interpreter_server - DEBUG - Chunk sent successfully
+2025-02-15 02:40:55,646 - interpreter_server - DEBUG - Processing chunk: <interpreter.server.message.StreamingChunk object at 0x103d9dc40>
+2025-02-15 02:40:55,646 - interpreter_server - DEBUG - Sending formatted chunk: {"role": "assistant", "type": "message", "content": " `", "id": "f15d91dd-a5fc-4481-82fb-0c3062218e5c", "created_at": "2025-02-15T02:40:55.646330"}
+2025-02-15 02:40:55,647 - interpreter_server - DEBUG - Chunk sent successfully
+2025-02-15 02:40:55,648 - interpreter_server - DEBUG - Processing chunk: <interpreter.server.message.StreamingChunk object at 0x103d9dc40>
+2025-02-15 02:40:55,649 - interpreter_server - DEBUG - Sending formatted chunk: {"role": "assistant", "type": "message", "content": "range", "id": "b183f161-bd05-4460-9fc9-9dd384c47b7c", "created_at": "2025-02-15T02:40:55.648903"}
+2025-02-15 02:40:55,649 - interpreter_server - DEBUG - Chunk sent successfully
+2025-02-15 02:40:55,651 - interpreter_server - DEBUG - Processing chunk: <interpreter.server.message.StreamingChunk object at 0x103d9dc40>
+2025-02-15 02:40:55,651 - interpreter_server - DEBUG - Sending formatted chunk: {"role": "assistant", "type": "message", "content": "(", "id": "7cb877e4-5cdf-4d41-8950-63a68f543ef3", "created_at": "2025-02-15T02:40:55.651055"}
+2025-02-15 02:40:55,651 - interpreter_server - DEBUG - Chunk sent successfully
+2025-02-15 02:40:55,681 - interpreter_server - DEBUG - Processing chunk: <interpreter.server.message.StreamingChunk object at 0x103d9dc40>
+2025-02-15 02:40:55,682 - interpreter_server - DEBUG - Sending formatted chunk: {"role": "assistant", "type": "message", "content": "1", "id": "938bfa76-03d5-4ad4-a661-b75977d9ad6e", "created_at": "2025-02-15T02:40:55.681655"}
+2025-02-15 02:40:55,682 - interpreter_server - DEBUG - Chunk sent successfully
+2025-02-15 02:40:55,685 - interpreter_server - DEBUG - Processing chunk: <interpreter.server.message.StreamingChunk object at 0x103d9dc40>
+2025-02-15 02:40:55,685 - interpreter_server - DEBUG - Sending formatted chunk: {"role": "assistant", "type": "message", "content": ",", "id": "128f558f-d0ee-4e6f-81ea-74b96f83442a", "created_at": "2025-02-15T02:40:55.684989"}
+2025-02-15 02:40:55,685 - interpreter_server - DEBUG - Chunk sent successfully
+2025-02-15 02:40:55,687 - interpreter_server - DEBUG - Processing chunk: <interpreter.server.message.StreamingChunk object at 0x103d9dc40>
+2025-02-15 02:40:55,688 - interpreter_server - DEBUG - Sending formatted chunk: {"role": "assistant", "type": "message", "content": " ", "id": "2d470809-f3fe-4cea-8937-e36fc8fc39a6", "created_at": "2025-02-15T02:40:55.687562"}
+2025-02-15 02:40:55,688 - interpreter_server - DEBUG - Chunk sent successfully
+2025-02-15 02:40:55,690 - interpreter_server - DEBUG - Processing chunk: <interpreter.server.message.StreamingChunk object at 0x103d9dc40>
+2025-02-15 02:40:55,690 - interpreter_server - DEBUG - Sending formatted chunk: {"role": "assistant", "type": "message", "content": "4", "id": "29d943c3-b4ed-4322-9b1c-3a90eca8885c", "created_at": "2025-02-15T02:40:55.690590"}
+2025-02-15 02:40:55,691 - interpreter_server - DEBUG - Chunk sent successfully
+2025-02-15 02:40:55,693 - interpreter_server - DEBUG - Processing chunk: <interpreter.server.message.StreamingChunk object at 0x103d9dc40>
+2025-02-15 02:40:55,693 - interpreter_server - DEBUG - Sending formatted chunk: {"role": "assistant", "type": "message", "content": ")", "id": "1bfa49cf-8239-4fde-97b2-5d245d572adb", "created_at": "2025-02-15T02:40:55.693236"}
+2025-02-15 02:40:55,694 - interpreter_server - DEBUG - Chunk sent successfully
+2025-02-15 02:40:55,696 - interpreter_server - DEBUG - Processing chunk: <interpreter.server.message.StreamingChunk object at 0x103d9dc40>
+2025-02-15 02:40:55,696 - interpreter_server - DEBUG - Sending formatted chunk: {"role": "assistant", "type": "message", "content": "`", "id": "a1976db2-ec34-47ce-bc71-e2f001a4995e", "created_at": "2025-02-15T02:40:55.696210"}
+2025-02-15 02:40:55,696 - interpreter_server - DEBUG - Chunk sent successfully
+2025-02-15 02:40:55,764 - interpreter_server - DEBUG - Processing chunk: <interpreter.server.message.StreamingChunk object at 0x103d9dc40>
+2025-02-15 02:40:55,764 - interpreter_server - DEBUG - Sending formatted chunk: {"role": "assistant", "type": "message", "content": " generates", "id": "6dd1c224-298d-4ace-bfa3-8fb41cc32de4", "created_at": "2025-02-15T02:40:55.763992"}
+2025-02-15 02:40:55,765 - interpreter_server - DEBUG - Chunk sent successfully
+2025-02-15 02:40:55,767 - interpreter_server - DEBUG - Processing chunk: <interpreter.server.message.StreamingChunk object at 0x103d9dc40>
+2025-02-15 02:40:55,767 - interpreter_server - DEBUG - Sending formatted chunk: {"role": "assistant", "type": "message", "content": " a", "id": "bdf9ae29-211f-4b69-add0-b45a8a121d3b", "created_at": "2025-02-15T02:40:55.767532"}
+2025-02-15 02:40:55,767 - interpreter_server - DEBUG - Chunk sent successfully
+2025-02-15 02:40:55,769 - interpreter_server - DEBUG - Processing chunk: <interpreter.server.message.StreamingChunk object at 0x103d9dc40>
+2025-02-15 02:40:55,770 - interpreter_server - DEBUG - Sending formatted chunk: {"role": "assistant", "type": "message", "content": " sequence", "id": "3aa28368-dc4c-45d6-8da2-14773cbb2ccf", "created_at": "2025-02-15T02:40:55.769895"}
+2025-02-15 02:40:55,770 - interpreter_server - DEBUG - Chunk sent successfully
+2025-02-15 02:40:55,772 - interpreter_server - DEBUG - Processing chunk: <interpreter.server.message.StreamingChunk object at 0x103d9dc40>
+2025-02-15 02:40:55,773 - interpreter_server - DEBUG - Sending formatted chunk: {"role": "assistant", "type": "message", "content": " of", "id": "48d07d09-9a2b-4646-a85a-5d4486066959", "created_at": "2025-02-15T02:40:55.772740"}
+2025-02-15 02:40:55,773 - interpreter_server - DEBUG - Chunk sent successfully
+2025-02-15 02:40:55,775 - interpreter_server - DEBUG - Processing chunk: <interpreter.server.message.StreamingChunk object at 0x103d9dc40>
+2025-02-15 02:40:55,775 - interpreter_server - DEBUG - Sending formatted chunk: {"role": "assistant", "type": "message", "content": " numbers", "id": "113d3e60-573a-40d9-92cf-250de98a959c", "created_at": "2025-02-15T02:40:55.775031"}
+2025-02-15 02:40:55,775 - interpreter_server - DEBUG - Chunk sent successfully
+2025-02-15 02:40:55,777 - interpreter_server - DEBUG - Processing chunk: <interpreter.server.message.StreamingChunk object at 0x103d9dc40>
+2025-02-15 02:40:55,777 - interpreter_server - DEBUG - Sending formatted chunk: {"role": "assistant", "type": "message", "content": " from", "id": "e63cb21e-230a-4903-9d40-7076f2370658", "created_at": "2025-02-15T02:40:55.777555"}
+2025-02-15 02:40:55,778 - interpreter_server - DEBUG - Chunk sent successfully
+2025-02-15 02:40:55,844 - interpreter_server - DEBUG - Processing chunk: <interpreter.server.message.StreamingChunk object at 0x103d9dc40>
+2025-02-15 02:40:55,844 - interpreter_server - DEBUG - Sending formatted chunk: {"role": "assistant", "type": "message", "content": " ", "id": "5a5e7de9-b89a-4a6f-896f-d4eef67d91e5", "created_at": "2025-02-15T02:40:55.844093"}
+2025-02-15 02:40:55,844 - interpreter_server - DEBUG - Chunk sent successfully
+2025-02-15 02:40:55,847 - interpreter_server - DEBUG - Processing chunk: <interpreter.server.message.StreamingChunk object at 0x103d9dc40>
+2025-02-15 02:40:55,848 - interpreter_server - DEBUG - Sending formatted chunk: {"role": "assistant", "type": "message", "content": "1", "id": "bb96340e-1859-438c-bc9e-0caf2a05466d", "created_at": "2025-02-15T02:40:55.847857"}
+2025-02-15 02:40:55,848 - interpreter_server - DEBUG - Chunk sent successfully
+2025-02-15 02:40:55,850 - interpreter_server - DEBUG - Processing chunk: <interpreter.server.message.StreamingChunk object at 0x103d9dc40>
+2025-02-15 02:40:55,850 - interpreter_server - DEBUG - Sending formatted chunk: {"role": "assistant", "type": "message", "content": " ", "id": "8bf244e1-ca3a-4604-b72d-3bc0f92f260f", "created_at": "2025-02-15T02:40:55.850612"}
+2025-02-15 02:40:55,851 - interpreter_server - DEBUG - Chunk sent successfully
+2025-02-15 02:40:55,853 - interpreter_server - DEBUG - Processing chunk: <interpreter.server.message.StreamingChunk object at 0x103d9dc40>
+2025-02-15 02:40:55,853 - interpreter_server - DEBUG - Sending formatted chunk: {"role": "assistant", "type": "message", "content": "up", "id": "8d184a3c-0aec-41aa-86dc-644332366fd8", "created_at": "2025-02-15T02:40:55.853305"}
+2025-02-15 02:40:55,853 - interpreter_server - DEBUG - Chunk sent successfully
+2025-02-15 02:40:55,855 - interpreter_server - DEBUG - Processing chunk: <interpreter.server.message.StreamingChunk object at 0x103d9dc40>
+2025-02-15 02:40:55,856 - interpreter_server - DEBUG - Sending formatted chunk: {"role": "assistant", "type": "message", "content": " to", "id": "19e32c6a-4041-4556-954c-0fbf0c8e8a03", "created_at": "2025-02-15T02:40:55.855839"}
+2025-02-15 02:40:55,856 - interpreter_server - DEBUG - Chunk sent successfully
+2025-02-15 02:40:55,888 - interpreter_server - DEBUG - Processing chunk: <interpreter.server.message.StreamingChunk object at 0x103d9dc40>
+2025-02-15 02:40:55,888 - interpreter_server - DEBUG - Sending formatted chunk: {"role": "assistant", "type": "message", "content": " but", "id": "3a0819fa-6026-4787-ab50-7f87f13acf16", "created_at": "2025-02-15T02:40:55.888279"}
+2025-02-15 02:40:55,888 - interpreter_server - DEBUG - Chunk sent successfully
+2025-02-15 02:40:55,890 - interpreter_server - DEBUG - Processing chunk: <interpreter.server.message.StreamingChunk object at 0x103d9dc40>
+2025-02-15 02:40:55,891 - interpreter_server - DEBUG - Sending formatted chunk: {"role": "assistant", "type": "message", "content": " not", "id": "7eb87fef-4192-4bbc-9b15-b93b2289391d", "created_at": "2025-02-15T02:40:55.890935"}
+2025-02-15 02:40:55,891 - interpreter_server - DEBUG - Chunk sent successfully
+2025-02-15 02:40:55,893 - interpreter_server - DEBUG - Processing chunk: <interpreter.server.message.StreamingChunk object at 0x103d9dc40>
+2025-02-15 02:40:55,893 - interpreter_server - DEBUG - Sending formatted chunk: {"role": "assistant", "type": "message", "content": " including", "id": "35d65d24-a5d9-4d21-ac90-d7a4211c25fb", "created_at": "2025-02-15T02:40:55.893673"}
+2025-02-15 02:40:55,894 - interpreter_server - DEBUG - Chunk sent successfully
+2025-02-15 02:40:55,896 - interpreter_server - DEBUG - Processing chunk: <interpreter.server.message.StreamingChunk object at 0x103d9dc40>
+2025-02-15 02:40:55,896 - interpreter_server - DEBUG - Sending formatted chunk: {"role": "assistant", "type": "message", "content": " ", "id": "9467a3a1-7dc6-4c8e-b861-42d1bc88ba9a", "created_at": "2025-02-15T02:40:55.895990"}
+2025-02-15 02:40:55,896 - interpreter_server - DEBUG - Chunk sent successfully
+2025-02-15 02:40:55,898 - interpreter_server - DEBUG - Processing chunk: <interpreter.server.message.StreamingChunk object at 0x103d9dc40>
+2025-02-15 02:40:55,898 - interpreter_server - DEBUG - Sending formatted chunk: {"role": "assistant", "type": "message", "content": "4", "id": "fef1b1e8-9188-4fc7-b0fc-84218b605d02", "created_at": "2025-02-15T02:40:55.898642"}
+2025-02-15 02:40:55,899 - interpreter_server - DEBUG - Chunk sent successfully
+2025-02-15 02:40:55,901 - interpreter_server - DEBUG - Processing chunk: <interpreter.server.message.StreamingChunk object at 0x103d9dc40>
+2025-02-15 02:40:55,901 - interpreter_server - DEBUG - Sending formatted chunk: {"role": "assistant", "type": "message", "content": ".", "id": "b04b8786-2ab0-4bab-9b0b-ce5c05e49c10", "created_at": "2025-02-15T02:40:55.901139"}
+2025-02-15 02:40:55,901 - interpreter_server - DEBUG - Chunk sent successfully
+2025-02-15 02:40:56,042 - interpreter_server - DEBUG - Processing chunk: <interpreter.server.message.StreamingChunk object at 0x103d9dc40>
+2025-02-15 02:40:56,042 - interpreter_server - DEBUG - Sending formatted chunk: {"role": "assistant", "type": "message", "content": "\n-", "id": "9c2864ab-3437-4493-b1c6-fdb8f0bfac80", "created_at": "2025-02-15T02:40:56.042298"}
+2025-02-15 02:40:56,043 - interpreter_server - DEBUG - Chunk sent successfully
+2025-02-15 02:40:56,045 - interpreter_server - DEBUG - Processing chunk: <interpreter.server.message.StreamingChunk object at 0x103d9dc40>
+2025-02-15 02:40:56,046 - interpreter_server - DEBUG - Sending formatted chunk: {"role": "assistant", "type": "message", "content": " We", "id": "96223aeb-6059-4401-af8e-bc759c450406", "created_at": "2025-02-15T02:40:56.045575"}
+2025-02-15 02:40:56,046 - interpreter_server - DEBUG - Chunk sent successfully
+2025-02-15 02:40:56,048 - interpreter_server - DEBUG - Processing chunk: <interpreter.server.message.StreamingChunk object at 0x103d9dc40>
+2025-02-15 02:40:56,049 - interpreter_server - DEBUG - Sending formatted chunk: {"role": "assistant", "type": "message", "content": " loop", "id": "ae3b5ac6-8938-4fc8-b06c-0e0a651e2c4e", "created_at": "2025-02-15T02:40:56.048870"}
+2025-02-15 02:40:56,049 - interpreter_server - DEBUG - Chunk sent successfully
+2025-02-15 02:40:56,052 - interpreter_server - DEBUG - Processing chunk: <interpreter.server.message.StreamingChunk object at 0x103d9dc40>
+2025-02-15 02:40:56,052 - interpreter_server - DEBUG - Sending formatted chunk: {"role": "assistant", "type": "message", "content": " through", "id": "de97e03a-9314-48a7-b0bd-a3d3ce36dac4", "created_at": "2025-02-15T02:40:56.051977"}
+2025-02-15 02:40:56,052 - interpreter_server - DEBUG - Chunk sent successfully
+2025-02-15 02:40:56,055 - interpreter_server - DEBUG - Processing chunk: <interpreter.server.message.StreamingChunk object at 0x103d9dc40>
+2025-02-15 02:40:56,055 - interpreter_server - DEBUG - Sending formatted chunk: {"role": "assistant", "type": "message", "content": " this", "id": "41dfc6f3-e8ac-4c30-ade3-daab9b679e02", "created_at": "2025-02-15T02:40:56.055555"}
+2025-02-15 02:40:56,056 - interpreter_server - DEBUG - Chunk sent successfully
+2025-02-15 02:40:56,164 - interpreter_server - DEBUG - Processing chunk: <interpreter.server.message.StreamingChunk object at 0x103d9dc40>
+2025-02-15 02:40:56,165 - interpreter_server - DEBUG - Sending formatted chunk: {"role": "assistant", "type": "message", "content": " sequence", "id": "f0d9c3b0-980b-4f27-883c-2b3f64159696", "created_at": "2025-02-15T02:40:56.164767"}
+2025-02-15 02:40:56,165 - interpreter_server - DEBUG - Chunk sent successfully
+2025-02-15 02:40:56,168 - interpreter_server - DEBUG - Processing chunk: <interpreter.server.message.StreamingChunk object at 0x103d9dc40>
+2025-02-15 02:40:56,168 - interpreter_server - DEBUG - Sending formatted chunk: {"role": "assistant", "type": "message", "content": " with", "id": "34c9f102-17a9-4118-a682-2c4bf282e69f", "created_at": "2025-02-15T02:40:56.168442"}
+2025-02-15 02:40:56,169 - interpreter_server - DEBUG - Chunk sent successfully
+2025-02-15 02:40:56,171 - interpreter_server - DEBUG - Processing chunk: <interpreter.server.message.StreamingChunk object at 0x103d9dc40>
+2025-02-15 02:40:56,171 - interpreter_server - DEBUG - Sending formatted chunk: {"role": "assistant", "type": "message", "content": " `", "id": "ae9db110-2054-407e-bb36-40c4f3a30bea", "created_at": "2025-02-15T02:40:56.171532"}
+2025-02-15 02:40:56,171 - interpreter_server - DEBUG - Chunk sent successfully
+2025-02-15 02:40:56,174 - interpreter_server - DEBUG - Processing chunk: <interpreter.server.message.StreamingChunk object at 0x103d9dc40>
+2025-02-15 02:40:56,174 - interpreter_server - DEBUG - Sending formatted chunk: {"role": "assistant", "type": "message", "content": "for", "id": "f05c1110-88ce-408a-9331-60916519505c", "created_at": "2025-02-15T02:40:56.174116"}
+2025-02-15 02:40:56,174 - interpreter_server - DEBUG - Chunk sent successfully
+2025-02-15 02:40:56,176 - interpreter_server - DEBUG - Processing chunk: <interpreter.server.message.StreamingChunk object at 0x103d9dc40>
+2025-02-15 02:40:56,176 - interpreter_server - DEBUG - Sending formatted chunk: {"role": "assistant", "type": "message", "content": " i", "id": "5d2be38c-0bc7-4c58-b186-d4b8787417f2", "created_at": "2025-02-15T02:40:56.176573"}
+2025-02-15 02:40:56,176 - interpreter_server - DEBUG - Chunk sent successfully
+2025-02-15 02:40:56,245 - interpreter_server - DEBUG - Processing chunk: <interpreter.server.message.StreamingChunk object at 0x103d9dc40>
+2025-02-15 02:40:56,246 - interpreter_server - DEBUG - Sending formatted chunk: {"role": "assistant", "type": "message", "content": " in", "id": "da4c26f7-94f0-4016-bc2d-d49fc5ec61fb", "created_at": "2025-02-15T02:40:56.245730"}
+2025-02-15 02:40:56,246 - interpreter_server - DEBUG - Chunk sent successfully
+2025-02-15 02:40:56,249 - interpreter_server - DEBUG - Processing chunk: <interpreter.server.message.StreamingChunk object at 0x103d9dc40>
+2025-02-15 02:40:56,250 - interpreter_server - DEBUG - Sending formatted chunk: {"role": "assistant", "type": "message", "content": " range", "id": "17af1d8d-8190-4fcf-a21f-8b532a40b577", "created_at": "2025-02-15T02:40:56.249670"}
+2025-02-15 02:40:56,250 - interpreter_server - DEBUG - Chunk sent successfully
+2025-02-15 02:40:56,253 - interpreter_server - DEBUG - Processing chunk: <interpreter.server.message.StreamingChunk object at 0x103d9dc40>
+2025-02-15 02:40:56,254 - interpreter_server - DEBUG - Sending formatted chunk: {"role": "assistant", "type": "message", "content": "(", "id": "a1dfca68-5c7b-43b4-8611-9f0c05c5eb8b", "created_at": "2025-02-15T02:40:56.253938"}
+2025-02-15 02:40:56,254 - interpreter_server - DEBUG - Chunk sent successfully
+2025-02-15 02:40:56,256 - interpreter_server - DEBUG - Processing chunk: <interpreter.server.message.StreamingChunk object at 0x103d9dc40>
+2025-02-15 02:40:56,257 - interpreter_server - DEBUG - Sending formatted chunk: {"role": "assistant", "type": "message", "content": "1", "id": "352f8b01-49d7-49b3-85d0-be8b067db5b6", "created_at": "2025-02-15T02:40:56.256826"}
+2025-02-15 02:40:56,257 - interpreter_server - DEBUG - Chunk sent successfully
+2025-02-15 02:40:56,259 - interpreter_server - DEBUG - Processing chunk: <interpreter.server.message.StreamingChunk object at 0x103d9dc40>
+2025-02-15 02:40:56,259 - interpreter_server - DEBUG - Sending formatted chunk: {"role": "assistant", "type": "message", "content": ",", "id": "e7381c6d-7dda-49ab-8b75-a927738fc50d", "created_at": "2025-02-15T02:40:56.259493"}
+2025-02-15 02:40:56,260 - interpreter_server - DEBUG - Chunk sent successfully
+2025-02-15 02:40:56,262 - interpreter_server - DEBUG - Processing chunk: <interpreter.server.message.StreamingChunk object at 0x103d9dc40>
+2025-02-15 02:40:56,262 - interpreter_server - DEBUG - Sending formatted chunk: {"role": "assistant", "type": "message", "content": " ", "id": "304d750a-c1a1-4335-8def-75af8416d902", "created_at": "2025-02-15T02:40:56.262224"}
+2025-02-15 02:40:56,262 - interpreter_server - DEBUG - Chunk sent successfully
+2025-02-15 02:40:56,415 - interpreter_server - DEBUG - Processing chunk: <interpreter.server.message.StreamingChunk object at 0x103d9dc40>
+2025-02-15 02:40:56,416 - interpreter_server - DEBUG - Sending formatted chunk: {"role": "assistant", "type": "message", "content": "4", "id": "5a610204-ced4-4b0a-b1e4-eba25e4afd55", "created_at": "2025-02-15T02:40:56.415590"}
+2025-02-15 02:40:56,416 - interpreter_server - DEBUG - Chunk sent successfully
+2025-02-15 02:40:56,419 - interpreter_server - DEBUG - Processing chunk: <interpreter.server.message.StreamingChunk object at 0x103d9dc40>
+2025-02-15 02:40:56,419 - interpreter_server - DEBUG - Sending formatted chunk: {"role": "assistant", "type": "message", "content": "):", "id": "e2faa243-97a0-4fdd-85eb-7fb89c65f8b9", "created_at": "2025-02-15T02:40:56.419407"}
+2025-02-15 02:40:56,419 - interpreter_server - DEBUG - Chunk sent successfully
+2025-02-15 02:40:56,422 - interpreter_server - DEBUG - Processing chunk: <interpreter.server.message.StreamingChunk object at 0x103d9dc40>
+2025-02-15 02:40:56,422 - interpreter_server - DEBUG - Sending formatted chunk: {"role": "assistant", "type": "message", "content": "`", "id": "652d07e6-3fd0-4f25-8b4d-6957ee7c590c", "created_at": "2025-02-15T02:40:56.422386"}
+2025-02-15 02:40:56,423 - interpreter_server - DEBUG - Chunk sent successfully
+2025-02-15 02:40:56,425 - interpreter_server - DEBUG - Processing chunk: <interpreter.server.message.StreamingChunk object at 0x103d9dc40>
+2025-02-15 02:40:56,425 - interpreter_server - DEBUG - Sending formatted chunk: {"role": "assistant", "type": "message", "content": " ", "id": "b14ad0b1-4ced-4557-a00a-6e4e2bd59d58", "created_at": "2025-02-15T02:40:56.425580"}
+2025-02-15 02:40:56,426 - interpreter_server - DEBUG - Chunk sent successfully
+2025-02-15 02:40:56,428 - interpreter_server - DEBUG - Processing chunk: <interpreter.server.message.StreamingChunk object at 0x103d9dc40>
+2025-02-15 02:40:56,428 - interpreter_server - DEBUG - Sending formatted chunk: {"role": "assistant", "type": "message", "content": "\n-", "id": "3d6e5c85-8457-4e43-9d28-86f8027e3bb5", "created_at": "2025-02-15T02:40:56.428550"}
+2025-02-15 02:40:56,429 - interpreter_server - DEBUG - Chunk sent successfully
+2025-02-15 02:40:56,576 - interpreter_server - DEBUG - Processing chunk: <interpreter.server.message.StreamingChunk object at 0x103d9dc40>
+2025-02-15 02:40:56,576 - interpreter_server - DEBUG - Sending formatted chunk: {"role": "assistant", "type": "message", "content": " An", "id": "559919be-ddf5-4811-bc68-167939d05698", "created_at": "2025-02-15T02:40:56.576373"}
+2025-02-15 02:40:56,577 - interpreter_server - DEBUG - Chunk sent successfully
+2025-02-15 02:40:56,580 - interpreter_server - DEBUG - Processing chunk: <interpreter.server.message.StreamingChunk object at 0x103d9dc40>
+2025-02-15 02:40:56,580 - interpreter_server - DEBUG - Sending formatted chunk: {"role": "assistant", "type": "message", "content": "d print", "id": "168c0ceb-dcfa-4d5c-8b30-1e15fa01e812", "created_at": "2025-02-15T02:40:56.580670"}
+2025-02-15 02:40:56,581 - interpreter_server - DEBUG - Chunk sent successfully
+2025-02-15 02:40:56,583 - interpreter_server - DEBUG - Processing chunk: <interpreter.server.message.StreamingChunk object at 0x103d9dc40>
+2025-02-15 02:40:56,584 - interpreter_server - DEBUG - Sending formatted chunk: {"role": "assistant", "type": "message", "content": " out", "id": "62c8e9e1-3449-4095-a69b-a988d03fd6db", "created_at": "2025-02-15T02:40:56.583917"}
+2025-02-15 02:40:56,584 - interpreter_server - DEBUG - Chunk sent successfully
+2025-02-15 02:40:56,587 - interpreter_server - DEBUG - Processing chunk: <interpreter.server.message.StreamingChunk object at 0x103d9dc40>
+2025-02-15 02:40:56,588 - interpreter_server - DEBUG - Sending formatted chunk: {"role": "assistant", "type": "message", "content": " each", "id": "e0b04ede-7956-49bc-90a3-ee6f955eea28", "created_at": "2025-02-15T02:40:56.587859"}
+2025-02-15 02:40:56,588 - interpreter_server - DEBUG - Chunk sent successfully
+2025-02-15 02:40:56,591 - interpreter_server - DEBUG - Processing chunk: <interpreter.server.message.StreamingChunk object at 0x103d9dc40>
+2025-02-15 02:40:56,591 - interpreter_server - DEBUG - Sending formatted chunk: {"role": "assistant", "type": "message", "content": " number", "id": "a1f6d83e-c425-48b3-b98b-f14ccf581272", "created_at": "2025-02-15T02:40:56.591103"}
+2025-02-15 02:40:56,591 - interpreter_server - DEBUG - Chunk sent successfully
+2025-02-15 02:40:56,594 - interpreter_server - DEBUG - Processing chunk: <interpreter.server.message.StreamingChunk object at 0x103d9dc40>
+2025-02-15 02:40:56,594 - interpreter_server - DEBUG - Sending formatted chunk: {"role": "assistant", "type": "message", "content": " `", "id": "0087d535-04e7-452a-8331-b0de162cf879", "created_at": "2025-02-15T02:40:56.594453"}
+2025-02-15 02:40:56,595 - interpreter_server - DEBUG - Chunk sent successfully
+2025-02-15 02:40:56,698 - interpreter_server - DEBUG - Processing chunk: <interpreter.server.message.StreamingChunk object at 0x103d9dc40>
+2025-02-15 02:40:56,698 - interpreter_server - DEBUG - Sending formatted chunk: {"role": "assistant", "type": "message", "content": "i", "id": "529dd558-803d-45ac-a616-3a1eeacd7c93", "created_at": "2025-02-15T02:40:56.698216"}
+2025-02-15 02:40:56,698 - interpreter_server - DEBUG - Chunk sent successfully
+2025-02-15 02:40:56,702 - interpreter_server - DEBUG - Processing chunk: <interpreter.server.message.StreamingChunk object at 0x103d9dc40>
+2025-02-15 02:40:56,702 - interpreter_server - DEBUG - Sending formatted chunk: {"role": "assistant", "type": "message", "content": "`", "id": "936a4283-3765-4cbd-a604-5753ee72c11a", "created_at": "2025-02-15T02:40:56.702134"}
+2025-02-15 02:40:56,702 - interpreter_server - DEBUG - Chunk sent successfully
+2025-02-15 02:40:56,705 - interpreter_server - DEBUG - Processing chunk: <interpreter.server.message.StreamingChunk object at 0x103d9dc40>
+2025-02-15 02:40:56,705 - interpreter_server - DEBUG - Sending formatted chunk: {"role": "assistant", "type": "message", "content": " on", "id": "ffdfc8cc-1c01-486f-a812-922289d50d81", "created_at": "2025-02-15T02:40:56.705297"}
+2025-02-15 02:40:56,705 - interpreter_server - DEBUG - Chunk sent successfully
+2025-02-15 02:40:56,708 - interpreter_server - DEBUG - Processing chunk: <interpreter.server.message.StreamingChunk object at 0x103d9dc40>
+2025-02-15 02:40:56,708 - interpreter_server - DEBUG - Sending formatted chunk: {"role": "assistant", "type": "message", "content": " a", "id": "6e6208d5-bc6f-46f1-91ad-741abf67aa30", "created_at": "2025-02-15T02:40:56.708302"}
+2025-02-15 02:40:56,708 - interpreter_server - DEBUG - Chunk sent successfully
+2025-02-15 02:40:56,711 - interpreter_server - DEBUG - Processing chunk: <interpreter.server.message.StreamingChunk object at 0x103d9dc40>
+2025-02-15 02:40:56,711 - interpreter_server - DEBUG - Sending formatted chunk: {"role": "assistant", "type": "message", "content": " new", "id": "634545a4-3108-4479-b34b-005546a9a1f3", "created_at": "2025-02-15T02:40:56.711295"}
+2025-02-15 02:40:56,711 - interpreter_server - DEBUG - Chunk sent successfully
+2025-02-15 02:40:56,862 - interpreter_server - DEBUG - Processing chunk: <interpreter.server.message.StreamingChunk object at 0x103d9dc40>
+2025-02-15 02:40:56,862 - interpreter_server - DEBUG - Sending formatted chunk: {"role": "assistant", "type": "message", "content": " line", "id": "3b9e88f2-2fa2-4ded-9585-8421d22b0a3a", "created_at": "2025-02-15T02:40:56.862486"}
+2025-02-15 02:40:56,863 - interpreter_server - DEBUG - Chunk sent successfully
+2025-02-15 02:40:56,866 - interpreter_server - DEBUG - Processing chunk: <interpreter.server.message.StreamingChunk object at 0x103d9dc40>
+2025-02-15 02:40:56,866 - interpreter_server - DEBUG - Sending formatted chunk: {"role": "assistant", "type": "message", "content": ".", "id": "4cb3512c-4598-40c9-a2ad-4d1fde061195", "created_at": "2025-02-15T02:40:56.866595"}
+2025-02-15 02:40:56,867 - interpreter_server - DEBUG - Chunk sent successfully
+2025-02-15 02:40:56,869 - interpreter_server - DEBUG - Processing chunk: <interpreter.server.message.StreamingChunk object at 0x103d9dc40>
+2025-02-15 02:40:56,870 - interpreter_server - DEBUG - Sending formatted chunk: {"role": "assistant", "type": "message", "content": "\n\nSo", "id": "12f69ed1-371e-4574-adf7-6b8e080b4fd4", "created_at": "2025-02-15T02:40:56.869873"}
+2025-02-15 02:40:56,870 - interpreter_server - DEBUG - Chunk sent successfully
+2025-02-15 02:40:56,873 - interpreter_server - DEBUG - Processing chunk: <interpreter.server.message.StreamingChunk object at 0x103d9dc40>
+2025-02-15 02:40:56,873 - interpreter_server - DEBUG - Sending formatted chunk: {"role": "assistant", "type": "message", "content": " this", "id": "2385ec52-5796-4aa7-a096-ba583177767e", "created_at": "2025-02-15T02:40:56.873134"}
+2025-02-15 02:40:56,873 - interpreter_server - DEBUG - Chunk sent successfully
+2025-02-15 02:40:56,876 - interpreter_server - DEBUG - Processing chunk: <interpreter.server.message.StreamingChunk object at 0x103d9dc40>
+2025-02-15 02:40:56,876 - interpreter_server - DEBUG - Sending formatted chunk: {"role": "assistant", "type": "message", "content": " prints", "id": "65205ab4-88cb-4cf7-aeb9-74886b952b19", "created_at": "2025-02-15T02:40:56.876132"}
+2025-02-15 02:40:56,876 - interpreter_server - DEBUG - Chunk sent successfully
+2025-02-15 02:40:57,694 - interpreter_server - DEBUG - Processing chunk: <interpreter.server.message.StreamingChunk object at 0x103d9dc40>
+2025-02-15 02:40:57,694 - interpreter_server - DEBUG - Sending formatted chunk: {"role": "assistant", "type": "message", "content": " the", "id": "92316994-5fb5-4ba1-9a1f-1351f85a2c1f", "created_at": "2025-02-15T02:40:57.694037"}
+2025-02-15 02:40:57,695 - interpreter_server - DEBUG - Chunk sent successfully
+2025-02-15 02:40:57,698 - interpreter_server - DEBUG - Processing chunk: <interpreter.server.message.StreamingChunk object at 0x103d9dc40>
+2025-02-15 02:40:57,698 - interpreter_server - DEBUG - Sending formatted chunk: {"role": "assistant", "type": "message", "content": " numbers", "id": "a2f04054-b920-481d-b95b-f57b8f067efc", "created_at": "2025-02-15T02:40:57.698682"}
+2025-02-15 02:40:57,699 - interpreter_server - DEBUG - Chunk sent successfully
+2025-02-15 02:40:57,702 - interpreter_server - DEBUG - Processing chunk: <interpreter.server.message.StreamingChunk object at 0x103d9dc40>
+2025-02-15 02:40:57,702 - interpreter_server - DEBUG - Sending formatted chunk: {"role": "assistant", "type": "message", "content": " ", "id": "6706c2b0-dbb6-46d0-ab98-ebd8a084a0f9", "created_at": "2025-02-15T02:40:57.701996"}
+2025-02-15 02:40:57,702 - interpreter_server - DEBUG - Chunk sent successfully
+2025-02-15 02:40:57,705 - interpreter_server - DEBUG - Processing chunk: <interpreter.server.message.StreamingChunk object at 0x103d9dc40>
+2025-02-15 02:40:57,705 - interpreter_server - DEBUG - Sending formatted chunk: {"role": "assistant", "type": "message", "content": "1", "id": "0b90345d-f196-464a-8e84-a10eb36cd22d", "created_at": "2025-02-15T02:40:57.705607"}
+2025-02-15 02:40:57,706 - interpreter_server - DEBUG - Chunk sent successfully
+2025-02-15 02:40:57,708 - interpreter_server - DEBUG - Processing chunk: <interpreter.server.message.StreamingChunk object at 0x103d9dc40>
+2025-02-15 02:40:57,709 - interpreter_server - DEBUG - Sending formatted chunk: {"role": "assistant", "type": "message", "content": ",", "id": "1fb09b97-f22b-4ea0-8435-6c70ed8707c4", "created_at": "2025-02-15T02:40:57.708827"}
+2025-02-15 02:40:57,709 - interpreter_server - DEBUG - Chunk sent successfully
+2025-02-15 02:40:57,712 - interpreter_server - DEBUG - Processing chunk: <interpreter.server.message.StreamingChunk object at 0x103d9dc40>
+2025-02-15 02:40:57,713 - interpreter_server - DEBUG - Sending formatted chunk: {"role": "assistant", "type": "message", "content": " ", "id": "1a672088-89d0-4213-8375-c301cb64832e", "created_at": "2025-02-15T02:40:57.712453"}
+2025-02-15 02:40:57,713 - interpreter_server - DEBUG - Chunk sent successfully
+2025-02-15 02:40:57,838 - interpreter_server - DEBUG - Processing chunk: <interpreter.server.message.StreamingChunk object at 0x103d9dc40>
+2025-02-15 02:40:57,839 - interpreter_server - DEBUG - Sending formatted chunk: {"role": "assistant", "type": "message", "content": "2", "id": "0077d9f5-7e46-4833-87e5-ddcc9c0a97f3", "created_at": "2025-02-15T02:40:57.838738"}
+2025-02-15 02:40:57,839 - interpreter_server - DEBUG - Chunk sent successfully
+2025-02-15 02:40:57,843 - interpreter_server - DEBUG - Processing chunk: <interpreter.server.message.StreamingChunk object at 0x103d9dc40>
+2025-02-15 02:40:57,843 - interpreter_server - DEBUG - Sending formatted chunk: {"role": "assistant", "type": "message", "content": ",", "id": "b0d20fe8-b04c-4ad9-b725-8b411ba8818d", "created_at": "2025-02-15T02:40:57.843093"}
+2025-02-15 02:40:57,843 - interpreter_server - DEBUG - Chunk sent successfully
+2025-02-15 02:40:57,846 - interpreter_server - DEBUG - Processing chunk: <interpreter.server.message.StreamingChunk object at 0x103d9dc40>
+2025-02-15 02:40:57,846 - interpreter_server - DEBUG - Sending formatted chunk: {"role": "assistant", "type": "message", "content": " ", "id": "8c61eaa7-db0d-4d73-b25f-5a49b502797a", "created_at": "2025-02-15T02:40:57.846506"}
+2025-02-15 02:40:57,847 - interpreter_server - DEBUG - Chunk sent successfully
+2025-02-15 02:40:57,850 - interpreter_server - DEBUG - Processing chunk: <interpreter.server.message.StreamingChunk object at 0x103d9dc40>
+2025-02-15 02:40:57,850 - interpreter_server - DEBUG - Sending formatted chunk: {"role": "assistant", "type": "message", "content": "3", "id": "2e54aa97-36f1-44ba-9494-c809992d6c8d", "created_at": "2025-02-15T02:40:57.850031"}
+2025-02-15 02:40:57,850 - interpreter_server - DEBUG - Chunk sent successfully
+2025-02-15 02:40:57,853 - interpreter_server - DEBUG - Processing chunk: <interpreter.server.message.StreamingChunk object at 0x103d9dc40>
+2025-02-15 02:40:57,853 - interpreter_server - DEBUG - Sending formatted chunk: {"role": "assistant", "type": "message", "content": " ", "id": "05ee1825-e752-42b5-b146-ee7519c0b4be", "created_at": "2025-02-15T02:40:57.853321"}
+2025-02-15 02:40:57,853 - interpreter_server - DEBUG - Chunk sent successfully
+2025-02-15 02:40:57,964 - interpreter_server - DEBUG - Processing chunk: <interpreter.server.message.StreamingChunk object at 0x103d9dc40>
+2025-02-15 02:40:57,965 - interpreter_server - DEBUG - Sending formatted chunk: {"role": "assistant", "type": "message", "content": "on", "id": "87614829-a22b-4892-8317-ac315746d441", "created_at": "2025-02-15T02:40:57.964926"}
+2025-02-15 02:40:57,966 - interpreter_server - DEBUG - Chunk sent successfully
+2025-02-15 02:40:57,969 - interpreter_server - DEBUG - Processing chunk: <interpreter.server.message.StreamingChunk object at 0x103d9dc40>
+2025-02-15 02:40:57,969 - interpreter_server - DEBUG - Sending formatted chunk: {"role": "assistant", "type": "message", "content": " separate", "id": "4b2caa8e-fe7b-45c7-86e2-3c00e694c062", "created_at": "2025-02-15T02:40:57.969301"}
+2025-02-15 02:40:57,970 - interpreter_server - DEBUG - Chunk sent successfully
+2025-02-15 02:40:57,972 - interpreter_server - DEBUG - Processing chunk: <interpreter.server.message.StreamingChunk object at 0x103d9dc40>
+2025-02-15 02:40:57,973 - interpreter_server - DEBUG - Sending formatted chunk: {"role": "assistant", "type": "message", "content": " lines", "id": "7630ca0f-a9da-4a4f-9f0a-b0cd43d475d4", "created_at": "2025-02-15T02:40:57.972865"}
+2025-02-15 02:40:57,973 - interpreter_server - DEBUG - Chunk sent successfully
+2025-02-15 02:40:57,976 - interpreter_server - DEBUG - Processing chunk: <interpreter.server.message.StreamingChunk object at 0x103d9dc40>
+2025-02-15 02:40:57,976 - interpreter_server - DEBUG - Sending formatted chunk: {"role": "assistant", "type": "message", "content": ",", "id": "9f72d4fa-95cb-42ad-b489-e5cf26b783be", "created_at": "2025-02-15T02:40:57.976215"}
+2025-02-15 02:40:57,976 - interpreter_server - DEBUG - Chunk sent successfully
+2025-02-15 02:40:57,979 - interpreter_server - DEBUG - Processing chunk: <interpreter.server.message.StreamingChunk object at 0x103d9dc40>
+2025-02-15 02:40:57,979 - interpreter_server - DEBUG - Sending formatted chunk: {"role": "assistant", "type": "message", "content": " counting", "id": "2aca6812-3f29-4a37-90a1-aa8e2b93927f", "created_at": "2025-02-15T02:40:57.979352"}
+2025-02-15 02:40:57,979 - interpreter_server - DEBUG - Chunk sent successfully
+2025-02-15 02:40:58,047 - interpreter_server - DEBUG - Processing chunk: <interpreter.server.message.StreamingChunk object at 0x103d9dc40>
+2025-02-15 02:40:58,047 - interpreter_server - DEBUG - Sending formatted chunk: {"role": "assistant", "type": "message", "content": " from", "id": "d75b3172-f47e-48f0-83a0-da4e3c8e9a9f", "created_at": "2025-02-15T02:40:58.046974"}
+2025-02-15 02:40:58,047 - interpreter_server - DEBUG - Chunk sent successfully
+2025-02-15 02:40:58,051 - interpreter_server - DEBUG - Processing chunk: <interpreter.server.message.StreamingChunk object at 0x103d9dc40>
+2025-02-15 02:40:58,051 - interpreter_server - DEBUG - Sending formatted chunk: {"role": "assistant", "type": "message", "content": " ", "id": "12c60ee3-16aa-4731-8be1-1c06a9cfbfa1", "created_at": "2025-02-15T02:40:58.051142"}
+2025-02-15 02:40:58,051 - interpreter_server - DEBUG - Chunk sent successfully
+2025-02-15 02:40:58,054 - interpreter_server - DEBUG - Processing chunk: <interpreter.server.message.StreamingChunk object at 0x103d9dc40>
+2025-02-15 02:40:58,054 - interpreter_server - DEBUG - Sending formatted chunk: {"role": "assistant", "type": "message", "content": "1", "id": "8b2d54b2-af3a-4b92-a25e-a1cb598e47b5", "created_at": "2025-02-15T02:40:58.054589"}
+2025-02-15 02:40:58,055 - interpreter_server - DEBUG - Chunk sent successfully
+2025-02-15 02:40:58,058 - interpreter_server - DEBUG - Processing chunk: <interpreter.server.message.StreamingChunk object at 0x103d9dc40>
+2025-02-15 02:40:58,058 - interpreter_server - DEBUG - Sending formatted chunk: {"role": "assistant", "type": "message", "content": " ", "id": "068d2f76-90d8-440e-9434-5fe8f120f3a5", "created_at": "2025-02-15T02:40:58.058026"}
+2025-02-15 02:40:58,058 - interpreter_server - DEBUG - Chunk sent successfully
+2025-02-15 02:40:58,061 - interpreter_server - DEBUG - Processing chunk: <interpreter.server.message.StreamingChunk object at 0x103d9dc40>
+2025-02-15 02:40:58,061 - interpreter_server - DEBUG - Sending formatted chunk: {"role": "assistant", "type": "message", "content": "to", "id": "56e7b809-7d35-466d-b847-a6c39563c8e3", "created_at": "2025-02-15T02:40:58.061389"}
+2025-02-15 02:40:58,061 - interpreter_server - DEBUG - Chunk sent successfully
+2025-02-15 02:40:58,064 - interpreter_server - DEBUG - Processing chunk: <interpreter.server.message.StreamingChunk object at 0x103d9dc40>
+2025-02-15 02:40:58,064 - interpreter_server - DEBUG - Sending formatted chunk: {"role": "assistant", "type": "message", "content": " ", "id": "f65d334d-3690-4f6b-8008-f3030684f1c5", "created_at": "2025-02-15T02:40:58.064604"}
+2025-02-15 02:40:58,065 - interpreter_server - DEBUG - Chunk sent successfully
+2025-02-15 02:40:58,256 - interpreter_server - DEBUG - Processing chunk: <interpreter.server.message.StreamingChunk object at 0x103d9dc40>
+2025-02-15 02:40:58,256 - interpreter_server - DEBUG - Sending formatted chunk: {"role": "assistant", "type": "message", "content": "3", "id": "0874362f-8d79-49a3-be16-bbaa578a9f98", "created_at": "2025-02-15T02:40:58.256416"}
+2025-02-15 02:40:58,257 - interpreter_server - DEBUG - Chunk sent successfully
+2025-02-15 02:40:58,260 - interpreter_server - DEBUG - Processing chunk: <interpreter.server.message.StreamingChunk object at 0x103d9dc40>
+2025-02-15 02:40:58,261 - interpreter_server - DEBUG - Sending formatted chunk: {"role": "assistant", "type": "message", "content": " ", "id": "41700eb9-6c5f-48bf-b4e1-bd15c095d687", "created_at": "2025-02-15T02:40:58.260937"}
+2025-02-15 02:40:58,261 - interpreter_server - DEBUG - Chunk sent successfully
+2025-02-15 02:40:58,264 - interpreter_server - DEBUG - Processing chunk: <interpreter.server.message.StreamingChunk object at 0x103d9dc40>
+2025-02-15 02:40:58,264 - interpreter_server - DEBUG - Sending formatted chunk: {"role": "assistant", "type": "message", "content": "as", "id": "165b6448-b95e-473f-8106-b3cc5a714618", "created_at": "2025-02-15T02:40:58.264608"}
+2025-02-15 02:40:58,265 - interpreter_server - DEBUG - Chunk sent successfully
+2025-02-15 02:40:58,268 - interpreter_server - DEBUG - Processing chunk: <interpreter.server.message.StreamingChunk object at 0x103d9dc40>
+2025-02-15 02:40:58,268 - interpreter_server - DEBUG - Sending formatted chunk: {"role": "assistant", "type": "message", "content": " requeste", "id": "209dedc4-3f29-4caa-9ea6-b31d76c97203", "created_at": "2025-02-15T02:40:58.268172"}
+2025-02-15 02:40:58,268 - interpreter_server - DEBUG - Chunk sent successfully
+2025-02-15 02:40:58,271 - interpreter_server - DEBUG - Processing chunk: <interpreter.server.message.StreamingChunk object at 0x103d9dc40>
+2025-02-15 02:40:58,272 - interpreter_server - DEBUG - Sending formatted chunk: {"role": "assistant", "type": "message", "content": "d.", "id": "35b9bdb3-8929-4143-a178-8f625453168a", "created_at": "2025-02-15T02:40:58.271765"}
+2025-02-15 02:40:58,272 - interpreter_server - DEBUG - Chunk sent successfully
+2025-02-15 02:40:58,276 - interpreter_server - DEBUG - Processing chunk: <interpreter.server.message.StreamingChunk object at 0x103d9dc40>
+2025-02-15 02:40:58,277 - interpreter_server - DEBUG - Sending formatted chunk: {"role": "assistant", "type": "message", "content": "", "id": "97fce32a-d2bf-41f8-bf46-a3c96c507baf", "created_at": "2025-02-15T02:40:58.276703"}
+2025-02-15 02:40:58,279 - interpreter_server - DEBUG - Chunk sent successfully
+2025-02-15 02:40:58,289 - interpreter_server - DEBUG - Final chunk sent
+2025-02-15 02:40:58,289 - interpreter_server - INFO - Releasing chat lock in stream mode
+2025-02-15 02:41:27,507 - interpreter_server - INFO - Initializing server...
+2025-02-15 02:41:27,512 - interpreter_server - INFO - Application initialized successfully
+2025-02-15 02:41:27,513 - interpreter_server - INFO - Starting server on http://0.0.0.0:5001
+2025-02-15 02:42:54,195 - interpreter_server - INFO - Initializing server...
+2025-02-15 02:42:54,200 - interpreter_server - INFO - Application initialized successfully
+2025-02-15 02:42:54,200 - interpreter_server - INFO - Starting server on http://0.0.0.0:5001
+2025-02-15 02:44:55,665 - interpreter_server - INFO - Initializing server...
+2025-02-15 02:44:55,670 - interpreter_server - INFO - Application initialized successfully
+2025-02-15 02:44:55,670 - interpreter_server - INFO - Starting server on http://0.0.0.0:5001
+2025-02-15 02:49:02,527 - interpreter_server - INFO - Initializing server...
+2025-02-15 02:49:02,534 - interpreter_server - INFO - Application initialized successfully
+2025-02-15 02:49:02,534 - interpreter_server - INFO - Starting server on http://0.0.0.0:5001
+2025-02-15 02:51:33,549 - interpreter_server - INFO - Initializing server...
+2025-02-15 02:51:33,556 - interpreter_server - INFO - Application initialized successfully
+2025-02-15 02:51:33,556 - interpreter_server - INFO - Starting server on http://0.0.0.0:5001
+2025-02-15 02:53:06,987 - interpreter_server - INFO - Initializing server...
+2025-02-15 02:53:06,995 - interpreter_server - INFO - Application initialized successfully
+2025-02-15 02:53:06,995 - interpreter_server - INFO - Starting server on http://0.0.0.0:5001
+2025-02-15 02:55:44,142 - interpreter_server - INFO - Initializing server...
+2025-02-15 02:55:44,150 - interpreter_server - INFO - Application initialized successfully
+2025-02-15 02:55:44,150 - interpreter_server - INFO - Starting server on http://0.0.0.0:5001
+2025-02-15 02:57:50,118 - interpreter_server - INFO - Chat lock acquired successfully
+2025-02-15 02:57:50,119 - interpreter_server - DEBUG - Received request data: {'messages': [{'role': 'user', 'type': 'message', 'content': '你好，请做个简单的自我介绍'}], 'stream': False}
+2025-02-15 02:57:50,119 - interpreter_server - INFO - No session_id provided, creating new session
+2025-02-15 02:57:50,119 - interpreter_server - DEBUG - Created new session: e3218b55-a31d-48b2-bf24-4c4cff84cceb
+2025-02-15 02:57:50,119 - interpreter_server - INFO - Processing chat request with 1 messages for session e3218b55-a31d-48b2-bf24-4c4cff84cceb
+2025-02-15 02:57:50,120 - interpreter_server - DEBUG - Starting chat with interpreter
+2025-02-15 02:57:54,867 - interpreter_server - DEBUG - Got response from interpreter
+2025-02-15 02:58:04,929 - interpreter_server - WARNING - Chat request blocked by another ongoing request
+2025-02-15 02:58:40,834 - interpreter_server - INFO - Initializing server...
+2025-02-15 02:58:40,842 - interpreter_server - INFO - Application initialized successfully
+2025-02-15 02:58:40,842 - interpreter_server - INFO - Starting server on http://0.0.0.0:5001
+2025-02-15 02:59:30,620 - interpreter_server - INFO - Chat lock acquired successfully
+2025-02-15 02:59:30,621 - interpreter_server - DEBUG - Received request data: {'messages': [{'role': 'user', 'type': 'message', 'content': '你好，请做个简单的自我介绍'}], 'stream': False}
+2025-02-15 02:59:30,621 - interpreter_server - INFO - No session_id provided, creating new session
+2025-02-15 02:59:30,621 - interpreter_server - DEBUG - Created new session: 478684ba-1cd3-49bc-952e-3420f59de021
+2025-02-15 02:59:30,622 - interpreter_server - INFO - Processing chat request with 1 messages for session 478684ba-1cd3-49bc-952e-3420f59de021
+2025-02-15 02:59:30,622 - interpreter_server - DEBUG - Starting chat with interpreter
+2025-02-15 02:59:36,506 - interpreter_server - DEBUG - Got response from interpreter
+2025-02-15 02:59:46,950 - interpreter_server - WARNING - Chat request blocked by another ongoing request
+2025-02-15 03:04:50,841 - interpreter_server - INFO - Initializing server...
+2025-02-15 03:04:50,850 - interpreter_server - INFO - Application initialized successfully
+2025-02-15 03:04:50,850 - interpreter_server - INFO - Starting server on http://0.0.0.0:5001
+2025-02-15 03:10:57,479 - interpreter_server - INFO - Initializing server...
+2025-02-15 03:10:57,488 - interpreter_server - INFO - Application initialized successfully
+2025-02-15 03:10:57,488 - interpreter_server - INFO - Starting server on http://0.0.0.0:5001
+2025-02-15 03:12:32,543 - interpreter_server - DEBUG - Received request data: {'messages': [{'role': 'user', 'type': 'message', 'content': '你好，请做个自我介绍'}], 'session_id': 'c35e6ffa-9f31-4e9f-a11c-4f78414a0660', 'stream': False}
+2025-02-15 03:12:32,544 - interpreter_server - INFO - Session lock acquired for session c35e6ffa-9f31-4e9f-a11c-4f78414a0660
+2025-02-15 03:12:32,544 - interpreter_server - INFO - Processing chat request with 1 messages for session c35e6ffa-9f31-4e9f-a11c-4f78414a0660
+2025-02-15 03:12:32,544 - interpreter_server - DEBUG - Starting chat with interpreter
+2025-02-15 03:12:38,520 - interpreter_server - DEBUG - Got response from interpreter
+2025-02-15 03:12:38,520 - interpreter_server - ERROR - Error processing chunk: 'SessionManager' object has no attribute 'lock'
+Traceback (most recent call last):
+  File "/Users/clay/Code/open-interpreter/interpreter/server/routes/chat.py", line 134, in chat
+    session_manager.add_message(session_id, chunk.to_dict())
+  File "/Users/clay/Code/open-interpreter/interpreter/server/session.py", line 324, in add_message
+    with self.lock:
+AttributeError: 'SessionManager' object has no attribute 'lock'
+2025-02-15 03:12:38,522 - interpreter_server - INFO - Releasing session lock for session c35e6ffa-9f31-4e9f-a11c-4f78414a0660
+2025-02-15 03:12:46,088 - interpreter_server - DEBUG - Received request data: {'messages': [{'role': 'user', 'type': 'message', 'content': '1+1等于多少？'}], 'session_id': 'c35e6ffa-9f31-4e9f-a11c-4f78414a0660', 'stream': True}
+2025-02-15 03:12:46,089 - interpreter_server - INFO - Session lock acquired for session c35e6ffa-9f31-4e9f-a11c-4f78414a0660
+2025-02-15 03:12:46,089 - interpreter_server - INFO - Processing chat request with 1 messages for session c35e6ffa-9f31-4e9f-a11c-4f78414a0660
+2025-02-15 03:12:46,089 - interpreter_server - DEBUG - Starting chat with interpreter
+2025-02-15 03:12:46,253 - interpreter_server - DEBUG - Got response from interpreter
+2025-02-15 03:12:46,253 - interpreter_server - INFO - Starting streaming response
+2025-02-15 03:12:46,253 - interpreter_server - DEBUG - Starting stream generation
+2025-02-15 03:12:46,918 - interpreter_server - DEBUG - Processing chunk: <interpreter.server.message.StreamingChunk object at 0x11223e190>
+2025-02-15 03:12:46,918 - interpreter_server - DEBUG - Sending formatted chunk: {"role": "assistant", "type": "message", "content": "", "id": "efb12fba-ed6d-46a1-b6db-001648900448", "created_at": "2025-02-15T03:12:46.918298"}
+2025-02-15 03:12:46,918 - interpreter_server - DEBUG - Chunk sent successfully
+2025-02-15 03:12:46,920 - interpreter_server - DEBUG - Processing chunk: <interpreter.server.message.StreamingChunk object at 0x11223e190>
+2025-02-15 03:12:46,920 - interpreter_server - DEBUG - Sending formatted chunk: {"role": "assistant", "type": "message", "content": "1", "id": "eae20f5c-b137-40db-ab80-899979b9b3cd", "created_at": "2025-02-15T03:12:46.920204"}
+2025-02-15 03:12:46,920 - interpreter_server - DEBUG - Chunk sent successfully
+2025-02-15 03:12:46,922 - interpreter_server - DEBUG - Processing chunk: <interpreter.server.message.StreamingChunk object at 0x11223e190>
+2025-02-15 03:12:46,923 - interpreter_server - DEBUG - Sending formatted chunk: {"role": "assistant", "type": "message", "content": "+", "id": "70f1dfb9-bc32-4ca2-bdce-1427381ad03f", "created_at": "2025-02-15T03:12:46.922785"}
+2025-02-15 03:12:46,923 - interpreter_server - DEBUG - Chunk sent successfully
+2025-02-15 03:12:46,925 - interpreter_server - DEBUG - Processing chunk: <interpreter.server.message.StreamingChunk object at 0x11223e190>
+2025-02-15 03:12:46,926 - interpreter_server - DEBUG - Sending formatted chunk: {"role": "assistant", "type": "message", "content": "1", "id": "031accff-323d-4e84-8be1-29d04be59067", "created_at": "2025-02-15T03:12:46.925856"}
+2025-02-15 03:12:46,926 - interpreter_server - DEBUG - Chunk sent successfully
+2025-02-15 03:12:46,928 - interpreter_server - DEBUG - Processing chunk: <interpreter.server.message.StreamingChunk object at 0x11223e190>
+2025-02-15 03:12:46,928 - interpreter_server - DEBUG - Sending formatted chunk: {"role": "assistant", "type": "message", "content": "\u7b49", "id": "accc6111-d6c7-4502-a693-51dd554d3afd", "created_at": "2025-02-15T03:12:46.928520"}
+2025-02-15 03:12:46,929 - interpreter_server - DEBUG - Chunk sent successfully
+2025-02-15 03:12:46,962 - interpreter_server - DEBUG - Processing chunk: <interpreter.server.message.StreamingChunk object at 0x11223e190>
+2025-02-15 03:12:46,962 - interpreter_server - DEBUG - Sending formatted chunk: {"role": "assistant", "type": "message", "content": "\u4e8e", "id": "34140b81-a4c4-4666-9abb-e9aa07e789ed", "created_at": "2025-02-15T03:12:46.962622"}
+2025-02-15 03:12:46,963 - interpreter_server - DEBUG - Chunk sent successfully
+2025-02-15 03:12:46,966 - interpreter_server - DEBUG - Processing chunk: <interpreter.server.message.StreamingChunk object at 0x1120ef220>
+2025-02-15 03:12:46,966 - interpreter_server - DEBUG - Sending formatted chunk: {"role": "assistant", "type": "message", "content": "2", "id": "69d2a95c-039a-48e0-9fa4-2f3fffd469e9", "created_at": "2025-02-15T03:12:46.966132"}
+2025-02-15 03:12:46,966 - interpreter_server - DEBUG - Chunk sent successfully
+2025-02-15 03:12:46,969 - interpreter_server - DEBUG - Processing chunk: <interpreter.server.message.StreamingChunk object at 0x1120ef220>
+2025-02-15 03:12:46,969 - interpreter_server - DEBUG - Sending formatted chunk: {"role": "assistant", "type": "message", "content": "\u3002", "id": "a3c72135-0bd1-44cd-a3cb-d8c958f7b5bd", "created_at": "2025-02-15T03:12:46.968991"}
+2025-02-15 03:12:46,969 - interpreter_server - DEBUG - Chunk sent successfully
+2025-02-15 03:12:46,975 - interpreter_server - DEBUG - Processing chunk: <interpreter.server.message.StreamingChunk object at 0x111b24400>
+2025-02-15 03:12:46,976 - interpreter_server - DEBUG - Sending formatted chunk: {"role": "assistant", "type": "message", "content": "", "id": "31ffecc0-6aac-4598-a06f-59eea44dbbd2", "created_at": "2025-02-15T03:12:46.975907"}
+2025-02-15 03:12:46,976 - interpreter_server - DEBUG - Chunk sent successfully
+2025-02-15 03:12:46,978 - interpreter_server - DEBUG - Final chunk sent
+2025-02-15 03:12:46,978 - interpreter_server - INFO - Releasing session lock for session c35e6ffa-9f31-4e9f-a11c-4f78414a0660

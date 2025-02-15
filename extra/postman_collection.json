@@ -1,0 +1,349 @@
+{
+  "info": {
+    "_postman_id": "1a2b3c4d-5e6f-7g8h-9i0j-1k2l3m4n5o6p",
+    "name": "Open Interpreter API",
+    "description": "Open Interpreter HTTP Server API Collection",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "version": "1.0.0"
+  },
+  "auth": {
+    "type": "bearer",
+    "bearer": [
+      {
+        "key": "token",
+        "value": "{{apiKey}}",
+        "type": "string"
+      }
+    ]
+  },
+  "item": [
+    {
+      "name": "Health Check",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{baseUrl}}/v1/health",
+          "host": ["{{baseUrl}}"],
+          "path": ["v1", "health"]
+        }
+      },
+      "response": [
+        {
+          "name": "Success Response",
+          "originalRequest": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/v1/health",
+              "host": ["{{baseUrl}}"],
+              "path": ["v1", "health"]
+            }
+          },
+          "status": "OK",
+          "code": 200,
+          "_postman_previewlanguage": "json",
+          "header": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            }
+          ],
+          "body": {
+            "mode": "raw",
+            "raw": "{\n    \"status\": \"healthy\",\n    \"version\": \"1.0.0\",\n    \"model\": \"bedrock/anthropic.claude-3-sonnet-20240229-v1:0\"\n}"
+          }
+        }
+      ]
+    },
+    {
+      "name": "Create Session",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": {
+          "raw": "{{baseUrl}}/v1/sessions",
+          "host": ["{{baseUrl}}"],
+          "path": ["v1", "sessions"]
+        }
+      },
+      "response": [
+        {
+          "name": "Success Response",
+          "originalRequest": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/v1/sessions",
+              "host": ["{{baseUrl}}"],
+              "path": ["v1", "sessions"]
+            }
+          },
+          "status": "Created",
+          "code": 201,
+          "_postman_previewlanguage": "json",
+          "header": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            }
+          ],
+          "body": {
+            "mode": "raw",
+            "raw": "{\n    \"session_id\": \"550e8400-e29b-41d4-a716-446655440000\",\n    \"created_at\": \"2024-02-12T10:00:00Z\",\n    \"model\": \"bedrock/anthropic.claude-3-sonnet-20240229-v1:0\"\n}"
+          }
+        }
+      ]
+    },
+    {
+      "name": "List Sessions",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{baseUrl}}/v1/sessions",
+          "host": ["{{baseUrl}}"],
+          "path": ["v1", "sessions"]
+        }
+      },
+      "response": [
+        {
+          "name": "Success Response",
+          "originalRequest": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/v1/sessions",
+              "host": ["{{baseUrl}}"],
+              "path": ["v1", "sessions"]
+            }
+          },
+          "status": "OK",
+          "code": 200,
+          "_postman_previewlanguage": "json",
+          "header": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            }
+          ],
+          "body": {
+            "mode": "raw",
+            "raw": "{\n    \"sessions\": [\n        {\n            \"session_id\": \"550e8400-e29b-41d4-a716-446655440000\",\n            \"created_at\": \"2024-02-12T10:00:00Z\",\n            \"message_count\": 10\n        }\n    ]\n}"
+          }
+        }
+      ]
+    },
+    {
+      "name": "Get Session Messages",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{baseUrl}}/v1/sessions/{{sessionId}}/messages",
+          "host": ["{{baseUrl}}"],
+          "path": ["v1", "sessions", "{{sessionId}}", "messages"]
+        }
+      },
+      "response": [
+        {
+          "name": "Success Response",
+          "originalRequest": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/v1/sessions/{{sessionId}}/messages",
+              "host": ["{{baseUrl}}"],
+              "path": ["v1", "sessions", "{{sessionId}}", "messages"]
+            }
+          },
+          "status": "OK",
+          "code": 200,
+          "_postman_previewlanguage": "json",
+          "header": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            }
+          ],
+          "body": {
+            "mode": "raw",
+            "raw": "{\n    \"messages\": [\n        {\n            \"role\": \"user\",\n            \"type\": \"message\",\n            \"content\": \"Hello!\",\n            \"created_at\": \"2024-02-12T10:00:00Z\"\n        },\n        {\n            \"role\": \"assistant\",\n            \"type\": \"message\",\n            \"content\": \"Hi! How can I help you today?\",\n            \"created_at\": \"2024-02-12T10:00:01Z\"\n        }\n    ]\n}"
+          }
+        }
+      ]
+    },
+    {
+      "name": "Chat",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n    \"messages\": [\n        {\n            \"role\": \"user\",\n            \"type\": \"message\",\n            \"content\": \"Hello!\"\n        }\n    ],\n    \"session_id\": \"{{sessionId}}\",\n    \"stream\": false,\n    \"config\": {\n        \"llm\": {\n            \"model\": \"{{model}}\",\n            \"temperature\": {{temperature}},\n            \"max_tokens\": {{maxTokens}}\n        }\n    }\n}"
+        },
+        "url": {
+          "raw": "{{baseUrl}}/v1/chat",
+          "host": ["{{baseUrl}}"],
+          "path": ["v1", "chat"]
+        }
+      },
+      "response": [
+        {
+          "name": "Success Response",
+          "originalRequest": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"messages\": [\n        {\n            \"role\": \"user\",\n            \"type\": \"message\",\n            \"content\": \"Hello!\"\n        }\n    ],\n    \"session_id\": \"{{sessionId}}\",\n    \"stream\": false,\n    \"config\": {\n        \"llm\": {\n            \"model\": \"{{model}}\",\n            \"temperature\": {{temperature}},\n            \"max_tokens\": {{maxTokens}}\n        }\n    }\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/v1/chat",
+              "host": ["{{baseUrl}}"],
+              "path": ["v1", "chat"]
+            }
+          },
+          "status": "OK",
+          "code": 200,
+          "_postman_previewlanguage": "json",
+          "header": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            }
+          ],
+          "body": {
+            "mode": "raw",
+            "raw": "{\n    \"message\": {\n        \"role\": \"assistant\",\n        \"type\": \"message\",\n        \"content\": \"Hello! How can I help you today?\",\n        \"created_at\": \"2024-02-12T10:00:00Z\"\n    },\n    \"session_id\": \"550e8400-e29b-41d4-a716-446655440000\"\n}"
+          }
+        }
+      ]
+    },
+    {
+      "name": "Chat Stream",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          },
+          {
+            "key": "Accept",
+            "value": "text/event-stream"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n    \"messages\": [\n        {\n            \"role\": \"user\",\n            \"type\": \"message\",\n            \"content\": \"请用Python写一个计算斐波那契数列的函数\"\n        }\n    ],\n    \"session_id\": \"{{sessionId}}\",\n    \"stream\": true,\n    \"config\": {\n        \"llm\": {\n            \"model\": \"{{model}}\",\n            \"temperature\": {{temperature}},\n            \"max_tokens\": {{maxTokens}}\n        }\n    }\n}"
+        },
+        "url": {
+          "raw": "{{baseUrl}}/v1/chat",
+          "host": ["{{baseUrl}}"],
+          "path": ["v1", "chat"]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "OpenAI Chat",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n    \"messages\": [\n        {\n            \"role\": \"user\",\n            \"content\": \"请用Python写一个计算斐波那契数列的函数\"\n        }\n    ],\n    \"model\": \"{{model}}\",\n    \"stream\": false,\n    \"temperature\": {{temperature}},\n    \"max_tokens\": {{maxTokens}}\n}"
+        },
+        "url": {
+          "raw": "{{baseUrl}}/v1/chat/completions",
+          "host": ["{{baseUrl}}"],
+          "path": ["v1", "chat", "completions"]
+        }
+      },
+      "response": [
+        {
+          "name": "Success Response",
+          "originalRequest": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"messages\": [\n        {\n            \"role\": \"user\",\n            \"content\": \"请用Python写一个计算斐波那契数列的函数\"\n        }\n    ],\n    \"model\": \"{{model}}\",\n    \"stream\": false,\n    \"temperature\": {{temperature}},\n    \"max_tokens\": {{maxTokens}}\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/v1/chat/completions",
+              "host": ["{{baseUrl}}"],
+              "path": ["v1", "chat", "completions"]
+            }
+          },
+          "status": "OK",
+          "code": 200,
+          "_postman_previewlanguage": "json",
+          "header": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            }
+          ],
+          "body": {
+            "mode": "raw",
+            "raw": "{\n    \"id\": \"chatcmpl-123\",\n    \"object\": \"chat.completion\",\n    \"created\": 1677652288,\n    \"model\": \"bedrock/anthropic.claude-3-sonnet-20240229-v1:0\",\n    \"choices\": [{\n        \"index\": 0,\n        \"message\": {\n            \"role\": \"assistant\",\n            \"content\": \"Hello! How can I help you today?\"\n        },\n        \"finish_reason\": \"stop\"\n    }],\n    \"usage\": {\n        \"prompt_tokens\": 9,\n        \"completion_tokens\": 12,\n        \"total_tokens\": 21\n    }\n}"
+          }
+        }
+      ]
+    }
+  ],
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "http://localhost:5001"
+    },
+    {
+      "key": "model",
+      "value": "bedrock/anthropic.claude-3-sonnet-20240229-v1:0"
+    },
+    {
+      "key": "temperature",
+      "value": "0.7"
+    },
+    {
+      "key": "maxTokens",
+      "value": "4096"
+    },
+    {
+      "key": "apiKey",
+      "value": "your-api-key"
+    }
+  ]
+} 

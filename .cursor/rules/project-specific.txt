@@ -1,0 +1,153 @@
+# Project-Specific Rules for Open Interpreter HTTP Server
+
+## Development Workflow
+
+### Phase Management
+1. 每个Phase必须按顺序完成
+2. 每个Phase内的任务可以并行
+3. 必须更新progress.md追踪进度
+
+### Task Workflow
+1. 检查依赖任务是否完成
+2. 创建功能分支
+3. 实现功能
+4. 编写测试
+5. 更新文档
+6. 提交代码
+7. 更新进度
+
+## Code Organization
+
+### Directory Structure
+```
+server/
+├── src/
+│   ├── __init__.py
+│   ├── app.py
+│   ├── config.py
+│   ├── api/
+│   │   ├── __init__.py
+│   │   ├── chat.py
+│   │   ├── health.py
+│   │   └── openai.py
+│   ├── core/
+│   │   ├── __init__.py
+│   │   ├── interpreter.py
+│   │   └── messages.py
+│   └── utils/
+│       ├── __init__.py
+│       ├── logging.py
+│       └── validation.py
+├── tests/
+│   ├── __init__.py
+│   ├── conftest.py
+│   ├── test_api/
+│   └── test_core/
+└── docs/
+    ├── api.md
+    └── development.md
+```
+
+### Module Responsibilities
+1. api/ - API端点实现
+2. core/ - 核心业务逻辑
+3. utils/ - 通用工具函数
+4. tests/ - 测试用例
+5. docs/ - 文档
+
+## Implementation Guidelines
+
+### API Endpoints
+1. 所有端点必须位于 `/v1/` 路径下
+2. 使用适当的HTTP方法
+3. 实现错误处理
+4. 添加日志记录
+5. 文档完整
+
+### Message Processing
+1. 验证消息格式
+2. 转换消息类型
+3. 处理流式响应
+4. 确保类型安全
+
+### Error Handling
+1. 使用自定义异常类
+2. 提供详细错误信息
+3. 记录错误日志
+4. 返回标准错误响应
+
+## Testing Requirements
+
+### Unit Tests
+1. 测试所有公共函数
+2. 模拟外部依赖
+3. 测试边界条件
+4. 测试错误处理
+
+### Integration Tests
+1. 测试API端点
+2. 测试消息流
+3. 测试配置加载
+4. 测试错误处理
+
+### Performance Tests
+1. 响应时间测试
+2. 并发处理测试
+3. 内存使用测试
+4. 长期稳定性测试
+
+## Deployment Guidelines
+
+### Environment Setup
+1. 使用虚拟环境
+2. 配置环境变量
+3. 安装依赖包
+4. 验证配置
+
+### Production Deployment
+1. 使用生产级WSGI服务器
+2. 配置HTTPS
+3. 设置监控
+4. 配置日志
+
+## Monitoring and Maintenance
+
+### Logging
+1. 使用结构化日志
+2. 记录关键操作
+3. 记录性能指标
+4. 记录错误信息
+
+### Metrics
+1. 请求响应时间
+2. 错误率
+3. 资源使用情况
+4. 并发连接数
+
+## Security Guidelines
+
+### Authentication
+1. 验证API密钥
+2. 检查请求头
+3. 验证令牌
+4. 记录认证失败
+
+### Rate Limiting
+1. 按IP限制
+2. 按用户限制
+3. 按端点限制
+4. 配置限制策略
+
+## Documentation Requirements
+
+### API Documentation
+1. 端点说明
+2. 请求/响应格式
+3. 错误码说明
+4. 示例代码
+
+### Development Documentation
+1. 设置说明
+2. 开发流程
+3. 测试说明
+4. 部署指南 

@@ -1,0 +1,268 @@
+2025-02-14 22:47:43,834 [INFO] interpreter_server - Flask app created
+2025-02-14 22:47:43,834 [INFO] interpreter_server - Starting in production mode on http://0.0.0.0:5001
+2025-02-14 22:47:43,835 [ERROR] interpreter_server - Server startup failed: [Errno 48] Address already in use
+Traceback (most recent call last):
+  File "/Users/clay/Code/open-interpreter/interpreter/server/cli.py", line 68, in main
+    serve(
+  File "/Users/clay/.pyenv/versions/3.9.5/lib/python3.9/site-packages/waitress/__init__.py", line 13, in serve
+    server = _server(app, **kw)
+  File "/Users/clay/.pyenv/versions/3.9.5/lib/python3.9/site-packages/waitress/server.py", line 78, in create_server
+    last_serv = TcpWSGIServer(
+  File "/Users/clay/.pyenv/versions/3.9.5/lib/python3.9/site-packages/waitress/server.py", line 243, in __init__
+    self.bind_server_socket()
+  File "/Users/clay/.pyenv/versions/3.9.5/lib/python3.9/site-packages/waitress/server.py", line 364, in bind_server_socket
+    self.bind(sockaddr)
+  File "/Users/clay/.pyenv/versions/3.9.5/lib/python3.9/site-packages/waitress/wasyncore.py", line 374, in bind
+    return self.socket.bind(addr)
+OSError: [Errno 48] Address already in use
+2025-02-14 22:48:04,771 [INFO] interpreter_server - Flask app created
+2025-02-14 22:48:04,771 [INFO] interpreter_server - Starting in production mode on http://0.0.0.0:5001
+2025-02-14 22:48:11,969 [INFO] interpreter_server - Flask app created
+2025-02-14 22:48:11,969 [INFO] interpreter_server - Starting in production mode on http://0.0.0.0:5001
+2025-02-14 22:48:11,970 [ERROR] interpreter_server - Server startup failed: [Errno 48] Address already in use
+Traceback (most recent call last):
+  File "/Users/clay/Code/open-interpreter/interpreter/server/cli.py", line 68, in main
+    serve(
+  File "/Users/clay/.pyenv/versions/3.9.5/lib/python3.9/site-packages/waitress/__init__.py", line 13, in serve
+    server = _server(app, **kw)
+  File "/Users/clay/.pyenv/versions/3.9.5/lib/python3.9/site-packages/waitress/server.py", line 78, in create_server
+    last_serv = TcpWSGIServer(
+  File "/Users/clay/.pyenv/versions/3.9.5/lib/python3.9/site-packages/waitress/server.py", line 243, in __init__
+    self.bind_server_socket()
+  File "/Users/clay/.pyenv/versions/3.9.5/lib/python3.9/site-packages/waitress/server.py", line 364, in bind_server_socket
+    self.bind(sockaddr)
+  File "/Users/clay/.pyenv/versions/3.9.5/lib/python3.9/site-packages/waitress/wasyncore.py", line 374, in bind
+    return self.socket.bind(addr)
+OSError: [Errno 48] Address already in use
+2025-02-14 22:49:02,820 [INFO] interpreter_server - Received shutdown signal, closing connections...
+2025-02-14 22:50:15,507 [INFO] interpreter_server - Flask app created
+2025-02-14 22:50:15,507 [INFO] interpreter_server - Starting in production mode on http://0.0.0.0:5001
+2025-02-14 22:50:50,124 [INFO] interpreter_server - Received shutdown signal, closing connections...
+2025-02-14 22:50:59,016 [INFO] interpreter_server - Flask app created
+2025-02-14 22:50:59,016 [INFO] interpreter_server - Starting in production mode on http://0.0.0.0:5001
+2025-02-14 22:51:30,559 [INFO] interpreter_server - Received shutdown signal, closing connections...
+2025-02-14 22:51:40,962 [INFO] interpreter_server - Flask app created
+2025-02-14 22:51:40,963 [INFO] interpreter_server - Starting in production mode on http://0.0.0.0:5001
+2025-02-14 22:52:05,832 [INFO] interpreter_server - Received shutdown signal, closing connections...
+2025-02-14 22:52:14,502 [INFO] interpreter_server - Flask app created
+2025-02-14 22:52:14,503 [INFO] interpreter_server - Starting in production mode on http://0.0.0.0:5001
+2025-02-14 22:54:40,134 [INFO] interpreter_server - Request: GET http://localhost:5001/v1/health
+2025-02-14 22:54:40,142 [ERROR] interpreter_server - Error: 500 Internal Server Error: The server encountered an internal error and was unable to complete your request. Either the server is overloaded or there is an error in the application. (URL: http://localhost:5001/v1/health, Method: GET)
+Traceback (most recent call last):
+  File "/Users/clay/.pyenv/versions/3.9.5/lib/python3.9/site-packages/flask/app.py", line 1511, in wsgi_app
+    response = self.full_dispatch_request()
+  File "/Users/clay/.pyenv/versions/3.9.5/lib/python3.9/site-packages/flask/app.py", line 920, in full_dispatch_request
+    return self.finalize_request(rv)
+  File "/Users/clay/.pyenv/versions/3.9.5/lib/python3.9/site-packages/flask/app.py", line 939, in finalize_request
+    response = self.make_response(rv)
+  File "/Users/clay/.pyenv/versions/3.9.5/lib/python3.9/site-packages/flask/app.py", line 1212, in make_response
+    raise TypeError(
+TypeError: The view function for 'health' did not return a valid response. The function either returned None or ended without a return statement.
+2025-02-14 22:54:40,142 [INFO] interpreter_server - Response Status: 500
+2025-02-14 22:56:51,056 [INFO] interpreter_server - Flask app created
+2025-02-14 22:56:51,056 [INFO] interpreter_server - Starting in production mode on http://0.0.0.0:5001
+2025-02-14 22:57:10,641 [INFO] interpreter_server - Flask app created
+2025-02-14 22:57:10,642 [INFO] interpreter_server - Starting in production mode on http://0.0.0.0:5001
+2025-02-14 23:24:20,722 [INFO] interpreter_server - Flask app created
+2025-02-14 23:24:20,722 [INFO] interpreter_server - Starting in production mode on http://0.0.0.0:5001
+2025-02-14 23:24:20,723 [ERROR] interpreter_server - Server startup failed: [Errno 48] Address already in use
+Traceback (most recent call last):
+  File "/Users/clay/Code/open-interpreter/interpreter/server/cli.py", line 68, in main
+    serve(
+  File "/Users/clay/.pyenv/versions/3.9.5/lib/python3.9/site-packages/waitress/__init__.py", line 13, in serve
+    server = _server(app, **kw)
+  File "/Users/clay/.pyenv/versions/3.9.5/lib/python3.9/site-packages/waitress/server.py", line 78, in create_server
+    last_serv = TcpWSGIServer(
+  File "/Users/clay/.pyenv/versions/3.9.5/lib/python3.9/site-packages/waitress/server.py", line 243, in __init__
+    self.bind_server_socket()
+  File "/Users/clay/.pyenv/versions/3.9.5/lib/python3.9/site-packages/waitress/server.py", line 364, in bind_server_socket
+    self.bind(sockaddr)
+  File "/Users/clay/.pyenv/versions/3.9.5/lib/python3.9/site-packages/waitress/wasyncore.py", line 374, in bind
+    return self.socket.bind(addr)
+OSError: [Errno 48] Address already in use
+2025-02-14 23:24:24,321 [INFO] interpreter_server - Flask app created
+2025-02-14 23:24:24,321 [INFO] interpreter_server - Starting in production mode on http://0.0.0.0:5001
+2025-02-14 23:24:24,322 [ERROR] interpreter_server - Server startup failed: [Errno 48] Address already in use
+Traceback (most recent call last):
+  File "/Users/clay/Code/open-interpreter/interpreter/server/cli.py", line 68, in main
+    serve(
+  File "/Users/clay/.pyenv/versions/3.9.5/lib/python3.9/site-packages/waitress/__init__.py", line 13, in serve
+    server = _server(app, **kw)
+  File "/Users/clay/.pyenv/versions/3.9.5/lib/python3.9/site-packages/waitress/server.py", line 78, in create_server
+    last_serv = TcpWSGIServer(
+  File "/Users/clay/.pyenv/versions/3.9.5/lib/python3.9/site-packages/waitress/server.py", line 243, in __init__
+    self.bind_server_socket()
+  File "/Users/clay/.pyenv/versions/3.9.5/lib/python3.9/site-packages/waitress/server.py", line 364, in bind_server_socket
+    self.bind(sockaddr)
+  File "/Users/clay/.pyenv/versions/3.9.5/lib/python3.9/site-packages/waitress/wasyncore.py", line 374, in bind
+    return self.socket.bind(addr)
+OSError: [Errno 48] Address already in use
+2025-02-14 23:24:28,912 [INFO] interpreter_server - Flask app created
+2025-02-14 23:24:28,912 [INFO] interpreter_server - Starting in production mode on http://0.0.0.0:5001
+2025-02-14 23:24:28,912 [ERROR] interpreter_server - Server startup failed: [Errno 48] Address already in use
+Traceback (most recent call last):
+  File "/Users/clay/Code/open-interpreter/interpreter/server/cli.py", line 68, in main
+    serve(
+  File "/Users/clay/.pyenv/versions/3.9.5/lib/python3.9/site-packages/waitress/__init__.py", line 13, in serve
+    server = _server(app, **kw)
+  File "/Users/clay/.pyenv/versions/3.9.5/lib/python3.9/site-packages/waitress/server.py", line 78, in create_server
+    last_serv = TcpWSGIServer(
+  File "/Users/clay/.pyenv/versions/3.9.5/lib/python3.9/site-packages/waitress/server.py", line 243, in __init__
+    self.bind_server_socket()
+  File "/Users/clay/.pyenv/versions/3.9.5/lib/python3.9/site-packages/waitress/server.py", line 364, in bind_server_socket
+    self.bind(sockaddr)
+  File "/Users/clay/.pyenv/versions/3.9.5/lib/python3.9/site-packages/waitress/wasyncore.py", line 374, in bind
+    return self.socket.bind(addr)
+OSError: [Errno 48] Address already in use
+2025-02-14 23:24:34,563 [INFO] interpreter_server - Flask app created
+2025-02-14 23:24:34,563 [INFO] interpreter_server - Starting in production mode on http://0.0.0.0:5001
+2025-02-14 23:24:34,564 [ERROR] interpreter_server - Server startup failed: [Errno 48] Address already in use
+Traceback (most recent call last):
+  File "/Users/clay/Code/open-interpreter/interpreter/server/cli.py", line 68, in main
+    serve(
+  File "/Users/clay/.pyenv/versions/3.9.5/lib/python3.9/site-packages/waitress/__init__.py", line 13, in serve
+    server = _server(app, **kw)
+  File "/Users/clay/.pyenv/versions/3.9.5/lib/python3.9/site-packages/waitress/server.py", line 78, in create_server
+    last_serv = TcpWSGIServer(
+  File "/Users/clay/.pyenv/versions/3.9.5/lib/python3.9/site-packages/waitress/server.py", line 243, in __init__
+    self.bind_server_socket()
+  File "/Users/clay/.pyenv/versions/3.9.5/lib/python3.9/site-packages/waitress/server.py", line 364, in bind_server_socket
+    self.bind(sockaddr)
+  File "/Users/clay/.pyenv/versions/3.9.5/lib/python3.9/site-packages/waitress/wasyncore.py", line 374, in bind
+    return self.socket.bind(addr)
+OSError: [Errno 48] Address already in use
+2025-02-14 23:37:33,952 [INFO] interpreter_server - Flask app created
+2025-02-14 23:37:33,953 [INFO] interpreter_server - Starting in production mode on http://0.0.0.0:5001
+2025-02-14 23:37:40,375 [INFO] interpreter_server - Request: GET http://localhost:5001/v1/health
+2025-02-14 23:37:40,375 [DEBUG] interpreter_server - Headers: {'Host': 'localhost:5001', 'User-Agent': 'python-requests/2.32.3', 'Accept-Encoding': 'gzip, deflate', 'Accept': '*/*', 'Connection': 'keep-alive'}
+2025-02-14 23:37:41,391 [INFO] interpreter_server - Response Status: 200
+2025-02-14 23:37:41,391 [DEBUG] interpreter_server - Response Headers: {'Content-Type': 'application/json', 'Content-Length': '701'}
+2025-02-14 23:37:41,392 [DEBUG] interpreter_server - Response Data: {'active_sessions': 14, 'llm': {'model': 'bedrock/anthropic.claude-3-sonnet-20240229-v1:0', 'status': 'ready'}, 'status': 'healthy', 'system_info': {'limits': {'max_memory_usage': 1073741824, 'max_requests_per_minute': 60, 'max_sessions': 1000}, 'resources': {'cpu_usage_percent': 17.8, 'disk_free': 112814833664, 'disk_total': 250685575168, 'disk_used_percent': 8.1, 'memory_available': 2731212800, 'memory_total': 8589934592, 'memory_used_percent': 68.2}, 'system': {'architecture': 'x86_64', 'platform': 'Darwin', 'platform_release': '23.1.0', 'platform_version': 'Darwin Kernel Version 23.1.0: Mon Oct  9 21:27:27 PDT 2023; root:xnu-10002.41.9~6/RELEASE_X86_64', 'processor': 'i386'}}, 'uptime_seconds': 6.439163684844971, 'version': '0.4.3'}
+2025-02-14 23:37:42,397 [INFO] interpreter_server - Request: POST http://localhost:5001/v1/sessions
+2025-02-14 23:37:42,397 [DEBUG] interpreter_server - Headers: {'Host': 'localhost:5001', 'User-Agent': 'python-requests/2.32.3', 'Accept-Encoding': 'gzip, deflate', 'Accept': '*/*', 'Connection': 'keep-alive', 'Content-Length': '0'}
+2025-02-14 23:37:42,398 [INFO] interpreter_server - Response Status: 201
+2025-02-14 23:37:42,398 [DEBUG] interpreter_server - Response Headers: {'Content-Type': 'application/json', 'Content-Length': '96'}
+2025-02-14 23:37:42,398 [DEBUG] interpreter_server - Response Data: {'created_at': '2025-02-14T23:37:42.397791', 'session_id': '2d6f4bf1-c1b1-4e94-a75f-dec1c43c6209'}
+2025-02-14 23:37:43,409 [INFO] interpreter_server - Request: GET http://localhost:5001/v1/sessions
+2025-02-14 23:37:43,409 [DEBUG] interpreter_server - Headers: {'Host': 'localhost:5001', 'User-Agent': 'python-requests/2.32.3', 'Accept-Encoding': 'gzip, deflate', 'Accept': '*/*', 'Connection': 'keep-alive'}
+2025-02-14 23:37:43,410 [INFO] interpreter_server - Response Status: 200
+2025-02-14 23:37:43,410 [DEBUG] interpreter_server - Response Headers: {'Content-Type': 'application/json', 'Content-Length': '2418'}
+2025-02-14 23:37:43,410 [DEBUG] interpreter_server - Response Data: {'sessions': [{'created_at': '2025-02-14T23:11:49.448146', 'last_active': 1739603509.448159, 'message_count': 0, 'metadata': {}, 'session_id': '7790e40c-645a-426b-a8ef-4128a638f465'}, {'created_at': '2025-02-14T23:20:26.309032', 'last_active': 1739604029.361192, 'message_count': 0, 'metadata': {}, 'session_id': '9e973d6f-a245-47d5-92eb-b74ce2791ed6'}, {'created_at': '2025-02-14T23:09:49.941928', 'last_active': 1739603389.9419389, 'message_count': 0, 'metadata': {}, 'session_id': '5900553b-02c6-4b22-ba32-194fc41c0a2e'}, {'created_at': '2025-02-14T23:32:24.295500', 'last_active': 1739604744.2955039, 'message_count': 0, 'metadata': {}, 'session_id': 'c4ce48cb-d305-46e2-a4d9-73f65d0c4817'}, {'created_at': '2025-02-14T23:10:30.466387', 'last_active': 1739603430.466395, 'message_count': 0, 'metadata': {}, 'session_id': '1e821670-0692-48ad-8b91-2313d899c79d'}, {'created_at': '2025-02-14T23:11:02.568826', 'last_active': 1739603462.568835, 'message_count': 0, 'metadata': {}, 'session_id': 'f3ddd82f-c9a4-4c1c-a557-74cbfc13394b'}, {'created_at': '2025-02-14T23:34:00.423073', 'last_active': 1739604842.443359, 'message_count': 0, 'metadata': {}, 'session_id': 'd116ca46-0bc4-44fc-ba82-474dfa88d0fa'}, {'created_at': '2025-02-14T23:29:16.147718', 'last_active': 1739604556.1484008, 'message_count': 0, 'metadata': {}, 'session_id': '52c94ed6-eecc-42d1-a731-8e4115136c93'}, {'created_at': '2025-02-14T23:29:39.949855', 'last_active': 1739604579.9505, 'message_count': 0, 'metadata': {}, 'session_id': '2de87957-62da-419a-883b-a788465828da'}, {'created_at': '2025-02-14T23:27:41.825617', 'last_active': 1739604461.826289, 'message_count': 0, 'metadata': {}, 'session_id': 'd971ae08-7242-4635-91e0-dd169844eead'}, {'created_at': '2025-02-14T23:12:48.362796', 'last_active': 1739603570.387727, 'message_count': 0, 'metadata': {}, 'session_id': '7a531137-3df7-48b0-b0ed-8e14ad427459'}, {'created_at': '2025-02-14T23:17:09.425541', 'last_active': 1739603831.4467049, 'message_count': 0, 'metadata': {}, 'session_id': '2d6f9003-2653-49d1-aba8-ef4dd5246ea8'}, {'created_at': '2025-02-14T23:31:52.266821', 'last_active': 1739604714.2927759, 'message_count': 0, 'metadata': {}, 'session_id': '56aa962f-bf25-4773-8419-33438751d3c2'}, {'created_at': '2025-02-14T23:34:32.452087', 'last_active': 1739604872.452093, 'message_count': 0, 'metadata': {}, 'session_id': 'e0787e78-12d4-46bc-bb4a-8d37d646e337'}, {'created_at': '2025-02-14T23:37:42.397791', 'last_active': 1739605062.397803, 'message_count': 0, 'metadata': {}, 'session_id': '2d6f4bf1-c1b1-4e94-a75f-dec1c43c6209'}]}
+2025-02-14 23:37:43,414 [INFO] interpreter_server - Starting expired session cleanup
+2025-02-14 23:37:44,415 [INFO] interpreter_server - Request: POST http://localhost:5001/v1/chat
+2025-02-14 23:37:44,415 [DEBUG] interpreter_server - Headers: {'Host': 'localhost:5001', 'User-Agent': 'python-requests/2.32.3', 'Accept-Encoding': 'gzip, deflate', 'Accept': '*/*', 'Connection': 'keep-alive', 'Content-Type': 'application/json', 'Content-Length': '157'}
+2025-02-14 23:37:44,416 [DEBUG] interpreter_server - JSON Data: {'messages': [{'role': 'user', 'type': 'message', 'content': 'Hello, how are you?', 'format': 'text'}], 'session_id': '2d6f4bf1-c1b1-4e94-a75f-dec1c43c6209'}
+2025-02-14 23:37:44,416 [INFO] interpreter_server - Processing chat request with 1 messages for session 2d6f4bf1-c1b1-4e94-a75f-dec1c43c6209
+2025-02-14 23:38:14,422 [INFO] interpreter_server - Request: POST http://localhost:5001/v1/chat/completions
+2025-02-14 23:38:14,422 [DEBUG] interpreter_server - Headers: {'Host': 'localhost:5001', 'User-Agent': 'python-requests/2.32.3', 'Accept-Encoding': 'gzip, deflate', 'Accept': '*/*', 'Connection': 'keep-alive', 'Content-Type': 'application/json', 'Content-Length': '266'}
+2025-02-14 23:38:14,422 [DEBUG] interpreter_server - JSON Data: {'messages': [{'role': 'user', 'type': 'message', 'content': 'What is 2+2?', 'format': 'text'}], 'model': 'bedrock/anthropic.claude-3-sonnet-20240229-v1:0', 'session_id': '2d6f4bf1-c1b1-4e94-a75f-dec1c43c6209', 'stream': False, 'temperature': 0.7, 'max_tokens': 100}
+2025-02-14 23:38:14,423 [INFO] interpreter_server - Processing chat completions request with 1 messages
+2025-02-14 23:40:42,366 [INFO] interpreter_server - Flask app created
+2025-02-14 23:40:42,367 [INFO] interpreter_server - Starting in production mode on http://0.0.0.0:5001
+2025-02-14 23:40:42,367 [ERROR] interpreter_server - Server startup failed: [Errno 48] Address already in use
+Traceback (most recent call last):
+  File "/Users/clay/Code/open-interpreter/interpreter/server/cli.py", line 68, in main
+    serve(
+  File "/Users/clay/.pyenv/versions/3.9.5/lib/python3.9/site-packages/waitress/__init__.py", line 13, in serve
+    server = _server(app, **kw)
+  File "/Users/clay/.pyenv/versions/3.9.5/lib/python3.9/site-packages/waitress/server.py", line 78, in create_server
+    last_serv = TcpWSGIServer(
+  File "/Users/clay/.pyenv/versions/3.9.5/lib/python3.9/site-packages/waitress/server.py", line 243, in __init__
+    self.bind_server_socket()
+  File "/Users/clay/.pyenv/versions/3.9.5/lib/python3.9/site-packages/waitress/server.py", line 364, in bind_server_socket
+    self.bind(sockaddr)
+  File "/Users/clay/.pyenv/versions/3.9.5/lib/python3.9/site-packages/waitress/wasyncore.py", line 374, in bind
+    return self.socket.bind(addr)
+OSError: [Errno 48] Address already in use
+2025-02-14 23:40:48,952 [INFO] interpreter_server - Request: GET http://localhost:5001/v1/health
+2025-02-14 23:40:48,952 [DEBUG] interpreter_server - Headers: {'Host': 'localhost:5001', 'User-Agent': 'python-requests/2.32.3', 'Accept-Encoding': 'gzip, deflate', 'Accept': '*/*', 'Connection': 'keep-alive'}
+2025-02-14 23:40:49,954 [INFO] interpreter_server - Response Status: 200
+2025-02-14 23:40:49,955 [DEBUG] interpreter_server - Response Headers: {'Content-Type': 'application/json', 'Content-Length': '700'}
+2025-02-14 23:40:49,955 [DEBUG] interpreter_server - Response Data: {'active_sessions': 16, 'llm': {'model': 'bedrock/anthropic.claude-3-sonnet-20240229-v1:0', 'status': 'ready'}, 'status': 'healthy', 'system_info': {'limits': {'max_memory_usage': 1073741824, 'max_requests_per_minute': 60, 'max_sessions': 1000}, 'resources': {'cpu_usage_percent': 4.7, 'disk_free': 112812961792, 'disk_total': 250685575168, 'disk_used_percent': 8.1, 'memory_available': 2692771840, 'memory_total': 8589934592, 'memory_used_percent': 68.7}, 'system': {'architecture': 'x86_64', 'platform': 'Darwin', 'platform_release': '23.1.0', 'platform_version': 'Darwin Kernel Version 23.1.0: Mon Oct  9 21:27:27 PDT 2023; root:xnu-10002.41.9~6/RELEASE_X86_64', 'processor': 'i386'}}, 'uptime_seconds': 195.0164759159088, 'version': '0.4.3'}
+2025-02-14 23:40:50,961 [INFO] interpreter_server - Request: POST http://localhost:5001/v1/sessions
+2025-02-14 23:40:50,961 [DEBUG] interpreter_server - Headers: {'Host': 'localhost:5001', 'User-Agent': 'python-requests/2.32.3', 'Accept-Encoding': 'gzip, deflate', 'Accept': '*/*', 'Connection': 'keep-alive', 'Content-Length': '0'}
+2025-02-14 23:40:50,962 [INFO] interpreter_server - Response Status: 201
+2025-02-14 23:40:50,962 [DEBUG] interpreter_server - Response Headers: {'Content-Type': 'application/json', 'Content-Length': '96'}
+2025-02-14 23:40:50,962 [DEBUG] interpreter_server - Response Data: {'created_at': '2025-02-14T23:40:50.961777', 'session_id': '61b39485-9dc8-48c7-bec3-7de25c13a67f'}
+2025-02-14 23:40:51,968 [INFO] interpreter_server - Request: GET http://localhost:5001/v1/sessions
+2025-02-14 23:40:51,968 [DEBUG] interpreter_server - Headers: {'Host': 'localhost:5001', 'User-Agent': 'python-requests/2.32.3', 'Accept-Encoding': 'gzip, deflate', 'Accept': '*/*', 'Connection': 'keep-alive'}
+2025-02-14 23:40:51,968 [INFO] interpreter_server - Response Status: 200
+2025-02-14 23:40:51,969 [DEBUG] interpreter_server - Response Headers: {'Content-Type': 'application/json', 'Content-Length': '2738'}
+2025-02-14 23:40:51,969 [DEBUG] interpreter_server - Response Data: {'sessions': [{'created_at': '2025-02-14T23:11:49.448146', 'last_active': 1739603509.448159, 'message_count': 0, 'metadata': {}, 'session_id': '7790e40c-645a-426b-a8ef-4128a638f465'}, {'created_at': '2025-02-14T23:20:26.309032', 'last_active': 1739604029.361192, 'message_count': 0, 'metadata': {}, 'session_id': '9e973d6f-a245-47d5-92eb-b74ce2791ed6'}, {'created_at': '2025-02-14T23:09:49.941928', 'last_active': 1739603389.9419389, 'message_count': 0, 'metadata': {}, 'session_id': '5900553b-02c6-4b22-ba32-194fc41c0a2e'}, {'created_at': '2025-02-14T23:32:24.295500', 'last_active': 1739604744.2955039, 'message_count': 0, 'metadata': {}, 'session_id': 'c4ce48cb-d305-46e2-a4d9-73f65d0c4817'}, {'created_at': '2025-02-14T23:10:30.466387', 'last_active': 1739603430.466395, 'message_count': 0, 'metadata': {}, 'session_id': '1e821670-0692-48ad-8b91-2313d899c79d'}, {'created_at': '2025-02-14T23:11:02.568826', 'last_active': 1739603462.568835, 'message_count': 0, 'metadata': {}, 'session_id': 'f3ddd82f-c9a4-4c1c-a557-74cbfc13394b'}, {'created_at': '2025-02-14T23:34:00.423073', 'last_active': 1739604842.443359, 'message_count': 0, 'metadata': {}, 'session_id': 'd116ca46-0bc4-44fc-ba82-474dfa88d0fa'}, {'created_at': '2025-02-14T23:29:16.147718', 'last_active': 1739604556.1484008, 'message_count': 0, 'metadata': {}, 'session_id': '52c94ed6-eecc-42d1-a731-8e4115136c93'}, {'created_at': '2025-02-14T23:29:39.949855', 'last_active': 1739604579.9505, 'message_count': 0, 'metadata': {}, 'session_id': '2de87957-62da-419a-883b-a788465828da'}, {'created_at': '2025-02-14T23:27:41.825617', 'last_active': 1739604461.826289, 'message_count': 0, 'metadata': {}, 'session_id': 'd971ae08-7242-4635-91e0-dd169844eead'}, {'created_at': '2025-02-14T23:12:48.362796', 'last_active': 1739603570.387727, 'message_count': 0, 'metadata': {}, 'session_id': '7a531137-3df7-48b0-b0ed-8e14ad427459'}, {'created_at': '2025-02-14T23:17:09.425541', 'last_active': 1739603831.4467049, 'message_count': 0, 'metadata': {}, 'session_id': '2d6f9003-2653-49d1-aba8-ef4dd5246ea8'}, {'created_at': '2025-02-14T23:31:52.266821', 'last_active': 1739604714.2927759, 'message_count': 0, 'metadata': {}, 'session_id': '56aa962f-bf25-4773-8419-33438751d3c2'}, {'created_at': '2025-02-14T23:34:32.452087', 'last_active': 1739604872.452093, 'message_count': 0, 'metadata': {}, 'session_id': 'e0787e78-12d4-46bc-bb4a-8d37d646e337'}, {'created_at': '2025-02-14T23:37:42.397791', 'last_active': 1739605064.416435, 'message_count': 0, 'metadata': {}, 'session_id': '2d6f4bf1-c1b1-4e94-a75f-dec1c43c6209'}, {'created_at': '2025-02-14T23:38:14.422704', 'last_active': 1739605094.422709, 'message_count': 0, 'metadata': {}, 'session_id': '18025c14-be05-478a-8c09-fd6faa404eb1'}, {'created_at': '2025-02-14T23:40:50.961777', 'last_active': 1739605250.961785, 'message_count': 0, 'metadata': {}, 'session_id': '61b39485-9dc8-48c7-bec3-7de25c13a67f'}]}
+2025-02-14 23:40:52,983 [INFO] interpreter_server - Request: POST http://localhost:5001/v1/chat
+2025-02-14 23:40:52,983 [DEBUG] interpreter_server - Headers: {'Host': 'localhost:5001', 'User-Agent': 'python-requests/2.32.3', 'Accept-Encoding': 'gzip, deflate', 'Accept': '*/*', 'Connection': 'keep-alive', 'Content-Type': 'application/json', 'Content-Length': '157'}
+2025-02-14 23:40:52,983 [DEBUG] interpreter_server - JSON Data: {'messages': [{'role': 'user', 'type': 'message', 'content': 'Hello, how are you?', 'format': 'text'}], 'session_id': '61b39485-9dc8-48c7-bec3-7de25c13a67f'}
+2025-02-14 23:40:52,984 [INFO] interpreter_server - Processing chat request with 1 messages for session 61b39485-9dc8-48c7-bec3-7de25c13a67f
+2025-02-14 23:41:22,979 [INFO] interpreter_server - Request: POST http://localhost:5001/v1/chat/completions
+2025-02-14 23:41:22,980 [DEBUG] interpreter_server - Headers: {'Host': 'localhost:5001', 'User-Agent': 'python-requests/2.32.3', 'Accept-Encoding': 'gzip, deflate', 'Accept': '*/*', 'Connection': 'keep-alive', 'Content-Type': 'application/json', 'Content-Length': '266'}
+2025-02-14 23:41:22,980 [DEBUG] interpreter_server - JSON Data: {'messages': [{'role': 'user', 'type': 'message', 'content': 'What is 2+2?', 'format': 'text'}], 'model': 'bedrock/anthropic.claude-3-sonnet-20240229-v1:0', 'session_id': '61b39485-9dc8-48c7-bec3-7de25c13a67f', 'stream': False, 'temperature': 0.7, 'max_tokens': 100}
+2025-02-14 23:41:22,980 [INFO] interpreter_server - Processing chat completions request with 1 messages
+2025-02-14 23:50:20,306 [INFO] interpreter_server - Flask app created
+2025-02-14 23:50:20,306 [INFO] interpreter_server - Starting in production mode on http://0.0.0.0:5001
+2025-02-14 23:50:20,307 [ERROR] interpreter_server - Server startup failed: [Errno 48] Address already in use
+Traceback (most recent call last):
+  File "/Users/clay/Code/open-interpreter/interpreter/server/cli.py", line 68, in main
+    serve(
+  File "/Users/clay/.pyenv/versions/3.9.5/lib/python3.9/site-packages/waitress/__init__.py", line 13, in serve
+    server = _server(app, **kw)
+  File "/Users/clay/.pyenv/versions/3.9.5/lib/python3.9/site-packages/waitress/server.py", line 78, in create_server
+    last_serv = TcpWSGIServer(
+  File "/Users/clay/.pyenv/versions/3.9.5/lib/python3.9/site-packages/waitress/server.py", line 243, in __init__
+    self.bind_server_socket()
+  File "/Users/clay/.pyenv/versions/3.9.5/lib/python3.9/site-packages/waitress/server.py", line 364, in bind_server_socket
+    self.bind(sockaddr)
+  File "/Users/clay/.pyenv/versions/3.9.5/lib/python3.9/site-packages/waitress/wasyncore.py", line 374, in bind
+    return self.socket.bind(addr)
+OSError: [Errno 48] Address already in use
+2025-02-14 23:50:37,808 [INFO] interpreter_server - Received shutdown signal, closing connections...
+2025-02-14 23:50:45,552 [INFO] interpreter_server - Flask app created
+2025-02-14 23:50:45,552 [INFO] interpreter_server - Starting in production mode on http://0.0.0.0:5001
+2025-02-14 23:50:45,553 [ERROR] interpreter_server - Server startup failed: [Errno 48] Address already in use
+Traceback (most recent call last):
+  File "/Users/clay/Code/open-interpreter/interpreter/server/cli.py", line 68, in main
+    serve(
+  File "/Users/clay/.pyenv/versions/3.9.5/lib/python3.9/site-packages/waitress/__init__.py", line 13, in serve
+    server = _server(app, **kw)
+  File "/Users/clay/.pyenv/versions/3.9.5/lib/python3.9/site-packages/waitress/server.py", line 78, in create_server
+    last_serv = TcpWSGIServer(
+  File "/Users/clay/.pyenv/versions/3.9.5/lib/python3.9/site-packages/waitress/server.py", line 243, in __init__
+    self.bind_server_socket()
+  File "/Users/clay/.pyenv/versions/3.9.5/lib/python3.9/site-packages/waitress/server.py", line 364, in bind_server_socket
+    self.bind(sockaddr)
+  File "/Users/clay/.pyenv/versions/3.9.5/lib/python3.9/site-packages/waitress/wasyncore.py", line 374, in bind
+    return self.socket.bind(addr)
+OSError: [Errno 48] Address already in use
+2025-02-14 23:50:53,554 [INFO] interpreter_server - Flask app created
+2025-02-14 23:50:53,554 [INFO] interpreter_server - Starting in production mode on http://0.0.0.0:5001
+2025-02-14 23:52:32,148 [INFO] interpreter_server - Request: GET http://localhost:5001/v1/health
+2025-02-14 23:52:32,149 [DEBUG] interpreter_server - Headers: {'Host': 'localhost:5001', 'User-Agent': 'python-requests/2.32.3', 'Accept-Encoding': 'gzip, deflate', 'Accept': '*/*', 'Connection': 'keep-alive'}
+2025-02-14 23:52:33,174 [INFO] interpreter_server - Response Status: 200
+2025-02-14 23:52:33,174 [DEBUG] interpreter_server - Response Headers: {'Content-Type': 'application/json', 'Content-Length': '701'}
+2025-02-14 23:52:33,175 [DEBUG] interpreter_server - Response Data: {'active_sessions': 18, 'llm': {'model': 'bedrock/anthropic.claude-3-sonnet-20240229-v1:0', 'status': 'ready'}, 'status': 'healthy', 'system_info': {'limits': {'max_memory_usage': 1073741824, 'max_requests_per_minute': 60, 'max_sessions': 1000}, 'resources': {'cpu_usage_percent': 81.0, 'disk_free': 112773992448, 'disk_total': 250685575168, 'disk_used_percent': 8.1, 'memory_available': 2471460864, 'memory_total': 8589934592, 'memory_used_percent': 71.2}, 'system': {'architecture': 'x86_64', 'platform': 'Darwin', 'platform_release': '23.1.0', 'platform_version': 'Darwin Kernel Version 23.1.0: Mon Oct  9 21:27:27 PDT 2023; root:xnu-10002.41.9~6/RELEASE_X86_64', 'processor': 'i386'}}, 'uptime_seconds': 98.61383724212646, 'version': '0.4.3'}
+2025-02-14 23:52:34,193 [INFO] interpreter_server - Request: POST http://localhost:5001/v1/sessions
+2025-02-14 23:52:34,193 [DEBUG] interpreter_server - Headers: {'Host': 'localhost:5001', 'User-Agent': 'python-requests/2.32.3', 'Accept-Encoding': 'gzip, deflate', 'Accept': '*/*', 'Connection': 'keep-alive', 'Content-Length': '0'}
+2025-02-14 23:52:34,195 [INFO] interpreter_server - Response Status: 201
+2025-02-14 23:52:34,195 [DEBUG] interpreter_server - Response Headers: {'Content-Type': 'application/json', 'Content-Length': '96'}
+2025-02-14 23:52:34,195 [DEBUG] interpreter_server - Response Data: {'created_at': '2025-02-14T23:52:34.193932', 'session_id': '5486e6d4-9b24-49df-bcf5-96621de1be97'}
+2025-02-14 23:52:35,207 [INFO] interpreter_server - Request: GET http://localhost:5001/v1/sessions
+2025-02-14 23:52:35,208 [DEBUG] interpreter_server - Headers: {'Host': 'localhost:5001', 'User-Agent': 'python-requests/2.32.3', 'Accept-Encoding': 'gzip, deflate', 'Accept': '*/*', 'Connection': 'keep-alive'}
+2025-02-14 23:52:35,208 [INFO] interpreter_server - Response Status: 200
+2025-02-14 23:52:35,208 [DEBUG] interpreter_server - Response Headers: {'Content-Type': 'application/json', 'Content-Length': '3060'}
+2025-02-14 23:52:35,209 [DEBUG] interpreter_server - Response Data: {'sessions': [{'created_at': '2025-02-14T23:11:49.448146', 'last_active': 1739603509.448159, 'message_count': 0, 'metadata': {}, 'session_id': '7790e40c-645a-426b-a8ef-4128a638f465'}, {'created_at': '2025-02-14T23:20:26.309032', 'last_active': 1739604029.361192, 'message_count': 0, 'metadata': {}, 'session_id': '9e973d6f-a245-47d5-92eb-b74ce2791ed6'}, {'created_at': '2025-02-14T23:41:22.980405', 'last_active': 1739605282.9804108, 'message_count': 0, 'metadata': {}, 'session_id': '05613834-5404-413c-a6ac-17319c236322'}, {'created_at': '2025-02-14T23:09:49.941928', 'last_active': 1739603389.9419389, 'message_count': 0, 'metadata': {}, 'session_id': '5900553b-02c6-4b22-ba32-194fc41c0a2e'}, {'created_at': '2025-02-14T23:32:24.295500', 'last_active': 1739604744.2955039, 'message_count': 0, 'metadata': {}, 'session_id': 'c4ce48cb-d305-46e2-a4d9-73f65d0c4817'}, {'created_at': '2025-02-14T23:10:30.466387', 'last_active': 1739603430.466395, 'message_count': 0, 'metadata': {}, 'session_id': '1e821670-0692-48ad-8b91-2313d899c79d'}, {'created_at': '2025-02-14T23:11:02.568826', 'last_active': 1739603462.568835, 'message_count': 0, 'metadata': {}, 'session_id': 'f3ddd82f-c9a4-4c1c-a557-74cbfc13394b'}, {'created_at': '2025-02-14T23:37:42.397791', 'last_active': 1739605064.416435, 'message_count': 0, 'metadata': {}, 'session_id': '2d6f4bf1-c1b1-4e94-a75f-dec1c43c6209'}, {'created_at': '2025-02-14T23:40:50.961777', 'last_active': 1739605252.984282, 'message_count': 0, 'metadata': {}, 'session_id': '61b39485-9dc8-48c7-bec3-7de25c13a67f'}, {'created_at': '2025-02-14T23:34:00.423073', 'last_active': 1739604842.443359, 'message_count': 0, 'metadata': {}, 'session_id': 'd116ca46-0bc4-44fc-ba82-474dfa88d0fa'}, {'created_at': '2025-02-14T23:29:16.147718', 'last_active': 1739604556.1484008, 'message_count': 0, 'metadata': {}, 'session_id': '52c94ed6-eecc-42d1-a731-8e4115136c93'}, {'created_at': '2025-02-14T23:29:39.949855', 'last_active': 1739604579.9505, 'message_count': 0, 'metadata': {}, 'session_id': '2de87957-62da-419a-883b-a788465828da'}, {'created_at': '2025-02-14T23:27:41.825617', 'last_active': 1739604461.826289, 'message_count': 0, 'metadata': {}, 'session_id': 'd971ae08-7242-4635-91e0-dd169844eead'}, {'created_at': '2025-02-14T23:12:48.362796', 'last_active': 1739603570.387727, 'message_count': 0, 'metadata': {}, 'session_id': '7a531137-3df7-48b0-b0ed-8e14ad427459'}, {'created_at': '2025-02-14T23:17:09.425541', 'last_active': 1739603831.4467049, 'message_count': 0, 'metadata': {}, 'session_id': '2d6f9003-2653-49d1-aba8-ef4dd5246ea8'}, {'created_at': '2025-02-14T23:31:52.266821', 'last_active': 1739604714.2927759, 'message_count': 0, 'metadata': {}, 'session_id': '56aa962f-bf25-4773-8419-33438751d3c2'}, {'created_at': '2025-02-14T23:38:14.422704', 'last_active': 1739605094.422709, 'message_count': 0, 'metadata': {}, 'session_id': '18025c14-be05-478a-8c09-fd6faa404eb1'}, {'created_at': '2025-02-14T23:34:32.452087', 'last_active': 1739604872.452093, 'message_count': 0, 'metadata': {}, 'session_id': 'e0787e78-12d4-46bc-bb4a-8d37d646e337'}, {'created_at': '2025-02-14T23:52:34.193932', 'last_active': 1739605954.1939468, 'message_count': 0, 'metadata': {}, 'session_id': '5486e6d4-9b24-49df-bcf5-96621de1be97'}]}
+2025-02-14 23:52:36,213 [INFO] interpreter_server - Request: POST http://localhost:5001/v1/chat
+2025-02-14 23:52:36,213 [DEBUG] interpreter_server - Headers: {'Host': 'localhost:5001', 'User-Agent': 'python-requests/2.32.3', 'Accept-Encoding': 'gzip, deflate', 'Accept': '*/*', 'Connection': 'keep-alive', 'Content-Type': 'application/json', 'Content-Length': '157'}
+2025-02-14 23:52:36,214 [DEBUG] interpreter_server - JSON Data: {'messages': [{'role': 'user', 'type': 'message', 'content': 'Hello, how are you?', 'format': 'text'}], 'session_id': '5486e6d4-9b24-49df-bcf5-96621de1be97'}
+2025-02-14 23:52:36,214 [INFO] interpreter_server - Processing chat request with 1 messages for session 5486e6d4-9b24-49df-bcf5-96621de1be97
+2025-02-14 23:53:06,221 [INFO] interpreter_server - Request: POST http://localhost:5001/v1/chat/completions
+2025-02-14 23:53:06,221 [DEBUG] interpreter_server - Headers: {'Host': 'localhost:5001', 'User-Agent': 'python-requests/2.32.3', 'Accept-Encoding': 'gzip, deflate', 'Accept': '*/*', 'Connection': 'keep-alive', 'Content-Type': 'application/json', 'Content-Length': '266'}
+2025-02-14 23:53:06,222 [DEBUG] interpreter_server - JSON Data: {'messages': [{'role': 'user', 'type': 'message', 'content': 'What is 2+2?', 'format': 'text'}], 'model': 'bedrock/anthropic.claude-3-sonnet-20240229-v1:0', 'session_id': '5486e6d4-9b24-49df-bcf5-96621de1be97', 'stream': False, 'temperature': 0.7, 'max_tokens': 100}
+2025-02-14 23:53:06,223 [INFO] interpreter_server - Processing chat completions request with 1 messages
+2025-02-14 23:54:06,225 [INFO] interpreter_server - Request: POST http://localhost:5001/v1/chat/completions
+2025-02-14 23:54:06,230 [DEBUG] interpreter_server - Headers: {'Host': 'localhost:5001', 'User-Agent': 'python-requests/2.32.3', 'Accept-Encoding': 'gzip, deflate', 'Accept': '*/*', 'Connection': 'keep-alive', 'Content-Type': 'application/json', 'Content-Length': '231'}
+2025-02-14 23:54:06,231 [DEBUG] interpreter_server - JSON Data: {'messages': [{'role': 'user', 'type': 'message', 'content': 'Count from 1 to 3', 'format': 'text'}], 'stream': True, 'session_id': '5486e6d4-9b24-49df-bcf5-96621de1be97', 'model': 'bedrock/anthropic.claude-3-sonnet-20240229-v1:0'}
+2025-02-14 23:54:06,232 [INFO] interpreter_server - Processing chat completions request with 1 messages
+2025-02-14 23:54:06,232 [INFO] interpreter_server - Response Status: 200
+2025-02-14 23:54:06,232 [DEBUG] interpreter_server - Response Headers: {'Cache-Control': 'no-cache', 'X-Accel-Buffering': 'no', 'Content-Type': 'text/event-stream; charset=utf-8'}
+2025-02-15 00:33:19,321 [INFO] interpreter_server - Received shutdown signal, closing connections...
+2025-02-15 00:33:22,175 [INFO] interpreter_server - Received shutdown signal, closing connections...
+2025-02-15 00:33:36,446 [INFO] interpreter_server - Received shutdown signal, closing connections...

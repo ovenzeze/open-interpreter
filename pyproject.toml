@@ -72,6 +72,12 @@ typer = "^0.12.5"
 fastapi = "^0.111.0"
 uvicorn = "^0.30.1"
 
+# Server dependencies
+flask = "^3.1.0"
+waitress = "^3.0.0"
+click = "^8.1.7"
+python-dotenv = "^1.0.1"
+
 [tool.poetry.extras]
 os = ["opencv-python", "pyautogui", "plyer", "pywinctl", "pytesseract", "sentence-transformers", "ipywidgets", "timm", "screeninfo"]
 safe = ["semgrep"]
@@ -95,6 +101,7 @@ i = "interpreter.terminal_interface.start_terminal_interface:main"
 interpreter = "interpreter.terminal_interface.start_terminal_interface:main"
 wtf = "scripts.wtf:main"
 interpreter-classic = "interpreter.terminal_interface.start_terminal_interface:main"
+interpreter-server = "interpreter.server.cli:main"
 
 [tool.black]
 target-version = ['py311']

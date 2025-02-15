@@ -1,0 +1,92 @@
+{
+  "projectInfo": {
+    "name": "Open Interpreter HTTP Server",
+    "description": "HTTP API service for Open Interpreter with OpenAI compatibility",
+    "framework": "Flask",
+    "language": "Python",
+    "version": "0.1.0"
+  },
+  "rules": [
+    {
+      "pattern": "^def \\w+\\([^\\)]*\\):",
+      "message": "函数定义需要包含类型注解和文档字符串",
+      "severity": "error",
+      "context": "development"
+    },
+    {
+      "pattern": "print\\(",
+      "message": "使用logging模块而不是print语句",
+      "severity": "warning",
+      "context": "production"
+    },
+    {
+      "pattern": "os\\.environ\\[",
+      "message": "使用python-dotenv管理环境变量",
+      "severity": "warning",
+      "context": "development"
+    }
+  ],
+  "conventions": {
+    "naming": {
+      "functions": "snake_case",
+      "classes": "PascalCase",
+      "constants": "UPPER_CASE",
+      "variables": "snake_case"
+    },
+    "style": {
+      "maxLineLength": 88,
+      "quoteStyle": "double",
+      "indentation": "spaces",
+      "spacesPerIndent": 4
+    },
+    "patterns": {
+      "endpoints": "/v1/{resource}",
+      "errorHandling": "try/except with specific exceptions",
+      "logging": "structured logging with levels"
+    }
+  },
+  "dependencies": {
+    "core": [
+      "flask==3.1.0",
+      "python-dotenv==1.0.1",
+      "requests==2.32.3"
+    ],
+    "testing": [
+      "pytest",
+      "pytest-cov",
+      "pytest-flask"
+    ],
+    "development": [
+      "black",
+      "flake8",
+      "mypy"
+    ]
+  },
+  "ignorePatterns": [
+    "**/__pycache__/**",
+    "**/.pytest_cache/**",
+    "**/venv/**",
+    "**/.env",
+    "**/TODO.md",
+    "**/progress.md"
+  ],
+  "ruleFiles": {
+    "codingStandards": ".cursor/rules/coding-standards.yaml",
+    "documentation": ".cursor/rules/documentation.yaml",
+    "projectSpecific": ".cursor/rules/project-specific.yaml"
+  },
+  "aiInstructions": {
+    "preferredLanguage": "Chinese",
+    "codeLanguage": "English",
+    "development": {
+      "phaseOrder": true,
+      "requireTests": true,
+      "requireDocs": true
+    },
+    "communication": {
+      "format": "markdown",
+      "includeTimestamps": true,
+      "updateProgress": true
+    }
+  }
+} 

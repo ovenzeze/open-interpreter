@@ -1,0 +1,35 @@
+2025-02-15 02:39:03,422 - interpreter_server - ERROR - Error processing chunk: 'content'
+Traceback (most recent call last):
+  File "/Users/clay/Code/open-interpreter/interpreter/server/routes/chat.py", line 141, in generate
+    chunk = StreamingChunk.from_dict(chunk)
+  File "/Users/clay/Code/open-interpreter/interpreter/server/message.py", line 56, in from_dict
+    content=data["content"],
+KeyError: 'content'
+2025-02-15 02:39:04,744 - interpreter_server - ERROR - Error processing chunk: 'content'
+Traceback (most recent call last):
+  File "/Users/clay/Code/open-interpreter/interpreter/server/routes/chat.py", line 141, in generate
+    chunk = StreamingChunk.from_dict(chunk)
+  File "/Users/clay/Code/open-interpreter/interpreter/server/message.py", line 56, in from_dict
+    content=data["content"],
+KeyError: 'content'
+2025-02-15 02:39:04,747 - interpreter_server - ERROR - Error processing chunk: 'content'
+Traceback (most recent call last):
+  File "/Users/clay/Code/open-interpreter/interpreter/server/routes/chat.py", line 141, in generate
+    chunk = StreamingChunk.from_dict(chunk)
+  File "/Users/clay/Code/open-interpreter/interpreter/server/message.py", line 56, in from_dict
+    content=data["content"],
+KeyError: 'content'
+2025-02-15 02:40:13,891 - interpreter_server - ERROR - Stream generation error: __init__() got an unexpected keyword argument 'session_id'
+Traceback (most recent call last):
+  File "/Users/clay/Code/open-interpreter/interpreter/server/routes/chat.py", line 194, in generate
+    final_chunk = StreamingChunk(
+  File "/Users/clay/Code/open-interpreter/interpreter/server/message.py", line 93, in __init__
+    super().__init__(*args, **kwargs)
+TypeError: __init__() got an unexpected keyword argument 'session_id'
+2025-02-15 03:12:38,520 - interpreter_server - ERROR - Error processing chunk: 'SessionManager' object has no attribute 'lock'
+Traceback (most recent call last):
+  File "/Users/clay/Code/open-interpreter/interpreter/server/routes/chat.py", line 134, in chat
+    session_manager.add_message(session_id, chunk.to_dict())
+  File "/Users/clay/Code/open-interpreter/interpreter/server/session.py", line 324, in add_message
+    with self.lock:
+AttributeError: 'SessionManager' object has no attribute 'lock'

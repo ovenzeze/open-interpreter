@@ -1,0 +1,317 @@
+{
+    "info": {
+      "_postman_id": "550e8400-e29b-41d4-a716-446655440000",
+      "name": "Open Interpreter HTTP Server API",
+      "description": "Open Interpreter HTTP Server REST API 接口文档",
+      "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+      "version": "1.0.0"
+    },
+    "item": [
+      {
+        "name": "Health Check",
+        "request": {
+          "method": "GET",
+          "header": [],
+          "url": {
+            "raw": "{{baseUrl}}/v1/health",
+            "host": ["{{baseUrl}}"],
+            "path": ["v1", "health"]
+          },
+          "description": "系统健康检查接口"
+        },
+        "response": []
+      },
+      {
+        "name": "Sessions",
+        "item": [
+          {
+            "name": "Create Session",
+            "request": {
+              "method": "POST",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "url": {
+                "raw": "{{baseUrl}}/v1/sessions",
+                "host": ["{{baseUrl}}"],
+                "path": ["v1", "sessions"]
+              },
+              "description": "创建新的会话"
+            },
+            "response": []
+          },
+          {
+            "name": "List Sessions",
+            "request": {
+              "method": "GET",
+              "header": [],
+              "url": {
+                "raw": "{{baseUrl}}/v1/sessions",
+                "host": ["{{baseUrl}}"],
+                "path": ["v1", "sessions"]
+              },
+              "description": "获取所有会话列表"
+            },
+            "response": []
+          },
+          {
+            "name": "Get Session Messages",
+            "request": {
+              "method": "GET",
+              "header": [],
+              "url": {
+                "raw": "{{baseUrl}}/v1/sessions/:session_id/messages",
+                "host": ["{{baseUrl}}"],
+                "path": ["v1", "sessions", ":session_id", "messages"],
+                "variable": [
+                  {
+                    "key": "session_id",
+                    "value": "{{sessionId}}",
+                    "description": "会话ID"
+                  }
+                ]
+              },
+              "description": "获取指定会话的所有消息"
+            },
+            "response": []
+          }
+        ]
+      },
+      {
+        "name": "Chat",
+        "item": [
+          {
+            "name": "Native Chat",
+            "request": {
+              "method": "POST",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": {
+                "mode": "raw",
+                "raw": "{\n    \"messages\": [\n        {\n            \"role\": \"user\",\n            \"type\": \"message\",\n            \"content\": \"请用Python写一个计算斐波那契数列的函数\"\n        }\n    ],\n    \"session_id\": \"{{sessionId}}\",\n    \"stream\": false,\n    \"config\": {\n        \"llm\": {\n            \"model\": \"{{model}}\",\n            \"temperature\": {{temperature}},\n            \"max_tokens\": {{maxTokens}}\n        }\n    }\n}"
+              },
+              "url": {
+                "raw": "{{baseUrl}}/v1/chat",
+                "host": ["{{baseUrl}}"],
+                "path": ["v1", "chat"]
+              },
+              "description": "原生聊天接口"
+            },
+            "response": []
+          },
+          {
+            "name": "OpenAI Chat Completions",
+            "request": {
+              "method": "POST",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": {
+                "mode": "raw",
+                "raw": "{\n    \"messages\": [\n        {\n            \"role\": \"user\",\n            \"content\": \"请用Python写一个计算斐波那契数列的函数\"\n        }\n    ],\n    \"model\": \"{{model}}\",\n    \"session_id\": \"{{sessionId}}\",\n    \"stream\": false,\n    \"temperature\": {{temperature}},\n    \"max_tokens\": {{maxTokens}},\n    \"timeout\": {{timeout}}\n}"
+              },
+              "url": {
+                "raw": "{{baseUrl}}/v1/chat/completions",
+                "host": ["{{baseUrl}}"],
+                "path": ["v1", "chat", "completions"]
+              },
+              "description": "OpenAI 兼容的聊天接口"
+            },
+            "response": []
+          },
+          {
+            "name": "Native Chat (Streaming)",
+            "request": {
+              "method": "POST",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                },
+                {
+                  "key": "Accept",
+                  "value": "text/event-stream"
+                }
+              ],
+              "body": {
+                "mode": "raw",
+                "raw": "{\n    \"messages\": [\n        {\n            \"role\": \"user\",\n            \"type\": \"message\",\n            \"content\": \"请用Python写一个计算斐波那契数列的函数，并计算前10个数\"\n        }\n    ],\n    \"session_id\": \"{{sessionId}}\",\n    \"stream\": true,\n    \"config\": {\n        \"llm\": {\n            \"model\": \"{{model}}\",\n            \"temperature\": {{temperature}},\n            \"max_tokens\": {{maxTokens}}\n        }\n    }\n}"
+              },
+              "url": {
+                "raw": "{{baseUrl}}/v1/chat",
+                "host": ["{{baseUrl}}"],
+                "path": ["v1", "chat"]
+              },
+              "description": "原生聊天流式响应接口"
+            },
+            "event": [
+              {
+                "listen": "test",
+                "script": {
+                  "type": "text/javascript",
+                  "exec": [
+                    "// 等待流式响应完成",
+                    "setTimeout(function() {",
+                    "    // 检查响应头",
+                    "    pm.test(\"Content-Type is text/event-stream\", function() {",
+                    "        pm.response.to.have.header(\"Content-Type\", \"text/event-stream\");",
+                    "    });",
+                    "",
+                    "    // 检查响应状态",
+                    "    pm.test(\"Status code is 200\", function() {",
+                    "        pm.response.to.have.status(200);",
+                    "    });",
+                    "",
+                    "    // 解析流式响应",
+                    "    var responseBody = pm.response.text();",
+                    "    var chunks = responseBody.split('\\n\\n').filter(Boolean);",
+                    "    ",
+                    "    chunks.forEach(function(chunk) {",
+                    "        if (chunk.startsWith('data: ')) {",
+                    "            var data = JSON.parse(chunk.substring(6));",
+                    "            console.log('Received chunk:', data);",
+                    "        }",
+                    "    });",
+                    "}, 1000);"
+                  ]
+                }
+              }
+            ]
+          },
+          {
+            "name": "OpenAI Chat Completions (Streaming)",
+            "request": {
+              "method": "POST",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                },
+                {
+                  "key": "Accept",
+                  "value": "text/event-stream"
+                }
+              ],
+              "body": {
+                "mode": "raw",
+                "raw": "{\n    \"messages\": [\n        {\n            \"role\": \"user\",\n            \"content\": \"请用Python写一个计算斐波那契数列的函数，并计算前10个数\"\n        }\n    ],\n    \"model\": \"{{model}}\",\n    \"session_id\": \"{{sessionId}}\",\n    \"stream\": true,\n    \"temperature\": {{temperature}},\n    \"max_tokens\": {{maxTokens}},\n    \"timeout\": {{timeout}}\n}"
+              },
+              "url": {
+                "raw": "{{baseUrl}}/v1/chat/completions",
+                "host": ["{{baseUrl}}"],
+                "path": ["v1", "chat", "completions"]
+              },
+              "description": "OpenAI 兼容的聊天流式响应接口"
+            },
+            "event": [
+              {
+                "listen": "test",
+                "script": {
+                  "type": "text/javascript",
+                  "exec": [
+                    "// 等待流式响应完成",
+                    "setTimeout(function() {",
+                    "    // 检查响应头",
+                    "    pm.test(\"Content-Type is text/event-stream\", function() {",
+                    "        pm.response.to.have.header(\"Content-Type\", \"text/event-stream\");",
+                    "    });",
+                    "",
+                    "    // 检查响应状态",
+                    "    pm.test(\"Status code is 200\", function() {",
+                    "        pm.response.to.have.status(200);",
+                    "    });",
+                    "",
+                    "    // 解析流式响应",
+                    "    var responseBody = pm.response.text();",
+                    "    var chunks = responseBody.split('\\n\\n').filter(Boolean);",
+                    "    var fullContent = '';",
+                    "",
+                    "    chunks.forEach(function(chunk) {",
+                    "        if (chunk.startsWith('data: ')) {",
+                    "            var data = JSON.parse(chunk.substring(6));",
+                    "            if (data.choices && data.choices[0].delta.content) {",
+                    "                fullContent += data.choices[0].delta.content;",
+                    "            }",
+                    "            console.log('Received chunk:', data);",
+                    "        }",
+                    "    });",
+                    "",
+                    "    console.log('Full content:', fullContent);",
+                    "}, 1000);"
+                  ]
+                }
+              }
+            ]
+          }
+        ]
+      }
+    ],
+    "event": [
+      {
+        "listen": "prerequest",
+        "script": {
+          "type": "text/javascript",
+          "exec": [
+            ""
+          ]
+        }
+      },
+      {
+        "listen": "test",
+        "script": {
+          "type": "text/javascript",
+          "exec": [
+            ""
+          ]
+        }
+      }
+    ],
+    "variable": [
+      {
+        "key": "baseUrl",
+        "value": "http://localhost:5001",
+        "type": "string",
+        "description": "服务器基础URL"
+      },
+      {
+        "key": "sessionId",
+        "value": "",
+        "type": "string",
+        "description": "会话ID（从创建会话接口获取）"
+      },
+      {
+        "key": "model",
+        "value": "bedrock/anthropic.claude-3-sonnet-20240229-v1:0",
+        "type": "string",
+        "description": "LLM模型名称"
+      },
+      {
+        "key": "temperature",
+        "value": "0.7",
+        "type": "number",
+        "description": "模型温度参数"
+      },
+      {
+        "key": "maxTokens",
+        "value": "4096",
+        "type": "number",
+        "description": "最大token数"
+      },
+      {
+        "key": "timeout",
+        "value": "60",
+        "type": "number",
+        "description": "请求超时时间（秒）"
+      }
+    ]
+  }

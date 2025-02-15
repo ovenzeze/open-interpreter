@@ -111,7 +111,7 @@ def terminal_interface(interpreter, message):
                 pass
 
         if isinstance(message, str):
-            # This is for the terminal interface being used as a CLI — messages are strings.
+            # This is for the terminal interface being used as a CLI — messages are strings.
             # This won't fire if they're in the python package, display=True, and they passed in an array of messages (for example).
 
             if message == "":
@@ -539,3 +539,29 @@ def terminal_interface(interpreter, message):
             if interpreter.debug:
                 system_info(interpreter)
             raise
+
+        # 在消息存入历史前进行处理
+        if chunk.get("type") == "console" and chunk.get("format") == "output":
+            # 安全获取内容
+            original_content = chunk.get("content", "")
+            
+            # 执行截断
+            truncated_content = truncate_output(
+                original_content, 
+                max_output_chars=2000,
+                add_scrollbars=False
+            )
+            
+            # 添加提示信息
+            if len(truncated_content) < len(original_content):
+                truncation_msg = "\n\n[输出已截断，建议优化命令：使用分页/过滤/输出到文件]"
+                truncated_content += truncation_msg
+            
+            # 更新消息内容
+            chunk["content"] = truncated_content
+
+        # 确保所有消息都有content字段
+        if "content" not in chunk:
+            chunk["content"] = ""
+        
+        interpreter.messages.append(chunk)

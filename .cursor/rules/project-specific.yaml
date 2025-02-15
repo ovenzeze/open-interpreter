@@ -1,0 +1,157 @@
+development_workflow:
+  phase_management:
+    rules:
+      - "每个Phase必须按顺序完成"
+      - "每个Phase内的任务可以并行"
+      - "必须更新progress.md追踪进度"
+
+  task_workflow:
+    steps:
+      - "检查依赖任务是否完成"
+      - "创建功能分支"
+      - "实现功能"
+      - "编写测试"
+      - "更新文档"
+      - "提交代码"
+      - "更新进度"
+
+code_organization:
+  directory_structure:
+    server:
+      src:
+        - "__init__.py"
+        - "app.py"
+        - "config.py"
+        api:
+          - "__init__.py"
+          - "chat.py"
+          - "health.py"
+          - "openai.py"
+        core:
+          - "__init__.py"
+          - "interpreter.py"
+          - "messages.py"
+        utils:
+          - "__init__.py"
+          - "logging.py"
+          - "validation.py"
+      tests:
+        - "__init__.py"
+        - "conftest.py"
+        - "test_api/"
+        - "test_core/"
+      docs:
+        - "api.md"
+        - "development.md"
+
+  module_responsibilities:
+    api: "API端点实现"
+    core: "核心业务逻辑"
+    utils: "通用工具函数"
+    tests: "测试用例"
+    docs: "文档"
+
+implementation_guidelines:
+  api_endpoints:
+    rules:
+      - "所有端点必须位于 /v1/ 路径下"
+      - "使用适当的HTTP方法"
+      - "实现错误处理"
+      - "添加日志记录"
+      - "文档完整"
+
+  message_processing:
+    rules:
+      - "验证消息格式"
+      - "转换消息类型"
+      - "处理流式响应"
+      - "确保类型安全"
+
+  error_handling:
+    rules:
+      - "使用自定义异常类"
+      - "提供详细错误信息"
+      - "记录错误日志"
+      - "返回标准错误响应"
+
+testing_requirements:
+  unit_tests:
+    rules:
+      - "测试所有公共函数"
+      - "模拟外部依赖"
+      - "测试边界条件"
+      - "测试错误处理"
+
+  integration_tests:
+    rules:
+      - "测试API端点"
+      - "测试消息流"
+      - "测试配置加载"
+      - "测试错误处理"
+
+  performance_tests:
+    rules:
+      - "响应时间测试"
+      - "并发处理测试"
+      - "内存使用测试"
+      - "长期稳定性测试"
+
+deployment_guidelines:
+  environment_setup:
+    steps:
+      - "使用虚拟环境"
+      - "配置环境变量"
+      - "安装依赖包"
+      - "验证配置"
+
+  production_deployment:
+    requirements:
+      - "使用生产级WSGI服务器"
+      - "配置HTTPS"
+      - "设置监控"
+      - "配置日志"
+
+monitoring_maintenance:
+  logging:
+    requirements:
+      - "使用结构化日志"
+      - "记录关键操作"
+      - "记录性能指标"
+      - "记录错误信息"
+
+  metrics:
+    tracking:
+      - "请求响应时间"
+      - "错误率"
+      - "资源使用情况"
+      - "并发连接数"
+
+security_guidelines:
+  authentication:
+    requirements:
+      - "验证API密钥"
+      - "检查请求头"
+      - "验证令牌"
+      - "记录认证失败"
+
+  rate_limiting:
+    rules:
+      - "按IP限制"
+      - "按用户限制"
+      - "按端点限制"
+      - "配置限制策略"
+
+documentation_requirements:
+  api_documentation:
+    sections:
+      - "端点说明"
+      - "请求/响应格式"
+      - "错误码说明"
+      - "示例代码"
+
+  development_documentation:
+    sections:
+      - "设置说明"
+      - "开发流程"
+      - "测试说明"
+      - "部署指南" 

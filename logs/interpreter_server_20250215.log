@@ -1,0 +1,881 @@
+2025-02-15 01:24:11,520 [INFO] interpreter_server - Starting server on http://0.0.0.0:5001
+2025-02-15 01:24:40,531 [INFO] interpreter_server - Starting server on http://0.0.0.0:5001
+2025-02-15 01:24:41,661 [INFO] interpreter_server - Request: POST http://localhost:5001/v1/chat
+2025-02-15 01:24:41,662 [DEBUG] interpreter_server - Headers: {'Host': 'localhost:5001', 'User-Agent': 'curl/8.1.2', 'Accept': '*/*', 'Content-Type': 'application/json', 'Content-Length': '115'}
+2025-02-15 01:24:41,662 [DEBUG] interpreter_server - JSON Data: {'messages': [{'role': 'user', 'type': 'message', 'content': 'Tell me a very short joke', 'format': 'text'}], 'stream': True}
+2025-02-15 01:24:41,662 [DEBUG] interpreter_server - Received request data: {'messages': [{'role': 'user', 'type': 'message', 'content': 'Tell me a very short joke', 'format': 'text'}], 'stream': True}
+2025-02-15 01:24:41,662 [DEBUG] interpreter_server - Validating message: {'role': 'user', 'type': 'message', 'content': 'Tell me a very short joke', 'format': 'text'}
+2025-02-15 01:24:41,662 [INFO] interpreter_server - No session_id provided, creating new session
+2025-02-15 01:24:41,662 [DEBUG] interpreter_server - Created new session: c11837db-68a4-4cc0-bdf9-7c9e99b1b844
+2025-02-15 01:24:41,662 [INFO] interpreter_server - Processing chat request with 1 messages for session c11837db-68a4-4cc0-bdf9-7c9e99b1b844
+2025-02-15 01:24:41,663 [DEBUG] interpreter_server - Starting chat with interpreter
+2025-02-15 01:24:42,024 [DEBUG] interpreter_server - Got response from interpreter
+2025-02-15 01:24:42,025 [INFO] interpreter_server - Starting streaming response
+2025-02-15 01:24:42,025 [INFO] interpreter_server - Response Status: 200
+2025-02-15 01:24:42,025 [DEBUG] interpreter_server - Response Headers: {'Content-Type': 'text/event-stream; charset=utf-8'}
+2025-02-15 01:24:42,026 [DEBUG] interpreter_server - Starting stream generation
+2025-02-15 01:24:43,070 [DEBUG] interpreter_server - Processing chunk: {'role': 'assistant', 'type': 'message', 'start': True}
+2025-02-15 01:24:43,071 [INFO] interpreter_server - Received message chunk: {'role': 'assistant', 'type': 'message', 'start': True}
+2025-02-15 01:24:43,071 [DEBUG] interpreter_server - Saving message chunk to session: {'role': 'assistant', 'type': 'message', 'start': True}
+2025-02-15 01:26:44,111 [INFO] interpreter_server - Starting server on http://0.0.0.0:5001
+2025-02-15 01:26:46,142 [INFO] interpreter_server - Request: POST http://localhost:5001/v1/chat
+2025-02-15 01:26:46,142 [DEBUG] interpreter_server - Headers: {'Host': 'localhost:5001', 'User-Agent': 'curl/8.1.2', 'Accept': '*/*', 'Content-Type': 'application/json', 'Content-Length': '115'}
+2025-02-15 01:26:46,142 [DEBUG] interpreter_server - JSON Data: {'messages': [{'role': 'user', 'type': 'message', 'content': 'Tell me a very short joke', 'format': 'text'}], 'stream': True}
+2025-02-15 01:26:46,142 [DEBUG] interpreter_server - Received request data: {'messages': [{'role': 'user', 'type': 'message', 'content': 'Tell me a very short joke', 'format': 'text'}], 'stream': True}
+2025-02-15 01:26:46,142 [DEBUG] interpreter_server - Validating message: {'role': 'user', 'type': 'message', 'content': 'Tell me a very short joke', 'format': 'text'}
+2025-02-15 01:26:46,142 [INFO] interpreter_server - No session_id provided, creating new session
+2025-02-15 01:26:46,143 [DEBUG] interpreter_server - Created new session: 0fabca67-5c4b-4489-99f9-4f104c44a9f9
+2025-02-15 01:26:46,143 [INFO] interpreter_server - Processing chat request with 1 messages for session 0fabca67-5c4b-4489-99f9-4f104c44a9f9
+2025-02-15 01:26:46,143 [DEBUG] interpreter_server - Starting chat with interpreter
+2025-02-15 01:26:46,282 [DEBUG] interpreter_server - Got response from interpreter
+2025-02-15 01:26:46,282 [INFO] interpreter_server - Starting streaming response
+2025-02-15 01:26:46,282 [INFO] interpreter_server - Response Status: 200
+2025-02-15 01:26:46,282 [DEBUG] interpreter_server - Response Headers: {'Cache-Control': 'no-cache', 'Connection': 'keep-alive', 'X-Accel-Buffering': 'no', 'Content-Type': 'text/event-stream; charset=utf-8'}
+2025-02-15 01:27:27,281 [INFO] interpreter_server - Starting server on http://0.0.0.0:5001
+2025-02-15 01:27:28,330 [INFO] interpreter_server - Request: POST http://localhost:5001/v1/chat
+2025-02-15 01:27:28,330 [DEBUG] interpreter_server - Headers: {'Host': 'localhost:5001', 'User-Agent': 'curl/8.1.2', 'Accept': '*/*', 'Content-Type': 'application/json', 'Content-Length': '115'}
+2025-02-15 01:27:28,330 [DEBUG] interpreter_server - JSON Data: {'messages': [{'role': 'user', 'type': 'message', 'content': 'Tell me a very short joke', 'format': 'text'}], 'stream': True}
+2025-02-15 01:27:28,330 [DEBUG] interpreter_server - Received request data: {'messages': [{'role': 'user', 'type': 'message', 'content': 'Tell me a very short joke', 'format': 'text'}], 'stream': True}
+2025-02-15 01:27:28,330 [DEBUG] interpreter_server - Validating message: {'role': 'user', 'type': 'message', 'content': 'Tell me a very short joke', 'format': 'text'}
+2025-02-15 01:27:28,330 [INFO] interpreter_server - No session_id provided, creating new session
+2025-02-15 01:27:28,331 [DEBUG] interpreter_server - Created new session: f5fb5712-5fdf-4d99-a97e-f198ea8f9471
+2025-02-15 01:27:28,331 [INFO] interpreter_server - Processing chat request with 1 messages for session f5fb5712-5fdf-4d99-a97e-f198ea8f9471
+2025-02-15 01:27:28,331 [DEBUG] interpreter_server - Starting chat with interpreter
+2025-02-15 01:27:28,706 [DEBUG] interpreter_server - Got response from interpreter
+2025-02-15 01:27:28,707 [INFO] interpreter_server - Starting streaming response
+2025-02-15 01:27:28,707 [INFO] interpreter_server - Response Status: 200
+2025-02-15 01:27:28,707 [DEBUG] interpreter_server - Response Headers: {'Cache-Control': 'no-cache', 'Connection': 'keep-alive', 'X-Accel-Buffering': 'no', 'Content-Type': 'text/event-stream; charset=utf-8'}
+2025-02-15 01:28:03,337 [INFO] interpreter_server - Starting server on http://0.0.0.0:5001
+2025-02-15 01:28:04,208 [INFO] interpreter_server - Request: POST http://localhost:5001/v1/chat
+2025-02-15 01:28:04,208 [DEBUG] interpreter_server - Headers: {'Host': 'localhost:5001', 'User-Agent': 'curl/8.1.2', 'Accept': '*/*', 'Content-Type': 'application/json', 'Content-Length': '115'}
+2025-02-15 01:28:04,208 [DEBUG] interpreter_server - JSON Data: {'messages': [{'role': 'user', 'type': 'message', 'content': 'Tell me a very short joke', 'format': 'text'}], 'stream': True}
+2025-02-15 01:28:04,208 [DEBUG] interpreter_server - Received request data: {'messages': [{'role': 'user', 'type': 'message', 'content': 'Tell me a very short joke', 'format': 'text'}], 'stream': True}
+2025-02-15 01:28:04,208 [DEBUG] interpreter_server - Validating message: {'role': 'user', 'type': 'message', 'content': 'Tell me a very short joke', 'format': 'text'}
+2025-02-15 01:28:04,208 [INFO] interpreter_server - No session_id provided, creating new session
+2025-02-15 01:28:04,209 [DEBUG] interpreter_server - Created new session: e86daf7e-b23d-4f10-a3f1-8398acf4452f
+2025-02-15 01:28:04,209 [INFO] interpreter_server - Processing chat request with 1 messages for session e86daf7e-b23d-4f10-a3f1-8398acf4452f
+2025-02-15 01:28:04,209 [DEBUG] interpreter_server - Starting chat with interpreter
+2025-02-15 01:28:04,390 [DEBUG] interpreter_server - Got response from interpreter
+2025-02-15 01:28:04,390 [INFO] interpreter_server - Starting streaming response
+2025-02-15 01:28:04,390 [INFO] interpreter_server - Response Status: 200
+2025-02-15 01:28:04,390 [DEBUG] interpreter_server - Response Headers: {'Cache-Control': 'no-cache', 'Connection': 'keep-alive', 'X-Accel-Buffering': 'no', 'Content-Type': 'text/event-stream; charset=utf-8'}
+2025-02-15 01:28:32,860 [INFO] interpreter_server - Starting server on http://0.0.0.0:5001
+2025-02-15 01:28:34,039 [INFO] interpreter_server - Request: POST http://localhost:5001/v1/chat
+2025-02-15 01:28:34,039 [DEBUG] interpreter_server - Headers: {'Host': 'localhost:5001', 'User-Agent': 'curl/8.1.2', 'Accept': '*/*', 'Content-Type': 'application/json', 'Content-Length': '115'}
+2025-02-15 01:28:34,039 [DEBUG] interpreter_server - JSON Data: {'messages': [{'role': 'user', 'type': 'message', 'content': 'Tell me a very short joke', 'format': 'text'}], 'stream': True}
+2025-02-15 01:28:34,039 [DEBUG] interpreter_server - Received request data: {'messages': [{'role': 'user', 'type': 'message', 'content': 'Tell me a very short joke', 'format': 'text'}], 'stream': True}
+2025-02-15 01:28:34,040 [DEBUG] interpreter_server - Validating message: {'role': 'user', 'type': 'message', 'content': 'Tell me a very short joke', 'format': 'text'}
+2025-02-15 01:28:34,040 [INFO] interpreter_server - No session_id provided, creating new session
+2025-02-15 01:28:34,040 [DEBUG] interpreter_server - Created new session: 141a09fc-d6e9-403c-ac44-8ca900709a29
+2025-02-15 01:28:34,040 [INFO] interpreter_server - Processing chat request with 1 messages for session 141a09fc-d6e9-403c-ac44-8ca900709a29
+2025-02-15 01:28:34,040 [DEBUG] interpreter_server - Starting chat with interpreter
+2025-02-15 01:28:34,189 [DEBUG] interpreter_server - Got response from interpreter
+2025-02-15 01:28:34,189 [INFO] interpreter_server - Starting streaming response
+2025-02-15 01:28:34,190 [INFO] interpreter_server - Response Status: 200
+2025-02-15 01:28:34,190 [DEBUG] interpreter_server - Response Headers: {'Cache-Control': 'no-cache', 'Connection': 'keep-alive', 'X-Accel-Buffering': 'no', 'Content-Type': 'text/event-stream; charset=utf-8'}
+2025-02-15 01:29:35,509 [INFO] interpreter_server - Starting server on http://0.0.0.0:5001
+2025-02-15 01:29:36,208 [INFO] interpreter_server - Request: POST http://localhost:5001/v1/chat
+2025-02-15 01:29:36,208 [DEBUG] interpreter_server - Headers: {'Host': 'localhost:5001', 'User-Agent': 'curl/8.1.2', 'Accept': '*/*', 'Content-Type': 'application/json', 'Content-Length': '115'}
+2025-02-15 01:29:36,208 [DEBUG] interpreter_server - JSON Data: {'messages': [{'role': 'user', 'type': 'message', 'content': 'Tell me a very short joke', 'format': 'text'}], 'stream': True}
+2025-02-15 01:29:36,208 [DEBUG] interpreter_server - Received request data: {'messages': [{'role': 'user', 'type': 'message', 'content': 'Tell me a very short joke', 'format': 'text'}], 'stream': True}
+2025-02-15 01:29:36,208 [DEBUG] interpreter_server - Validating message: {'role': 'user', 'type': 'message', 'content': 'Tell me a very short joke', 'format': 'text'}
+2025-02-15 01:29:36,208 [INFO] interpreter_server - No session_id provided, creating new session
+2025-02-15 01:29:36,209 [DEBUG] interpreter_server - Created new session: 88ae6dac-e58a-4304-83af-113da36b99e0
+2025-02-15 01:29:36,209 [INFO] interpreter_server - Processing chat request with 1 messages for session 88ae6dac-e58a-4304-83af-113da36b99e0
+2025-02-15 01:29:36,209 [DEBUG] interpreter_server - Starting chat with interpreter
+2025-02-15 01:29:36,344 [DEBUG] interpreter_server - Got response from interpreter
+2025-02-15 01:29:36,344 [INFO] interpreter_server - Starting streaming response
+2025-02-15 01:29:36,344 [INFO] interpreter_server - Response Status: 200
+2025-02-15 01:29:36,345 [DEBUG] interpreter_server - Response Headers: {'Cache-Control': 'no-cache', 'X-Accel-Buffering': 'no', 'Content-Type': 'text/event-stream; charset=utf-8'}
+2025-02-15 01:29:36,345 [DEBUG] interpreter_server - Starting stream generation
+2025-02-15 01:29:38,020 [DEBUG] interpreter_server - Processing chunk: {'role': 'assistant', 'type': 'message', 'start': True}
+2025-02-15 01:29:38,020 [INFO] interpreter_server - Received message chunk: {'role': 'assistant', 'type': 'message', 'start': True}
+2025-02-15 01:29:38,020 [DEBUG] interpreter_server - Saving message chunk to session: {'role': 'assistant', 'type': 'message', 'start': True}
+2025-02-15 01:31:17,738 [INFO] interpreter_server - Starting server on http://0.0.0.0:5001
+2025-02-15 01:31:18,998 [INFO] interpreter_server - Request: POST http://localhost:5001/v1/chat
+2025-02-15 01:31:18,998 [DEBUG] interpreter_server - Headers: {'Host': 'localhost:5001', 'User-Agent': 'curl/8.1.2', 'Accept': '*/*', 'Content-Type': 'application/json', 'Content-Length': '115'}
+2025-02-15 01:31:18,998 [DEBUG] interpreter_server - JSON Data: {'messages': [{'role': 'user', 'type': 'message', 'content': 'Tell me a very short joke', 'format': 'text'}], 'stream': True}
+2025-02-15 01:31:18,998 [DEBUG] interpreter_server - Received request data: {'messages': [{'role': 'user', 'type': 'message', 'content': 'Tell me a very short joke', 'format': 'text'}], 'stream': True}
+2025-02-15 01:31:18,998 [DEBUG] interpreter_server - Validating message: {'role': 'user', 'type': 'message', 'content': 'Tell me a very short joke', 'format': 'text'}
+2025-02-15 01:31:18,998 [INFO] interpreter_server - No session_id provided, creating new session
+2025-02-15 01:31:18,999 [DEBUG] interpreter_server - Created new session: b18ada63-9594-44b6-8135-0627d6b71853
+2025-02-15 01:31:18,999 [INFO] interpreter_server - Processing chat request with 1 messages for session b18ada63-9594-44b6-8135-0627d6b71853
+2025-02-15 01:31:18,999 [DEBUG] interpreter_server - Starting chat with interpreter
+2025-02-15 01:31:19,142 [DEBUG] interpreter_server - Got response from interpreter
+2025-02-15 01:31:19,143 [INFO] interpreter_server - Starting streaming response
+2025-02-15 01:31:19,143 [INFO] interpreter_server - Response Status: 200
+2025-02-15 01:31:19,143 [DEBUG] interpreter_server - Response Headers: {'Cache-Control': 'no-cache', 'Content-Type': 'text/event-stream; charset=utf-8', 'X-Accel-Buffering': 'no', 'Transfer-Encoding': 'chunked'}
+2025-02-15 01:32:00,928 [INFO] interpreter_server - Starting server on http://0.0.0.0:5001
+2025-02-15 01:32:02,223 [INFO] interpreter_server - Request: POST http://localhost:5001/v1/chat
+2025-02-15 01:32:02,224 [DEBUG] interpreter_server - Headers: {'Host': 'localhost:5001', 'User-Agent': 'curl/8.1.2', 'Accept': '*/*', 'Content-Type': 'application/json', 'Content-Length': '115'}
+2025-02-15 01:32:02,224 [DEBUG] interpreter_server - JSON Data: {'messages': [{'role': 'user', 'type': 'message', 'content': 'Tell me a very short joke', 'format': 'text'}], 'stream': True}
+2025-02-15 01:32:02,224 [DEBUG] interpreter_server - Received request data: {'messages': [{'role': 'user', 'type': 'message', 'content': 'Tell me a very short joke', 'format': 'text'}], 'stream': True}
+2025-02-15 01:32:02,224 [DEBUG] interpreter_server - Validating message: {'role': 'user', 'type': 'message', 'content': 'Tell me a very short joke', 'format': 'text'}
+2025-02-15 01:32:02,224 [INFO] interpreter_server - No session_id provided, creating new session
+2025-02-15 01:32:02,225 [DEBUG] interpreter_server - Created new session: 566656c9-dbb1-4abc-8c74-9185bccbc444
+2025-02-15 01:32:02,225 [INFO] interpreter_server - Processing chat request with 1 messages for session 566656c9-dbb1-4abc-8c74-9185bccbc444
+2025-02-15 01:32:02,225 [DEBUG] interpreter_server - Starting chat with interpreter
+2025-02-15 01:32:02,392 [DEBUG] interpreter_server - Got response from interpreter
+2025-02-15 01:32:02,392 [INFO] interpreter_server - Starting streaming response
+2025-02-15 01:32:02,392 [INFO] interpreter_server - Response Status: 200
+2025-02-15 01:32:02,392 [DEBUG] interpreter_server - Response Headers: {'Cache-Control': 'no-cache', 'X-Accel-Buffering': 'no', 'Content-Type': 'text/event-stream; charset=utf-8'}
+2025-02-15 01:32:02,393 [DEBUG] interpreter_server - Starting stream generation
+2025-02-15 01:32:02,393 [ERROR] interpreter_server - Stream generation error: 'Response' object is not iterable
+Traceback (most recent call last):
+  File "/Users/clay/Code/open-interpreter/interpreter/server/app.py", line 251, in generate_stream
+    for chunk in response:
+TypeError: 'Response' object is not iterable
+2025-02-15 01:32:02,394 [INFO] interpreter_server - Releasing chat lock in stream mode
+2025-02-15 01:32:34,733 [INFO] interpreter_server - Starting server on http://0.0.0.0:5001
+2025-02-15 01:32:34,979 [INFO] interpreter_server - Request: POST http://localhost:5001/v1/chat
+2025-02-15 01:32:34,979 [DEBUG] interpreter_server - Headers: {'Host': 'localhost:5001', 'User-Agent': 'curl/8.1.2', 'Accept': '*/*', 'Content-Type': 'application/json', 'Content-Length': '115'}
+2025-02-15 01:32:34,980 [DEBUG] interpreter_server - JSON Data: {'messages': [{'role': 'user', 'type': 'message', 'content': 'Tell me a very short joke', 'format': 'text'}], 'stream': True}
+2025-02-15 01:32:34,980 [DEBUG] interpreter_server - Received request data: {'messages': [{'role': 'user', 'type': 'message', 'content': 'Tell me a very short joke', 'format': 'text'}], 'stream': True}
+2025-02-15 01:32:34,980 [DEBUG] interpreter_server - Validating message: {'role': 'user', 'type': 'message', 'content': 'Tell me a very short joke', 'format': 'text'}
+2025-02-15 01:32:34,980 [INFO] interpreter_server - No session_id provided, creating new session
+2025-02-15 01:32:34,980 [DEBUG] interpreter_server - Created new session: 4c20b900-f529-4bf9-a5ae-8286c82aa368
+2025-02-15 01:32:34,980 [INFO] interpreter_server - Processing chat request with 1 messages for session 4c20b900-f529-4bf9-a5ae-8286c82aa368
+2025-02-15 01:32:34,981 [DEBUG] interpreter_server - Starting chat with interpreter
+2025-02-15 01:32:35,131 [DEBUG] interpreter_server - Got response from interpreter
+2025-02-15 01:32:35,131 [INFO] interpreter_server - Starting streaming response
+2025-02-15 01:32:35,131 [INFO] interpreter_server - Response Status: 200
+2025-02-15 01:32:35,131 [DEBUG] interpreter_server - Response Headers: {'Cache-Control': 'no-cache', 'X-Accel-Buffering': 'no', 'Content-Type': 'text/event-stream; charset=utf-8'}
+2025-02-15 01:32:35,132 [DEBUG] interpreter_server - Starting stream generation
+2025-02-15 01:32:35,132 [ERROR] interpreter_server - Stream generation error: 'Response' object is not iterable
+Traceback (most recent call last):
+  File "/Users/clay/Code/open-interpreter/interpreter/server/app.py", line 251, in generate_stream
+    for chunk in response:
+TypeError: 'Response' object is not iterable
+2025-02-15 01:32:35,133 [INFO] interpreter_server - Releasing chat lock in stream mode
+2025-02-15 01:33:08,647 [INFO] interpreter_server - Starting server on http://0.0.0.0:5001
+2025-02-15 01:33:29,726 [INFO] interpreter_server - Starting server on http://0.0.0.0:5001
+2025-02-15 01:34:49,797 [INFO] interpreter_server - Starting server on http://0.0.0.0:5001
+2025-02-15 01:35:02,380 [INFO] interpreter_server - Request: POST http://localhost:5001/v1/chat
+2025-02-15 01:35:02,381 [DEBUG] interpreter_server - Headers: {'Host': 'localhost:5001', 'User-Agent': 'curl/8.1.2', 'Accept': '*/*', 'Content-Type': 'application/json', 'Content-Length': '115'}
+2025-02-15 01:35:02,381 [DEBUG] interpreter_server - JSON Data: {'messages': [{'role': 'user', 'type': 'message', 'content': 'Tell me a very short joke', 'format': 'text'}], 'stream': True}
+2025-02-15 01:35:02,381 [DEBUG] interpreter_server - Received request data: {'messages': [{'role': 'user', 'type': 'message', 'content': 'Tell me a very short joke', 'format': 'text'}], 'stream': True}
+2025-02-15 01:35:02,381 [DEBUG] interpreter_server - Validating message: {'role': 'user', 'type': 'message', 'content': 'Tell me a very short joke', 'format': 'text'}
+2025-02-15 01:35:02,381 [INFO] interpreter_server - No session_id provided, creating new session
+2025-02-15 01:35:02,381 [DEBUG] interpreter_server - Created new session: e6b57c69-8edb-4db1-ae30-53a946638414
+2025-02-15 01:35:02,382 [INFO] interpreter_server - Processing chat request with 1 messages for session e6b57c69-8edb-4db1-ae30-53a946638414
+2025-02-15 01:35:02,382 [DEBUG] interpreter_server - Starting chat with interpreter
+2025-02-15 01:35:02,556 [DEBUG] interpreter_server - Got response from interpreter
+2025-02-15 01:35:02,556 [INFO] interpreter_server - Starting streaming response
+2025-02-15 01:35:02,556 [INFO] interpreter_server - Response Status: 200
+2025-02-15 01:35:02,556 [DEBUG] interpreter_server - Response Headers: {'Cache-Control': 'no-cache', 'X-Accel-Buffering': 'no', 'Content-Type': 'text/event-stream; charset=utf-8'}
+2025-02-15 01:35:02,557 [DEBUG] interpreter_server - Starting stream generation
+2025-02-15 01:35:03,816 [DEBUG] interpreter_server - Processing chunk: {'role': 'assistant', 'type': 'message', 'start': True}
+2025-02-15 01:35:03,816 [INFO] interpreter_server - Received message chunk: {'role': 'assistant', 'type': 'message', 'start': True}
+2025-02-15 01:36:37,477 [INFO] interpreter_server - Starting server on http://0.0.0.0:5001
+2025-02-15 01:37:10,850 [INFO] interpreter_server - Request: POST http://localhost:5001/v1/chat
+2025-02-15 01:37:10,850 [DEBUG] interpreter_server - Headers: {'Host': 'localhost:5001', 'User-Agent': 'curl/8.1.2', 'Accept': '*/*', 'Content-Type': 'application/json', 'Content-Length': '115'}
+2025-02-15 01:37:10,850 [DEBUG] interpreter_server - JSON Data: {'messages': [{'role': 'user', 'type': 'message', 'content': 'Tell me a very short joke', 'format': 'text'}], 'stream': True}
+2025-02-15 01:37:10,850 [DEBUG] interpreter_server - Received request data: {'messages': [{'role': 'user', 'type': 'message', 'content': 'Tell me a very short joke', 'format': 'text'}], 'stream': True}
+2025-02-15 01:37:10,850 [DEBUG] interpreter_server - Validating message: {'role': 'user', 'type': 'message', 'content': 'Tell me a very short joke', 'format': 'text'}
+2025-02-15 01:37:10,850 [INFO] interpreter_server - No session_id provided, creating new session
+2025-02-15 01:37:10,851 [DEBUG] interpreter_server - Created new session: c4d983d5-a751-4442-9cc8-121157cd1f26
+2025-02-15 01:37:10,851 [INFO] interpreter_server - Processing chat request with 1 messages for session c4d983d5-a751-4442-9cc8-121157cd1f26
+2025-02-15 01:37:10,851 [DEBUG] interpreter_server - Starting chat with interpreter
+2025-02-15 01:37:10,995 [DEBUG] interpreter_server - Got response from interpreter
+2025-02-15 01:37:10,995 [INFO] interpreter_server - Starting streaming response
+2025-02-15 01:37:10,996 [INFO] interpreter_server - Response Status: 200
+2025-02-15 01:37:10,996 [DEBUG] interpreter_server - Response Headers: {'Cache-Control': 'no-cache', 'X-Accel-Buffering': 'no', 'Content-Type': 'text/event-stream; charset=utf-8'}
+2025-02-15 01:37:10,996 [DEBUG] interpreter_server - Starting stream generation
+2025-02-15 01:37:15,368 [DEBUG] interpreter_server - Processing chunk: {'role': 'assistant', 'type': 'message', 'start': True}
+2025-02-15 01:37:15,368 [DEBUG] interpreter_server - Message start detected
+2025-02-15 01:40:14,094 [INFO] interpreter_server - Starting server on http://0.0.0.0:5001
+2025-02-15 01:40:23,722 [INFO] interpreter_server - Request: POST http://localhost:5001/v1/chat
+2025-02-15 01:40:23,722 [DEBUG] interpreter_server - Headers: {'Host': 'localhost:5001', 'User-Agent': 'curl/8.1.2', 'Accept': '*/*', 'Content-Type': 'application/json', 'Content-Length': '99'}
+2025-02-15 01:40:23,722 [DEBUG] interpreter_server - JSON Data: {'messages': [{'role': 'user', 'type': 'message', 'content': 'Tell me a very short joke'}], 'stream': True}
+2025-02-15 01:40:23,722 [DEBUG] interpreter_server - Received request data: {'messages': [{'role': 'user', 'type': 'message', 'content': 'Tell me a very short joke'}], 'stream': True}
+2025-02-15 01:40:23,722 [INFO] interpreter_server - No session_id provided, creating new session
+2025-02-15 01:40:23,723 [DEBUG] interpreter_server - Created new session: 70e1d860-9c37-4c8e-9b92-e486c01b8cad
+2025-02-15 01:40:23,723 [INFO] interpreter_server - Processing chat request with 1 messages for session 70e1d860-9c37-4c8e-9b92-e486c01b8cad
+2025-02-15 01:40:23,723 [DEBUG] interpreter_server - Starting chat with interpreter
+2025-02-15 01:40:23,853 [DEBUG] interpreter_server - Got response from interpreter
+2025-02-15 01:40:23,853 [INFO] interpreter_server - Starting streaming response
+2025-02-15 01:40:23,854 [INFO] interpreter_server - Response Status: 200
+2025-02-15 01:40:23,854 [DEBUG] interpreter_server - Response Headers: {'Cache-Control': 'no-cache', 'Connection': 'keep-alive', 'X-Accel-Buffering': 'no', 'Content-Type': 'text/event-stream; charset=utf-8'}
+2025-02-15 01:41:46,452 [INFO] interpreter_server - Starting server on http://0.0.0.0:5001
+2025-02-15 01:41:50,567 [INFO] interpreter_server - Request: POST http://localhost:5001/v1/chat
+2025-02-15 01:41:50,567 [DEBUG] interpreter_server - Headers: {'Host': 'localhost:5001', 'User-Agent': 'curl/8.1.2', 'Accept': '*/*', 'Content-Type': 'application/json', 'Content-Length': '99'}
+2025-02-15 01:41:50,568 [DEBUG] interpreter_server - JSON Data: {'messages': [{'role': 'user', 'type': 'message', 'content': 'Tell me a very short joke'}], 'stream': True}
+2025-02-15 01:41:50,568 [DEBUG] interpreter_server - Received request data: {'messages': [{'role': 'user', 'type': 'message', 'content': 'Tell me a very short joke'}], 'stream': True}
+2025-02-15 01:41:50,568 [INFO] interpreter_server - No session_id provided, creating new session
+2025-02-15 01:41:50,568 [DEBUG] interpreter_server - Created new session: 99c607b0-8c23-4ef9-934f-358a93bb6b93
+2025-02-15 01:41:50,568 [INFO] interpreter_server - Processing chat request with 1 messages for session 99c607b0-8c23-4ef9-934f-358a93bb6b93
+2025-02-15 01:41:50,569 [DEBUG] interpreter_server - Starting chat with interpreter
+2025-02-15 01:41:50,746 [DEBUG] interpreter_server - Got response from interpreter
+2025-02-15 01:41:50,746 [INFO] interpreter_server - Starting streaming response
+2025-02-15 01:41:50,746 [INFO] interpreter_server - Response Status: 200
+2025-02-15 01:41:50,746 [DEBUG] interpreter_server - Response Headers: {'Cache-Control': 'no-cache', 'Connection': 'keep-alive', 'X-Accel-Buffering': 'no', 'Content-Type': 'text/event-stream; charset=utf-8'}
+2025-02-15 01:44:10,222 [INFO] interpreter_server - Starting server on http://0.0.0.0:5001
+2025-02-15 01:44:21,921 [INFO] interpreter_server - Request: POST http://localhost:5001/v1/chat
+2025-02-15 01:44:21,921 [DEBUG] interpreter_server - Headers: {'Host': 'localhost:5001', 'User-Agent': 'curl/8.1.2', 'Accept': '*/*', 'Content-Type': 'application/json', 'Content-Length': '99'}
+2025-02-15 01:44:21,921 [DEBUG] interpreter_server - JSON Data: {'messages': [{'role': 'user', 'type': 'message', 'content': 'Tell me a very short joke'}], 'stream': True}
+2025-02-15 01:44:21,921 [DEBUG] interpreter_server - Received request data: {'messages': [{'role': 'user', 'type': 'message', 'content': 'Tell me a very short joke'}], 'stream': True}
+2025-02-15 01:44:21,921 [INFO] interpreter_server - No session_id provided, creating new session
+2025-02-15 01:44:21,922 [DEBUG] interpreter_server - Created new session: 96962556-32b6-4f1e-bcc6-0c4de82775e4
+2025-02-15 01:44:21,922 [INFO] interpreter_server - Processing chat request with 1 messages for session 96962556-32b6-4f1e-bcc6-0c4de82775e4
+2025-02-15 01:44:21,922 [DEBUG] interpreter_server - Starting chat with interpreter
+2025-02-15 01:44:22,061 [DEBUG] interpreter_server - Got response from interpreter
+2025-02-15 01:44:22,061 [INFO] interpreter_server - Starting streaming response
+2025-02-15 01:44:22,062 [INFO] interpreter_server - Response Status: 200
+2025-02-15 01:44:22,062 [DEBUG] interpreter_server - Response Headers: {'Cache-Control': 'no-cache', 'Connection': 'keep-alive', 'X-Accel-Buffering': 'no', 'Content-Type': 'text/event-stream; charset=utf-8'}
+2025-02-15 01:48:50,127 [INFO] interpreter_server - Starting server on http://0.0.0.0:5001
+2025-02-15 01:48:52,787 [INFO] interpreter_server - Request: POST http://localhost:5001/v1/chat
+2025-02-15 01:48:52,787 [DEBUG] interpreter_server - Headers: {'Host': 'localhost:5001', 'User-Agent': 'curl/8.1.2', 'Accept': '*/*', 'Content-Type': 'application/json', 'Content-Length': '99'}
+2025-02-15 01:48:52,788 [DEBUG] interpreter_server - JSON Data: {'messages': [{'role': 'user', 'type': 'message', 'content': 'Tell me a very short joke'}], 'stream': True}
+2025-02-15 01:48:52,788 [DEBUG] interpreter_server - Received request data: {'messages': [{'role': 'user', 'type': 'message', 'content': 'Tell me a very short joke'}], 'stream': True}
+2025-02-15 01:48:52,788 [INFO] interpreter_server - No session_id provided, creating new session
+2025-02-15 01:48:52,788 [DEBUG] interpreter_server - Created new session: 6dba81af-2ca6-4908-b7e2-701300c1b4b5
+2025-02-15 01:48:52,788 [INFO] interpreter_server - Processing chat request with 1 messages for session 6dba81af-2ca6-4908-b7e2-701300c1b4b5
+2025-02-15 01:48:52,789 [DEBUG] interpreter_server - Starting chat with interpreter
+2025-02-15 01:48:52,971 [DEBUG] interpreter_server - Got response from interpreter
+2025-02-15 01:48:52,971 [INFO] interpreter_server - Starting streaming response
+2025-02-15 01:48:52,971 [INFO] interpreter_server - Response Status: 200
+2025-02-15 01:48:52,971 [DEBUG] interpreter_server - Response Headers: {'Cache-Control': 'no-cache', 'Connection': 'keep-alive', 'X-Accel-Buffering': 'no', 'Content-Type': 'text/event-stream; charset=utf-8'}
+2025-02-15 01:50:15,528 [INFO] interpreter_server - Starting server on http://0.0.0.0:5001
+2025-02-15 01:50:19,182 [INFO] interpreter_server - Request: POST http://localhost:5001/v1/chat
+2025-02-15 01:50:19,182 [DEBUG] interpreter_server - Headers: {'Host': 'localhost:5001', 'User-Agent': 'curl/8.1.2', 'Accept': '*/*', 'Content-Type': 'application/json', 'Content-Length': '99'}
+2025-02-15 01:50:19,183 [DEBUG] interpreter_server - JSON Data: {'messages': [{'role': 'user', 'type': 'message', 'content': 'Tell me a very short joke'}], 'stream': True}
+2025-02-15 01:50:19,183 [DEBUG] interpreter_server - Received request data: {'messages': [{'role': 'user', 'type': 'message', 'content': 'Tell me a very short joke'}], 'stream': True}
+2025-02-15 01:50:19,183 [INFO] interpreter_server - No session_id provided, creating new session
+2025-02-15 01:50:19,183 [DEBUG] interpreter_server - Created new session: 64cefec7-8bcd-4e60-b76f-87d4b594e8f6
+2025-02-15 01:50:19,183 [INFO] interpreter_server - Processing chat request with 1 messages for session 64cefec7-8bcd-4e60-b76f-87d4b594e8f6
+2025-02-15 01:50:19,189 [DEBUG] interpreter_server - Starting chat with interpreter
+2025-02-15 01:50:19,324 [DEBUG] interpreter_server - Got response from interpreter
+2025-02-15 01:50:19,324 [INFO] interpreter_server - Starting streaming response
+2025-02-15 01:50:19,325 [INFO] interpreter_server - Response Status: 200
+2025-02-15 01:50:19,325 [DEBUG] interpreter_server - Response Headers: {'Cache-Control': 'no-cache', 'Connection': 'keep-alive', 'X-Accel-Buffering': 'no', 'Content-Type': 'text/event-stream; charset=utf-8'}
+2025-02-15 01:51:25,444 [INFO] interpreter_server - Starting server on http://0.0.0.0:5001
+2025-02-15 01:51:35,943 [INFO] interpreter_server - Request: POST http://localhost:5001/v1/chat
+2025-02-15 01:51:35,943 [DEBUG] interpreter_server - Headers: {'Host': 'localhost:5001', 'User-Agent': 'curl/8.1.2', 'Accept': '*/*', 'Content-Type': 'application/json', 'Content-Length': '99'}
+2025-02-15 01:51:35,943 [DEBUG] interpreter_server - JSON Data: {'messages': [{'role': 'user', 'type': 'message', 'content': 'Tell me a very short joke'}], 'stream': True}
+2025-02-15 01:51:35,943 [DEBUG] interpreter_server - Received request data: {'messages': [{'role': 'user', 'type': 'message', 'content': 'Tell me a very short joke'}], 'stream': True}
+2025-02-15 01:51:35,944 [INFO] interpreter_server - No session_id provided, creating new session
+2025-02-15 01:51:35,944 [DEBUG] interpreter_server - Created new session: 3af39ee3-5364-4f7a-856b-78325c56a245
+2025-02-15 01:51:35,944 [INFO] interpreter_server - Processing chat request with 1 messages for session 3af39ee3-5364-4f7a-856b-78325c56a245
+2025-02-15 01:51:35,944 [DEBUG] interpreter_server - Starting chat with interpreter
+2025-02-15 01:51:36,088 [DEBUG] interpreter_server - Got response from interpreter
+2025-02-15 01:51:36,088 [INFO] interpreter_server - Starting streaming response
+2025-02-15 01:51:36,088 [INFO] interpreter_server - Response Status: 200
+2025-02-15 01:51:36,088 [DEBUG] interpreter_server - Response Headers: {'Cache-Control': 'no-cache', 'X-Accel-Buffering': 'no', 'Content-Type': 'text/event-stream; charset=utf-8'}
+2025-02-15 01:51:36,089 [DEBUG] interpreter_server - Starting stream generation
+2025-02-15 01:51:37,485 [DEBUG] interpreter_server - Processing chunk: {'role': 'assistant', 'type': 'message', 'start': True}
+2025-02-15 01:51:37,485 [DEBUG] interpreter_server - Message start detected
+2025-02-15 01:51:37,486 [DEBUG] interpreter_server - Sending formatted chunk: {"role": "assistant", "type": "message", "start": true, "created_at": "2025-02-15T01:51:37.486211"}
+2025-02-15 01:51:37,486 [DEBUG] interpreter_server - Chunk sent successfully
+2025-02-15 01:51:37,488 [DEBUG] interpreter_server - Processing chunk: {'role': 'assistant', 'type': 'message', 'content': 'Here'}
+2025-02-15 01:51:37,488 [DEBUG] interpreter_server - Adding content to message: Here
+2025-02-15 01:51:37,488 [DEBUG] interpreter_server - Sending formatted chunk: {"role": "assistant", "type": "message", "content": "Here", "created_at": "2025-02-15T01:51:37.488643"}
+2025-02-15 01:51:37,488 [DEBUG] interpreter_server - Chunk sent successfully
+2025-02-15 01:51:37,490 [DEBUG] interpreter_server - Processing chunk: {'role': 'assistant', 'type': 'message', 'content': "'s"}
+2025-02-15 01:51:37,490 [DEBUG] interpreter_server - Adding content to message: 's
+2025-02-15 01:51:37,491 [DEBUG] interpreter_server - Sending formatted chunk: {"role": "assistant", "type": "message", "content": "'s", "created_at": "2025-02-15T01:51:37.491065"}
+2025-02-15 01:51:37,491 [DEBUG] interpreter_server - Chunk sent successfully
+2025-02-15 01:51:37,492 [DEBUG] interpreter_server - Processing chunk: {'role': 'assistant', 'type': 'message', 'content': ' a'}
+2025-02-15 01:51:37,493 [DEBUG] interpreter_server - Adding content to message:  a
+2025-02-15 01:51:37,493 [DEBUG] interpreter_server - Sending formatted chunk: {"role": "assistant", "type": "message", "content": " a", "created_at": "2025-02-15T01:51:37.493129"}
+2025-02-15 01:51:37,493 [DEBUG] interpreter_server - Chunk sent successfully
+2025-02-15 01:51:37,495 [DEBUG] interpreter_server - Processing chunk: {'role': 'assistant', 'type': 'message', 'content': ' very'}
+2025-02-15 01:51:37,495 [DEBUG] interpreter_server - Adding content to message:  very
+2025-02-15 01:51:37,495 [DEBUG] interpreter_server - Sending formatted chunk: {"role": "assistant", "type": "message", "content": " very", "created_at": "2025-02-15T01:51:37.495692"}
+2025-02-15 01:51:37,496 [DEBUG] interpreter_server - Chunk sent successfully
+2025-02-15 01:51:37,573 [DEBUG] interpreter_server - Processing chunk: {'role': 'assistant', 'type': 'message', 'content': ' short'}
+2025-02-15 01:51:37,573 [DEBUG] interpreter_server - Adding content to message:  short
+2025-02-15 01:51:37,573 [DEBUG] interpreter_server - Sending formatted chunk: {"role": "assistant", "type": "message", "content": " short", "created_at": "2025-02-15T01:51:37.573867"}
+2025-02-15 01:51:37,574 [DEBUG] interpreter_server - Chunk sent successfully
+2025-02-15 01:51:37,576 [DEBUG] interpreter_server - Processing chunk: {'role': 'assistant', 'type': 'message', 'content': ' joke'}
+2025-02-15 01:51:37,577 [DEBUG] interpreter_server - Adding content to message:  joke
+2025-02-15 01:51:37,577 [DEBUG] interpreter_server - Sending formatted chunk: {"role": "assistant", "type": "message", "content": " joke", "created_at": "2025-02-15T01:51:37.577442"}
+2025-02-15 01:51:37,577 [DEBUG] interpreter_server - Chunk sent successfully
+2025-02-15 01:51:37,579 [DEBUG] interpreter_server - Processing chunk: {'role': 'assistant', 'type': 'message', 'content': ' for'}
+2025-02-15 01:51:37,579 [DEBUG] interpreter_server - Adding content to message:  for
+2025-02-15 01:51:37,579 [DEBUG] interpreter_server - Sending formatted chunk: {"role": "assistant", "type": "message", "content": " for", "created_at": "2025-02-15T01:51:37.579811"}
+2025-02-15 01:51:37,580 [DEBUG] interpreter_server - Chunk sent successfully
+2025-02-15 01:51:37,581 [DEBUG] interpreter_server - Processing chunk: {'role': 'assistant', 'type': 'message', 'content': ' you'}
+2025-02-15 01:51:37,581 [DEBUG] interpreter_server - Adding content to message:  you
+2025-02-15 01:51:37,582 [DEBUG] interpreter_server - Sending formatted chunk: {"role": "assistant", "type": "message", "content": " you", "created_at": "2025-02-15T01:51:37.582059"}
+2025-02-15 01:51:37,582 [DEBUG] interpreter_server - Chunk sent successfully
+2025-02-15 01:51:37,583 [DEBUG] interpreter_server - Processing chunk: {'role': 'assistant', 'type': 'message', 'content': ':'}
+2025-02-15 01:51:37,584 [DEBUG] interpreter_server - Adding content to message: :
+2025-02-15 01:51:37,584 [DEBUG] interpreter_server - Sending formatted chunk: {"role": "assistant", "type": "message", "content": ":", "created_at": "2025-02-15T01:51:37.584395"}
+2025-02-15 01:51:37,584 [DEBUG] interpreter_server - Chunk sent successfully
+2025-02-15 01:51:37,586 [DEBUG] interpreter_server - Processing chunk: {'role': 'assistant', 'type': 'message', 'content': '\n\n```'}
+2025-02-15 01:51:37,586 [DEBUG] interpreter_server - Adding content to message: 
+
+```
+2025-02-15 01:51:37,586 [DEBUG] interpreter_server - Sending formatted chunk: {"role": "assistant", "type": "message", "content": "\n\n```", "created_at": "2025-02-15T01:51:37.586731"}
+2025-02-15 01:51:37,586 [DEBUG] interpreter_server - Chunk sent successfully
+2025-02-15 01:51:37,777 [DEBUG] interpreter_server - Processing chunk: {'role': 'assistant', 'type': 'message', 'content': '\nWhy'}
+2025-02-15 01:51:37,778 [DEBUG] interpreter_server - Adding content to message: 
+Why
+2025-02-15 01:51:37,778 [DEBUG] interpreter_server - Sending formatted chunk: {"role": "assistant", "type": "message", "content": "\nWhy", "created_at": "2025-02-15T01:51:37.778601"}
+2025-02-15 01:51:37,779 [DEBUG] interpreter_server - Chunk sent successfully
+2025-02-15 01:51:37,781 [DEBUG] interpreter_server - Processing chunk: {'role': 'assistant', 'type': 'message', 'content': ' can'}
+2025-02-15 01:51:37,782 [DEBUG] interpreter_server - Adding content to message:  can
+2025-02-15 01:51:37,782 [DEBUG] interpreter_server - Sending formatted chunk: {"role": "assistant", "type": "message", "content": " can", "created_at": "2025-02-15T01:51:37.782345"}
+2025-02-15 01:51:37,782 [DEBUG] interpreter_server - Chunk sent successfully
+2025-02-15 01:51:37,784 [DEBUG] interpreter_server - Processing chunk: {'role': 'assistant', 'type': 'message', 'content': "'t"}
+2025-02-15 01:51:37,785 [DEBUG] interpreter_server - Adding content to message: 't
+2025-02-15 01:51:37,785 [DEBUG] interpreter_server - Sending formatted chunk: {"role": "assistant", "type": "message", "content": "'t", "created_at": "2025-02-15T01:51:37.785186"}
+2025-02-15 01:51:37,785 [DEBUG] interpreter_server - Chunk sent successfully
+2025-02-15 01:51:37,788 [DEBUG] interpreter_server - Processing chunk: {'role': 'assistant', 'type': 'message', 'content': ' a'}
+2025-02-15 01:51:37,788 [DEBUG] interpreter_server - Adding content to message:  a
+2025-02-15 01:51:37,788 [DEBUG] interpreter_server - Sending formatted chunk: {"role": "assistant", "type": "message", "content": " a", "created_at": "2025-02-15T01:51:37.788643"}
+2025-02-15 01:51:37,788 [DEBUG] interpreter_server - Chunk sent successfully
+2025-02-15 01:51:37,791 [DEBUG] interpreter_server - Processing chunk: {'role': 'assistant', 'type': 'message', 'content': ' bicycle'}
+2025-02-15 01:51:37,791 [DEBUG] interpreter_server - Adding content to message:  bicycle
+2025-02-15 01:51:37,791 [DEBUG] interpreter_server - Sending formatted chunk: {"role": "assistant", "type": "message", "content": " bicycle", "created_at": "2025-02-15T01:51:37.791803"}
+2025-02-15 01:51:37,792 [DEBUG] interpreter_server - Chunk sent successfully
+2025-02-15 01:51:37,860 [DEBUG] interpreter_server - Processing chunk: {'role': 'assistant', 'type': 'message', 'content': ' stan'}
+2025-02-15 01:51:37,860 [DEBUG] interpreter_server - Adding content to message:  stan
+2025-02-15 01:51:37,860 [DEBUG] interpreter_server - Sending formatted chunk: {"role": "assistant", "type": "message", "content": " stan", "created_at": "2025-02-15T01:51:37.860955"}
+2025-02-15 01:51:37,861 [DEBUG] interpreter_server - Chunk sent successfully
+2025-02-15 01:51:37,863 [DEBUG] interpreter_server - Processing chunk: {'role': 'assistant', 'type': 'message', 'content': 'd up'}
+2025-02-15 01:51:37,864 [DEBUG] interpreter_server - Adding content to message: d up
+2025-02-15 01:51:37,864 [DEBUG] interpreter_server - Sending formatted chunk: {"role": "assistant", "type": "message", "content": "d up", "created_at": "2025-02-15T01:51:37.864507"}
+2025-02-15 01:51:37,864 [DEBUG] interpreter_server - Chunk sent successfully
+2025-02-15 01:51:37,867 [DEBUG] interpreter_server - Processing chunk: {'role': 'assistant', 'type': 'message', 'content': ' by'}
+2025-02-15 01:51:37,867 [DEBUG] interpreter_server - Adding content to message:  by
+2025-02-15 01:51:37,867 [DEBUG] interpreter_server - Sending formatted chunk: {"role": "assistant", "type": "message", "content": " by", "created_at": "2025-02-15T01:51:37.867516"}
+2025-02-15 01:51:37,867 [DEBUG] interpreter_server - Chunk sent successfully
+2025-02-15 01:51:37,870 [DEBUG] interpreter_server - Processing chunk: {'role': 'assistant', 'type': 'message', 'content': ' itself'}
+2025-02-15 01:51:37,870 [DEBUG] interpreter_server - Adding content to message:  itself
+2025-02-15 01:51:37,870 [DEBUG] interpreter_server - Sending formatted chunk: {"role": "assistant", "type": "message", "content": " itself", "created_at": "2025-02-15T01:51:37.870701"}
+2025-02-15 01:51:37,870 [DEBUG] interpreter_server - Chunk sent successfully
+2025-02-15 01:51:37,872 [DEBUG] interpreter_server - Processing chunk: {'role': 'assistant', 'type': 'message', 'content': '?'}
+2025-02-15 01:51:37,873 [DEBUG] interpreter_server - Adding content to message: ?
+2025-02-15 01:51:37,873 [DEBUG] interpreter_server - Sending formatted chunk: {"role": "assistant", "type": "message", "content": "?", "created_at": "2025-02-15T01:51:37.873202"}
+2025-02-15 01:51:37,873 [DEBUG] interpreter_server - Chunk sent successfully
+2025-02-15 01:51:37,875 [DEBUG] interpreter_server - Processing chunk: {'role': 'assistant', 'type': 'message', 'content': '\nIt'}
+2025-02-15 01:51:37,875 [DEBUG] interpreter_server - Adding content to message: 
+It
+2025-02-15 01:51:37,875 [DEBUG] interpreter_server - Sending formatted chunk: {"role": "assistant", "type": "message", "content": "\nIt", "created_at": "2025-02-15T01:51:37.875888"}
+2025-02-15 01:51:37,876 [DEBUG] interpreter_server - Chunk sent successfully
+2025-02-15 01:51:37,942 [DEBUG] interpreter_server - Processing chunk: {'role': 'assistant', 'type': 'message', 'content': "'s"}
+2025-02-15 01:51:37,942 [DEBUG] interpreter_server - Adding content to message: 's
+2025-02-15 01:51:37,942 [DEBUG] interpreter_server - Sending formatted chunk: {"role": "assistant", "type": "message", "content": "'s", "created_at": "2025-02-15T01:51:37.942925"}
+2025-02-15 01:51:37,943 [DEBUG] interpreter_server - Chunk sent successfully
+2025-02-15 01:51:37,946 [DEBUG] interpreter_server - Processing chunk: {'role': 'assistant', 'type': 'message', 'content': ' two'}
+2025-02-15 01:51:37,946 [DEBUG] interpreter_server - Adding content to message:  two
+2025-02-15 01:51:37,947 [DEBUG] interpreter_server - Sending formatted chunk: {"role": "assistant", "type": "message", "content": " two", "created_at": "2025-02-15T01:51:37.947028"}
+2025-02-15 01:51:37,947 [DEBUG] interpreter_server - Chunk sent successfully
+2025-02-15 01:51:37,949 [DEBUG] interpreter_server - Processing chunk: {'role': 'assistant', 'type': 'message', 'content': '-'}
+2025-02-15 01:51:37,950 [DEBUG] interpreter_server - Adding content to message: -
+2025-02-15 01:51:37,950 [DEBUG] interpreter_server - Sending formatted chunk: {"role": "assistant", "type": "message", "content": "-", "created_at": "2025-02-15T01:51:37.950239"}
+2025-02-15 01:51:37,950 [DEBUG] interpreter_server - Chunk sent successfully
+2025-02-15 01:51:37,952 [DEBUG] interpreter_server - Processing chunk: {'role': 'assistant', 'type': 'message', 'content': 'tire'}
+2025-02-15 01:51:37,953 [DEBUG] interpreter_server - Adding content to message: tire
+2025-02-15 01:51:37,953 [DEBUG] interpreter_server - Sending formatted chunk: {"role": "assistant", "type": "message", "content": "tire", "created_at": "2025-02-15T01:51:37.953197"}
+2025-02-15 01:51:37,953 [DEBUG] interpreter_server - Chunk sent successfully
+2025-02-15 01:51:37,955 [DEBUG] interpreter_server - Processing chunk: {'role': 'assistant', 'type': 'message', 'content': 'd!'}
+2025-02-15 01:51:37,955 [DEBUG] interpreter_server - Adding content to message: d!
+2025-02-15 01:51:37,956 [DEBUG] interpreter_server - Sending formatted chunk: {"role": "assistant", "type": "message", "content": "d!", "created_at": "2025-02-15T01:51:37.956051"}
+2025-02-15 01:51:37,956 [DEBUG] interpreter_server - Chunk sent successfully
+2025-02-15 01:51:37,988 [DEBUG] interpreter_server - Processing chunk: {'role': 'assistant', 'type': 'message', 'content': '\n```'}
+2025-02-15 01:51:37,988 [DEBUG] interpreter_server - Adding content to message: 
+```
+2025-02-15 01:51:37,988 [DEBUG] interpreter_server - Sending formatted chunk: {"role": "assistant", "type": "message", "content": "\n```", "created_at": "2025-02-15T01:51:37.988779"}
+2025-02-15 01:51:37,989 [DEBUG] interpreter_server - Chunk sent successfully
+2025-02-15 01:51:37,992 [DEBUG] interpreter_server - Processing chunk: {'role': 'assistant', 'type': 'message', 'end': True}
+2025-02-15 01:51:37,993 [DEBUG] interpreter_server - Message end detected
+2025-02-15 01:52:41,069 [INFO] interpreter_server - Request: POST http://localhost:5001/v1/chat
+2025-02-15 01:52:41,069 [DEBUG] interpreter_server - Headers: {'Host': 'localhost:5001', 'User-Agent': 'curl/8.1.2', 'Accept': '*/*', 'Content-Type': 'application/json', 'Content-Length': '166'}
+2025-02-15 01:52:41,069 [DEBUG] interpreter_server - JSON Data: {'messages': [{'role': 'user', 'type': 'message', 'content': 'Write a Python function to calculate the factorial of a number and test it with the number 5'}], 'stream': True}
+2025-02-15 01:53:11,078 [WARNING] interpreter_server - Chat request timeout while waiting for lock
+2025-02-15 01:53:11,079 [INFO] interpreter_server - Response Status: 408
+2025-02-15 01:53:11,079 [DEBUG] interpreter_server - Response Headers: {'Content-Type': 'application/json', 'Content-Length': '112'}
+2025-02-15 01:53:11,079 [DEBUG] interpreter_server - Response Data: {'error': {'code': 'request_timeout', 'message': 'Request timeout while waiting for previous request to complete'}}
+2025-02-15 01:53:26,286 [INFO] interpreter_server - Starting server on http://0.0.0.0:5001
+2025-02-15 01:53:35,855 [INFO] interpreter_server - Request: POST http://localhost:5001/v1/chat
+2025-02-15 01:53:35,855 [DEBUG] interpreter_server - Headers: {'Host': 'localhost:5001', 'User-Agent': 'curl/8.1.2', 'Accept': '*/*', 'Content-Type': 'application/json', 'Content-Length': '166'}
+2025-02-15 01:53:35,855 [DEBUG] interpreter_server - JSON Data: {'messages': [{'role': 'user', 'type': 'message', 'content': 'Write a Python function to calculate the factorial of a number and test it with the number 5'}], 'stream': True}
+2025-02-15 01:53:35,856 [DEBUG] interpreter_server - Received request data: {'messages': [{'role': 'user', 'type': 'message', 'content': 'Write a Python function to calculate the factorial of a number and test it with the number 5'}], 'stream': True}
+2025-02-15 01:53:35,856 [INFO] interpreter_server - No session_id provided, creating new session
+2025-02-15 01:53:35,856 [DEBUG] interpreter_server - Created new session: a2a4b1c9-7798-4107-8259-bd9f789bc85e
+2025-02-15 01:53:35,856 [INFO] interpreter_server - Processing chat request with 1 messages for session a2a4b1c9-7798-4107-8259-bd9f789bc85e
+2025-02-15 01:53:35,856 [DEBUG] interpreter_server - Starting chat with interpreter
+2025-02-15 01:53:35,986 [DEBUG] interpreter_server - Got response from interpreter
+2025-02-15 01:53:35,987 [INFO] interpreter_server - Starting streaming response
+2025-02-15 01:53:35,987 [INFO] interpreter_server - Response Status: 200
+2025-02-15 01:53:35,987 [DEBUG] interpreter_server - Response Headers: {'Cache-Control': 'no-cache', 'X-Accel-Buffering': 'no', 'Content-Type': 'text/event-stream; charset=utf-8'}
+2025-02-15 01:53:35,987 [DEBUG] interpreter_server - Starting stream generation
+2025-02-15 01:53:36,909 [DEBUG] interpreter_server - Processing chunk: {'role': 'assistant', 'type': 'message', 'start': True}
+2025-02-15 01:53:36,910 [DEBUG] interpreter_server - Message start detected
+2025-02-15 01:53:36,910 [DEBUG] interpreter_server - Sending formatted chunk: {"role": "assistant", "type": "message", "start": true, "created_at": "2025-02-15T01:53:36.910253"}
+2025-02-15 01:53:36,910 [DEBUG] interpreter_server - Chunk sent successfully
+2025-02-15 01:53:36,912 [DEBUG] interpreter_server - Processing chunk: {'role': 'assistant', 'type': 'message', 'content': 'Here'}
+2025-02-15 01:53:36,912 [DEBUG] interpreter_server - Adding content to message: Here
+2025-02-15 01:53:36,912 [DEBUG] interpreter_server - Sending formatted chunk: {"role": "assistant", "type": "message", "content": "Here", "created_at": "2025-02-15T01:53:36.912976"}
+2025-02-15 01:53:36,913 [DEBUG] interpreter_server - Chunk sent successfully
+2025-02-15 01:53:36,914 [DEBUG] interpreter_server - Processing chunk: {'role': 'assistant', 'type': 'message', 'content': "'s"}
+2025-02-15 01:53:36,914 [DEBUG] interpreter_server - Adding content to message: 's
+2025-02-15 01:53:36,915 [DEBUG] interpreter_server - Sending formatted chunk: {"role": "assistant", "type": "message", "content": "'s", "created_at": "2025-02-15T01:53:36.915021"}
+2025-02-15 01:53:36,915 [DEBUG] interpreter_server - Chunk sent successfully
+2025-02-15 01:53:36,917 [DEBUG] interpreter_server - Processing chunk: {'role': 'assistant', 'type': 'message', 'content': ' a'}
+2025-02-15 01:53:36,917 [DEBUG] interpreter_server - Adding content to message:  a
+2025-02-15 01:53:36,917 [DEBUG] interpreter_server - Sending formatted chunk: {"role": "assistant", "type": "message", "content": " a", "created_at": "2025-02-15T01:53:36.917468"}
+2025-02-15 01:53:36,917 [DEBUG] interpreter_server - Chunk sent successfully
+2025-02-15 01:53:36,919 [DEBUG] interpreter_server - Processing chunk: {'role': 'assistant', 'type': 'message', 'content': ' plan'}
+2025-02-15 01:53:36,919 [DEBUG] interpreter_server - Adding content to message:  plan
+2025-02-15 01:53:36,919 [DEBUG] interpreter_server - Sending formatted chunk: {"role": "assistant", "type": "message", "content": " plan", "created_at": "2025-02-15T01:53:36.919563"}
+2025-02-15 01:53:36,919 [DEBUG] interpreter_server - Chunk sent successfully
+2025-02-15 01:53:37,263 [DEBUG] interpreter_server - Processing chunk: {'role': 'assistant', 'type': 'message', 'content': ' to'}
+2025-02-15 01:53:37,264 [DEBUG] interpreter_server - Adding content to message:  to
+2025-02-15 01:53:37,264 [DEBUG] interpreter_server - Sending formatted chunk: {"role": "assistant", "type": "message", "content": " to", "created_at": "2025-02-15T01:53:37.264348"}
+2025-02-15 01:53:37,264 [DEBUG] interpreter_server - Chunk sent successfully
+2025-02-15 01:53:37,267 [DEBUG] interpreter_server - Processing chunk: {'role': 'assistant', 'type': 'message', 'content': ' write'}
+2025-02-15 01:53:37,267 [DEBUG] interpreter_server - Adding content to message:  write
+2025-02-15 01:53:37,267 [DEBUG] interpreter_server - Sending formatted chunk: {"role": "assistant", "type": "message", "content": " write", "created_at": "2025-02-15T01:53:37.267853"}
+2025-02-15 01:53:37,268 [DEBUG] interpreter_server - Chunk sent successfully
+2025-02-15 01:53:37,269 [DEBUG] interpreter_server - Processing chunk: {'role': 'assistant', 'type': 'message', 'content': ' a'}
+2025-02-15 01:53:37,270 [DEBUG] interpreter_server - Adding content to message:  a
+2025-02-15 01:53:37,270 [DEBUG] interpreter_server - Sending formatted chunk: {"role": "assistant", "type": "message", "content": " a", "created_at": "2025-02-15T01:53:37.270137"}
+2025-02-15 01:53:37,270 [DEBUG] interpreter_server - Chunk sent successfully
+2025-02-15 01:53:37,271 [DEBUG] interpreter_server - Processing chunk: {'role': 'assistant', 'type': 'message', 'content': ' Python'}
+2025-02-15 01:53:37,272 [DEBUG] interpreter_server - Adding content to message:  Python
+2025-02-15 01:53:37,272 [DEBUG] interpreter_server - Sending formatted chunk: {"role": "assistant", "type": "message", "content": " Python", "created_at": "2025-02-15T01:53:37.272275"}
+2025-02-15 01:53:37,272 [DEBUG] interpreter_server - Chunk sent successfully
+2025-02-15 01:53:37,274 [DEBUG] interpreter_server - Processing chunk: {'role': 'assistant', 'type': 'message', 'content': ' function'}
+2025-02-15 01:53:37,274 [DEBUG] interpreter_server - Adding content to message:  function
+2025-02-15 01:53:37,274 [DEBUG] interpreter_server - Sending formatted chunk: {"role": "assistant", "type": "message", "content": " function", "created_at": "2025-02-15T01:53:37.274358"}
+2025-02-15 01:53:37,274 [DEBUG] interpreter_server - Chunk sent successfully
+2025-02-15 01:53:37,276 [DEBUG] interpreter_server - Processing chunk: {'role': 'assistant', 'type': 'message', 'content': ' to'}
+2025-02-15 01:53:37,276 [DEBUG] interpreter_server - Adding content to message:  to
+2025-02-15 01:53:37,276 [DEBUG] interpreter_server - Sending formatted chunk: {"role": "assistant", "type": "message", "content": " to", "created_at": "2025-02-15T01:53:37.276415"}
+2025-02-15 01:53:37,276 [DEBUG] interpreter_server - Chunk sent successfully
+2025-02-15 01:53:37,307 [DEBUG] interpreter_server - Processing chunk: {'role': 'assistant', 'type': 'message', 'content': ' calculate'}
+2025-02-15 01:53:37,307 [DEBUG] interpreter_server - Adding content to message:  calculate
+2025-02-15 01:53:37,307 [DEBUG] interpreter_server - Sending formatted chunk: {"role": "assistant", "type": "message", "content": " calculate", "created_at": "2025-02-15T01:53:37.307872"}
+2025-02-15 01:53:37,308 [DEBUG] interpreter_server - Chunk sent successfully
+2025-02-15 01:53:37,310 [DEBUG] interpreter_server - Processing chunk: {'role': 'assistant', 'type': 'message', 'content': ' the'}
+2025-02-15 01:53:37,311 [DEBUG] interpreter_server - Adding content to message:  the
+2025-02-15 01:53:37,311 [DEBUG] interpreter_server - Sending formatted chunk: {"role": "assistant", "type": "message", "content": " the", "created_at": "2025-02-15T01:53:37.311636"}
+2025-02-15 01:53:37,311 [DEBUG] interpreter_server - Chunk sent successfully
+2025-02-15 01:53:37,313 [DEBUG] interpreter_server - Processing chunk: {'role': 'assistant', 'type': 'message', 'content': ' factorial'}
+2025-02-15 01:53:37,313 [DEBUG] interpreter_server - Adding content to message:  factorial
+2025-02-15 01:53:37,314 [DEBUG] interpreter_server - Sending formatted chunk: {"role": "assistant", "type": "message", "content": " factorial", "created_at": "2025-02-15T01:53:37.314066"}
+2025-02-15 01:53:37,314 [DEBUG] interpreter_server - Chunk sent successfully
+2025-02-15 01:53:37,315 [DEBUG] interpreter_server - Processing chunk: {'role': 'assistant', 'type': 'message', 'content': ' of'}
+2025-02-15 01:53:37,316 [DEBUG] interpreter_server - Adding content to message:  of
+2025-02-15 01:53:37,316 [DEBUG] interpreter_server - Sending formatted chunk: {"role": "assistant", "type": "message", "content": " of", "created_at": "2025-02-15T01:53:37.316315"}
+2025-02-15 01:53:37,316 [DEBUG] interpreter_server - Chunk sent successfully
+2025-02-15 01:53:37,318 [DEBUG] interpreter_server - Processing chunk: {'role': 'assistant', 'type': 'message', 'content': ' a'}
+2025-02-15 01:53:37,318 [DEBUG] interpreter_server - Adding content to message:  a
+2025-02-15 01:53:37,318 [DEBUG] interpreter_server - Sending formatted chunk: {"role": "assistant", "type": "message", "content": " a", "created_at": "2025-02-15T01:53:37.318319"}
+2025-02-15 01:53:37,318 [DEBUG] interpreter_server - Chunk sent successfully
+2025-02-15 01:53:37,387 [DEBUG] interpreter_server - Processing chunk: {'role': 'assistant', 'type': 'message', 'content': ' number'}
+2025-02-15 01:53:37,388 [DEBUG] interpreter_server - Adding content to message:  number
+2025-02-15 01:53:37,388 [DEBUG] interpreter_server - Sending formatted chunk: {"role": "assistant", "type": "message", "content": " number", "created_at": "2025-02-15T01:53:37.388532"}
+2025-02-15 01:53:37,388 [DEBUG] interpreter_server - Chunk sent successfully
+2025-02-15 01:53:37,391 [DEBUG] interpreter_server - Processing chunk: {'role': 'assistant', 'type': 'message', 'content': ' an'}
+2025-02-15 01:53:37,391 [DEBUG] interpreter_server - Adding content to message:  an
+2025-02-15 01:53:37,391 [DEBUG] interpreter_server - Sending formatted chunk: {"role": "assistant", "type": "message", "content": " an", "created_at": "2025-02-15T01:53:37.391582"}
+2025-02-15 01:53:37,392 [DEBUG] interpreter_server - Chunk sent successfully
+2025-02-15 01:53:37,393 [DEBUG] interpreter_server - Processing chunk: {'role': 'assistant', 'type': 'message', 'content': 'd test'}
+2025-02-15 01:53:37,393 [DEBUG] interpreter_server - Adding content to message: d test
+2025-02-15 01:53:37,393 [DEBUG] interpreter_server - Sending formatted chunk: {"role": "assistant", "type": "message", "content": "d test", "created_at": "2025-02-15T01:53:37.393667"}
+2025-02-15 01:53:37,393 [DEBUG] interpreter_server - Chunk sent successfully
+2025-02-15 01:53:37,395 [DEBUG] interpreter_server - Processing chunk: {'role': 'assistant', 'type': 'message', 'content': ' it'}
+2025-02-15 01:53:37,395 [DEBUG] interpreter_server - Adding content to message:  it
+2025-02-15 01:53:37,395 [DEBUG] interpreter_server - Sending formatted chunk: {"role": "assistant", "type": "message", "content": " it", "created_at": "2025-02-15T01:53:37.395951"}
+2025-02-15 01:53:37,396 [DEBUG] interpreter_server - Chunk sent successfully
+2025-02-15 01:53:37,397 [DEBUG] interpreter_server - Processing chunk: {'role': 'assistant', 'type': 'message', 'content': ' with'}
+2025-02-15 01:53:37,397 [DEBUG] interpreter_server - Adding content to message:  with
+2025-02-15 01:53:37,397 [DEBUG] interpreter_server - Sending formatted chunk: {"role": "assistant", "type": "message", "content": " with", "created_at": "2025-02-15T01:53:37.397948"}
+2025-02-15 01:53:37,398 [DEBUG] interpreter_server - Chunk sent successfully
+2025-02-15 01:53:37,399 [DEBUG] interpreter_server - Processing chunk: {'role': 'assistant', 'type': 'message', 'content': ' '}
+2025-02-15 01:53:37,399 [DEBUG] interpreter_server - Adding content to message:  
+2025-02-15 01:53:37,399 [DEBUG] interpreter_server - Sending formatted chunk: {"role": "assistant", "type": "message", "content": " ", "created_at": "2025-02-15T01:53:37.399965"}
+2025-02-15 01:53:37,400 [DEBUG] interpreter_server - Chunk sent successfully
+2025-02-15 01:53:37,553 [DEBUG] interpreter_server - Processing chunk: {'role': 'assistant', 'type': 'message', 'content': '5'}
+2025-02-15 01:53:37,553 [DEBUG] interpreter_server - Adding content to message: 5
+2025-02-15 01:53:37,554 [DEBUG] interpreter_server - Sending formatted chunk: {"role": "assistant", "type": "message", "content": "5", "created_at": "2025-02-15T01:53:37.554030"}
+2025-02-15 01:53:37,554 [DEBUG] interpreter_server - Chunk sent successfully
+2025-02-15 01:53:37,556 [DEBUG] interpreter_server - Processing chunk: {'role': 'assistant', 'type': 'message', 'content': ':'}
+2025-02-15 01:53:37,556 [DEBUG] interpreter_server - Adding content to message: :
+2025-02-15 01:53:37,557 [DEBUG] interpreter_server - Sending formatted chunk: {"role": "assistant", "type": "message", "content": ":", "created_at": "2025-02-15T01:53:37.557015"}
+2025-02-15 01:53:37,557 [DEBUG] interpreter_server - Chunk sent successfully
+2025-02-15 01:53:37,558 [DEBUG] interpreter_server - Processing chunk: {'role': 'assistant', 'type': 'message', 'content': '\n\n1'}
+2025-02-15 01:53:37,559 [DEBUG] interpreter_server - Adding content to message: 
+
+1
+2025-02-15 01:53:37,559 [DEBUG] interpreter_server - Sending formatted chunk: {"role": "assistant", "type": "message", "content": "\n\n1", "created_at": "2025-02-15T01:53:37.559362"}
+2025-02-15 01:53:37,559 [DEBUG] interpreter_server - Chunk sent successfully
+2025-02-15 01:53:37,561 [DEBUG] interpreter_server - Processing chunk: {'role': 'assistant', 'type': 'message', 'content': '.'}
+2025-02-15 01:53:37,561 [DEBUG] interpreter_server - Adding content to message: .
+2025-02-15 01:53:37,561 [DEBUG] interpreter_server - Sending formatted chunk: {"role": "assistant", "type": "message", "content": ".", "created_at": "2025-02-15T01:53:37.561723"}
+2025-02-15 01:53:37,561 [DEBUG] interpreter_server - Chunk sent successfully
+2025-02-15 01:53:37,563 [DEBUG] interpreter_server - Processing chunk: {'role': 'assistant', 'type': 'message', 'content': ' Define'}
+2025-02-15 01:53:37,563 [DEBUG] interpreter_server - Adding content to message:  Define
+2025-02-15 01:53:37,563 [DEBUG] interpreter_server - Sending formatted chunk: {"role": "assistant", "type": "message", "content": " Define", "created_at": "2025-02-15T01:53:37.563859"}
+2025-02-15 01:53:37,564 [DEBUG] interpreter_server - Chunk sent successfully
+2025-02-15 01:53:37,565 [DEBUG] interpreter_server - Processing chunk: {'role': 'assistant', 'type': 'message', 'content': ' a'}
+2025-02-15 01:53:37,565 [DEBUG] interpreter_server - Adding content to message:  a
+2025-02-15 01:53:37,566 [DEBUG] interpreter_server - Sending formatted chunk: {"role": "assistant", "type": "message", "content": " a", "created_at": "2025-02-15T01:53:37.566132"}
+2025-02-15 01:53:37,566 [DEBUG] interpreter_server - Chunk sent successfully
+2025-02-15 01:53:37,677 [DEBUG] interpreter_server - Processing chunk: {'role': 'assistant', 'type': 'message', 'content': ' Python'}
+2025-02-15 01:53:37,677 [DEBUG] interpreter_server - Adding content to message:  Python
+2025-02-15 01:53:37,678 [DEBUG] interpreter_server - Sending formatted chunk: {"role": "assistant", "type": "message", "content": " Python", "created_at": "2025-02-15T01:53:37.678015"}
+2025-02-15 01:53:37,678 [DEBUG] interpreter_server - Chunk sent successfully
+2025-02-15 01:53:37,680 [DEBUG] interpreter_server - Processing chunk: {'role': 'assistant', 'type': 'message', 'content': ' function'}
+2025-02-15 01:53:37,681 [DEBUG] interpreter_server - Adding content to message:  function
+2025-02-15 01:53:37,681 [DEBUG] interpreter_server - Sending formatted chunk: {"role": "assistant", "type": "message", "content": " function", "created_at": "2025-02-15T01:53:37.681222"}
+2025-02-15 01:53:37,681 [DEBUG] interpreter_server - Chunk sent successfully
+2025-02-15 01:53:37,683 [DEBUG] interpreter_server - Processing chunk: {'role': 'assistant', 'type': 'message', 'content': ' to'}
+2025-02-15 01:53:37,683 [DEBUG] interpreter_server - Adding content to message:  to
+2025-02-15 01:53:37,684 [DEBUG] interpreter_server - Sending formatted chunk: {"role": "assistant", "type": "message", "content": " to", "created_at": "2025-02-15T01:53:37.684137"}
+2025-02-15 01:53:37,684 [DEBUG] interpreter_server - Chunk sent successfully
+2025-02-15 01:53:37,686 [DEBUG] interpreter_server - Processing chunk: {'role': 'assistant', 'type': 'message', 'content': ' calculate'}
+2025-02-15 01:53:37,686 [DEBUG] interpreter_server - Adding content to message:  calculate
+2025-02-15 01:53:37,686 [DEBUG] interpreter_server - Sending formatted chunk: {"role": "assistant", "type": "message", "content": " calculate", "created_at": "2025-02-15T01:53:37.686577"}
+2025-02-15 01:53:37,687 [DEBUG] interpreter_server - Chunk sent successfully
+2025-02-15 01:53:37,688 [DEBUG] interpreter_server - Processing chunk: {'role': 'assistant', 'type': 'message', 'content': ' factorial'}
+2025-02-15 01:53:37,689 [DEBUG] interpreter_server - Adding content to message:  factorial
+2025-02-15 01:53:37,689 [DEBUG] interpreter_server - Sending formatted chunk: {"role": "assistant", "type": "message", "content": " factorial", "created_at": "2025-02-15T01:53:37.689416"}
+2025-02-15 01:53:37,689 [DEBUG] interpreter_server - Chunk sent successfully
+2025-02-15 01:53:37,801 [DEBUG] interpreter_server - Processing chunk: {'role': 'assistant', 'type': 'message', 'content': ' using'}
+2025-02-15 01:53:37,802 [DEBUG] interpreter_server - Adding content to message:  using
+2025-02-15 01:53:37,802 [DEBUG] interpreter_server - Sending formatted chunk: {"role": "assistant", "type": "message", "content": " using", "created_at": "2025-02-15T01:53:37.802541"}
+2025-02-15 01:53:37,802 [DEBUG] interpreter_server - Chunk sent successfully
+2025-02-15 01:53:37,805 [DEBUG] interpreter_server - Processing chunk: {'role': 'assistant', 'type': 'message', 'content': ' a'}
+2025-02-15 01:53:37,805 [DEBUG] interpreter_server - Adding content to message:  a
+2025-02-15 01:53:37,805 [DEBUG] interpreter_server - Sending formatted chunk: {"role": "assistant", "type": "message", "content": " a", "created_at": "2025-02-15T01:53:37.805692"}
+2025-02-15 01:53:37,805 [DEBUG] interpreter_server - Chunk sent successfully
+2025-02-15 01:53:37,807 [DEBUG] interpreter_server - Processing chunk: {'role': 'assistant', 'type': 'message', 'content': ' loop'}
+2025-02-15 01:53:37,808 [DEBUG] interpreter_server - Adding content to message:  loop
+2025-02-15 01:53:37,808 [DEBUG] interpreter_server - Sending formatted chunk: {"role": "assistant", "type": "message", "content": " loop", "created_at": "2025-02-15T01:53:37.808282"}
+2025-02-15 01:53:37,808 [DEBUG] interpreter_server - Chunk sent successfully
+2025-02-15 01:53:37,810 [DEBUG] interpreter_server - Processing chunk: {'role': 'assistant', 'type': 'message', 'content': ' or'}
+2025-02-15 01:53:37,810 [DEBUG] interpreter_server - Adding content to message:  or
+2025-02-15 01:53:37,810 [DEBUG] interpreter_server - Sending formatted chunk: {"role": "assistant", "type": "message", "content": " or", "created_at": "2025-02-15T01:53:37.810790"}
+2025-02-15 01:53:37,811 [DEBUG] interpreter_server - Chunk sent successfully
+2025-02-15 01:53:37,812 [DEBUG] interpreter_server - Processing chunk: {'role': 'assistant', 'type': 'message', 'content': ' recurs'}
+2025-02-15 01:53:37,813 [DEBUG] interpreter_server - Adding content to message:  recurs
+2025-02-15 01:53:37,813 [DEBUG] interpreter_server - Sending formatted chunk: {"role": "assistant", "type": "message", "content": " recurs", "created_at": "2025-02-15T01:53:37.813212"}
+2025-02-15 01:53:37,813 [DEBUG] interpreter_server - Chunk sent successfully
+2025-02-15 01:53:37,815 [DEBUG] interpreter_server - Processing chunk: {'role': 'assistant', 'type': 'message', 'content': 'ion'}
+2025-02-15 01:53:37,815 [DEBUG] interpreter_server - Adding content to message: ion
+2025-02-15 01:53:37,815 [DEBUG] interpreter_server - Sending formatted chunk: {"role": "assistant", "type": "message", "content": "ion", "created_at": "2025-02-15T01:53:37.815627"}
+2025-02-15 01:53:37,815 [DEBUG] interpreter_server - Chunk sent successfully
+2025-02-15 01:53:37,926 [DEBUG] interpreter_server - Processing chunk: {'role': 'assistant', 'type': 'message', 'content': '\n2'}
+2025-02-15 01:53:37,926 [DEBUG] interpreter_server - Adding content to message: 
+2
+2025-02-15 01:53:37,926 [DEBUG] interpreter_server - Sending formatted chunk: {"role": "assistant", "type": "message", "content": "\n2", "created_at": "2025-02-15T01:53:37.926798"}
+2025-02-15 01:53:37,927 [DEBUG] interpreter_server - Chunk sent successfully
+2025-02-15 01:53:37,929 [DEBUG] interpreter_server - Processing chunk: {'role': 'assistant', 'type': 'message', 'content': '.'}
+2025-02-15 01:53:37,929 [DEBUG] interpreter_server - Adding content to message: .
+2025-02-15 01:53:37,929 [DEBUG] interpreter_server - Sending formatted chunk: {"role": "assistant", "type": "message", "content": ".", "created_at": "2025-02-15T01:53:37.929893"}
+2025-02-15 01:53:37,930 [DEBUG] interpreter_server - Chunk sent successfully
+2025-02-15 01:53:37,932 [DEBUG] interpreter_server - Processing chunk: {'role': 'assistant', 'type': 'message', 'content': ' Test'}
+2025-02-15 01:53:37,932 [DEBUG] interpreter_server - Adding content to message:  Test
+2025-02-15 01:53:37,932 [DEBUG] interpreter_server - Sending formatted chunk: {"role": "assistant", "type": "message", "content": " Test", "created_at": "2025-02-15T01:53:37.932886"}
+2025-02-15 01:53:37,933 [DEBUG] interpreter_server - Chunk sent successfully
+2025-02-15 01:53:37,935 [DEBUG] interpreter_server - Processing chunk: {'role': 'assistant', 'type': 'message', 'content': ' the'}
+2025-02-15 01:53:37,935 [DEBUG] interpreter_server - Adding content to message:  the
+2025-02-15 01:53:37,935 [DEBUG] interpreter_server - Sending formatted chunk: {"role": "assistant", "type": "message", "content": " the", "created_at": "2025-02-15T01:53:37.935435"}
+2025-02-15 01:53:37,935 [DEBUG] interpreter_server - Chunk sent successfully
+2025-02-15 01:53:37,937 [DEBUG] interpreter_server - Processing chunk: {'role': 'assistant', 'type': 'message', 'content': ' function'}
+2025-02-15 01:53:37,937 [DEBUG] interpreter_server - Adding content to message:  function
+2025-02-15 01:53:37,938 [DEBUG] interpreter_server - Sending formatted chunk: {"role": "assistant", "type": "message", "content": " function", "created_at": "2025-02-15T01:53:37.938017"}
+2025-02-15 01:53:37,938 [DEBUG] interpreter_server - Chunk sent successfully
+2025-02-15 01:53:38,009 [DEBUG] interpreter_server - Processing chunk: {'role': 'assistant', 'type': 'message', 'content': ' by'}
+2025-02-15 01:53:38,009 [DEBUG] interpreter_server - Adding content to message:  by
+2025-02-15 01:53:38,010 [DEBUG] interpreter_server - Sending formatted chunk: {"role": "assistant", "type": "message", "content": " by", "created_at": "2025-02-15T01:53:38.010085"}
+2025-02-15 01:53:38,010 [DEBUG] interpreter_server - Chunk sent successfully
+2025-02-15 01:53:38,013 [DEBUG] interpreter_server - Processing chunk: {'role': 'assistant', 'type': 'message', 'content': ' calling'}
+2025-02-15 01:53:38,013 [DEBUG] interpreter_server - Adding content to message:  calling
+2025-02-15 01:53:38,013 [DEBUG] interpreter_server - Sending formatted chunk: {"role": "assistant", "type": "message", "content": " calling", "created_at": "2025-02-15T01:53:38.013506"}
+2025-02-15 01:53:38,013 [DEBUG] interpreter_server - Chunk sent successfully
+2025-02-15 01:53:38,015 [DEBUG] interpreter_server - Processing chunk: {'role': 'assistant', 'type': 'message', 'content': ' it'}
+2025-02-15 01:53:38,015 [DEBUG] interpreter_server - Adding content to message:  it
+2025-02-15 01:53:38,016 [DEBUG] interpreter_server - Sending formatted chunk: {"role": "assistant", "type": "message", "content": " it", "created_at": "2025-02-15T01:53:38.016000"}
+2025-02-15 01:53:38,016 [DEBUG] interpreter_server - Chunk sent successfully
+2025-02-15 01:53:38,018 [DEBUG] interpreter_server - Processing chunk: {'role': 'assistant', 'type': 'message', 'content': ' with'}
+2025-02-15 01:53:38,018 [DEBUG] interpreter_server - Adding content to message:  with
+2025-02-15 01:53:38,018 [DEBUG] interpreter_server - Sending formatted chunk: {"role": "assistant", "type": "message", "content": " with", "created_at": "2025-02-15T01:53:38.018920"}
+2025-02-15 01:53:38,019 [DEBUG] interpreter_server - Chunk sent successfully
+2025-02-15 01:53:38,021 [DEBUG] interpreter_server - Processing chunk: {'role': 'assistant', 'type': 'message', 'content': ' the'}
+2025-02-15 01:53:38,021 [DEBUG] interpreter_server - Adding content to message:  the
+2025-02-15 01:53:38,021 [DEBUG] interpreter_server - Sending formatted chunk: {"role": "assistant", "type": "message", "content": " the", "created_at": "2025-02-15T01:53:38.021493"}
+2025-02-15 01:53:38,021 [DEBUG] interpreter_server - Chunk sent successfully
+2025-02-15 01:53:38,023 [DEBUG] interpreter_server - Processing chunk: {'role': 'assistant', 'type': 'message', 'content': ' number'}
+2025-02-15 01:53:38,023 [DEBUG] interpreter_server - Adding content to message:  number
+2025-02-15 01:53:38,024 [DEBUG] interpreter_server - Sending formatted chunk: {"role": "assistant", "type": "message", "content": " number", "created_at": "2025-02-15T01:53:38.024058"}
+2025-02-15 01:53:38,024 [DEBUG] interpreter_server - Chunk sent successfully
+2025-02-15 01:53:38,089 [DEBUG] interpreter_server - Processing chunk: {'role': 'assistant', 'type': 'message', 'content': ' '}
+2025-02-15 01:53:38,090 [DEBUG] interpreter_server - Adding content to message:  
+2025-02-15 01:53:38,090 [DEBUG] interpreter_server - Sending formatted chunk: {"role": "assistant", "type": "message", "content": " ", "created_at": "2025-02-15T01:53:38.090467"}
+2025-02-15 01:53:38,090 [DEBUG] interpreter_server - Chunk sent successfully
+2025-02-15 01:53:38,093 [DEBUG] interpreter_server - Processing chunk: {'role': 'assistant', 'type': 'message', 'content': '5'}
+2025-02-15 01:53:38,093 [DEBUG] interpreter_server - Adding content to message: 5
+2025-02-15 01:53:38,094 [DEBUG] interpreter_server - Sending formatted chunk: {"role": "assistant", "type": "message", "content": "5", "created_at": "2025-02-15T01:53:38.093984"}
+2025-02-15 01:53:38,094 [DEBUG] interpreter_server - Chunk sent successfully
+2025-02-15 01:53:38,096 [DEBUG] interpreter_server - Processing chunk: {'role': 'assistant', 'type': 'message', 'content': ' '}
+2025-02-15 01:53:38,096 [DEBUG] interpreter_server - Adding content to message:  
+2025-02-15 01:53:38,096 [DEBUG] interpreter_server - Sending formatted chunk: {"role": "assistant", "type": "message", "content": " ", "created_at": "2025-02-15T01:53:38.096652"}
+2025-02-15 01:53:38,096 [DEBUG] interpreter_server - Chunk sent successfully
+2025-02-15 01:53:38,099 [DEBUG] interpreter_server - Processing chunk: {'role': 'assistant', 'type': 'message', 'content': 'an'}
+2025-02-15 01:53:38,099 [DEBUG] interpreter_server - Adding content to message: an
+2025-02-15 01:53:38,099 [DEBUG] interpreter_server - Sending formatted chunk: {"role": "assistant", "type": "message", "content": "an", "created_at": "2025-02-15T01:53:38.099415"}
+2025-02-15 01:53:38,099 [DEBUG] interpreter_server - Chunk sent successfully
+2025-02-15 01:53:38,101 [DEBUG] interpreter_server - Processing chunk: {'role': 'assistant', 'type': 'message', 'content': 'd print'}
+2025-02-15 01:53:38,101 [DEBUG] interpreter_server - Adding content to message: d print
+2025-02-15 01:53:38,101 [DEBUG] interpreter_server - Sending formatted chunk: {"role": "assistant", "type": "message", "content": "d print", "created_at": "2025-02-15T01:53:38.101903"}
+2025-02-15 01:53:38,102 [DEBUG] interpreter_server - Chunk sent successfully
+2025-02-15 01:53:38,104 [DEBUG] interpreter_server - Processing chunk: {'role': 'assistant', 'type': 'message', 'content': ' the'}
+2025-02-15 01:53:38,104 [DEBUG] interpreter_server - Adding content to message:  the
+2025-02-15 01:53:38,104 [DEBUG] interpreter_server - Sending formatted chunk: {"role": "assistant", "type": "message", "content": " the", "created_at": "2025-02-15T01:53:38.104514"}
+2025-02-15 01:53:38,104 [DEBUG] interpreter_server - Chunk sent successfully
+2025-02-15 01:53:38,214 [DEBUG] interpreter_server - Processing chunk: {'role': 'assistant', 'type': 'message', 'content': ' result'}
+2025-02-15 01:53:38,214 [DEBUG] interpreter_server - Adding content to message:  result
+2025-02-15 01:53:38,215 [DEBUG] interpreter_server - Sending formatted chunk: {"role": "assistant", "type": "message", "content": " result", "created_at": "2025-02-15T01:53:38.215116"}
+2025-02-15 01:53:38,215 [DEBUG] interpreter_server - Chunk sent successfully
+2025-02-15 01:53:38,218 [DEBUG] interpreter_server - Processing chunk: {'role': 'assistant', 'type': 'message', 'content': '\n\nHere'}
+2025-02-15 01:53:38,218 [DEBUG] interpreter_server - Adding content to message: 
+
+Here
+2025-02-15 01:53:38,219 [DEBUG] interpreter_server - Sending formatted chunk: {"role": "assistant", "type": "message", "content": "\n\nHere", "created_at": "2025-02-15T01:53:38.219068"}
+2025-02-15 01:53:38,219 [DEBUG] interpreter_server - Chunk sent successfully
+2025-02-15 01:53:38,222 [DEBUG] interpreter_server - Processing chunk: {'role': 'assistant', 'type': 'message', 'content': "'s"}
+2025-02-15 01:53:38,222 [DEBUG] interpreter_server - Adding content to message: 's
+2025-02-15 01:53:38,222 [DEBUG] interpreter_server - Sending formatted chunk: {"role": "assistant", "type": "message", "content": "'s", "created_at": "2025-02-15T01:53:38.222584"}
+2025-02-15 01:53:38,222 [DEBUG] interpreter_server - Chunk sent successfully
+2025-02-15 01:53:38,225 [DEBUG] interpreter_server - Processing chunk: {'role': 'assistant', 'type': 'message', 'content': ' the'}
+2025-02-15 01:53:38,225 [DEBUG] interpreter_server - Adding content to message:  the
+2025-02-15 01:53:38,225 [DEBUG] interpreter_server - Sending formatted chunk: {"role": "assistant", "type": "message", "content": " the", "created_at": "2025-02-15T01:53:38.225726"}
+2025-02-15 01:53:38,225 [DEBUG] interpreter_server - Chunk sent successfully
+2025-02-15 01:53:38,228 [DEBUG] interpreter_server - Processing chunk: {'role': 'assistant', 'type': 'message', 'content': ' code'}
+2025-02-15 01:53:38,228 [DEBUG] interpreter_server - Adding content to message:  code
+2025-02-15 01:53:38,228 [DEBUG] interpreter_server - Sending formatted chunk: {"role": "assistant", "type": "message", "content": " code", "created_at": "2025-02-15T01:53:38.228643"}
+2025-02-15 01:53:38,228 [DEBUG] interpreter_server - Chunk sent successfully
+2025-02-15 01:53:38,544 [DEBUG] interpreter_server - Processing chunk: {'role': 'assistant', 'type': 'message', 'content': ' to'}
+2025-02-15 01:53:38,545 [DEBUG] interpreter_server - Adding content to message:  to
+2025-02-15 01:53:38,545 [DEBUG] interpreter_server - Sending formatted chunk: {"role": "assistant", "type": "message", "content": " to", "created_at": "2025-02-15T01:53:38.545457"}
+2025-02-15 01:53:38,545 [DEBUG] interpreter_server - Chunk sent successfully
+2025-02-15 01:53:38,548 [DEBUG] interpreter_server - Processing chunk: {'role': 'assistant', 'type': 'message', 'content': ' execute'}
+2025-02-15 01:53:38,548 [DEBUG] interpreter_server - Adding content to message:  execute
+2025-02-15 01:53:38,549 [DEBUG] interpreter_server - Sending formatted chunk: {"role": "assistant", "type": "message", "content": " execute", "created_at": "2025-02-15T01:53:38.549133"}
+2025-02-15 01:53:38,549 [DEBUG] interpreter_server - Chunk sent successfully
+2025-02-15 01:53:38,551 [DEBUG] interpreter_server - Processing chunk: {'role': 'assistant', 'type': 'message', 'content': ' this'}
+2025-02-15 01:53:38,552 [DEBUG] interpreter_server - Adding content to message:  this
+2025-02-15 01:53:38,552 [DEBUG] interpreter_server - Sending formatted chunk: {"role": "assistant", "type": "message", "content": " this", "created_at": "2025-02-15T01:53:38.552452"}
+2025-02-15 01:53:38,552 [DEBUG] interpreter_server - Chunk sent successfully
+2025-02-15 01:53:38,554 [DEBUG] interpreter_server - Processing chunk: {'role': 'assistant', 'type': 'message', 'content': ' plan'}
+2025-02-15 01:53:38,555 [DEBUG] interpreter_server - Adding content to message:  plan
+2025-02-15 01:53:38,555 [DEBUG] interpreter_server - Sending formatted chunk: {"role": "assistant", "type": "message", "content": " plan", "created_at": "2025-02-15T01:53:38.555338"}
+2025-02-15 01:53:38,555 [DEBUG] interpreter_server - Chunk sent successfully
+2025-02-15 01:53:38,557 [DEBUG] interpreter_server - Processing chunk: {'role': 'assistant', 'type': 'message', 'content': ':'}
+2025-02-15 01:53:38,558 [DEBUG] interpreter_server - Adding content to message: :
+2025-02-15 01:53:38,558 [DEBUG] interpreter_server - Sending formatted chunk: {"role": "assistant", "type": "message", "content": ":", "created_at": "2025-02-15T01:53:38.558261"}
+2025-02-15 01:53:38,558 [DEBUG] interpreter_server - Chunk sent successfully
+2025-02-15 01:53:40,071 [DEBUG] interpreter_server - Processing chunk: {'role': 'assistant', 'type': 'message', 'end': True}
+2025-02-15 01:53:40,071 [DEBUG] interpreter_server - Message end detected
+2025-02-15 01:55:32,448 [INFO] interpreter_server - Starting server on http://0.0.0.0:5001
+2025-02-15 01:55:46,287 [INFO] interpreter_server - Request: POST http://localhost:5001/v1/chat
+2025-02-15 01:55:46,287 [DEBUG] interpreter_server - Headers: {'Host': 'localhost:5001', 'User-Agent': 'curl/8.1.2', 'Accept': '*/*', 'Content-Type': 'application/json', 'Content-Length': '166'}
+2025-02-15 01:55:46,288 [DEBUG] interpreter_server - JSON Data: {'messages': [{'role': 'user', 'type': 'message', 'content': 'Write a Python function to calculate the factorial of a number and test it with the number 5'}], 'stream': True}
+2025-02-15 01:55:46,288 [DEBUG] interpreter_server - Received request data: {'messages': [{'role': 'user', 'type': 'message', 'content': 'Write a Python function to calculate the factorial of a number and test it with the number 5'}], 'stream': True}
+2025-02-15 01:55:46,288 [INFO] interpreter_server - No session_id provided, creating new session
+2025-02-15 01:55:46,288 [DEBUG] interpreter_server - Created new session: 025cb7f6-849f-4d50-b23c-823d424f4694
+2025-02-15 01:55:46,288 [INFO] interpreter_server - Processing chat request with 1 messages for session 025cb7f6-849f-4d50-b23c-823d424f4694
+2025-02-15 01:55:46,289 [DEBUG] interpreter_server - Starting chat with interpreter
+2025-02-15 01:55:49,620 [DEBUG] interpreter_server - Got response from interpreter
+2025-02-15 01:55:49,620 [INFO] interpreter_server - Starting streaming response
+2025-02-15 01:55:49,620 [INFO] interpreter_server - Response Status: 200
+2025-02-15 01:55:49,620 [DEBUG] interpreter_server - Response Headers: {'Cache-Control': 'no-cache', 'X-Accel-Buffering': 'no', 'Content-Type': 'text/event-stream; charset=utf-8'}
+2025-02-15 01:55:49,621 [DEBUG] interpreter_server - Starting stream generation
+2025-02-15 01:55:50,812 [DEBUG] interpreter_server - Processing chunk: {'role': 'assistant', 'type': 'message', 'start': True}
+2025-02-15 01:55:50,812 [DEBUG] interpreter_server - Message start detected
+2025-02-15 01:55:50,812 [DEBUG] interpreter_server - Sending formatted chunk: {"role": "assistant", "type": "message", "start": true, "created_at": "2025-02-15T01:55:50.812714"}
+2025-02-15 01:55:50,813 [DEBUG] interpreter_server - Chunk sent successfully
+2025-02-15 01:55:50,814 [DEBUG] interpreter_server - Processing chunk: {'role': 'assistant', 'type': 'message', 'content': 'Here'}
+2025-02-15 01:55:50,814 [DEBUG] interpreter_server - Adding content to message: Here
+2025-02-15 01:55:50,815 [DEBUG] interpreter_server - Sending formatted chunk: {"role": "assistant", "type": "message", "content": "Here", "created_at": "2025-02-15T01:55:50.814992"}
+2025-02-15 01:55:50,815 [DEBUG] interpreter_server - Chunk sent successfully
+2025-02-15 01:55:50,816 [DEBUG] interpreter_server - Processing chunk: {'role': 'assistant', 'type': 'message', 'content': "'s"}
+2025-02-15 01:55:50,816 [DEBUG] interpreter_server - Adding content to message: 's
+2025-02-15 01:55:50,816 [DEBUG] interpreter_server - Sending formatted chunk: {"role": "assistant", "type": "message", "content": "'s", "created_at": "2025-02-15T01:55:50.816820"}
+2025-02-15 01:55:50,817 [DEBUG] interpreter_server - Chunk sent successfully
+2025-02-15 01:55:50,818 [DEBUG] interpreter_server - Processing chunk: {'role': 'assistant', 'type': 'message', 'content': ' a'}
+2025-02-15 01:55:50,818 [DEBUG] interpreter_server - Adding content to message:  a
+2025-02-15 01:55:50,818 [DEBUG] interpreter_server - Sending formatted chunk: {"role": "assistant", "type": "message", "content": " a", "created_at": "2025-02-15T01:55:50.818838"}
+2025-02-15 01:55:50,819 [DEBUG] interpreter_server - Chunk sent successfully
+2025-02-15 01:55:50,820 [DEBUG] interpreter_server - Processing chunk: {'role': 'assistant', 'type': 'message', 'content': ' plan'}
+2025-02-15 01:55:50,820 [DEBUG] interpreter_server - Adding content to message:  plan
+2025-02-15 01:55:50,820 [DEBUG] interpreter_server - Sending formatted chunk: {"role": "assistant", "type": "message", "content": " plan", "created_at": "2025-02-15T01:55:50.820947"}
+2025-02-15 01:55:50,821 [DEBUG] interpreter_server - Chunk sent successfully
+2025-02-15 01:55:50,880 [DEBUG] interpreter_server - Processing chunk: {'role': 'assistant', 'type': 'message', 'content': ' for'}
+2025-02-15 01:55:50,880 [DEBUG] interpreter_server - Adding content to message:  for
+2025-02-15 01:55:50,880 [DEBUG] interpreter_server - Sending formatted chunk: {"role": "assistant", "type": "message", "content": " for", "created_at": "2025-02-15T01:55:50.880749"}
+2025-02-15 01:55:50,881 [DEBUG] interpreter_server - Chunk sent successfully
+2025-02-15 01:55:50,883 [DEBUG] interpreter_server - Processing chunk: {'role': 'assistant', 'type': 'message', 'content': ' this'}
+2025-02-15 01:55:50,883 [DEBUG] interpreter_server - Adding content to message:  this
+2025-02-15 01:55:50,883 [DEBUG] interpreter_server - Sending formatted chunk: {"role": "assistant", "type": "message", "content": " this", "created_at": "2025-02-15T01:55:50.883790"}
+2025-02-15 01:55:50,884 [DEBUG] interpreter_server - Chunk sent successfully
+2025-02-15 01:55:50,885 [DEBUG] interpreter_server - Processing chunk: {'role': 'assistant', 'type': 'message', 'content': ':'}
+2025-02-15 01:55:50,885 [DEBUG] interpreter_server - Adding content to message: :
+2025-02-15 01:55:50,885 [DEBUG] interpreter_server - Sending formatted chunk: {"role": "assistant", "type": "message", "content": ":", "created_at": "2025-02-15T01:55:50.885884"}
+2025-02-15 01:55:50,886 [DEBUG] interpreter_server - Chunk sent successfully
+2025-02-15 01:55:50,887 [DEBUG] interpreter_server - Processing chunk: {'role': 'assistant', 'type': 'message', 'content': '\n\n1'}
+2025-02-15 01:55:50,887 [DEBUG] interpreter_server - Adding content to message: 
+
+1
+2025-02-15 01:55:50,888 [DEBUG] interpreter_server - Sending formatted chunk: {"role": "assistant", "type": "message", "content": "\n\n1", "created_at": "2025-02-15T01:55:50.888146"}
+2025-02-15 01:55:50,888 [DEBUG] interpreter_server - Chunk sent successfully
+2025-02-15 01:55:50,889 [DEBUG] interpreter_server - Processing chunk: {'role': 'assistant', 'type': 'message', 'content': '.'}
+2025-02-15 01:55:50,890 [DEBUG] interpreter_server - Adding content to message: .
+2025-02-15 01:55:50,890 [DEBUG] interpreter_server - Sending formatted chunk: {"role": "assistant", "type": "message", "content": ".", "created_at": "2025-02-15T01:55:50.890344"}
+2025-02-15 01:55:50,890 [DEBUG] interpreter_server - Chunk sent successfully
+2025-02-15 01:55:50,963 [DEBUG] interpreter_server - Processing chunk: {'role': 'assistant', 'type': 'message', 'content': ' Write'}
+2025-02-15 01:55:50,963 [DEBUG] interpreter_server - Adding content to message:  Write
+2025-02-15 01:55:50,964 [DEBUG] interpreter_server - Sending formatted chunk: {"role": "assistant", "type": "message", "content": " Write", "created_at": "2025-02-15T01:55:50.964196"}
+2025-02-15 01:55:50,964 [DEBUG] interpreter_server - Chunk sent successfully
+2025-02-15 01:55:50,966 [DEBUG] interpreter_server - Processing chunk: {'role': 'assistant', 'type': 'message', 'content': ' a'}
+2025-02-15 01:55:50,967 [DEBUG] interpreter_server - Adding content to message:  a
+2025-02-15 01:55:50,967 [DEBUG] interpreter_server - Sending formatted chunk: {"role": "assistant", "type": "message", "content": " a", "created_at": "2025-02-15T01:55:50.967434"}
+2025-02-15 01:55:50,967 [DEBUG] interpreter_server - Chunk sent successfully
+2025-02-15 01:55:50,969 [DEBUG] interpreter_server - Processing chunk: {'role': 'assistant', 'type': 'message', 'content': ' Python'}
+2025-02-15 01:55:50,969 [DEBUG] interpreter_server - Adding content to message:  Python
+2025-02-15 01:55:50,969 [DEBUG] interpreter_server - Sending formatted chunk: {"role": "assistant", "type": "message", "content": " Python", "created_at": "2025-02-15T01:55:50.969791"}
+2025-02-15 01:55:50,969 [DEBUG] interpreter_server - Chunk sent successfully
+2025-02-15 01:55:50,971 [DEBUG] interpreter_server - Processing chunk: {'role': 'assistant', 'type': 'message', 'content': ' function'}
+2025-02-15 01:55:50,972 [DEBUG] interpreter_server - Adding content to message:  function
+2025-02-15 01:55:50,972 [DEBUG] interpreter_server - Sending formatted chunk: {"role": "assistant", "type": "message", "content": " function", "created_at": "2025-02-15T01:55:50.972200"}
+2025-02-15 01:55:50,972 [DEBUG] interpreter_server - Chunk sent successfully
+2025-02-15 01:55:50,974 [DEBUG] interpreter_server - Processing chunk: {'role': 'assistant', 'type': 'message', 'content': ' to'}
+2025-02-15 01:55:50,974 [DEBUG] interpreter_server - Adding content to message:  to
+2025-02-15 01:55:50,974 [DEBUG] interpreter_server - Sending formatted chunk: {"role": "assistant", "type": "message", "content": " to", "created_at": "2025-02-15T01:55:50.974481"}
+2025-02-15 01:55:50,974 [DEBUG] interpreter_server - Chunk sent successfully
+2025-02-15 01:55:50,976 [DEBUG] interpreter_server - Processing chunk: {'role': 'assistant', 'type': 'message', 'content': ' calculate'}
+2025-02-15 01:55:50,976 [DEBUG] interpreter_server - Adding content to message:  calculate
+2025-02-15 01:55:50,976 [DEBUG] interpreter_server - Sending formatted chunk: {"role": "assistant", "type": "message", "content": " calculate", "created_at": "2025-02-15T01:55:50.976641"}
+2025-02-15 01:55:50,976 [DEBUG] interpreter_server - Chunk sent successfully
+2025-02-15 01:55:51,039 [DEBUG] interpreter_server - Processing chunk: {'role': 'assistant', 'type': 'message', 'content': ' the'}
+2025-02-15 01:55:51,040 [DEBUG] interpreter_server - Adding content to message:  the
+2025-02-15 01:55:51,040 [DEBUG] interpreter_server - Sending formatted chunk: {"role": "assistant", "type": "message", "content": " the", "created_at": "2025-02-15T01:55:51.040362"}
+2025-02-15 01:55:51,040 [DEBUG] interpreter_server - Chunk sent successfully
+2025-02-15 01:55:51,043 [DEBUG] interpreter_server - Processing chunk: {'role': 'assistant', 'type': 'message', 'content': ' factorial'}
+2025-02-15 01:55:51,043 [DEBUG] interpreter_server - Adding content to message:  factorial
+2025-02-15 01:55:51,043 [DEBUG] interpreter_server - Sending formatted chunk: {"role": "assistant", "type": "message", "content": " factorial", "created_at": "2025-02-15T01:55:51.043650"}
+2025-02-15 01:55:51,043 [DEBUG] interpreter_server - Chunk sent successfully
+2025-02-15 01:55:51,046 [DEBUG] interpreter_server - Processing chunk: {'role': 'assistant', 'type': 'message', 'content': ' of'}
+2025-02-15 01:55:51,046 [DEBUG] interpreter_server - Adding content to message:  of
+2025-02-15 01:55:51,047 [DEBUG] interpreter_server - Sending formatted chunk: {"role": "assistant", "type": "message", "content": " of", "created_at": "2025-02-15T01:55:51.047183"}
+2025-02-15 01:55:51,047 [DEBUG] interpreter_server - Chunk sent successfully
+2025-02-15 01:55:51,049 [DEBUG] interpreter_server - Processing chunk: {'role': 'assistant', 'type': 'message', 'content': ' a'}
+2025-02-15 01:55:51,049 [DEBUG] interpreter_server - Adding content to message:  a
+2025-02-15 01:55:51,049 [DEBUG] interpreter_server - Sending formatted chunk: {"role": "assistant", "type": "message", "content": " a", "created_at": "2025-02-15T01:55:51.049651"}
+2025-02-15 01:55:51,049 [DEBUG] interpreter_server - Chunk sent successfully
+2025-02-15 01:55:51,051 [DEBUG] interpreter_server - Processing chunk: {'role': 'assistant', 'type': 'message', 'content': ' number'}
+2025-02-15 01:55:51,051 [DEBUG] interpreter_server - Adding content to message:  number
+2025-02-15 01:55:51,052 [DEBUG] interpreter_server - Sending formatted chunk: {"role": "assistant", "type": "message", "content": " number", "created_at": "2025-02-15T01:55:51.052089"}
+2025-02-15 01:55:51,052 [DEBUG] interpreter_server - Chunk sent successfully
+2025-02-15 01:55:51,163 [DEBUG] interpreter_server - Processing chunk: {'role': 'assistant', 'type': 'message', 'content': ' using'}
+2025-02-15 01:55:51,163 [DEBUG] interpreter_server - Adding content to message:  using
+2025-02-15 01:55:51,164 [DEBUG] interpreter_server - Sending formatted chunk: {"role": "assistant", "type": "message", "content": " using", "created_at": "2025-02-15T01:55:51.163985"}
+2025-02-15 01:55:51,164 [DEBUG] interpreter_server - Chunk sent successfully
+2025-02-15 01:55:51,166 [DEBUG] interpreter_server - Processing chunk: {'role': 'assistant', 'type': 'message', 'content': ' a'}
+2025-02-15 01:55:51,166 [DEBUG] interpreter_server - Adding content to message:  a
+2025-02-15 01:55:51,166 [DEBUG] interpreter_server - Sending formatted chunk: {"role": "assistant", "type": "message", "content": " a", "created_at": "2025-02-15T01:55:51.166940"}
+2025-02-15 01:55:51,167 [DEBUG] interpreter_server - Chunk sent successfully
+2025-02-15 01:55:51,169 [DEBUG] interpreter_server - Processing chunk: {'role': 'assistant', 'type': 'message', 'content': ' loop'}
+2025-02-15 01:55:51,169 [DEBUG] interpreter_server - Adding content to message:  loop
+2025-02-15 01:55:51,169 [DEBUG] interpreter_server - Sending formatted chunk: {"role": "assistant", "type": "message", "content": " loop", "created_at": "2025-02-15T01:55:51.169246"}
+2025-02-15 01:55:51,169 [DEBUG] interpreter_server - Chunk sent successfully
+2025-02-15 01:55:51,171 [DEBUG] interpreter_server - Processing chunk: {'role': 'assistant', 'type': 'message', 'content': '\n2'}
+2025-02-15 01:55:51,172 [DEBUG] interpreter_server - Adding content to message: 
+2
+2025-02-15 01:55:51,172 [DEBUG] interpreter_server - Sending formatted chunk: {"role": "assistant", "type": "message", "content": "\n2", "created_at": "2025-02-15T01:55:51.172160"}
+2025-02-15 01:55:51,172 [DEBUG] interpreter_server - Chunk sent successfully
+2025-02-15 01:55:51,174 [DEBUG] interpreter_server - Processing chunk: {'role': 'assistant', 'type': 'message', 'content': '.'}
+2025-02-15 01:55:51,174 [DEBUG] interpreter_server - Adding content to message: .
+2025-02-15 01:55:51,175 [DEBUG] interpreter_server - Sending formatted chunk: {"role": "assistant", "type": "message", "content": ".", "created_at": "2025-02-15T01:55:51.175255"}
+2025-02-15 01:55:51,175 [DEBUG] interpreter_server - Chunk sent successfully
+2025-02-15 01:55:51,177 [DEBUG] interpreter_server - Processing chunk: {'role': 'assistant', 'type': 'message', 'content': ' Test'}
+2025-02-15 01:55:51,177 [DEBUG] interpreter_server - Adding content to message:  Test
+2025-02-15 01:55:51,177 [DEBUG] interpreter_server - Sending formatted chunk: {"role": "assistant", "type": "message", "content": " Test", "created_at": "2025-02-15T01:55:51.177832"}
+2025-02-15 01:55:51,178 [DEBUG] interpreter_server - Chunk sent successfully
+2025-02-15 01:55:51,245 [DEBUG] interpreter_server - Processing chunk: {'role': 'assistant', 'type': 'message', 'content': ' the'}
+2025-02-15 01:55:51,245 [DEBUG] interpreter_server - Adding content to message:  the
+2025-02-15 01:55:51,245 [DEBUG] interpreter_server - Sending formatted chunk: {"role": "assistant", "type": "message", "content": " the", "created_at": "2025-02-15T01:55:51.245910"}
+2025-02-15 01:55:51,246 [DEBUG] interpreter_server - Chunk sent successfully
+2025-02-15 01:55:51,248 [DEBUG] interpreter_server - Processing chunk: {'role': 'assistant', 'type': 'message', 'content': ' function'}
+2025-02-15 01:55:51,249 [DEBUG] interpreter_server - Adding content to message:  function
+2025-02-15 01:55:51,249 [DEBUG] interpreter_server - Sending formatted chunk: {"role": "assistant", "type": "message", "content": " function", "created_at": "2025-02-15T01:55:51.249288"}
+2025-02-15 01:55:51,249 [DEBUG] interpreter_server - Chunk sent successfully
+2025-02-15 01:55:51,251 [DEBUG] interpreter_server - Processing chunk: {'role': 'assistant', 'type': 'message', 'content': ' with'}
+2025-02-15 01:55:51,251 [DEBUG] interpreter_server - Adding content to message:  with
+2025-02-15 01:55:51,252 [DEBUG] interpreter_server - Sending formatted chunk: {"role": "assistant", "type": "message", "content": " with", "created_at": "2025-02-15T01:55:51.252095"}
+2025-02-15 01:55:51,252 [DEBUG] interpreter_server - Chunk sent successfully
+2025-02-15 01:55:51,254 [DEBUG] interpreter_server - Processing chunk: {'role': 'assistant', 'type': 'message', 'content': ' the'}
+2025-02-15 01:55:51,254 [DEBUG] interpreter_server - Adding content to message:  the
+2025-02-15 01:55:51,255 [DEBUG] interpreter_server - Sending formatted chunk: {"role": "assistant", "type": "message", "content": " the", "created_at": "2025-02-15T01:55:51.255091"}
+2025-02-15 01:55:51,255 [DEBUG] interpreter_server - Chunk sent successfully
+2025-02-15 01:55:51,257 [DEBUG] interpreter_server - Processing chunk: {'role': 'assistant', 'type': 'message', 'content': ' number'}
+2025-02-15 01:55:51,257 [DEBUG] interpreter_server - Adding content to message:  number
+2025-02-15 01:55:51,257 [DEBUG] interpreter_server - Sending formatted chunk: {"role": "assistant", "type": "message", "content": " number", "created_at": "2025-02-15T01:55:51.257761"}
+2025-02-15 01:55:51,258 [DEBUG] interpreter_server - Chunk sent successfully
+2025-02-15 01:55:51,322 [DEBUG] interpreter_server - Processing chunk: {'role': 'assistant', 'type': 'message', 'content': ' '}
+2025-02-15 01:55:51,323 [DEBUG] interpreter_server - Adding content to message:  
+2025-02-15 01:55:51,323 [DEBUG] interpreter_server - Sending formatted chunk: {"role": "assistant", "type": "message", "content": " ", "created_at": "2025-02-15T01:55:51.323582"}
+2025-02-15 01:55:51,323 [DEBUG] interpreter_server - Chunk sent successfully
+2025-02-15 01:55:51,326 [DEBUG] interpreter_server - Processing chunk: {'role': 'assistant', 'type': 'message', 'content': '5'}
+2025-02-15 01:55:51,326 [DEBUG] interpreter_server - Adding content to message: 5
+2025-02-15 01:55:51,326 [DEBUG] interpreter_server - Sending formatted chunk: {"role": "assistant", "type": "message", "content": "5", "created_at": "2025-02-15T01:55:51.326953"}
+2025-02-15 01:55:51,327 [DEBUG] interpreter_server - Chunk sent successfully
+2025-02-15 01:55:51,329 [DEBUG] interpreter_server - Processing chunk: {'role': 'assistant', 'type': 'message', 'content': '\n3'}
+2025-02-15 01:55:51,329 [DEBUG] interpreter_server - Adding content to message: 
+3
+2025-02-15 01:55:51,329 [DEBUG] interpreter_server - Sending formatted chunk: {"role": "assistant", "type": "message", "content": "\n3", "created_at": "2025-02-15T01:55:51.329657"}
+2025-02-15 01:55:51,329 [DEBUG] interpreter_server - Chunk sent successfully
+2025-02-15 01:55:51,332 [DEBUG] interpreter_server - Processing chunk: {'role': 'assistant', 'type': 'message', 'content': '.'}
+2025-02-15 01:55:51,332 [DEBUG] interpreter_server - Adding content to message: .
+2025-02-15 01:55:51,332 [DEBUG] interpreter_server - Sending formatted chunk: {"role": "assistant", "type": "message", "content": ".", "created_at": "2025-02-15T01:55:51.332324"}
+2025-02-15 01:55:51,332 [DEBUG] interpreter_server - Chunk sent successfully
+2025-02-15 01:55:51,334 [DEBUG] interpreter_server - Processing chunk: {'role': 'assistant', 'type': 'message', 'content': ' Print'}
+2025-02-15 01:55:51,334 [DEBUG] interpreter_server - Adding content to message:  Print
+2025-02-15 01:55:51,334 [DEBUG] interpreter_server - Sending formatted chunk: {"role": "assistant", "type": "message", "content": " Print", "created_at": "2025-02-15T01:55:51.334909"}
+2025-02-15 01:55:51,335 [DEBUG] interpreter_server - Chunk sent successfully
+2025-02-15 01:55:51,337 [DEBUG] interpreter_server - Processing chunk: {'role': 'assistant', 'type': 'message', 'content': ' the'}
+2025-02-15 01:55:51,337 [DEBUG] interpreter_server - Adding content to message:  the
+2025-02-15 01:55:51,337 [DEBUG] interpreter_server - Sending formatted chunk: {"role": "assistant", "type": "message", "content": " the", "created_at": "2025-02-15T01:55:51.337858"}
+2025-02-15 01:55:51,338 [DEBUG] interpreter_server - Chunk sent successfully
+2025-02-15 01:55:52,629 [DEBUG] interpreter_server - Processing chunk: {'role': 'assistant', 'type': 'message', 'content': ' result'}
+2025-02-15 01:55:52,629 [DEBUG] interpreter_server - Adding content to message:  result
+2025-02-15 01:55:52,629 [DEBUG] interpreter_server - Sending formatted chunk: {"role": "assistant", "type": "message", "content": " result", "created_at": "2025-02-15T01:55:52.629698"}
+2025-02-15 01:55:52,630 [DEBUG] interpreter_server - Chunk sent successfully
+2025-02-15 01:55:52,784 [DEBUG] interpreter_server - Processing chunk: {'role': 'assistant', 'type': 'message', 'end': True}
+2025-02-15 01:55:52,784 [DEBUG] interpreter_server - Message end detected
+2025-02-15 01:56:49,254 [INFO] interpreter_server - Request: POST http://localhost:5001/v1/chat
+2025-02-15 01:56:49,254 [DEBUG] interpreter_server - Headers: {'Host': 'localhost:5001', 'User-Agent': 'curl/8.1.2', 'Accept': '*/*', 'Content-Type': 'application/json', 'Content-Length': '80'}
+2025-02-15 01:56:49,254 [DEBUG] interpreter_server - JSON Data: {'messages': [{'role': 'user', 'type': 'message', 'content': 'Say hi'}], 'stream': True}
+2025-02-15 01:58:00,162 [INFO] interpreter_server - Request: POST http://localhost:5001/v1/chat
+2025-02-15 01:58:00,162 [DEBUG] interpreter_server - Headers: {'Host': 'localhost:5001', 'User-Agent': 'curl/8.1.2', 'Accept': '*/*', 'Content-Type': 'application/json', 'Content-Length': '80'}
+2025-02-15 01:58:00,162 [DEBUG] interpreter_server - JSON Data: {'messages': [{'role': 'user', 'type': 'message', 'content': 'Say hi'}], 'stream': True}
+2025-02-15 01:58:49,279 [WARNING] interpreter_server - Chat request timeout while waiting for lock
+2025-02-15 01:58:49,280 [INFO] interpreter_server - Response Status: 408
+2025-02-15 01:58:49,280 [DEBUG] interpreter_server - Response Headers: {'Content-Type': 'application/json', 'Content-Length': '112'}
+2025-02-15 01:58:49,280 [DEBUG] interpreter_server - Response Data: {'error': {'code': 'request_timeout', 'message': 'Request timeout while waiting for previous request to complete'}}
+2025-02-15 02:00:00,172 [WARNING] interpreter_server - Chat request timeout while waiting for lock
+2025-02-15 02:00:00,173 [INFO] interpreter_server - Response Status: 408
+2025-02-15 02:00:00,173 [DEBUG] interpreter_server - Response Headers: {'Content-Type': 'application/json', 'Content-Length': '112'}
+2025-02-15 02:00:00,173 [DEBUG] interpreter_server - Response Data: {'error': {'code': 'request_timeout', 'message': 'Request timeout while waiting for previous request to complete'}}
+2025-02-15 02:23:08,483 [INFO] interpreter_server - Request: GET http://localhost:5001/v1/health
+2025-02-15 02:23:08,484 [DEBUG] interpreter_server - Headers: {'Host': 'localhost:5001', 'User-Agent': 'python-requests/2.32.3', 'Accept-Encoding': 'gzip, deflate', 'Accept': '*/*', 'Connection': 'keep-alive'}
+2025-02-15 02:23:08,484 [INFO] interpreter_server - Response Status: 200
+2025-02-15 02:23:08,484 [DEBUG] interpreter_server - Response Headers: {'Content-Type': 'application/json', 'Content-Length': '122'}
+2025-02-15 02:23:08,484 [DEBUG] interpreter_server - Response Data: {'llm': {'model': 'bedrock/anthropic.claude-3-sonnet-20240229-v1:0', 'status': 'ready'}, 'status': 'healthy', 'version': '0.4.3'}
+2025-02-15 02:23:14,711 [INFO] interpreter_server - Request: POST http://localhost:5001/v1/sessions
+2025-02-15 02:23:14,711 [DEBUG] interpreter_server - Headers: {'Host': 'localhost:5001', 'User-Agent': 'curl/8.1.2', 'Accept': '*/*'}
+2025-02-15 02:24:15,891 [INFO] interpreter_server - Server starting on http://0.0.0.0:5001
+2025-02-15 02:24:20,896 [INFO] interpreter_server - Request: GET http://localhost:5001/v1/health
+2025-02-15 02:24:20,896 [DEBUG] interpreter_server - Headers: {'Host': 'localhost:5001', 'User-Agent': 'python-requests/2.32.3', 'Accept-Encoding': 'gzip, deflate', 'Accept': '*/*', 'Connection': 'keep-alive'}
+2025-02-15 02:24:20,896 [INFO] interpreter_server - Response Status: 200
+2025-02-15 02:24:20,896 [DEBUG] interpreter_server - Response Headers: {'Content-Type': 'application/json', 'Content-Length': '122'}
+2025-02-15 02:24:20,896 [DEBUG] interpreter_server - Response Data: {'llm': {'model': 'bedrock/anthropic.claude-3-sonnet-20240229-v1:0', 'status': 'ready'}, 'status': 'healthy', 'version': '0.4.3'}
+2025-02-15 02:24:28,444 [INFO] interpreter_server - Request: POST http://localhost:5001/v1/chat
+2025-02-15 02:24:28,445 [DEBUG] interpreter_server - Headers: {'Host': 'localhost:5001', 'User-Agent': 'curl/8.1.2', 'Accept': '*/*', 'Content-Type': 'application/json', 'Content-Length': '89'}
+2025-02-15 02:24:28,445 [DEBUG] interpreter_server - JSON Data: {'messages': [{'role': 'user', 'type': 'message', 'content': 'Hello!'}], 'stream': False}
