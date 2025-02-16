@@ -1,1 +1,10 @@
 2025-02-15 02:25:58,183 - interpreter_server - INFO - Server starting on http://0.0.0.0:5001
+2025-02-15 16:41:39,471 - interpreter_server - INFO - Initializing server...
+2025-02-15 16:41:39,483 - interpreter_server - INFO - Application initialized successfully
+2025-02-15 16:41:39,483 - interpreter_server - INFO - Starting server on http://0.0.0.0:5001
+2025-02-15 16:42:39,560 - interpreter_server - INFO - Initializing server...
+2025-02-15 16:42:39,571 - interpreter_server - INFO - Application initialized successfully
+2025-02-15 16:42:39,571 - interpreter_server - INFO - Starting server on http://0.0.0.0:5001
+2025-02-15 17:12:44,846 - interpreter_server - INFO - Initializing server...
+2025-02-15 17:12:44,858 - interpreter_server - INFO - Application initialized successfully
+2025-02-15 17:12:44,858 - interpreter_server - INFO - Starting server on http://0.0.0.0:5001

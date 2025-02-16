@@ -33,3 +33,369 @@ Traceback (most recent call last):
   File "/Users/clay/Code/open-interpreter/interpreter/server/session.py", line 324, in add_message
     with self.lock:
 AttributeError: 'SessionManager' object has no attribute 'lock'
+2025-02-15 03:27:21,385 - interpreter_server - ERROR - Failed to initialize application: name 'logger' is not defined
+Traceback (most recent call last):
+  File "/Users/clay/Code/open-interpreter/interpreter/server/session.py", line 343, in _load_persisted_sessions
+    if self._is_session_valid(session_data.get('last_active', 0)):
+AttributeError: 'list' object has no attribute 'get'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/clay/Code/open-interpreter/interpreter/server/app.py", line 112, in create_app
+    setup_components(app)
+  File "/Users/clay/Code/open-interpreter/interpreter/server/app.py", line 55, in setup_components
+    app.session_manager = SessionManager()
+  File "/Users/clay/Code/open-interpreter/interpreter/server/session.py", line 214, in __init__
+    self._load_persisted_sessions()
+  File "/Users/clay/Code/open-interpreter/interpreter/server/session.py", line 346, in _load_persisted_sessions
+    logger.error(f"Error loading persisted sessions: {str(e)}")
+NameError: name 'logger' is not defined
+2025-02-15 03:27:21,386 - interpreter_server - ERROR - Server startup failed: name 'logger' is not defined
+Traceback (most recent call last):
+  File "/Users/clay/Code/open-interpreter/interpreter/server/session.py", line 343, in _load_persisted_sessions
+    if self._is_session_valid(session_data.get('last_active', 0)):
+AttributeError: 'list' object has no attribute 'get'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/clay/Code/open-interpreter/interpreter/server/cli.py", line 33, in main
+    app = create_app()
+  File "/Users/clay/Code/open-interpreter/interpreter/server/app.py", line 112, in create_app
+    setup_components(app)
+  File "/Users/clay/Code/open-interpreter/interpreter/server/app.py", line 55, in setup_components
+    app.session_manager = SessionManager()
+  File "/Users/clay/Code/open-interpreter/interpreter/server/session.py", line 214, in __init__
+    self._load_persisted_sessions()
+  File "/Users/clay/Code/open-interpreter/interpreter/server/session.py", line 346, in _load_persisted_sessions
+    logger.error(f"Error loading persisted sessions: {str(e)}")
+NameError: name 'logger' is not defined
+2025-02-15 03:27:45,432 - interpreter_server - ERROR - Failed to initialize application: name 'logger' is not defined
+Traceback (most recent call last):
+  File "/Users/clay/Code/open-interpreter/interpreter/server/session.py", line 343, in _load_persisted_sessions
+    if self._is_session_valid(session_data.get('last_active', 0)):
+AttributeError: 'list' object has no attribute 'get'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/clay/Code/open-interpreter/interpreter/server/app.py", line 112, in create_app
+    setup_components(app)
+  File "/Users/clay/Code/open-interpreter/interpreter/server/app.py", line 55, in setup_components
+    app.session_manager = SessionManager()
+  File "/Users/clay/Code/open-interpreter/interpreter/server/session.py", line 214, in __init__
+    self._load_persisted_sessions()
+  File "/Users/clay/Code/open-interpreter/interpreter/server/session.py", line 346, in _load_persisted_sessions
+    logger.error(f"Error loading persisted sessions: {str(e)}")
+NameError: name 'logger' is not defined
+2025-02-15 03:27:45,433 - interpreter_server - ERROR - Server startup failed: name 'logger' is not defined
+Traceback (most recent call last):
+  File "/Users/clay/Code/open-interpreter/interpreter/server/session.py", line 343, in _load_persisted_sessions
+    if self._is_session_valid(session_data.get('last_active', 0)):
+AttributeError: 'list' object has no attribute 'get'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/clay/Code/open-interpreter/interpreter/server/cli.py", line 33, in main
+    app = create_app()
+  File "/Users/clay/Code/open-interpreter/interpreter/server/app.py", line 112, in create_app
+    setup_components(app)
+  File "/Users/clay/Code/open-interpreter/interpreter/server/app.py", line 55, in setup_components
+    app.session_manager = SessionManager()
+  File "/Users/clay/Code/open-interpreter/interpreter/server/session.py", line 214, in __init__
+    self._load_persisted_sessions()
+  File "/Users/clay/Code/open-interpreter/interpreter/server/session.py", line 346, in _load_persisted_sessions
+    logger.error(f"Error loading persisted sessions: {str(e)}")
+NameError: name 'logger' is not defined
+2025-02-15 03:28:35,700 - interpreter_server - ERROR - Error loading session file /Users/clay/Library/Application Support/open-interpreter/conversations/dc7dc200-93da-419f-87b1-d5a9d57d06f7.json: unsupported operand type(s) for -: 'float' and 'str'
+2025-02-15 03:28:35,706 - interpreter_server - ERROR - Error loading session file /Users/clay/Library/Application Support/open-interpreter/conversations/e75fcf82-d5e9-48a4-b2a1-a5f623c118af.json: unsupported operand type(s) for -: 'float' and 'str'
+2025-02-15 03:28:35,709 - interpreter_server - ERROR - Error loading session file /Users/clay/Library/Application Support/open-interpreter/conversations/0d191bbf-2103-4e63-8e99-793fe033f39e.json: unsupported operand type(s) for -: 'float' and 'str'
+2025-02-15 03:28:35,711 - interpreter_server - ERROR - Error loading session file /Users/clay/Library/Application Support/open-interpreter/conversations/3033789d-a53b-4a8c-be5f-d35e4fa6b890.json: unsupported operand type(s) for -: 'float' and 'str'
+2025-02-15 03:28:35,713 - interpreter_server - ERROR - Error loading session file /Users/clay/Library/Application Support/open-interpreter/conversations/40f173a5-ed91-4b51-a80f-f50aab5e92e1.json: unsupported operand type(s) for -: 'float' and 'str'
+2025-02-15 03:28:35,713 - interpreter_server - ERROR - Error loading session file /Users/clay/Library/Application Support/open-interpreter/conversations/a0c7a1cd-01ae-44f0-bfb8-9cb22175339f.json: unsupported operand type(s) for -: 'float' and 'str'
+2025-02-15 03:28:35,714 - interpreter_server - ERROR - Error loading session file /Users/clay/Library/Application Support/open-interpreter/conversations/98f4ee5c-4416-4068-a503-c8d2d33f036f.json: unsupported operand type(s) for -: 'float' and 'str'
+2025-02-15 03:28:35,714 - interpreter_server - ERROR - Error loading session file /Users/clay/Library/Application Support/open-interpreter/conversations/97072bd6-e5e3-4813-a12a-4c1b63076d3f.json: unsupported operand type(s) for -: 'float' and 'str'
+2025-02-15 03:28:35,715 - interpreter_server - ERROR - Error loading session file /Users/clay/Library/Application Support/open-interpreter/conversations/40435fa0-1d7e-444c-8155-2266d7001f70.json: unsupported operand type(s) for -: 'float' and 'str'
+2025-02-15 03:28:35,717 - interpreter_server - ERROR - Error loading session file /Users/clay/Library/Application Support/open-interpreter/conversations/6b0d4be6-3950-43d2-8952-516b31d4a07b.json: unsupported operand type(s) for -: 'float' and 'str'
+2025-02-15 03:28:35,719 - interpreter_server - ERROR - Error loading session file /Users/clay/Library/Application Support/open-interpreter/conversations/8d1ab883-d112-4ead-b202-f13c677b67fa.json: unsupported operand type(s) for -: 'float' and 'str'
+2025-02-15 03:28:35,722 - interpreter_server - ERROR - Error loading session file /Users/clay/Library/Application Support/open-interpreter/conversations/4d9f81b0-58b0-45f0-934d-06bae1e7ddc5.json: unsupported operand type(s) for -: 'float' and 'str'
+2025-02-15 03:28:35,724 - interpreter_server - ERROR - Error loading session file /Users/clay/Library/Application Support/open-interpreter/conversations/648bbef8-bbdb-4ffd-b678-e0f59c4be5d1.json: unsupported operand type(s) for -: 'float' and 'str'
+2025-02-15 03:28:35,725 - interpreter_server - ERROR - Error loading session file /Users/clay/Library/Application Support/open-interpreter/conversations/ef28d734-fbb4-40ca-beb8-2260c4baea37.json: unsupported operand type(s) for -: 'float' and 'str'
+2025-02-15 03:28:35,727 - interpreter_server - ERROR - Error loading session file /Users/clay/Library/Application Support/open-interpreter/conversations/8199a210-5ed7-4b40-a48f-ef1afeb8a948.json: unsupported operand type(s) for -: 'float' and 'str'
+2025-02-15 03:28:35,727 - interpreter_server - ERROR - Error loading session file /Users/clay/Library/Application Support/open-interpreter/conversations/349189e7-cab7-413b-97e4-205a2de7092c.json: unsupported operand type(s) for -: 'float' and 'str'
+2025-02-15 03:29:00,316 - interpreter_server - ERROR - Error processing chat request: unsupported operand type(s) for +: 'dict' and 'list'
+Traceback (most recent call last):
+  File "/Users/clay/Code/open-interpreter/interpreter/server/routes/chat.py", line 100, in chat
+    messages = session_messages + messages
+TypeError: unsupported operand type(s) for +: 'dict' and 'list'
+2025-02-15 03:29:00,317 - interpreter_server - ERROR - unsupported operand type(s) for +: 'dict' and 'list'
+Traceback (most recent call last):
+  File "/Users/clay/Code/open-interpreter/interpreter/server/routes/chat.py", line 100, in chat
+    messages = session_messages + messages
+TypeError: unsupported operand type(s) for +: 'dict' and 'list'
+2025-02-15 03:29:42,844 - interpreter_server - ERROR - Error loading session file /Users/clay/Library/Application Support/open-interpreter/conversations/dc7dc200-93da-419f-87b1-d5a9d57d06f7.json: unsupported operand type(s) for -: 'float' and 'str'
+2025-02-15 03:29:42,849 - interpreter_server - ERROR - Error loading session file /Users/clay/Library/Application Support/open-interpreter/conversations/e75fcf82-d5e9-48a4-b2a1-a5f623c118af.json: unsupported operand type(s) for -: 'float' and 'str'
+2025-02-15 03:29:42,851 - interpreter_server - ERROR - Error loading session file /Users/clay/Library/Application Support/open-interpreter/conversations/0d191bbf-2103-4e63-8e99-793fe033f39e.json: unsupported operand type(s) for -: 'float' and 'str'
+2025-02-15 03:29:42,853 - interpreter_server - ERROR - Error loading session file /Users/clay/Library/Application Support/open-interpreter/conversations/3033789d-a53b-4a8c-be5f-d35e4fa6b890.json: unsupported operand type(s) for -: 'float' and 'str'
+2025-02-15 03:29:42,854 - interpreter_server - ERROR - Error loading session file /Users/clay/Library/Application Support/open-interpreter/conversations/40f173a5-ed91-4b51-a80f-f50aab5e92e1.json: unsupported operand type(s) for -: 'float' and 'str'
+2025-02-15 03:29:42,855 - interpreter_server - ERROR - Error loading session file /Users/clay/Library/Application Support/open-interpreter/conversations/a0c7a1cd-01ae-44f0-bfb8-9cb22175339f.json: unsupported operand type(s) for -: 'float' and 'str'
+2025-02-15 03:29:42,855 - interpreter_server - ERROR - Error loading session file /Users/clay/Library/Application Support/open-interpreter/conversations/98f4ee5c-4416-4068-a503-c8d2d33f036f.json: unsupported operand type(s) for -: 'float' and 'str'
+2025-02-15 03:29:42,856 - interpreter_server - ERROR - Error loading session file /Users/clay/Library/Application Support/open-interpreter/conversations/97072bd6-e5e3-4813-a12a-4c1b63076d3f.json: unsupported operand type(s) for -: 'float' and 'str'
+2025-02-15 03:29:42,857 - interpreter_server - ERROR - Error loading session file /Users/clay/Library/Application Support/open-interpreter/conversations/40435fa0-1d7e-444c-8155-2266d7001f70.json: unsupported operand type(s) for -: 'float' and 'str'
+2025-02-15 03:29:42,858 - interpreter_server - ERROR - Error loading session file /Users/clay/Library/Application Support/open-interpreter/conversations/6b0d4be6-3950-43d2-8952-516b31d4a07b.json: unsupported operand type(s) for -: 'float' and 'str'
+2025-02-15 03:29:42,860 - interpreter_server - ERROR - Error loading session file /Users/clay/Library/Application Support/open-interpreter/conversations/8d1ab883-d112-4ead-b202-f13c677b67fa.json: unsupported operand type(s) for -: 'float' and 'str'
+2025-02-15 03:29:42,864 - interpreter_server - ERROR - Error loading session file /Users/clay/Library/Application Support/open-interpreter/conversations/4d9f81b0-58b0-45f0-934d-06bae1e7ddc5.json: unsupported operand type(s) for -: 'float' and 'str'
+2025-02-15 03:29:42,865 - interpreter_server - ERROR - Error loading session file /Users/clay/Library/Application Support/open-interpreter/conversations/648bbef8-bbdb-4ffd-b678-e0f59c4be5d1.json: unsupported operand type(s) for -: 'float' and 'str'
+2025-02-15 03:29:42,866 - interpreter_server - ERROR - Error loading session file /Users/clay/Library/Application Support/open-interpreter/conversations/ef28d734-fbb4-40ca-beb8-2260c4baea37.json: unsupported operand type(s) for -: 'float' and 'str'
+2025-02-15 03:29:42,868 - interpreter_server - ERROR - Error loading session file /Users/clay/Library/Application Support/open-interpreter/conversations/8199a210-5ed7-4b40-a48f-ef1afeb8a948.json: unsupported operand type(s) for -: 'float' and 'str'
+2025-02-15 03:29:42,868 - interpreter_server - ERROR - Error loading session file /Users/clay/Library/Application Support/open-interpreter/conversations/349189e7-cab7-413b-97e4-205a2de7092c.json: unsupported operand type(s) for -: 'float' and 'str'
+2025-02-15 03:29:53,360 - interpreter_server - ERROR - Error processing chat request: string indices must be integers
+Traceback (most recent call last):
+  File "/Users/clay/Code/open-interpreter/interpreter/server/routes/chat.py", line 128, in chat
+    response = interpreter_instance.chat(last_message_content, stream=stream)
+  File "/Users/clay/Code/open-interpreter/interpreter/core/core.py", line 191, in chat
+    for _ in self._streaming_chat(message=message, display=display):
+  File "/Users/clay/Code/open-interpreter/interpreter/core/core.py", line 223, in _streaming_chat
+    yield from terminal_interface(self, message)
+  File "/Users/clay/Code/open-interpreter/interpreter/terminal_interface/terminal_interface.py", line 162, in terminal_interface
+    for chunk in interpreter.chat(message, display=False, stream=True):
+  File "/Users/clay/Code/open-interpreter/interpreter/core/core.py", line 259, in _streaming_chat
+    yield from self._respond_and_store()
+  File "/Users/clay/Code/open-interpreter/interpreter/core/core.py", line 318, in _respond_and_store
+    for chunk in respond(self):
+  File "/Users/clay/Code/open-interpreter/interpreter/core/respond.py", line 87, in respond
+    for chunk in interpreter.llm.run(messages_for_llm):
+  File "/Users/clay/Code/open-interpreter/interpreter/core/llm/llm.py", line 104, in run
+    msg["role"] != "system"
+TypeError: string indices must be integers
+2025-02-15 03:29:53,367 - interpreter_server - ERROR - string indices must be integers
+Traceback (most recent call last):
+  File "/Users/clay/Code/open-interpreter/interpreter/server/routes/chat.py", line 128, in chat
+    response = interpreter_instance.chat(last_message_content, stream=stream)
+  File "/Users/clay/Code/open-interpreter/interpreter/core/core.py", line 191, in chat
+    for _ in self._streaming_chat(message=message, display=display):
+  File "/Users/clay/Code/open-interpreter/interpreter/core/core.py", line 223, in _streaming_chat
+    yield from terminal_interface(self, message)
+  File "/Users/clay/Code/open-interpreter/interpreter/terminal_interface/terminal_interface.py", line 162, in terminal_interface
+    for chunk in interpreter.chat(message, display=False, stream=True):
+  File "/Users/clay/Code/open-interpreter/interpreter/core/core.py", line 259, in _streaming_chat
+    yield from self._respond_and_store()
+  File "/Users/clay/Code/open-interpreter/interpreter/core/core.py", line 318, in _respond_and_store
+    for chunk in respond(self):
+  File "/Users/clay/Code/open-interpreter/interpreter/core/respond.py", line 87, in respond
+    for chunk in interpreter.llm.run(messages_for_llm):
+  File "/Users/clay/Code/open-interpreter/interpreter/core/llm/llm.py", line 104, in run
+    msg["role"] != "system"
+TypeError: string indices must be integers
+2025-02-15 03:30:37,040 - interpreter_server - ERROR - Error loading session file /Users/clay/Library/Application Support/open-interpreter/conversations/dc7dc200-93da-419f-87b1-d5a9d57d06f7.json: unsupported operand type(s) for -: 'float' and 'str'
+2025-02-15 03:30:37,044 - interpreter_server - ERROR - Error loading session file /Users/clay/Library/Application Support/open-interpreter/conversations/e75fcf82-d5e9-48a4-b2a1-a5f623c118af.json: unsupported operand type(s) for -: 'float' and 'str'
+2025-02-15 03:30:37,045 - interpreter_server - ERROR - Error loading session file /Users/clay/Library/Application Support/open-interpreter/conversations/0d191bbf-2103-4e63-8e99-793fe033f39e.json: unsupported operand type(s) for -: 'float' and 'str'
+2025-02-15 03:30:37,046 - interpreter_server - ERROR - Error loading session file /Users/clay/Library/Application Support/open-interpreter/conversations/3033789d-a53b-4a8c-be5f-d35e4fa6b890.json: unsupported operand type(s) for -: 'float' and 'str'
+2025-02-15 03:30:37,048 - interpreter_server - ERROR - Error loading session file /Users/clay/Library/Application Support/open-interpreter/conversations/40f173a5-ed91-4b51-a80f-f50aab5e92e1.json: unsupported operand type(s) for -: 'float' and 'str'
+2025-02-15 03:30:37,048 - interpreter_server - ERROR - Error loading session file /Users/clay/Library/Application Support/open-interpreter/conversations/a0c7a1cd-01ae-44f0-bfb8-9cb22175339f.json: unsupported operand type(s) for -: 'float' and 'str'
+2025-02-15 03:30:37,049 - interpreter_server - ERROR - Error loading session file /Users/clay/Library/Application Support/open-interpreter/conversations/98f4ee5c-4416-4068-a503-c8d2d33f036f.json: unsupported operand type(s) for -: 'float' and 'str'
+2025-02-15 03:30:37,049 - interpreter_server - ERROR - Error loading session file /Users/clay/Library/Application Support/open-interpreter/conversations/97072bd6-e5e3-4813-a12a-4c1b63076d3f.json: unsupported operand type(s) for -: 'float' and 'str'
+2025-02-15 03:30:37,050 - interpreter_server - ERROR - Error loading session file /Users/clay/Library/Application Support/open-interpreter/conversations/40435fa0-1d7e-444c-8155-2266d7001f70.json: unsupported operand type(s) for -: 'float' and 'str'
+2025-02-15 03:30:37,052 - interpreter_server - ERROR - Error loading session file /Users/clay/Library/Application Support/open-interpreter/conversations/6b0d4be6-3950-43d2-8952-516b31d4a07b.json: unsupported operand type(s) for -: 'float' and 'str'
+2025-02-15 03:30:37,053 - interpreter_server - ERROR - Error loading session file /Users/clay/Library/Application Support/open-interpreter/conversations/8d1ab883-d112-4ead-b202-f13c677b67fa.json: unsupported operand type(s) for -: 'float' and 'str'
+2025-02-15 03:30:37,056 - interpreter_server - ERROR - Error loading session file /Users/clay/Library/Application Support/open-interpreter/conversations/4d9f81b0-58b0-45f0-934d-06bae1e7ddc5.json: unsupported operand type(s) for -: 'float' and 'str'
+2025-02-15 03:30:37,057 - interpreter_server - ERROR - Error loading session file /Users/clay/Library/Application Support/open-interpreter/conversations/648bbef8-bbdb-4ffd-b678-e0f59c4be5d1.json: unsupported operand type(s) for -: 'float' and 'str'
+2025-02-15 03:30:37,058 - interpreter_server - ERROR - Error loading session file /Users/clay/Library/Application Support/open-interpreter/conversations/ef28d734-fbb4-40ca-beb8-2260c4baea37.json: unsupported operand type(s) for -: 'float' and 'str'
+2025-02-15 03:30:37,060 - interpreter_server - ERROR - Error loading session file /Users/clay/Library/Application Support/open-interpreter/conversations/8199a210-5ed7-4b40-a48f-ef1afeb8a948.json: unsupported operand type(s) for -: 'float' and 'str'
+2025-02-15 03:30:37,061 - interpreter_server - ERROR - Error loading session file /Users/clay/Library/Application Support/open-interpreter/conversations/349189e7-cab7-413b-97e4-205a2de7092c.json: unsupported operand type(s) for -: 'float' and 'str'
+2025-02-15 03:30:51,866 - interpreter_server - ERROR - Error processing chat request: string indices must be integers
+Traceback (most recent call last):
+  File "/Users/clay/Code/open-interpreter/interpreter/server/routes/chat.py", line 129, in chat
+    response = interpreter_instance.chat(last_message_content, stream=stream)
+  File "/Users/clay/Code/open-interpreter/interpreter/core/core.py", line 191, in chat
+    for _ in self._streaming_chat(message=message, display=display):
+  File "/Users/clay/Code/open-interpreter/interpreter/core/core.py", line 223, in _streaming_chat
+    yield from terminal_interface(self, message)
+  File "/Users/clay/Code/open-interpreter/interpreter/terminal_interface/terminal_interface.py", line 162, in terminal_interface
+    for chunk in interpreter.chat(message, display=False, stream=True):
+  File "/Users/clay/Code/open-interpreter/interpreter/core/core.py", line 259, in _streaming_chat
+    yield from self._respond_and_store()
+  File "/Users/clay/Code/open-interpreter/interpreter/core/core.py", line 318, in _respond_and_store
+    for chunk in respond(self):
+  File "/Users/clay/Code/open-interpreter/interpreter/core/respond.py", line 87, in respond
+    for chunk in interpreter.llm.run(messages_for_llm):
+  File "/Users/clay/Code/open-interpreter/interpreter/core/llm/llm.py", line 104, in run
+    msg["role"] != "system"
+TypeError: string indices must be integers
+2025-02-15 03:30:51,876 - interpreter_server - ERROR - string indices must be integers
+Traceback (most recent call last):
+  File "/Users/clay/Code/open-interpreter/interpreter/server/routes/chat.py", line 129, in chat
+    response = interpreter_instance.chat(last_message_content, stream=stream)
+  File "/Users/clay/Code/open-interpreter/interpreter/core/core.py", line 191, in chat
+    for _ in self._streaming_chat(message=message, display=display):
+  File "/Users/clay/Code/open-interpreter/interpreter/core/core.py", line 223, in _streaming_chat
+    yield from terminal_interface(self, message)
+  File "/Users/clay/Code/open-interpreter/interpreter/terminal_interface/terminal_interface.py", line 162, in terminal_interface
+    for chunk in interpreter.chat(message, display=False, stream=True):
+  File "/Users/clay/Code/open-interpreter/interpreter/core/core.py", line 259, in _streaming_chat
+    yield from self._respond_and_store()
+  File "/Users/clay/Code/open-interpreter/interpreter/core/core.py", line 318, in _respond_and_store
+    for chunk in respond(self):
+  File "/Users/clay/Code/open-interpreter/interpreter/core/respond.py", line 87, in respond
+    for chunk in interpreter.llm.run(messages_for_llm):
+  File "/Users/clay/Code/open-interpreter/interpreter/core/llm/llm.py", line 104, in run
+    msg["role"] != "system"
+TypeError: string indices must be integers
+2025-02-15 03:31:30,158 - interpreter_server - ERROR - Error loading session file /Users/clay/Library/Application Support/open-interpreter/conversations/dc7dc200-93da-419f-87b1-d5a9d57d06f7.json: unsupported operand type(s) for -: 'float' and 'str'
+2025-02-15 03:31:30,164 - interpreter_server - ERROR - Error loading session file /Users/clay/Library/Application Support/open-interpreter/conversations/e75fcf82-d5e9-48a4-b2a1-a5f623c118af.json: unsupported operand type(s) for -: 'float' and 'str'
+2025-02-15 03:31:30,166 - interpreter_server - ERROR - Error loading session file /Users/clay/Library/Application Support/open-interpreter/conversations/0d191bbf-2103-4e63-8e99-793fe033f39e.json: unsupported operand type(s) for -: 'float' and 'str'
+2025-02-15 03:31:30,167 - interpreter_server - ERROR - Error loading session file /Users/clay/Library/Application Support/open-interpreter/conversations/3033789d-a53b-4a8c-be5f-d35e4fa6b890.json: unsupported operand type(s) for -: 'float' and 'str'
+2025-02-15 03:31:30,169 - interpreter_server - ERROR - Error loading session file /Users/clay/Library/Application Support/open-interpreter/conversations/40f173a5-ed91-4b51-a80f-f50aab5e92e1.json: unsupported operand type(s) for -: 'float' and 'str'
+2025-02-15 03:31:30,170 - interpreter_server - ERROR - Error loading session file /Users/clay/Library/Application Support/open-interpreter/conversations/a0c7a1cd-01ae-44f0-bfb8-9cb22175339f.json: unsupported operand type(s) for -: 'float' and 'str'
+2025-02-15 03:31:30,170 - interpreter_server - ERROR - Error loading session file /Users/clay/Library/Application Support/open-interpreter/conversations/98f4ee5c-4416-4068-a503-c8d2d33f036f.json: unsupported operand type(s) for -: 'float' and 'str'
+2025-02-15 03:31:30,170 - interpreter_server - ERROR - Error loading session file /Users/clay/Library/Application Support/open-interpreter/conversations/97072bd6-e5e3-4813-a12a-4c1b63076d3f.json: unsupported operand type(s) for -: 'float' and 'str'
+2025-02-15 03:31:30,172 - interpreter_server - ERROR - Error loading session file /Users/clay/Library/Application Support/open-interpreter/conversations/40435fa0-1d7e-444c-8155-2266d7001f70.json: unsupported operand type(s) for -: 'float' and 'str'
+2025-02-15 03:31:30,173 - interpreter_server - ERROR - Error loading session file /Users/clay/Library/Application Support/open-interpreter/conversations/6b0d4be6-3950-43d2-8952-516b31d4a07b.json: unsupported operand type(s) for -: 'float' and 'str'
+2025-02-15 03:31:30,176 - interpreter_server - ERROR - Error loading session file /Users/clay/Library/Application Support/open-interpreter/conversations/8d1ab883-d112-4ead-b202-f13c677b67fa.json: unsupported operand type(s) for -: 'float' and 'str'
+2025-02-15 03:31:30,179 - interpreter_server - ERROR - Error loading session file /Users/clay/Library/Application Support/open-interpreter/conversations/4d9f81b0-58b0-45f0-934d-06bae1e7ddc5.json: unsupported operand type(s) for -: 'float' and 'str'
+2025-02-15 03:31:30,181 - interpreter_server - ERROR - Error loading session file /Users/clay/Library/Application Support/open-interpreter/conversations/648bbef8-bbdb-4ffd-b678-e0f59c4be5d1.json: unsupported operand type(s) for -: 'float' and 'str'
+2025-02-15 03:31:30,181 - interpreter_server - ERROR - Error loading session file /Users/clay/Library/Application Support/open-interpreter/conversations/ef28d734-fbb4-40ca-beb8-2260c4baea37.json: unsupported operand type(s) for -: 'float' and 'str'
+2025-02-15 03:31:30,183 - interpreter_server - ERROR - Error loading session file /Users/clay/Library/Application Support/open-interpreter/conversations/8199a210-5ed7-4b40-a48f-ef1afeb8a948.json: unsupported operand type(s) for -: 'float' and 'str'
+2025-02-15 03:31:30,183 - interpreter_server - ERROR - Error loading session file /Users/clay/Library/Application Support/open-interpreter/conversations/349189e7-cab7-413b-97e4-205a2de7092c.json: unsupported operand type(s) for -: 'float' and 'str'
+2025-02-15 03:31:43,237 - interpreter_server - ERROR - Error loading session file /Users/clay/Library/Application Support/open-interpreter/conversations/dc7dc200-93da-419f-87b1-d5a9d57d06f7.json: unsupported operand type(s) for -: 'float' and 'str'
+2025-02-15 03:31:43,242 - interpreter_server - ERROR - Error loading session file /Users/clay/Library/Application Support/open-interpreter/conversations/e75fcf82-d5e9-48a4-b2a1-a5f623c118af.json: unsupported operand type(s) for -: 'float' and 'str'
+2025-02-15 03:31:43,243 - interpreter_server - ERROR - Error loading session file /Users/clay/Library/Application Support/open-interpreter/conversations/0d191bbf-2103-4e63-8e99-793fe033f39e.json: unsupported operand type(s) for -: 'float' and 'str'
+2025-02-15 03:31:43,245 - interpreter_server - ERROR - Error loading session file /Users/clay/Library/Application Support/open-interpreter/conversations/3033789d-a53b-4a8c-be5f-d35e4fa6b890.json: unsupported operand type(s) for -: 'float' and 'str'
+2025-02-15 03:31:43,248 - interpreter_server - ERROR - Error loading session file /Users/clay/Library/Application Support/open-interpreter/conversations/40f173a5-ed91-4b51-a80f-f50aab5e92e1.json: unsupported operand type(s) for -: 'float' and 'str'
+2025-02-15 03:31:43,248 - interpreter_server - ERROR - Error loading session file /Users/clay/Library/Application Support/open-interpreter/conversations/a0c7a1cd-01ae-44f0-bfb8-9cb22175339f.json: unsupported operand type(s) for -: 'float' and 'str'
+2025-02-15 03:31:43,249 - interpreter_server - ERROR - Error loading session file /Users/clay/Library/Application Support/open-interpreter/conversations/98f4ee5c-4416-4068-a503-c8d2d33f036f.json: unsupported operand type(s) for -: 'float' and 'str'
+2025-02-15 03:31:43,249 - interpreter_server - ERROR - Error loading session file /Users/clay/Library/Application Support/open-interpreter/conversations/97072bd6-e5e3-4813-a12a-4c1b63076d3f.json: unsupported operand type(s) for -: 'float' and 'str'
+2025-02-15 03:31:43,250 - interpreter_server - ERROR - Error loading session file /Users/clay/Library/Application Support/open-interpreter/conversations/40435fa0-1d7e-444c-8155-2266d7001f70.json: unsupported operand type(s) for -: 'float' and 'str'
+2025-02-15 03:31:43,252 - interpreter_server - ERROR - Error loading session file /Users/clay/Library/Application Support/open-interpreter/conversations/6b0d4be6-3950-43d2-8952-516b31d4a07b.json: unsupported operand type(s) for -: 'float' and 'str'
+2025-02-15 03:31:43,254 - interpreter_server - ERROR - Error loading session file /Users/clay/Library/Application Support/open-interpreter/conversations/8d1ab883-d112-4ead-b202-f13c677b67fa.json: unsupported operand type(s) for -: 'float' and 'str'
+2025-02-15 03:31:43,258 - interpreter_server - ERROR - Error loading session file /Users/clay/Library/Application Support/open-interpreter/conversations/4d9f81b0-58b0-45f0-934d-06bae1e7ddc5.json: unsupported operand type(s) for -: 'float' and 'str'
+2025-02-15 03:31:43,259 - interpreter_server - ERROR - Error loading session file /Users/clay/Library/Application Support/open-interpreter/conversations/648bbef8-bbdb-4ffd-b678-e0f59c4be5d1.json: unsupported operand type(s) for -: 'float' and 'str'
+2025-02-15 03:31:43,260 - interpreter_server - ERROR - Error loading session file /Users/clay/Library/Application Support/open-interpreter/conversations/ef28d734-fbb4-40ca-beb8-2260c4baea37.json: unsupported operand type(s) for -: 'float' and 'str'
+2025-02-15 03:31:43,262 - interpreter_server - ERROR - Error loading session file /Users/clay/Library/Application Support/open-interpreter/conversations/8199a210-5ed7-4b40-a48f-ef1afeb8a948.json: unsupported operand type(s) for -: 'float' and 'str'
+2025-02-15 03:31:43,262 - interpreter_server - ERROR - Error loading session file /Users/clay/Library/Application Support/open-interpreter/conversations/349189e7-cab7-413b-97e4-205a2de7092c.json: unsupported operand type(s) for -: 'float' and 'str'
+2025-02-15 03:31:43,269 - interpreter_server - ERROR - Server startup failed: [Errno 48] Address already in use
+Traceback (most recent call last):
+  File "/Users/clay/Code/open-interpreter/interpreter/server/cli.py", line 42, in main
+    serve(app, host=host, port=port)
+  File "/Users/clay/.pyenv/versions/3.9.5/lib/python3.9/site-packages/waitress/__init__.py", line 13, in serve
+    server = _server(app, **kw)
+  File "/Users/clay/.pyenv/versions/3.9.5/lib/python3.9/site-packages/waitress/server.py", line 78, in create_server
+    last_serv = TcpWSGIServer(
+  File "/Users/clay/.pyenv/versions/3.9.5/lib/python3.9/site-packages/waitress/server.py", line 243, in __init__
+    self.bind_server_socket()
+  File "/Users/clay/.pyenv/versions/3.9.5/lib/python3.9/site-packages/waitress/server.py", line 364, in bind_server_socket
+    self.bind(sockaddr)
+  File "/Users/clay/.pyenv/versions/3.9.5/lib/python3.9/site-packages/waitress/wasyncore.py", line 374, in bind
+    return self.socket.bind(addr)
+OSError: [Errno 48] Address already in use
+2025-02-15 03:32:06,115 - interpreter_server - ERROR - Error processing chat request: 'str' object has no attribute 'to_dict'
+Traceback (most recent call last):
+  File "/Users/clay/Code/open-interpreter/interpreter/server/routes/chat.py", line 132, in chat
+    interpreter_instance.messages.append(msg.to_dict())
+AttributeError: 'str' object has no attribute 'to_dict'
+2025-02-15 03:32:06,116 - interpreter_server - ERROR - 'str' object has no attribute 'to_dict'
+Traceback (most recent call last):
+  File "/Users/clay/Code/open-interpreter/interpreter/server/routes/chat.py", line 132, in chat
+    interpreter_instance.messages.append(msg.to_dict())
+AttributeError: 'str' object has no attribute 'to_dict'
+2025-02-15 03:32:34,140 - interpreter_server - ERROR - Error loading session file /Users/clay/Library/Application Support/open-interpreter/conversations/dc7dc200-93da-419f-87b1-d5a9d57d06f7.json: unsupported operand type(s) for -: 'float' and 'str'
+2025-02-15 03:32:34,141 - interpreter_server - ERROR - Error loading session file /Users/clay/Library/Application Support/open-interpreter/conversations/e75fcf82-d5e9-48a4-b2a1-a5f623c118af.json: unsupported operand type(s) for -: 'float' and 'str'
+2025-02-15 03:32:34,142 - interpreter_server - ERROR - Error loading session file /Users/clay/Library/Application Support/open-interpreter/conversations/0d191bbf-2103-4e63-8e99-793fe033f39e.json: unsupported operand type(s) for -: 'float' and 'str'
+2025-02-15 03:32:34,142 - interpreter_server - ERROR - Error loading session file /Users/clay/Library/Application Support/open-interpreter/conversations/3033789d-a53b-4a8c-be5f-d35e4fa6b890.json: unsupported operand type(s) for -: 'float' and 'str'
+2025-02-15 03:32:34,143 - interpreter_server - ERROR - Error loading session file /Users/clay/Library/Application Support/open-interpreter/conversations/40f173a5-ed91-4b51-a80f-f50aab5e92e1.json: unsupported operand type(s) for -: 'float' and 'str'
+2025-02-15 03:32:34,143 - interpreter_server - ERROR - Error loading session file /Users/clay/Library/Application Support/open-interpreter/conversations/a0c7a1cd-01ae-44f0-bfb8-9cb22175339f.json: unsupported operand type(s) for -: 'float' and 'str'
+2025-02-15 03:32:34,144 - interpreter_server - ERROR - Error loading session file /Users/clay/Library/Application Support/open-interpreter/conversations/98f4ee5c-4416-4068-a503-c8d2d33f036f.json: unsupported operand type(s) for -: 'float' and 'str'
+2025-02-15 03:32:34,144 - interpreter_server - ERROR - Error loading session file /Users/clay/Library/Application Support/open-interpreter/conversations/97072bd6-e5e3-4813-a12a-4c1b63076d3f.json: unsupported operand type(s) for -: 'float' and 'str'
+2025-02-15 03:32:34,144 - interpreter_server - ERROR - Error loading session file /Users/clay/Library/Application Support/open-interpreter/conversations/40435fa0-1d7e-444c-8155-2266d7001f70.json: unsupported operand type(s) for -: 'float' and 'str'
+2025-02-15 03:32:34,145 - interpreter_server - ERROR - Error loading session file /Users/clay/Library/Application Support/open-interpreter/conversations/6b0d4be6-3950-43d2-8952-516b31d4a07b.json: unsupported operand type(s) for -: 'float' and 'str'
+2025-02-15 03:32:34,145 - interpreter_server - ERROR - Error loading session file /Users/clay/Library/Application Support/open-interpreter/conversations/8d1ab883-d112-4ead-b202-f13c677b67fa.json: unsupported operand type(s) for -: 'float' and 'str'
+2025-02-15 03:32:34,147 - interpreter_server - ERROR - Error loading session file /Users/clay/Library/Application Support/open-interpreter/conversations/4d9f81b0-58b0-45f0-934d-06bae1e7ddc5.json: unsupported operand type(s) for -: 'float' and 'str'
+2025-02-15 03:32:34,147 - interpreter_server - ERROR - Error loading session file /Users/clay/Library/Application Support/open-interpreter/conversations/648bbef8-bbdb-4ffd-b678-e0f59c4be5d1.json: unsupported operand type(s) for -: 'float' and 'str'
+2025-02-15 03:32:34,148 - interpreter_server - ERROR - Error loading session file /Users/clay/Library/Application Support/open-interpreter/conversations/ef28d734-fbb4-40ca-beb8-2260c4baea37.json: unsupported operand type(s) for -: 'float' and 'str'
+2025-02-15 03:32:34,148 - interpreter_server - ERROR - Error loading session file /Users/clay/Library/Application Support/open-interpreter/conversations/8199a210-5ed7-4b40-a48f-ef1afeb8a948.json: unsupported operand type(s) for -: 'float' and 'str'
+2025-02-15 03:32:34,148 - interpreter_server - ERROR - Error loading session file /Users/clay/Library/Application Support/open-interpreter/conversations/349189e7-cab7-413b-97e4-205a2de7092c.json: unsupported operand type(s) for -: 'float' and 'str'
+2025-02-15 03:33:12,633 - interpreter_server - ERROR - Error listing sessions: 'SessionManager' object has no attribute 'lock'
+Traceback (most recent call last):
+  File "/Users/clay/Code/open-interpreter/interpreter/server/routes/session.py", line 21, in list_sessions
+    sessions = current_app.session_manager.list_sessions()
+  File "/Users/clay/Code/open-interpreter/interpreter/server/session.py", line 458, in list_sessions
+    with self.lock:
+AttributeError: 'SessionManager' object has no attribute 'lock'
+2025-02-15 03:33:12,640 - interpreter_server - ERROR - 'SessionManager' object has no attribute 'lock'
+Traceback (most recent call last):
+  File "/Users/clay/Code/open-interpreter/interpreter/server/routes/session.py", line 21, in list_sessions
+    sessions = current_app.session_manager.list_sessions()
+  File "/Users/clay/Code/open-interpreter/interpreter/server/session.py", line 458, in list_sessions
+    with self.lock:
+AttributeError: 'SessionManager' object has no attribute 'lock'
+2025-02-15 03:33:17,650 - interpreter_server - ERROR - Error listing sessions: 'SessionManager' object has no attribute 'lock'
+Traceback (most recent call last):
+  File "/Users/clay/Code/open-interpreter/interpreter/server/routes/session.py", line 21, in list_sessions
+    sessions = current_app.session_manager.list_sessions()
+  File "/Users/clay/Code/open-interpreter/interpreter/server/session.py", line 458, in list_sessions
+    with self.lock:
+AttributeError: 'SessionManager' object has no attribute 'lock'
+2025-02-15 03:33:17,650 - interpreter_server - ERROR - 'SessionManager' object has no attribute 'lock'
+Traceback (most recent call last):
+  File "/Users/clay/Code/open-interpreter/interpreter/server/routes/session.py", line 21, in list_sessions
+    sessions = current_app.session_manager.list_sessions()
+  File "/Users/clay/Code/open-interpreter/interpreter/server/session.py", line 458, in list_sessions
+    with self.lock:
+AttributeError: 'SessionManager' object has no attribute 'lock'
+2025-02-15 03:33:22,660 - interpreter_server - ERROR - Error listing sessions: 'SessionManager' object has no attribute 'lock'
+Traceback (most recent call last):
+  File "/Users/clay/Code/open-interpreter/interpreter/server/routes/session.py", line 21, in list_sessions
+    sessions = current_app.session_manager.list_sessions()
+  File "/Users/clay/Code/open-interpreter/interpreter/server/session.py", line 458, in list_sessions
+    with self.lock:
+AttributeError: 'SessionManager' object has no attribute 'lock'
+2025-02-15 03:33:22,661 - interpreter_server - ERROR - 'SessionManager' object has no attribute 'lock'
+Traceback (most recent call last):
+  File "/Users/clay/Code/open-interpreter/interpreter/server/routes/session.py", line 21, in list_sessions
+    sessions = current_app.session_manager.list_sessions()
+  File "/Users/clay/Code/open-interpreter/interpreter/server/session.py", line 458, in list_sessions
+    with self.lock:
+AttributeError: 'SessionManager' object has no attribute 'lock'
+2025-02-15 03:33:32,585 - interpreter_server - ERROR - Error adding message to session d90b4c05-74bd-4782-9c5c-4e706440ae49: 'dict' object has no attribute 'append'
+2025-02-15 03:33:35,597 - interpreter_server - ERROR - Error processing chat completions request: unsupported operand type(s) for +: 'dict' and 'list'
+Traceback (most recent call last):
+  File "/Users/clay/Code/open-interpreter/interpreter/server/routes/chat.py", line 358, in chat_completions
+    messages = session_messages + messages
+TypeError: unsupported operand type(s) for +: 'dict' and 'list'
+2025-02-15 03:33:35,598 - interpreter_server - ERROR - unsupported operand type(s) for +: 'dict' and 'list'
+Traceback (most recent call last):
+  File "/Users/clay/Code/open-interpreter/interpreter/server/routes/chat.py", line 358, in chat_completions
+    messages = session_messages + messages
+TypeError: unsupported operand type(s) for +: 'dict' and 'list'
+2025-02-15 03:33:40,610 - interpreter_server - ERROR - Error processing chat completions request: unsupported operand type(s) for +: 'dict' and 'list'
+Traceback (most recent call last):
+  File "/Users/clay/Code/open-interpreter/interpreter/server/routes/chat.py", line 358, in chat_completions
+    messages = session_messages + messages
+TypeError: unsupported operand type(s) for +: 'dict' and 'list'
+2025-02-15 03:33:40,611 - interpreter_server - ERROR - unsupported operand type(s) for +: 'dict' and 'list'
+Traceback (most recent call last):
+  File "/Users/clay/Code/open-interpreter/interpreter/server/routes/chat.py", line 358, in chat_completions
+    messages = session_messages + messages
+TypeError: unsupported operand type(s) for +: 'dict' and 'list'
+2025-02-15 03:33:45,636 - interpreter_server - ERROR - Error processing chat completions request: unsupported operand type(s) for +: 'dict' and 'list'
+Traceback (most recent call last):
+  File "/Users/clay/Code/open-interpreter/interpreter/server/routes/chat.py", line 358, in chat_completions
+    messages = session_messages + messages
+TypeError: unsupported operand type(s) for +: 'dict' and 'list'
+2025-02-15 03:33:45,636 - interpreter_server - ERROR - unsupported operand type(s) for +: 'dict' and 'list'
+Traceback (most recent call last):
+  File "/Users/clay/Code/open-interpreter/interpreter/server/routes/chat.py", line 358, in chat_completions
+    messages = session_messages + messages
+TypeError: unsupported operand type(s) for +: 'dict' and 'list'
+2025-02-15 03:33:53,649 - interpreter_server - ERROR - Error processing chat completions request: unsupported operand type(s) for +: 'dict' and 'list'
+Traceback (most recent call last):
+  File "/Users/clay/Code/open-interpreter/interpreter/server/routes/chat.py", line 358, in chat_completions
+    messages = session_messages + messages
+TypeError: unsupported operand type(s) for +: 'dict' and 'list'
+2025-02-15 03:33:53,649 - interpreter_server - ERROR - unsupported operand type(s) for +: 'dict' and 'list'
+Traceback (most recent call last):
+  File "/Users/clay/Code/open-interpreter/interpreter/server/routes/chat.py", line 358, in chat_completions
+    messages = session_messages + messages
+TypeError: unsupported operand type(s) for +: 'dict' and 'list'

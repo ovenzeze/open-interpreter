@@ -3,25 +3,37 @@
 # To learn more about LMC, visit https://docs.openinterpreter.com/protocols/lmc-messages. #
 ###########################################################################################
 
-FROM python:3.11.8
+FROM python:3.9-slim
 
-# Set environment variables
-# ENV OPENAI_API_KEY ...
+WORKDIR /app
 
-ENV HOST 0.0.0.0
-# ^ Sets the server host to 0.0.0.0, Required for the server to be accessible outside the container
+# 安装系统依赖
+RUN apt-get update && apt-get install -y \
+    build-essential \
+    && rm -rf /var/lib/apt/lists/*
 
-# Copy required files into container
-RUN mkdir -p interpreter scripts
-COPY interpreter/ interpreter/
-COPY scripts/ scripts/
-COPY poetry.lock pyproject.toml README.md ./
+# 复制项目文件
+COPY . .
 
-# Expose port 8000
-EXPOSE 8000
+# 安装Python依赖
+RUN pip install --no-cache-dir -r requirements.txt
 
-# Install server dependencies
-RUN pip install ".[server]"
+# 创建非root用户
+RUN useradd -m -r -s /bin/bash interpreter
+RUN chown -R interpreter:interpreter /app
 
-# Start the server
-ENTRYPOINT ["interpreter", "--server"]
+# 切换到非root用户
+USER interpreter
+
+# 设置环境变量
+ENV PYTHONUNBUFFERED=1 \
+    LOG_LEVEL=INFO \
+    MAX_SESSIONS=1000 \
+    MAX_REQUESTS_PER_MINUTE=60 \
+    MAX_MEMORY_USAGE=1073741824
+
+# 暴露端口
+EXPOSE 5001
+
+# 启动命令
+CMD ["python", "-m", "interpreter.server.cli", "--host", "0.0.0.0", "--port", "5001", "--log-level", "INFO"]

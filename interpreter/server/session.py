@@ -5,6 +5,7 @@ Following NCU (New Computer Update) message format
 
 import json
 import uuid
+import logging
 from datetime import datetime, timedelta
 from pathlib import Path
 from typing import Dict, List, Optional, Any, Literal, Union, Tuple
@@ -13,6 +14,9 @@ import platformdirs
 import os
 import time
 import threading
+
+# 创建 logger
+logger = logging.getLogger('interpreter_server')
 
 MessageRole = Literal["user", "assistant", "computer"]
 MessageType = Literal["message", "code", "image", "console", "file", "confirmation"]
@@ -193,36 +197,188 @@ class SessionManager:
     def __init__(self, storage_path: str = None, 
                  session_timeout: int = 3600,  # 1小时超时
                  cleanup_interval: int = 300):  # 5分钟清理一次
+        # 使用 platformdirs 获取系统配置目录
         if storage_path is None:
-            storage_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), "sessions")
+            storage_path = platformdirs.user_config_dir("open-interpreter")
+            storage_path = os.path.join(storage_path, "conversations")
         self.storage_path = Path(storage_path)
         self.storage_path.mkdir(parents=True, exist_ok=True)
-        self.sessions: Dict = {}
+        
+        self.sessions: Dict[str, Dict] = {}
         self.session_timeout = session_timeout
         self.cleanup_interval = cleanup_interval
         self.session_locks: Dict[str, threading.Lock] = {}
-        self.interpreter_instances: Dict[str, Any] = {}  # 存储每个会话的interpreter实例
+        self.interpreter_instances: Dict[str, Any] = {}
+        self.lock = threading.Lock()  # 添加全局锁对象
+        
+        # 启动清理线程
         self.cleanup_thread = threading.Thread(target=self._cleanup_expired_sessions, daemon=True)
         self.cleanup_thread.start()
         
         # 加载持久化的会话
         self._load_persisted_sessions()
+
+    def _get_session_file_path(self, session_id: str) -> Path:
+        """获取会话文件路径"""
+        return self.storage_path / f"{session_id}.json"
+
+    def _save_session_messages(self, session_id: str, messages: List[Dict]) -> None:
+        """保存会话消息到文件"""
+        try:
+            file_path = self._get_session_file_path(session_id)
+            with open(file_path, 'w', encoding='utf-8') as f:
+                json.dump(messages, f, ensure_ascii=False)
+        except Exception as e:
+            logger.error(f"Error saving session {session_id}: {str(e)}")
+
+    def _load_session_messages(self, session_id: str) -> List[Dict]:
+        """从文件加载会话消息"""
+        try:
+            file_path = self._get_session_file_path(session_id)
+            if file_path.exists():
+                with open(file_path, 'r', encoding='utf-8') as f:
+                    return json.load(f)
+        except Exception as e:
+            logger.error(f"Error loading session {session_id}: {str(e)}")
+        return []
+
+    def add_message(self, session_id: str, message: Dict[str, Any]) -> bool:
+        """添加消息到会话并持久化存储
         
+        Args:
+            session_id: 会话ID
+            message: 消息字典，必须包含 role、type、content 字段
+            
+        Returns:
+            bool: 是否成功添加消息
+        """
+        try:
+            # 验证消息格式
+            required_fields = ['role', 'type', 'content']
+            if not all(field in message for field in required_fields):
+                logger.error(f"Message missing required fields: {required_fields}")
+                return False
+                
+            # 获取当前会话消息
+            messages = self._load_session_messages(session_id)
+            
+            # 添加新消息
+            messages.append({
+                "role": message["role"],
+                "type": message["type"],
+                "content": message["content"]
+            })
+            
+            # 保存到文件
+            self._save_session_messages(session_id, messages)
+            
+            # 更新内存中的会话
+            session = self.sessions.get(session_id)
+            if session:
+                if 'messages' not in session:
+                    session['messages'] = []
+                session['messages'] = messages
+                session['last_active'] = time.time()
+            
+            return True
+            
+        except Exception as e:
+            logger.error(f"Error adding message to session {session_id}: {str(e)}")
+            return False
+
+    def get_messages(self, session_id: str) -> Optional[List[Dict]]:
+        """获取会话的消息列表"""
+        try:
+            # 首先检查会话是否存在且有效
+            session = self.get_session(session_id)
+            if not session:
+                return None
+                
+            # 从文件加载最新消息
+            messages = self._load_session_messages(session_id)
+            
+            # 更新会话的最后活动时间
+            session['last_active'] = time.time()
+            
+            return messages
+            
+        except Exception as e:
+            logger.error(f"Error getting messages for session {session_id}: {str(e)}")
+            return None
+
+    def _cleanup_expired_sessions(self):
+        """清理过期会话"""
+        while True:
+            try:
+                current_time = time.time()
+                expired_sessions = [
+                    session_id
+                    for session_id, session in self.sessions.items()
+                    if current_time - session['last_active'] > self.session_timeout
+                ]
+                
+                for session_id in expired_sessions:
+                    # 清理锁
+                    if session_id in self.session_locks:
+                        del self.session_locks[session_id]
+                    # 清理会话
+                    if session_id in self.sessions:
+                        del self.sessions[session_id]
+                    # 清理interpreter实例
+                    if session_id in self.interpreter_instances:
+                        del self.interpreter_instances[session_id]
+                    # 清理文件
+                    file_path = self._get_session_file_path(session_id)
+                    if file_path.exists():
+                        file_path.unlink()
+                
+                time.sleep(self.cleanup_interval)
+                
+            except Exception as e:
+                logger.error(f"Error in cleanup thread: {str(e)}")
+                time.sleep(self.cleanup_interval)
+
     def _load_persisted_sessions(self):
         """加载持久化的会话数据"""
         try:
             for session_file in self.storage_path.glob("*.json"):
-                with open(session_file, 'r') as f:
-                    session_data = json.load(f)
-                    # 只加载未过期的会话
-                    if self._is_session_valid(session_data.get('last_active', 0)):
-                        self.sessions[session_data['session_id']] = session_data
+                try:
+                    with open(session_file, 'r', encoding='utf-8') as f:
+                        session_data = json.load(f)
+                        
+                    # 处理旧格式的会话文件（直接是消息列表）
+                    if isinstance(session_data, list):
+                        session_id = session_file.stem
+                        session = {
+                            'session_id': session_id,
+                            'created_at': datetime.now().isoformat(),
+                            'messages': session_data,
+                            'last_active': time.time(),
+                            'metadata': {}
+                        }
+                        self.sessions[session_id] = session
+                    else:
+                        # 新格式的会话文件
+                        session_id = session_data.get('session_id') or session_file.stem
+                        if self._is_session_valid(session_data.get('last_active', time.time())):
+                            self.sessions[session_id] = session_data
+                            
+                except Exception as e:
+                    logger.error(f"Error loading session file {session_file}: {str(e)}")
+                    continue
+                    
         except Exception as e:
             logger.error(f"Error loading persisted sessions: {str(e)}")
 
-    def _is_session_valid(self, last_active: float) -> bool:
+    def _is_session_valid(self, last_active) -> bool:
         """检查会话是否有效"""
-        return (time.time() - last_active) < self.session_timeout
+        try:
+            if isinstance(last_active, str):
+                last_active = datetime.fromisoformat(last_active).timestamp()
+            return (time.time() - float(last_active)) < self.session_timeout
+        except (ValueError, TypeError) as e:
+            logger.error(f"Error validating session timestamp: {str(e)}")
+            return False
 
     def cleanup_expired_sessions(self):
         """清理过期会话"""
@@ -319,27 +475,6 @@ class SessionManager:
             return session.get('messages', [])
         return []
 
-    def add_message(self, session_id: str, message: Dict[str, Any]) -> bool:
-        """添加消息到会话（增强验证）"""
-        with self.lock:
-            session = self.get_session(session_id)
-            if session:
-                # 增强消息验证
-                required_fields = ['role', 'type', 'content']
-                if not all(field in message for field in required_fields):
-                    raise ValueError(f"Message missing required fields: {required_fields}")
-                
-                # 自动生成时间戳和ID
-                message.setdefault('created_at', datetime.now().isoformat())
-                message.setdefault('id', str(uuid.uuid4()))
-                
-                # 保存到会话
-                session['messages'].append(message)
-                session['last_active'] = time.time()
-                self._persist_session(session_id, session)
-                return True
-            return False
-
     def acquire_session_lock(self, session_id: str, timeout: float = 5.0) -> bool:
         """获取会话锁"""
         if session_id not in self.session_locks:
@@ -351,33 +486,6 @@ class SessionManager:
         if session_id in self.session_locks and self.session_locks[session_id].locked():
             self.session_locks[session_id].release()
 
-    def _cleanup_expired_sessions(self):
-        """清理过期会话"""
-        while True:
-            current_time = time.time()
-            expired_sessions = [
-                session_id
-                for session_id, session in self.sessions.items()
-                if current_time - session['last_active'] > 86400  # 24小时过期
-            ]
-            
-            for session_id in expired_sessions:
-                if session_id in self.session_locks:
-                    del self.session_locks[session_id]
-                if session_id in self.sessions:
-                    del self.sessions[session_id]
-                if session_id in self.interpreter_instances:
-                    del self.interpreter_instances[session_id]
-            
-            time.sleep(3600)  # 每小时检查一次
-
-    def get_messages(self, session_id: str) -> Optional[List[Dict]]:
-        """获取会话的消息列表"""
-        session = self.get_session(session_id)
-        if session:
-            return session.get('messages', [])
-        return None
-
     def get_or_create_session(self, session_id: Optional[str] = None) -> Tuple[Dict, bool]:
         """Get existing session or create new one
         
@@ -407,92 +515,6 @@ class SessionManager:
             self._persist_session(session_id, session)
         else:
             raise ValueError("Session not found")
-
-    def _generate_session_id(self):
-        """Generate a new session ID"""
-        return str(uuid.uuid4())
-
-    def _load_existing_sessions(self) -> None:
-        """Load existing sessions from storage"""
-        for session_file in self.storage_path.glob("*.json"):
-            try:
-                with open(session_file, "r") as f:
-                    data = json.load(f)
-                
-                # 如果是旧格式的会话文件（直接是消息列表），则转换为新格式
-                if isinstance(data, list):
-                    session_id = session_file.stem  # 使用文件名作为会话ID
-                    session_data = {
-                        "session_id": session_id,
-                        "messages": [],
-                        "created_at": datetime.now().isoformat(),
-                        "last_active": datetime.now().isoformat(),
-                        "metadata": {}
-                    }
-                    
-                    # 转换旧格式消息到新格式
-                    for msg in data:
-                        if isinstance(msg, dict) and "role" in msg and "content" in msg:
-                            # 设置默认类型
-                            msg_type = "message"
-                            if msg["role"] == "assistant" and "```" in msg["content"]:
-                                msg_type = "code"
-                            elif msg["role"] == "computer":
-                                msg_type = "console"
-                            
-                            new_msg = {
-                                "role": msg["role"],
-                                "type": msg_type,
-                                "content": msg["content"],
-                                "created_at": datetime.now().isoformat(),
-                                "id": str(uuid.uuid4())
-                            }
-                            session_data["messages"].append(new_msg)
-                    
-                    session = Session.from_dict(session_data)
-                else:
-                    session = Session.from_dict(data)
-                
-                self.sessions[session.session_id] = session.to_dict()
-            except Exception as e:
-                print(f"Error loading session {session_file}: {e}")
-
-    def get_or_create_session(self, session_id: Optional[str] = None) -> Tuple[Dict, bool]:
-        """Get existing session or create new one
-        
-        Returns:
-            Tuple of (session, created) where created is True if new session was created
-        """
-        if session_id:
-            session = self.get_session(session_id)
-            if session:
-                return session, False
-        return self.create_session(), True
-
-    def update_session_metadata(self, session_id: str, metadata: Dict[str, Any]) -> None:
-        """Update session metadata"""
-        session = self.get_session(session_id)
-        if session:
-            session['metadata'].update(metadata)
-            self._persist_session(session_id, session)
-
-    def merge_messages(self, session_id: str, new_messages: List[Dict[str, Any]]) -> None:
-        """Merge new messages into existing session while maintaining context"""
-        session = self.get_session(session_id)
-        if session:
-            for message in new_messages:
-                session['messages'].append(message)
-            session['last_active'] = time.time()
-            self._persist_session(session_id, session)
-        else:
-            raise ValueError("Session not found")
-
-    def get_messages(self, session_id: str) -> Optional[List[Dict]]:
-        """获取会话的消息列表"""
-        session = self.get_session(session_id)
-        if session:
-            return session.get('messages', [])
-        return None
 
     def get_interpreter(self, session_id: str) -> Optional[Any]:
         """获取会话对应的interpreter实例"""

@@ -39,7 +39,6 @@ def chat():
         current_app.logger.error("Invalid content type: not application/json")
         raise ValidationError("Content-Type must be application/json")
         
-    # 在函数开始时声明锁未被获取
     lock_acquired = False
     session_id = None
     try:
@@ -97,7 +96,13 @@ def chat():
         session_messages = session_manager.get_messages(session_id)
         if session_messages:
             current_app.logger.debug(f"Loaded {len(session_messages)} messages from session")
+            # 确保所有消息都是字典格式
+            session_messages = [msg.to_dict() if isinstance(msg, Message) else msg for msg in session_messages]
+            messages = [msg.to_dict() if isinstance(msg, Message) else msg for msg in messages]
             messages = session_messages + messages
+        else:
+            # 如果没有历史消息，确保当前消息是字典格式
+            messages = [msg.to_dict() if isinstance(msg, Message) else msg for msg in messages]
         
         # 获取interpreter实例
         interpreter_instance = session_manager.get_interpreter(session_id)
@@ -115,10 +120,37 @@ def chat():
         
         # 准备消息
         last_message = messages[-1]
-        interpreter_instance.messages = [msg.to_dict() for msg in messages[:-1]]  # 加载历史消息
+        if isinstance(last_message, dict):
+            last_message_content = last_message.get('content', '')
+        elif isinstance(last_message, Message):
+            last_message_content = last_message.content
+        else:
+            last_message_content = str(last_message)
+            
+        # 设置历史消息
+        if len(messages) > 1:  # 如果有历史消息
+            interpreter_instance.messages = []  # 先清空
+            for msg in messages[:-1]:
+                if isinstance(msg, str):
+                    msg_dict = {
+                        'role': 'user',
+                        'type': 'message',
+                        'content': msg
+                    }
+                elif isinstance(msg, dict):
+                    msg_dict = msg
+                elif isinstance(msg, Message):
+                    msg_dict = msg.to_dict()
+                else:
+                    msg_dict = {
+                        'role': 'user',
+                        'type': 'message',
+                        'content': str(msg)
+                    }
+                interpreter_instance.messages.append(msg_dict)
         
         current_app.logger.debug("Starting chat with interpreter")
-        response = interpreter_instance.chat(last_message.content, stream=stream)
+        response = interpreter_instance.chat(last_message_content, stream=stream)
         current_app.logger.debug("Got response from interpreter")
         
         if not stream:
@@ -329,7 +361,11 @@ def chat_completions():
         # 加载会话消息
         session_messages = session_manager.get_messages(session_id)
         if session_messages:
-            messages = session_messages + messages
+            if isinstance(session_messages, dict):
+                session_messages = [session_messages]
+            elif not isinstance(session_messages, list):
+                session_messages = []
+            messages = session_messages + (messages if isinstance(messages, list) else [messages])
         
         # 转换消息格式并发送请求
         interpreter_messages = convert_openai_to_interpreter(messages)
