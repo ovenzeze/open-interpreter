@@ -51,7 +51,7 @@
           ],
           "body": {
             "mode": "raw",
-            "raw": "{\n    \"status\": \"healthy\",\n    \"version\": \"1.0.0\",\n    \"model\": \"bedrock/anthropic.claude-3-sonnet-20240229-v1:0\"\n}"
+            "raw": "{\n    \"llm\": {\n        \"model\": \"bedrock/anthropic.claude-3-sonnet-20240229-v1:0\",\n        \"status\": \"ready\"\n    },\n    \"status\": \"healthy\",\n    \"version\": \"0.4.3\"\n}"
           }
         }
       ]
@@ -100,7 +100,7 @@
           ],
           "body": {
             "mode": "raw",
-            "raw": "{\n    \"session_id\": \"550e8400-e29b-41d4-a716-446655440000\",\n    \"created_at\": \"2024-02-12T10:00:00Z\",\n    \"model\": \"bedrock/anthropic.claude-3-sonnet-20240229-v1:0\"\n}"
+            "raw": "{\n    \"created_at\": \"2025-02-16T17:10:28.301493\",\n    \"session_id\": \"6534e54b-7261-4526-9325-11feb682040e\"\n}"
           }
         }
       ]
@@ -139,7 +139,7 @@
           ],
           "body": {
             "mode": "raw",
-            "raw": "{\n    \"sessions\": [\n        {\n            \"session_id\": \"550e8400-e29b-41d4-a716-446655440000\",\n            \"created_at\": \"2024-02-12T10:00:00Z\",\n            \"message_count\": 10\n        }\n    ]\n}"
+            "raw": "{\n    \"sessions\": [\n        {\n            \"created_at\": \"2025-02-16T17:10:28.301493\",\n            \"last_active\": 1739754628.301533,\n            \"messages\": [],\n            \"metadata\": {},\n            \"session_id\": \"6534e54b-7261-4526-9325-11feb682040e\"\n        }\n    ]\n}"
           }
         }
       ]
@@ -178,7 +178,7 @@
           ],
           "body": {
             "mode": "raw",
-            "raw": "{\n    \"messages\": [\n        {\n            \"role\": \"user\",\n            \"type\": \"message\",\n            \"content\": \"Hello!\",\n            \"created_at\": \"2024-02-12T10:00:00Z\"\n        },\n        {\n            \"role\": \"assistant\",\n            \"type\": \"message\",\n            \"content\": \"Hi! How can I help you today?\",\n            \"created_at\": \"2024-02-12T10:00:01Z\"\n        }\n    ]\n}"
+            "raw": "{\n    \"messages\": {\n        \"created_at\": \"2025-02-16T17:10:28.301493\",\n        \"last_active\": 1739754642.436786,\n        \"messages\": [],\n        \"metadata\": {},\n        \"session_id\": \"6534e54b-7261-4526-9325-11feb682040e\"\n    }\n}"
           }
         }
       ]
@@ -195,7 +195,7 @@
         ],
         "body": {
           "mode": "raw",
-          "raw": "{\n    \"messages\": [\n        {\n            \"role\": \"user\",\n            \"type\": \"message\",\n            \"content\": \"Hello!\"\n        }\n    ],\n    \"session_id\": \"{{sessionId}}\",\n    \"stream\": false,\n    \"config\": {\n        \"llm\": {\n            \"model\": \"{{model}}\",\n            \"temperature\": {{temperature}},\n            \"max_tokens\": {{maxTokens}}\n        }\n    }\n}"
+          "raw": "{\n    \"messages\": [\n        {\n            \"role\": \"user\",\n            \"type\": \"message\",\n            \"content\": \"1+1等于几？\"\n        }\n    ],\n    \"stream\": false,\n    \"session_id\": \"{{sessionId}}\"\n}"
         },
         "url": {
           "raw": "{{baseUrl}}/v1/chat",
@@ -216,7 +216,7 @@
             ],
             "body": {
               "mode": "raw",
-              "raw": "{\n    \"messages\": [\n        {\n            \"role\": \"user\",\n            \"type\": \"message\",\n            \"content\": \"Hello!\"\n        }\n    ],\n    \"session_id\": \"{{sessionId}}\",\n    \"stream\": false,\n    \"config\": {\n        \"llm\": {\n            \"model\": \"{{model}}\",\n            \"temperature\": {{temperature}},\n            \"max_tokens\": {{maxTokens}}\n        }\n    }\n}"
+              "raw": "{\n    \"messages\": [\n        {\n            \"role\": \"user\",\n            \"type\": \"message\",\n            \"content\": \"1+1等于几？\"\n        }\n    ],\n    \"stream\": false,\n    \"session_id\": \"{{sessionId}}\"\n}"
             },
             "url": {
               "raw": "{{baseUrl}}/v1/chat",
@@ -235,7 +235,7 @@
           ],
           "body": {
             "mode": "raw",
-            "raw": "{\n    \"message\": {\n        \"role\": \"assistant\",\n        \"type\": \"message\",\n        \"content\": \"Hello! How can I help you today?\",\n        \"created_at\": \"2024-02-12T10:00:00Z\"\n    },\n    \"session_id\": \"550e8400-e29b-41d4-a716-446655440000\"\n}"
+            "raw": "{\n    \"choices\": [\n        {\n            \"finish_reason\": \"stop\",\n            \"index\": 0,\n            \"message\": {\n                \"content\": \"1+1等于2。\",\n                \"role\": \"assistant\"\n            }\n        }\n    ],\n    \"created\": 1739754657,\n    \"id\": \"chatcmpl-387bf2c8-5e7e-4f1d-b70b-97e41cb2ee68\",\n    \"model\": \"gpt-4o\",\n    \"object\": \"chat.completion\",\n    \"usage\": {\n        \"completion_tokens\": 0,\n        \"prompt_tokens\": 0,\n        \"total_tokens\": 0\n    }\n}"
           }
         }
       ]
@@ -248,42 +248,16 @@
           {
             "key": "Content-Type",
             "value": "application/json"
-          },
-          {
-            "key": "Accept",
-            "value": "text/event-stream"
           }
         ],
         "body": {
           "mode": "raw",
-          "raw": "{\n    \"messages\": [\n        {\n            \"role\": \"user\",\n            \"type\": \"message\",\n            \"content\": \"请用Python写一个计算斐波那契数列的函数\"\n        }\n    ],\n    \"session_id\": \"{{sessionId}}\",\n    \"stream\": true,\n    \"config\": {\n        \"llm\": {\n            \"model\": \"{{model}}\",\n            \"temperature\": {{temperature}},\n            \"max_tokens\": {{maxTokens}}\n        }\n    }\n}"
+          "raw": "{\n    \"messages\": [\n        {\n            \"role\": \"user\",\n            \"type\": \"message\",\n            \"content\": \"你好\"\n        }\n    ],\n    \"stream\": true,\n    \"session_id\": \"{{sessionId}}\"\n}"
         },
         "url": {
           "raw": "{{baseUrl}}/v1/chat",
           "host": ["{{baseUrl}}"],
           "path": ["v1", "chat"]
-        }
-      },
-      "response": []
-    },
-    {
-      "name": "OpenAI Chat",
-      "request": {
-        "method": "POST",
-        "header": [
-          {
-            "key": "Content-Type",
-            "value": "application/json"
-          }
-        ],
-        "body": {
-          "mode": "raw",
-          "raw": "{\n    \"messages\": [\n        {\n            \"role\": \"user\",\n            \"content\": \"请用Python写一个计算斐波那契数列的函数\"\n        }\n    ],\n    \"model\": \"{{model}}\",\n    \"stream\": false,\n    \"temperature\": {{temperature}},\n    \"max_tokens\": {{maxTokens}}\n}"
-        },
-        "url": {
-          "raw": "{{baseUrl}}/v1/chat/completions",
-          "host": ["{{baseUrl}}"],
-          "path": ["v1", "chat", "completions"]
         }
       },
       "response": [
@@ -299,26 +273,26 @@
             ],
             "body": {
               "mode": "raw",
-              "raw": "{\n    \"messages\": [\n        {\n            \"role\": \"user\",\n            \"content\": \"请用Python写一个计算斐波那契数列的函数\"\n        }\n    ],\n    \"model\": \"{{model}}\",\n    \"stream\": false,\n    \"temperature\": {{temperature}},\n    \"max_tokens\": {{maxTokens}}\n}"
+              "raw": "{\n    \"messages\": [\n        {\n            \"role\": \"user\",\n            \"type\": \"message\",\n            \"content\": \"你好\"\n        }\n    ],\n    \"stream\": true,\n    \"session_id\": \"{{sessionId}}\"\n}"
             },
             "url": {
-              "raw": "{{baseUrl}}/v1/chat/completions",
+              "raw": "{{baseUrl}}/v1/chat",
               "host": ["{{baseUrl}}"],
-              "path": ["v1", "chat", "completions"]
+              "path": ["v1", "chat"]
             }
           },
           "status": "OK",
           "code": 200,
-          "_postman_previewlanguage": "json",
+          "_postman_previewlanguage": "text",
           "header": [
             {
               "key": "Content-Type",
-              "value": "application/json"
+              "value": "text/event-stream"
             }
           ],
           "body": {
             "mode": "raw",
-            "raw": "{\n    \"id\": \"chatcmpl-123\",\n    \"object\": \"chat.completion\",\n    \"created\": 1677652288,\n    \"model\": \"bedrock/anthropic.claude-3-sonnet-20240229-v1:0\",\n    \"choices\": [{\n        \"index\": 0,\n        \"message\": {\n            \"role\": \"assistant\",\n            \"content\": \"Hello! How can I help you today?\"\n        },\n        \"finish_reason\": \"stop\"\n    }],\n    \"usage\": {\n        \"prompt_tokens\": 9,\n        \"completion_tokens\": 12,\n        \"total_tokens\": 21\n    }\n}"
+            "raw": "data: {\"role\": \"assistant\", \"type\": \"message\", \"content\": \"\", \"id\": \"93fe0fe0-2138-4eb2-9bcb-e5e596bbd478\", \"created_at\": \"2025-02-16T17:11:05.567126\"}\n\ndata: {\"role\": \"assistant\", \"type\": \"message\", \"content\": \"你好\", \"id\": \"b4a54edd-f6ec-4330-a5b2-7366812635fc\", \"created_at\": \"2025-02-16T17:11:05.568024\"}\n\ndata: {\"role\": \"assistant\", \"type\": \"message\", \"content\": \"！\", \"id\": \"5d19008e-95e6-48f9-bc2c-ce7d3b1359f1\", \"created_at\": \"2025-02-16T17:11:05.569788\"}\n\ndata: {\"role\": \"assistant\", \"type\": \"message\", \"content\": \"有什么\", \"id\": \"a77c9263-6b7e-4aa7-aa46-f15e69bc7b96\", \"created_at\": \"2025-02-16T17:11:05.592661\"}\n\ndata: {\"role\": \"assistant\", \"type\": \"message\", \"content\": \"我\", \"id\": \"dfe580f3-fe75-4893-aa5e-f7fbcfbff997\", \"created_at\": \"2025-02-16T17:11:05.594378\"}\n\ndata: {\"role\": \"assistant\", \"type\": \"message\", \"content\": \"可以\", \"id\": \"1b85009d-449e-4d15-b55d-750c8526d73b\", \"created_at\": \"2025-02-16T17:11:05.648663\"}\n\ndata: {\"role\": \"assistant\", \"type\": \"message\", \"content\": \"帮助\", \"id\": \"5f820323-2c10-4d72-844e-9e33a1083347\", \"created_at\": \"2025-02-16T17:11:05.650489\"}\n\ndata: {\"role\": \"assistant\", \"type\": \"message\", \"content\": \"你\", \"id\": \"05934a04-8c7e-4cd5-ae70-f3f432977692\", \"created_at\": \"2025-02-16T17:11:05.652106\"}\n\ndata: {\"role\": \"assistant\", \"type\": \"message\", \"content\": \"的吗\", \"id\": \"058cb5b9-b901-423c-8cf3-8851f62730b8\", \"created_at\": \"2025-02-16T17:11:05.654130\"}\n\ndata: {\"role\": \"assistant\", \"type\": \"message\", \"content\": \"？\", \"id\": \"fe24cd04-5989-4147-b509-067448ae6ec4\", \"created_at\": \"2025-02-16T17:11:05.657014\"}\n\ndata: {\"role\": \"assistant\", \"type\": \"message\", \"content\": \"\", \"id\": \"b6f52c44-f947-43f3-be1d-067002420254\", \"created_at\": \"2025-02-16T17:11:05.659784\"}\n\ndata: {\"role\": \"assistant\", \"type\": \"message\", \"content\": \"\", \"id\": \"d2e3ac5d-bbe5-4666-9e23-631e79a2dd0c\", \"created_at\": \"2025-02-16T17:11:05.663305\", \"recipient\": \"user\", \"end\": true}\n\nevent: done\n"
           }
         }
       ]
@@ -327,23 +301,18 @@
   "variable": [
     {
       "key": "baseUrl",
-      "value": "http://localhost:5001"
-    },
-    {
-      "key": "model",
-      "value": "bedrock/anthropic.claude-3-sonnet-20240229-v1:0"
-    },
-    {
-      "key": "temperature",
-      "value": "0.7"
-    },
-    {
-      "key": "maxTokens",
-      "value": "4096"
+      "value": "http://imac.nimship.work",
+      "type": "string"
     },
     {
       "key": "apiKey",
-      "value": "your-api-key"
+      "value": "your-api-key",
+      "type": "string"
+    },
+    {
+      "key": "sessionId",
+      "value": "6534e54b-7261-4526-9325-11feb682040e",
+      "type": "string"
     }
   ]
 } 
