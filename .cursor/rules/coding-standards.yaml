@@ -1,0 +1,69 @@
+code_style:
+  guidelines:
+    - follow_pep8: true
+    - line_length: 88
+    - formatter: "black"
+    - type_hints: required
+    - docstrings: required
+
+naming_conventions:
+  functions: "snake_case"
+  classes: "PascalCase"
+  constants: "UPPER_CASE"
+  variables: "snake_case"
+  private_members: "_prefix"
+
+code_organization:
+  rules:
+    - one_class_per_file: true
+    - group_related_functions: true
+    - parallel_test_structure: true
+
+documentation:
+  requirements:
+    - all_public_apis_documented: true
+    - type_hints_in_docstrings: true
+    - document_exceptions: true
+    - keep_comments_updated: true
+
+error_handling:
+  rules:
+    - use_specific_exceptions: true
+    - document_all_exceptions: true
+    - meaningful_error_messages: true
+    - use_logging: true
+
+logging:
+  requirements:
+    - use_structured_logging: true
+    - include_context: true
+    - appropriate_log_levels: true
+    - no_print_statements: true
+
+testing:
+  requirements:
+    - unit_tests_for_all_functions: true
+    - min_coverage: 80
+    - test_success_and_failure: true
+    - mock_external_dependencies: true
+
+security:
+  rules:
+    - validate_all_inputs: true
+    - sanitize_all_outputs: true
+    - use_env_variables: true
+    - implement_rate_limiting: true
+
+performance:
+  guidelines:
+    - profile_when_necessary: true
+    - optimize_hot_paths: true
+    - appropriate_data_structures: true
+    - consider_memory_usage: true
+
+version_control:
+  rules:
+    - meaningful_commit_messages: true
+    - one_feature_per_branch: true
+    - commit_format: "[Phase-X][Task]"
+    - atomic_commits: true 

@@ -1,0 +1,61 @@
+# Coding Standards for Open Interpreter HTTP Server
+
+## Code Style
+- Follow PEP 8 guidelines
+- Use Black for code formatting (line length: 88)
+- Use type hints for all function definitions
+- Use docstrings for all public functions and classes
+
+## Naming Conventions
+- Functions: snake_case
+- Classes: PascalCase
+- Constants: UPPER_CASE
+- Variables: snake_case
+- Private members: _prefix
+
+## Code Organization
+- One class per file
+- Related functions grouped in modules
+- Tests in parallel directory structure
+
+## Documentation
+- All public APIs must have docstrings
+- Include type hints in docstrings
+- Document exceptions that may be raised
+- Keep comments up to date with code
+
+## Error Handling
+- Use specific exception types
+- Document all exceptions
+- Provide meaningful error messages
+- Use logging for errors
+
+## Logging
+- Use structured logging
+- Include context in log messages
+- Use appropriate log levels
+- No print statements in production code
+
+## Testing
+- Write unit tests for all functions
+- Maintain >80% code coverage
+- Test both success and failure cases
+- Mock external dependencies
+
+## Security
+- Validate all inputs
+- Sanitize all outputs
+- Use environment variables for secrets
+- Implement rate limiting
+
+## Performance
+- Profile code when necessary
+- Optimize hot paths
+- Use appropriate data structures
+- Consider memory usage
+
+## Version Control
+- Write meaningful commit messages
+- One feature per branch
+- Follow [Phase-X][Task] format
+- Keep commits focused and atomic 

@@ -1,0 +1,27 @@
+[Unit]
+Description=Open Interpreter HTTP Server
+After=network.target
+
+[Service]
+Type=simple
+User=clay
+WorkingDirectory=/Users/clay/Code/open-interpreter
+Environment=PYTHONUNBUFFERED=1
+Environment=LOG_LEVEL=INFO
+Environment=MAX_SESSIONS=1000
+Environment=MAX_REQUESTS_PER_MINUTE=60
+Environment=MAX_MEMORY_USAGE=1073741824
+Environment=PYTHONPATH=/Users/clay/Code/open-interpreter
+
+ExecStart=/Users/clay/.pyenv/versions/3.9.5/bin/python -m interpreter.server.cli --host 0.0.0.0 --port 5001 --log-level INFO
+Restart=always
+RestartSec=10
+
+# 安全设置
+NoNewPrivileges=yes
+PrivateTmp=yes
+ProtectSystem=full
+ProtectHome=read-only
+
+[Install]
+WantedBy=multi-user.target 

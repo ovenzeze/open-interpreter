@@ -1,0 +1,102 @@
+api_documentation:
+  endpoint_template:
+    route: "/v1/resource"
+    method: "POST"
+    docstring:
+      description: "Handle resource requests"
+      args: "None (reads from request.json)"
+      request_body:
+        field1: "str"
+        field2: "int"
+      returns:
+        status: "str"
+        data: "dict"
+      raises:
+        400: "Invalid request"
+        401: "Unauthorized"
+        500: "Server error"
+
+  function_template:
+    signature: "def process_data(input_data: dict, options: Optional[dict] = None) -> dict"
+    docstring:
+      description: "Process the input data with given options"
+      args:
+        input_data: "Dictionary containing the input data"
+        options: "Optional configuration dictionary"
+      returns: "Processed data as dictionary"
+      raises:
+        ValueError: "If input_data is invalid"
+        ProcessingError: "If processing fails"
+
+code_comments:
+  implementation_examples:
+    good:
+      description: "Using Newton's method for better convergence"
+      context: "Complex calculation implementation"
+    bad:
+      description: "Do stuff"
+      context: "Vague implementation details"
+
+  todo_format:
+    - "TODO(P1.1.1): Implement rate limiting"
+    - "FIXME(security): Properly handle authentication"
+    - "NOTE: This is a temporary solution"
+
+commit_messages:
+  format:
+    template: "[Phase-X][Task] Brief description"
+    body:
+      - "Detailed explanation if needed"
+      - "Point by point changes"
+    reference: "Related: #issue_number"
+  
+  example:
+    header: "[Phase-1][Server Setup] Implement basic Flask application"
+    body:
+      - "Add Flask application structure"
+      - "Configure basic logging"
+      - "Setup environment variables"
+      - "Add health check endpoint"
+    reference: "Related: #123"
+
+progress_updates:
+  task_format:
+    title: "Task P1.1.1: Implement Flask Application"
+    fields:
+      status: "✅ Complete"
+      time: "2024-02-11 14:30"
+      changes:
+        - "Added basic Flask structure"
+        - "Configured logging"
+        - "Added health endpoint"
+      tests: "All passing (coverage 85%)"
+      notes: "Ready for review"
+
+  problem_format:
+    title: "Problem: Rate Limiting Not Working"
+    fields:
+      status: "🔴 Open"
+      priority: "High"
+      description: "Rate limiting middleware not catching all requests"
+      impact: "Potential DoS vulnerability"
+      solution: "Implement proper Redis-based rate limiting"
+
+configuration:
+  environment_variables:
+    required:
+      LITELLM_MODEL: "bedrock/anthropic.claude-3-sonnet"
+      PORT: 5001
+    optional:
+      LOG_LEVEL: "INFO"
+      RATE_LIMIT: 100
+
+  config_structure:
+    class_name: "Config"
+    description: "Application configuration"
+    settings:
+      api:
+        version: "v1"
+        prefix: "/api/v1"
+      security:
+        rate_limit: 100
+        token_expire: 3600 

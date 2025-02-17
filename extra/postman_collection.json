@@ -1,0 +1,318 @@
+{
+  "info": {
+    "_postman_id": "1a2b3c4d-5e6f-7g8h-9i0j-1k2l3m4n5o6p",
+    "name": "Open Interpreter API",
+    "description": "Open Interpreter HTTP Server API Collection",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "version": "1.0.0"
+  },
+  "auth": {
+    "type": "bearer",
+    "bearer": [
+      {
+        "key": "token",
+        "value": "{{apiKey}}",
+        "type": "string"
+      }
+    ]
+  },
+  "item": [
+    {
+      "name": "Health Check",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{baseUrl}}/v1/health",
+          "host": ["{{baseUrl}}"],
+          "path": ["v1", "health"]
+        }
+      },
+      "response": [
+        {
+          "name": "Success Response",
+          "originalRequest": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/v1/health",
+              "host": ["{{baseUrl}}"],
+              "path": ["v1", "health"]
+            }
+          },
+          "status": "OK",
+          "code": 200,
+          "_postman_previewlanguage": "json",
+          "header": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            }
+          ],
+          "body": {
+            "mode": "raw",
+            "raw": "{\n    \"llm\": {\n        \"model\": \"bedrock/anthropic.claude-3-sonnet-20240229-v1:0\",\n        \"status\": \"ready\"\n    },\n    \"status\": \"healthy\",\n    \"version\": \"0.4.3\"\n}"
+          }
+        }
+      ]
+    },
+    {
+      "name": "Create Session",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": {
+          "raw": "{{baseUrl}}/v1/sessions",
+          "host": ["{{baseUrl}}"],
+          "path": ["v1", "sessions"]
+        }
+      },
+      "response": [
+        {
+          "name": "Success Response",
+          "originalRequest": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/v1/sessions",
+              "host": ["{{baseUrl}}"],
+              "path": ["v1", "sessions"]
+            }
+          },
+          "status": "Created",
+          "code": 201,
+          "_postman_previewlanguage": "json",
+          "header": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            }
+          ],
+          "body": {
+            "mode": "raw",
+            "raw": "{\n    \"created_at\": \"2025-02-16T17:10:28.301493\",\n    \"session_id\": \"6534e54b-7261-4526-9325-11feb682040e\"\n}"
+          }
+        }
+      ]
+    },
+    {
+      "name": "List Sessions",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{baseUrl}}/v1/sessions",
+          "host": ["{{baseUrl}}"],
+          "path": ["v1", "sessions"]
+        }
+      },
+      "response": [
+        {
+          "name": "Success Response",
+          "originalRequest": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/v1/sessions",
+              "host": ["{{baseUrl}}"],
+              "path": ["v1", "sessions"]
+            }
+          },
+          "status": "OK",
+          "code": 200,
+          "_postman_previewlanguage": "json",
+          "header": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            }
+          ],
+          "body": {
+            "mode": "raw",
+            "raw": "{\n    \"sessions\": [\n        {\n            \"created_at\": \"2025-02-16T17:10:28.301493\",\n            \"last_active\": 1739754628.301533,\n            \"messages\": [],\n            \"metadata\": {},\n            \"session_id\": \"6534e54b-7261-4526-9325-11feb682040e\"\n        }\n    ]\n}"
+          }
+        }
+      ]
+    },
+    {
+      "name": "Get Session Messages",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{baseUrl}}/v1/sessions/{{sessionId}}/messages",
+          "host": ["{{baseUrl}}"],
+          "path": ["v1", "sessions", "{{sessionId}}", "messages"]
+        }
+      },
+      "response": [
+        {
+          "name": "Success Response",
+          "originalRequest": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/v1/sessions/{{sessionId}}/messages",
+              "host": ["{{baseUrl}}"],
+              "path": ["v1", "sessions", "{{sessionId}}", "messages"]
+            }
+          },
+          "status": "OK",
+          "code": 200,
+          "_postman_previewlanguage": "json",
+          "header": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            }
+          ],
+          "body": {
+            "mode": "raw",
+            "raw": "{\n    \"messages\": {\n        \"created_at\": \"2025-02-16T17:10:28.301493\",\n        \"last_active\": 1739754642.436786,\n        \"messages\": [],\n        \"metadata\": {},\n        \"session_id\": \"6534e54b-7261-4526-9325-11feb682040e\"\n    }\n}"
+          }
+        }
+      ]
+    },
+    {
+      "name": "Chat",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n    \"messages\": [\n        {\n            \"role\": \"user\",\n            \"type\": \"message\",\n            \"content\": \"1+1等于几？\"\n        }\n    ],\n    \"stream\": false,\n    \"session_id\": \"{{sessionId}}\"\n}"
+        },
+        "url": {
+          "raw": "{{baseUrl}}/v1/chat",
+          "host": ["{{baseUrl}}"],
+          "path": ["v1", "chat"]
+        }
+      },
+      "response": [
+        {
+          "name": "Success Response",
+          "originalRequest": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"messages\": [\n        {\n            \"role\": \"user\",\n            \"type\": \"message\",\n            \"content\": \"1+1等于几？\"\n        }\n    ],\n    \"stream\": false,\n    \"session_id\": \"{{sessionId}}\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/v1/chat",
+              "host": ["{{baseUrl}}"],
+              "path": ["v1", "chat"]
+            }
+          },
+          "status": "OK",
+          "code": 200,
+          "_postman_previewlanguage": "json",
+          "header": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            }
+          ],
+          "body": {
+            "mode": "raw",
+            "raw": "{\n    \"choices\": [\n        {\n            \"finish_reason\": \"stop\",\n            \"index\": 0,\n            \"message\": {\n                \"content\": \"1+1等于2。\",\n                \"role\": \"assistant\"\n            }\n        }\n    ],\n    \"created\": 1739754657,\n    \"id\": \"chatcmpl-387bf2c8-5e7e-4f1d-b70b-97e41cb2ee68\",\n    \"model\": \"gpt-4o\",\n    \"object\": \"chat.completion\",\n    \"usage\": {\n        \"completion_tokens\": 0,\n        \"prompt_tokens\": 0,\n        \"total_tokens\": 0\n    }\n}"
+          }
+        }
+      ]
+    },
+    {
+      "name": "Chat Stream",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n    \"messages\": [\n        {\n            \"role\": \"user\",\n            \"type\": \"message\",\n            \"content\": \"你好\"\n        }\n    ],\n    \"stream\": true,\n    \"session_id\": \"{{sessionId}}\"\n}"
+        },
+        "url": {
+          "raw": "{{baseUrl}}/v1/chat",
+          "host": ["{{baseUrl}}"],
+          "path": ["v1", "chat"]
+        }
+      },
+      "response": [
+        {
+          "name": "Success Response",
+          "originalRequest": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"messages\": [\n        {\n            \"role\": \"user\",\n            \"type\": \"message\",\n            \"content\": \"你好\"\n        }\n    ],\n    \"stream\": true,\n    \"session_id\": \"{{sessionId}}\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/v1/chat",
+              "host": ["{{baseUrl}}"],
+              "path": ["v1", "chat"]
+            }
+          },
+          "status": "OK",
+          "code": 200,
+          "_postman_previewlanguage": "text",
+          "header": [
+            {
+              "key": "Content-Type",
+              "value": "text/event-stream"
+            }
+          ],
+          "body": {
+            "mode": "raw",
+            "raw": "data: {\"role\": \"assistant\", \"type\": \"message\", \"content\": \"\", \"id\": \"93fe0fe0-2138-4eb2-9bcb-e5e596bbd478\", \"created_at\": \"2025-02-16T17:11:05.567126\"}\n\ndata: {\"role\": \"assistant\", \"type\": \"message\", \"content\": \"你好\", \"id\": \"b4a54edd-f6ec-4330-a5b2-7366812635fc\", \"created_at\": \"2025-02-16T17:11:05.568024\"}\n\ndata: {\"role\": \"assistant\", \"type\": \"message\", \"content\": \"！\", \"id\": \"5d19008e-95e6-48f9-bc2c-ce7d3b1359f1\", \"created_at\": \"2025-02-16T17:11:05.569788\"}\n\ndata: {\"role\": \"assistant\", \"type\": \"message\", \"content\": \"有什么\", \"id\": \"a77c9263-6b7e-4aa7-aa46-f15e69bc7b96\", \"created_at\": \"2025-02-16T17:11:05.592661\"}\n\ndata: {\"role\": \"assistant\", \"type\": \"message\", \"content\": \"我\", \"id\": \"dfe580f3-fe75-4893-aa5e-f7fbcfbff997\", \"created_at\": \"2025-02-16T17:11:05.594378\"}\n\ndata: {\"role\": \"assistant\", \"type\": \"message\", \"content\": \"可以\", \"id\": \"1b85009d-449e-4d15-b55d-750c8526d73b\", \"created_at\": \"2025-02-16T17:11:05.648663\"}\n\ndata: {\"role\": \"assistant\", \"type\": \"message\", \"content\": \"帮助\", \"id\": \"5f820323-2c10-4d72-844e-9e33a1083347\", \"created_at\": \"2025-02-16T17:11:05.650489\"}\n\ndata: {\"role\": \"assistant\", \"type\": \"message\", \"content\": \"你\", \"id\": \"05934a04-8c7e-4cd5-ae70-f3f432977692\", \"created_at\": \"2025-02-16T17:11:05.652106\"}\n\ndata: {\"role\": \"assistant\", \"type\": \"message\", \"content\": \"的吗\", \"id\": \"058cb5b9-b901-423c-8cf3-8851f62730b8\", \"created_at\": \"2025-02-16T17:11:05.654130\"}\n\ndata: {\"role\": \"assistant\", \"type\": \"message\", \"content\": \"？\", \"id\": \"fe24cd04-5989-4147-b509-067448ae6ec4\", \"created_at\": \"2025-02-16T17:11:05.657014\"}\n\ndata: {\"role\": \"assistant\", \"type\": \"message\", \"content\": \"\", \"id\": \"b6f52c44-f947-43f3-be1d-067002420254\", \"created_at\": \"2025-02-16T17:11:05.659784\"}\n\ndata: {\"role\": \"assistant\", \"type\": \"message\", \"content\": \"\", \"id\": \"d2e3ac5d-bbe5-4666-9e23-631e79a2dd0c\", \"created_at\": \"2025-02-16T17:11:05.663305\", \"recipient\": \"user\", \"end\": true}\n\nevent: done\n"
+          }
+        }
+      ]
+    }
+  ],
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "http://imac.nimship.work",
+      "type": "string"
+    },
+    {
+      "key": "apiKey",
+      "value": "your-api-key",
+      "type": "string"
+    },
+    {
+      "key": "sessionId",
+      "value": "6534e54b-7261-4526-9325-11feb682040e",
+      "type": "string"
+    }
+  ]
+} 

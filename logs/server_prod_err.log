@@ -1,0 +1,835 @@
+2025-02-15 18:45:28,214 - interpreter_server - INFO - Initializing server...
+2025-02-15 18:45:28,229 - interpreter_server - INFO - Application initialized successfully
+2025-02-15 18:45:28,229 - interpreter_server - INFO - Starting server on http://0.0.0.0:5001
+2025-02-15 18:46:04,080 - interpreter_server - INFO - No session_id provided, creating new session
+INFO:interpreter_server:No session_id provided, creating new session
+2025-02-15 18:46:04,083 - interpreter_server - INFO - Session lock acquired for session b15cf3bb-0750-40b3-acf2-206db118ee9a
+INFO:interpreter_server:Session lock acquired for session b15cf3bb-0750-40b3-acf2-206db118ee9a
+2025-02-15 18:46:04,083 - interpreter_server - INFO - Processing chat request with 1 messages for session b15cf3bb-0750-40b3-acf2-206db118ee9a
+INFO:interpreter_server:Processing chat request with 1 messages for session b15cf3bb-0750-40b3-acf2-206db118ee9a
+2025-02-15 18:46:07,399 - interpreter_server - INFO - Starting streaming response
+INFO:interpreter_server:Starting streaming response
+2025-02-15 18:46:08,711 - interpreter_server - INFO - Releasing session lock for session b15cf3bb-0750-40b3-acf2-206db118ee9a
+INFO:interpreter_server:Releasing session lock for session b15cf3bb-0750-40b3-acf2-206db118ee9a
+2025-02-15 18:47:09,187 - interpreter_server - ERROR - 404 Not Found: The requested URL was not found on the server. If you entered the URL manually please check your spelling and try again.
+Traceback (most recent call last):
+  File "/Users/clay/.pyenv/versions/3.9.5/lib/python3.9/site-packages/flask/app.py", line 917, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "/Users/clay/.pyenv/versions/3.9.5/lib/python3.9/site-packages/flask/app.py", line 891, in dispatch_request
+    self.raise_routing_exception(req)
+  File "/Users/clay/.pyenv/versions/3.9.5/lib/python3.9/site-packages/flask/app.py", line 500, in raise_routing_exception
+    raise request.routing_exception  # type: ignore[misc]
+  File "/Users/clay/.pyenv/versions/3.9.5/lib/python3.9/site-packages/flask/ctx.py", line 362, in match_request
+    result = self.url_adapter.match(return_rule=True)  # type: ignore
+  File "/Users/clay/.pyenv/versions/3.9.5/lib/python3.9/site-packages/werkzeug/routing/map.py", line 629, in match
+    raise NotFound() from None
+werkzeug.exceptions.NotFound: 404 Not Found: The requested URL was not found on the server. If you entered the URL manually please check your spelling and try again.
+ERROR:interpreter_server:404 Not Found: The requested URL was not found on the server. If you entered the URL manually please check your spelling and try again.
+Traceback (most recent call last):
+  File "/Users/clay/.pyenv/versions/3.9.5/lib/python3.9/site-packages/flask/app.py", line 917, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "/Users/clay/.pyenv/versions/3.9.5/lib/python3.9/site-packages/flask/app.py", line 891, in dispatch_request
+    self.raise_routing_exception(req)
+  File "/Users/clay/.pyenv/versions/3.9.5/lib/python3.9/site-packages/flask/app.py", line 500, in raise_routing_exception
+    raise request.routing_exception  # type: ignore[misc]
+  File "/Users/clay/.pyenv/versions/3.9.5/lib/python3.9/site-packages/flask/ctx.py", line 362, in match_request
+    result = self.url_adapter.match(return_rule=True)  # type: ignore
+  File "/Users/clay/.pyenv/versions/3.9.5/lib/python3.9/site-packages/werkzeug/routing/map.py", line 629, in match
+    raise NotFound() from None
+werkzeug.exceptions.NotFound: 404 Not Found: The requested URL was not found on the server. If you entered the URL manually please check your spelling and try again.
+2025-02-15 18:51:46,668 - interpreter_server - ERROR - 404 Not Found: The requested URL was not found on the server. If you entered the URL manually please check your spelling and try again.
+Traceback (most recent call last):
+  File "/Users/clay/.pyenv/versions/3.9.5/lib/python3.9/site-packages/flask/app.py", line 917, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "/Users/clay/.pyenv/versions/3.9.5/lib/python3.9/site-packages/flask/app.py", line 891, in dispatch_request
+    self.raise_routing_exception(req)
+  File "/Users/clay/.pyenv/versions/3.9.5/lib/python3.9/site-packages/flask/app.py", line 500, in raise_routing_exception
+    raise request.routing_exception  # type: ignore[misc]
+  File "/Users/clay/.pyenv/versions/3.9.5/lib/python3.9/site-packages/flask/ctx.py", line 362, in match_request
+    result = self.url_adapter.match(return_rule=True)  # type: ignore
+  File "/Users/clay/.pyenv/versions/3.9.5/lib/python3.9/site-packages/werkzeug/routing/map.py", line 629, in match
+    raise NotFound() from None
+werkzeug.exceptions.NotFound: 404 Not Found: The requested URL was not found on the server. If you entered the URL manually please check your spelling and try again.
+ERROR:interpreter_server:404 Not Found: The requested URL was not found on the server. If you entered the URL manually please check your spelling and try again.
+Traceback (most recent call last):
+  File "/Users/clay/.pyenv/versions/3.9.5/lib/python3.9/site-packages/flask/app.py", line 917, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "/Users/clay/.pyenv/versions/3.9.5/lib/python3.9/site-packages/flask/app.py", line 891, in dispatch_request
+    self.raise_routing_exception(req)
+  File "/Users/clay/.pyenv/versions/3.9.5/lib/python3.9/site-packages/flask/app.py", line 500, in raise_routing_exception
+    raise request.routing_exception  # type: ignore[misc]
+  File "/Users/clay/.pyenv/versions/3.9.5/lib/python3.9/site-packages/flask/ctx.py", line 362, in match_request
+    result = self.url_adapter.match(return_rule=True)  # type: ignore
+  File "/Users/clay/.pyenv/versions/3.9.5/lib/python3.9/site-packages/werkzeug/routing/map.py", line 629, in match
+    raise NotFound() from None
+werkzeug.exceptions.NotFound: 404 Not Found: The requested URL was not found on the server. If you entered the URL manually please check your spelling and try again.
+2025-02-15 18:53:13,539 - interpreter_server - INFO - No session_id provided, creating new session
+INFO:interpreter_server:No session_id provided, creating new session
+2025-02-15 18:53:13,541 - interpreter_server - INFO - Session lock acquired for session 09f49434-ad60-4e87-9b93-c6ea5658e46e
+INFO:interpreter_server:Session lock acquired for session 09f49434-ad60-4e87-9b93-c6ea5658e46e
+2025-02-15 18:53:13,542 - interpreter_server - INFO - Processing chat request with 1 messages for session 09f49434-ad60-4e87-9b93-c6ea5658e46e
+INFO:interpreter_server:Processing chat request with 1 messages for session 09f49434-ad60-4e87-9b93-c6ea5658e46e
+2025-02-15 18:53:13,729 - interpreter_server - INFO - Starting streaming response
+INFO:interpreter_server:Starting streaming response
+2025-02-15 18:53:14,513 - interpreter_server - INFO - Releasing session lock for session 09f49434-ad60-4e87-9b93-c6ea5658e46e
+INFO:interpreter_server:Releasing session lock for session 09f49434-ad60-4e87-9b93-c6ea5658e46e
+2025-02-15 18:53:49,572 - interpreter_server - INFO - No session_id provided, creating new session
+INFO:interpreter_server:No session_id provided, creating new session
+2025-02-15 18:53:49,576 - interpreter_server - INFO - Session lock acquired for session b5302aa6-1f6b-46c0-aea9-a1027ba75fa7
+INFO:interpreter_server:Session lock acquired for session b5302aa6-1f6b-46c0-aea9-a1027ba75fa7
+2025-02-15 18:53:49,576 - interpreter_server - INFO - Processing chat request with 1 messages for session b5302aa6-1f6b-46c0-aea9-a1027ba75fa7
+INFO:interpreter_server:Processing chat request with 1 messages for session b5302aa6-1f6b-46c0-aea9-a1027ba75fa7
+2025-02-15 18:53:49,707 - interpreter_server - INFO - Starting streaming response
+INFO:interpreter_server:Starting streaming response
+2025-02-15 18:53:50,672 - interpreter_server - INFO - Releasing session lock for session b5302aa6-1f6b-46c0-aea9-a1027ba75fa7
+INFO:interpreter_server:Releasing session lock for session b5302aa6-1f6b-46c0-aea9-a1027ba75fa7
+2025-02-15 18:54:00,746 - interpreter_server - INFO - No session_id provided, creating new session
+INFO:interpreter_server:No session_id provided, creating new session
+2025-02-15 18:54:00,749 - interpreter_server - INFO - Session lock acquired for session 5c109eed-5911-4a94-bcee-a77b549a4155
+INFO:interpreter_server:Session lock acquired for session 5c109eed-5911-4a94-bcee-a77b549a4155
+2025-02-15 18:54:00,749 - interpreter_server - INFO - Processing chat request with 1 messages for session 5c109eed-5911-4a94-bcee-a77b549a4155
+INFO:interpreter_server:Processing chat request with 1 messages for session 5c109eed-5911-4a94-bcee-a77b549a4155
+2025-02-15 18:54:00,902 - interpreter_server - INFO - Starting streaming response
+INFO:interpreter_server:Starting streaming response
+2025-02-15 18:54:01,739 - interpreter_server - INFO - Releasing session lock for session 5c109eed-5911-4a94-bcee-a77b549a4155
+INFO:interpreter_server:Releasing session lock for session 5c109eed-5911-4a94-bcee-a77b549a4155
+2025-02-15 19:02:53,747 - interpreter_server - INFO - No session_id provided, creating new session
+INFO:interpreter_server:No session_id provided, creating new session
+2025-02-15 19:02:53,756 - interpreter_server - INFO - Session lock acquired for session dbb26a4a-8fae-4cec-8e1e-004669b2b1e6
+INFO:interpreter_server:Session lock acquired for session dbb26a4a-8fae-4cec-8e1e-004669b2b1e6
+2025-02-15 19:02:53,756 - interpreter_server - INFO - Processing chat request with 1 messages for session dbb26a4a-8fae-4cec-8e1e-004669b2b1e6
+INFO:interpreter_server:Processing chat request with 1 messages for session dbb26a4a-8fae-4cec-8e1e-004669b2b1e6
+2025-02-15 19:02:53,934 - interpreter_server - INFO - Starting streaming response
+INFO:interpreter_server:Starting streaming response
+2025-02-15 19:02:54,795 - interpreter_server - INFO - Releasing session lock for session dbb26a4a-8fae-4cec-8e1e-004669b2b1e6
+INFO:interpreter_server:Releasing session lock for session dbb26a4a-8fae-4cec-8e1e-004669b2b1e6
+2025-02-16 17:10:51,020 - interpreter_server - INFO - Session lock acquired for session 6534e54b-7261-4526-9325-11feb682040e
+INFO:interpreter_server:Session lock acquired for session 6534e54b-7261-4526-9325-11feb682040e
+2025-02-16 17:10:51,020 - interpreter_server - INFO - Processing chat request with 1 messages for session 6534e54b-7261-4526-9325-11feb682040e
+INFO:interpreter_server:Processing chat request with 1 messages for session 6534e54b-7261-4526-9325-11feb682040e
+2025-02-16 17:10:57,295 - interpreter_server - ERROR - Error adding message to session 6534e54b-7261-4526-9325-11feb682040e: 'dict' object has no attribute 'append'
+ERROR:interpreter_server:Error adding message to session 6534e54b-7261-4526-9325-11feb682040e: 'dict' object has no attribute 'append'
+2025-02-16 17:10:57,296 - interpreter_server - INFO - Releasing session lock for session 6534e54b-7261-4526-9325-11feb682040e
+INFO:interpreter_server:Releasing session lock for session 6534e54b-7261-4526-9325-11feb682040e
+2025-02-16 17:11:04,653 - interpreter_server - INFO - Session lock acquired for session 6534e54b-7261-4526-9325-11feb682040e
+INFO:interpreter_server:Session lock acquired for session 6534e54b-7261-4526-9325-11feb682040e
+2025-02-16 17:11:04,653 - interpreter_server - INFO - Processing chat request with 1 messages for session 6534e54b-7261-4526-9325-11feb682040e
+INFO:interpreter_server:Processing chat request with 1 messages for session 6534e54b-7261-4526-9325-11feb682040e
+2025-02-16 17:11:04,793 - interpreter_server - INFO - Starting streaming response
+INFO:interpreter_server:Starting streaming response
+2025-02-16 17:11:05,663 - interpreter_server - INFO - Releasing session lock for session 6534e54b-7261-4526-9325-11feb682040e
+INFO:interpreter_server:Releasing session lock for session 6534e54b-7261-4526-9325-11feb682040e
+2025-02-16 17:11:14,144 - interpreter_server - ERROR - Error processing chat completions request: 'type'
+Traceback (most recent call last):
+  File "/Users/clay/Code/open-interpreter/interpreter/server/routes/chat.py", line 328, in chat_completions
+    messages = MessageProcessor.validate_messages(messages)
+  File "/Users/clay/Code/open-interpreter/interpreter/server/message_processor.py", line 61, in validate_messages
+    return [Message.from_dict(msg) if isinstance(msg, dict) else msg for msg in messages]
+  File "/Users/clay/Code/open-interpreter/interpreter/server/message_processor.py", line 61, in <listcomp>
+    return [Message.from_dict(msg) if isinstance(msg, dict) else msg for msg in messages]
+  File "/Users/clay/Code/open-interpreter/interpreter/server/message.py", line 55, in from_dict
+    type=data["type"],
+KeyError: 'type'
+ERROR:interpreter_server:Error processing chat completions request: 'type'
+Traceback (most recent call last):
+  File "/Users/clay/Code/open-interpreter/interpreter/server/routes/chat.py", line 328, in chat_completions
+    messages = MessageProcessor.validate_messages(messages)
+  File "/Users/clay/Code/open-interpreter/interpreter/server/message_processor.py", line 61, in validate_messages
+    return [Message.from_dict(msg) if isinstance(msg, dict) else msg for msg in messages]
+  File "/Users/clay/Code/open-interpreter/interpreter/server/message_processor.py", line 61, in <listcomp>
+    return [Message.from_dict(msg) if isinstance(msg, dict) else msg for msg in messages]
+  File "/Users/clay/Code/open-interpreter/interpreter/server/message.py", line 55, in from_dict
+    type=data["type"],
+KeyError: 'type'
+2025-02-16 17:11:14,147 - interpreter_server - ERROR - 'type'
+Traceback (most recent call last):
+  File "/Users/clay/Code/open-interpreter/interpreter/server/routes/chat.py", line 328, in chat_completions
+    messages = MessageProcessor.validate_messages(messages)
+  File "/Users/clay/Code/open-interpreter/interpreter/server/message_processor.py", line 61, in validate_messages
+    return [Message.from_dict(msg) if isinstance(msg, dict) else msg for msg in messages]
+  File "/Users/clay/Code/open-interpreter/interpreter/server/message_processor.py", line 61, in <listcomp>
+    return [Message.from_dict(msg) if isinstance(msg, dict) else msg for msg in messages]
+  File "/Users/clay/Code/open-interpreter/interpreter/server/message.py", line 55, in from_dict
+    type=data["type"],
+KeyError: 'type'
+ERROR:interpreter_server:'type'
+Traceback (most recent call last):
+  File "/Users/clay/Code/open-interpreter/interpreter/server/routes/chat.py", line 328, in chat_completions
+    messages = MessageProcessor.validate_messages(messages)
+  File "/Users/clay/Code/open-interpreter/interpreter/server/message_processor.py", line 61, in validate_messages
+    return [Message.from_dict(msg) if isinstance(msg, dict) else msg for msg in messages]
+  File "/Users/clay/Code/open-interpreter/interpreter/server/message_processor.py", line 61, in <listcomp>
+    return [Message.from_dict(msg) if isinstance(msg, dict) else msg for msg in messages]
+  File "/Users/clay/Code/open-interpreter/interpreter/server/message.py", line 55, in from_dict
+    type=data["type"],
+KeyError: 'type'
+2025-02-16 18:22:01,163 - interpreter_server - ERROR - Error processing chat request: 'type'
+Traceback (most recent call last):
+  File "/Users/clay/Code/open-interpreter/interpreter/server/routes/chat.py", line 59, in chat
+    # 转换OpenAI格式的消息为Interpreter格式
+  File "/Users/clay/Code/open-interpreter/interpreter/server/routes/chat.py", line 59, in <listcomp>
+    # 转换OpenAI格式的消息为Interpreter格式
+  File "/Users/clay/Code/open-interpreter/interpreter/server/message.py", line 55, in from_dict
+    type=data["type"],
+KeyError: 'type'
+ERROR:interpreter_server:Error processing chat request: 'type'
+Traceback (most recent call last):
+  File "/Users/clay/Code/open-interpreter/interpreter/server/routes/chat.py", line 59, in chat
+    # 转换OpenAI格式的消息为Interpreter格式
+  File "/Users/clay/Code/open-interpreter/interpreter/server/routes/chat.py", line 59, in <listcomp>
+    # 转换OpenAI格式的消息为Interpreter格式
+  File "/Users/clay/Code/open-interpreter/interpreter/server/message.py", line 55, in from_dict
+    type=data["type"],
+KeyError: 'type'
+2025-02-16 18:22:01,163 - interpreter_server - ERROR - 'type'
+Traceback (most recent call last):
+  File "/Users/clay/Code/open-interpreter/interpreter/server/routes/chat.py", line 59, in chat
+    # 转换OpenAI格式的消息为Interpreter格式
+  File "/Users/clay/Code/open-interpreter/interpreter/server/routes/chat.py", line 59, in <listcomp>
+    # 转换OpenAI格式的消息为Interpreter格式
+  File "/Users/clay/Code/open-interpreter/interpreter/server/message.py", line 55, in from_dict
+    type=data["type"],
+KeyError: 'type'
+ERROR:interpreter_server:'type'
+Traceback (most recent call last):
+  File "/Users/clay/Code/open-interpreter/interpreter/server/routes/chat.py", line 59, in chat
+    # 转换OpenAI格式的消息为Interpreter格式
+  File "/Users/clay/Code/open-interpreter/interpreter/server/routes/chat.py", line 59, in <listcomp>
+    # 转换OpenAI格式的消息为Interpreter格式
+  File "/Users/clay/Code/open-interpreter/interpreter/server/message.py", line 55, in from_dict
+    type=data["type"],
+KeyError: 'type'
+2025-02-16 18:22:01,164 - interpreter_server - ERROR - local variable 'stream' referenced before assignment
+Traceback (most recent call last):
+  File "/Users/clay/.pyenv/versions/3.9.5/lib/python3.9/site-packages/flask/app.py", line 917, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "/Users/clay/.pyenv/versions/3.9.5/lib/python3.9/site-packages/flask/app.py", line 902, in dispatch_request
+    return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)  # type: ignore[no-any-return]
+  File "/Users/clay/Code/open-interpreter/interpreter/server/routes/chat.py", line 299, in chat
+    if chunk.type == 'message':
+UnboundLocalError: local variable 'stream' referenced before assignment
+ERROR:interpreter_server:local variable 'stream' referenced before assignment
+Traceback (most recent call last):
+  File "/Users/clay/.pyenv/versions/3.9.5/lib/python3.9/site-packages/flask/app.py", line 917, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "/Users/clay/.pyenv/versions/3.9.5/lib/python3.9/site-packages/flask/app.py", line 902, in dispatch_request
+    return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)  # type: ignore[no-any-return]
+  File "/Users/clay/Code/open-interpreter/interpreter/server/routes/chat.py", line 299, in chat
+    if chunk.type == 'message':
+UnboundLocalError: local variable 'stream' referenced before assignment
+2025-02-16 18:22:08,831 - interpreter_server - ERROR - Error processing chat request: 'type'
+Traceback (most recent call last):
+  File "/Users/clay/Code/open-interpreter/interpreter/server/routes/chat.py", line 59, in chat
+    # 转换OpenAI格式的消息为Interpreter格式
+  File "/Users/clay/Code/open-interpreter/interpreter/server/routes/chat.py", line 59, in <listcomp>
+    # 转换OpenAI格式的消息为Interpreter格式
+  File "/Users/clay/Code/open-interpreter/interpreter/server/message.py", line 55, in from_dict
+    type=data["type"],
+KeyError: 'type'
+ERROR:interpreter_server:Error processing chat request: 'type'
+Traceback (most recent call last):
+  File "/Users/clay/Code/open-interpreter/interpreter/server/routes/chat.py", line 59, in chat
+    # 转换OpenAI格式的消息为Interpreter格式
+  File "/Users/clay/Code/open-interpreter/interpreter/server/routes/chat.py", line 59, in <listcomp>
+    # 转换OpenAI格式的消息为Interpreter格式
+  File "/Users/clay/Code/open-interpreter/interpreter/server/message.py", line 55, in from_dict
+    type=data["type"],
+KeyError: 'type'
+2025-02-16 18:22:08,832 - interpreter_server - ERROR - 'type'
+Traceback (most recent call last):
+  File "/Users/clay/Code/open-interpreter/interpreter/server/routes/chat.py", line 59, in chat
+    # 转换OpenAI格式的消息为Interpreter格式
+  File "/Users/clay/Code/open-interpreter/interpreter/server/routes/chat.py", line 59, in <listcomp>
+    # 转换OpenAI格式的消息为Interpreter格式
+  File "/Users/clay/Code/open-interpreter/interpreter/server/message.py", line 55, in from_dict
+    type=data["type"],
+KeyError: 'type'
+ERROR:interpreter_server:'type'
+Traceback (most recent call last):
+  File "/Users/clay/Code/open-interpreter/interpreter/server/routes/chat.py", line 59, in chat
+    # 转换OpenAI格式的消息为Interpreter格式
+  File "/Users/clay/Code/open-interpreter/interpreter/server/routes/chat.py", line 59, in <listcomp>
+    # 转换OpenAI格式的消息为Interpreter格式
+  File "/Users/clay/Code/open-interpreter/interpreter/server/message.py", line 55, in from_dict
+    type=data["type"],
+KeyError: 'type'
+2025-02-16 18:22:08,832 - interpreter_server - ERROR - local variable 'stream' referenced before assignment
+Traceback (most recent call last):
+  File "/Users/clay/.pyenv/versions/3.9.5/lib/python3.9/site-packages/flask/app.py", line 917, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "/Users/clay/.pyenv/versions/3.9.5/lib/python3.9/site-packages/flask/app.py", line 902, in dispatch_request
+    return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)  # type: ignore[no-any-return]
+  File "/Users/clay/Code/open-interpreter/interpreter/server/routes/chat.py", line 299, in chat
+    if chunk.type == 'message':
+UnboundLocalError: local variable 'stream' referenced before assignment
+ERROR:interpreter_server:local variable 'stream' referenced before assignment
+Traceback (most recent call last):
+  File "/Users/clay/.pyenv/versions/3.9.5/lib/python3.9/site-packages/flask/app.py", line 917, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "/Users/clay/.pyenv/versions/3.9.5/lib/python3.9/site-packages/flask/app.py", line 902, in dispatch_request
+    return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)  # type: ignore[no-any-return]
+  File "/Users/clay/Code/open-interpreter/interpreter/server/routes/chat.py", line 299, in chat
+    if chunk.type == 'message':
+UnboundLocalError: local variable 'stream' referenced before assignment
+2025-02-16 18:22:59,957 - interpreter_server - ERROR - Error processing chat request: 'type'
+Traceback (most recent call last):
+  File "/Users/clay/Code/open-interpreter/interpreter/server/routes/chat.py", line 59, in chat
+    stream = data.get('stream', False)
+  File "/Users/clay/Code/open-interpreter/interpreter/server/routes/chat.py", line 59, in <listcomp>
+    stream = data.get('stream', False)
+  File "/Users/clay/Code/open-interpreter/interpreter/server/message.py", line 55, in from_dict
+    type=data["type"],
+KeyError: 'type'
+ERROR:interpreter_server:Error processing chat request: 'type'
+Traceback (most recent call last):
+  File "/Users/clay/Code/open-interpreter/interpreter/server/routes/chat.py", line 59, in chat
+    stream = data.get('stream', False)
+  File "/Users/clay/Code/open-interpreter/interpreter/server/routes/chat.py", line 59, in <listcomp>
+    stream = data.get('stream', False)
+  File "/Users/clay/Code/open-interpreter/interpreter/server/message.py", line 55, in from_dict
+    type=data["type"],
+KeyError: 'type'
+2025-02-16 18:22:59,958 - interpreter_server - ERROR - 'type'
+Traceback (most recent call last):
+  File "/Users/clay/Code/open-interpreter/interpreter/server/routes/chat.py", line 59, in chat
+    stream = data.get('stream', False)
+  File "/Users/clay/Code/open-interpreter/interpreter/server/routes/chat.py", line 59, in <listcomp>
+    stream = data.get('stream', False)
+  File "/Users/clay/Code/open-interpreter/interpreter/server/message.py", line 55, in from_dict
+    type=data["type"],
+KeyError: 'type'
+ERROR:interpreter_server:'type'
+Traceback (most recent call last):
+  File "/Users/clay/Code/open-interpreter/interpreter/server/routes/chat.py", line 59, in chat
+    stream = data.get('stream', False)
+  File "/Users/clay/Code/open-interpreter/interpreter/server/routes/chat.py", line 59, in <listcomp>
+    stream = data.get('stream', False)
+  File "/Users/clay/Code/open-interpreter/interpreter/server/message.py", line 55, in from_dict
+    type=data["type"],
+KeyError: 'type'
+2025-02-16 18:22:59,958 - interpreter_server - ERROR - local variable 'stream' referenced before assignment
+Traceback (most recent call last):
+  File "/Users/clay/.pyenv/versions/3.9.5/lib/python3.9/site-packages/flask/app.py", line 917, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "/Users/clay/.pyenv/versions/3.9.5/lib/python3.9/site-packages/flask/app.py", line 902, in dispatch_request
+    return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)  # type: ignore[no-any-return]
+  File "/Users/clay/Code/open-interpreter/interpreter/server/routes/chat.py", line 299, in chat
+    type='error',
+UnboundLocalError: local variable 'stream' referenced before assignment
+ERROR:interpreter_server:local variable 'stream' referenced before assignment
+Traceback (most recent call last):
+  File "/Users/clay/.pyenv/versions/3.9.5/lib/python3.9/site-packages/flask/app.py", line 917, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "/Users/clay/.pyenv/versions/3.9.5/lib/python3.9/site-packages/flask/app.py", line 902, in dispatch_request
+    return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)  # type: ignore[no-any-return]
+  File "/Users/clay/Code/open-interpreter/interpreter/server/routes/chat.py", line 299, in chat
+    type='error',
+UnboundLocalError: local variable 'stream' referenced before assignment
+2025-02-16 18:23:26,421 - interpreter_server - ERROR - Error processing chat request: 'type'
+Traceback (most recent call last):
+  File "/Users/clay/Code/open-interpreter/interpreter/server/routes/chat.py", line 59, in chat
+    stream = data.get('stream', False)
+  File "/Users/clay/Code/open-interpreter/interpreter/server/routes/chat.py", line 59, in <listcomp>
+    stream = data.get('stream', False)
+  File "/Users/clay/Code/open-interpreter/interpreter/server/message.py", line 55, in from_dict
+    type=data["type"],
+KeyError: 'type'
+ERROR:interpreter_server:Error processing chat request: 'type'
+Traceback (most recent call last):
+  File "/Users/clay/Code/open-interpreter/interpreter/server/routes/chat.py", line 59, in chat
+    stream = data.get('stream', False)
+  File "/Users/clay/Code/open-interpreter/interpreter/server/routes/chat.py", line 59, in <listcomp>
+    stream = data.get('stream', False)
+  File "/Users/clay/Code/open-interpreter/interpreter/server/message.py", line 55, in from_dict
+    type=data["type"],
+KeyError: 'type'
+2025-02-16 18:23:26,422 - interpreter_server - ERROR - 'type'
+Traceback (most recent call last):
+  File "/Users/clay/Code/open-interpreter/interpreter/server/routes/chat.py", line 59, in chat
+    stream = data.get('stream', False)
+  File "/Users/clay/Code/open-interpreter/interpreter/server/routes/chat.py", line 59, in <listcomp>
+    stream = data.get('stream', False)
+  File "/Users/clay/Code/open-interpreter/interpreter/server/message.py", line 55, in from_dict
+    type=data["type"],
+KeyError: 'type'
+ERROR:interpreter_server:'type'
+Traceback (most recent call last):
+  File "/Users/clay/Code/open-interpreter/interpreter/server/routes/chat.py", line 59, in chat
+    stream = data.get('stream', False)
+  File "/Users/clay/Code/open-interpreter/interpreter/server/routes/chat.py", line 59, in <listcomp>
+    stream = data.get('stream', False)
+  File "/Users/clay/Code/open-interpreter/interpreter/server/message.py", line 55, in from_dict
+    type=data["type"],
+KeyError: 'type'
+2025-02-16 18:23:26,422 - interpreter_server - ERROR - local variable 'stream' referenced before assignment
+Traceback (most recent call last):
+  File "/Users/clay/.pyenv/versions/3.9.5/lib/python3.9/site-packages/flask/app.py", line 917, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "/Users/clay/.pyenv/versions/3.9.5/lib/python3.9/site-packages/flask/app.py", line 902, in dispatch_request
+    return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)  # type: ignore[no-any-return]
+  File "/Users/clay/Code/open-interpreter/interpreter/server/routes/chat.py", line 299, in chat
+    type='error',
+UnboundLocalError: local variable 'stream' referenced before assignment
+ERROR:interpreter_server:local variable 'stream' referenced before assignment
+Traceback (most recent call last):
+  File "/Users/clay/.pyenv/versions/3.9.5/lib/python3.9/site-packages/flask/app.py", line 917, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "/Users/clay/.pyenv/versions/3.9.5/lib/python3.9/site-packages/flask/app.py", line 902, in dispatch_request
+    return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)  # type: ignore[no-any-return]
+  File "/Users/clay/Code/open-interpreter/interpreter/server/routes/chat.py", line 299, in chat
+    type='error',
+UnboundLocalError: local variable 'stream' referenced before assignment
+2025-02-16 18:24:03,670 - interpreter_server - ERROR - Error processing chat request: 'type'
+Traceback (most recent call last):
+  File "/Users/clay/Code/open-interpreter/interpreter/server/routes/chat.py", line 59, in chat
+    stream = data.get('stream', False)
+  File "/Users/clay/Code/open-interpreter/interpreter/server/routes/chat.py", line 59, in <listcomp>
+    stream = data.get('stream', False)
+  File "/Users/clay/Code/open-interpreter/interpreter/server/message.py", line 55, in from_dict
+    type=data["type"],
+KeyError: 'type'
+ERROR:interpreter_server:Error processing chat request: 'type'
+Traceback (most recent call last):
+  File "/Users/clay/Code/open-interpreter/interpreter/server/routes/chat.py", line 59, in chat
+    stream = data.get('stream', False)
+  File "/Users/clay/Code/open-interpreter/interpreter/server/routes/chat.py", line 59, in <listcomp>
+    stream = data.get('stream', False)
+  File "/Users/clay/Code/open-interpreter/interpreter/server/message.py", line 55, in from_dict
+    type=data["type"],
+KeyError: 'type'
+2025-02-16 18:24:03,671 - interpreter_server - ERROR - 'type'
+Traceback (most recent call last):
+  File "/Users/clay/Code/open-interpreter/interpreter/server/routes/chat.py", line 59, in chat
+    stream = data.get('stream', False)
+  File "/Users/clay/Code/open-interpreter/interpreter/server/routes/chat.py", line 59, in <listcomp>
+    stream = data.get('stream', False)
+  File "/Users/clay/Code/open-interpreter/interpreter/server/message.py", line 55, in from_dict
+    type=data["type"],
+KeyError: 'type'
+ERROR:interpreter_server:'type'
+Traceback (most recent call last):
+  File "/Users/clay/Code/open-interpreter/interpreter/server/routes/chat.py", line 59, in chat
+    stream = data.get('stream', False)
+  File "/Users/clay/Code/open-interpreter/interpreter/server/routes/chat.py", line 59, in <listcomp>
+    stream = data.get('stream', False)
+  File "/Users/clay/Code/open-interpreter/interpreter/server/message.py", line 55, in from_dict
+    type=data["type"],
+KeyError: 'type'
+2025-02-16 18:24:03,671 - interpreter_server - ERROR - local variable 'stream' referenced before assignment
+Traceback (most recent call last):
+  File "/Users/clay/.pyenv/versions/3.9.5/lib/python3.9/site-packages/flask/app.py", line 917, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "/Users/clay/.pyenv/versions/3.9.5/lib/python3.9/site-packages/flask/app.py", line 902, in dispatch_request
+    return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)  # type: ignore[no-any-return]
+  File "/Users/clay/Code/open-interpreter/interpreter/server/routes/chat.py", line 299, in chat
+    stream_with_context(generate_stream()),
+UnboundLocalError: local variable 'stream' referenced before assignment
+ERROR:interpreter_server:local variable 'stream' referenced before assignment
+Traceback (most recent call last):
+  File "/Users/clay/.pyenv/versions/3.9.5/lib/python3.9/site-packages/flask/app.py", line 917, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "/Users/clay/.pyenv/versions/3.9.5/lib/python3.9/site-packages/flask/app.py", line 902, in dispatch_request
+    return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)  # type: ignore[no-any-return]
+  File "/Users/clay/Code/open-interpreter/interpreter/server/routes/chat.py", line 299, in chat
+    stream_with_context(generate_stream()),
+UnboundLocalError: local variable 'stream' referenced before assignment
+2025-02-16 18:45:56,153 - interpreter_server - ERROR - Error processing chat request: 'type'
+Traceback (most recent call last):
+  File "/Users/clay/Code/open-interpreter/interpreter/server/routes/chat.py", line 59, in chat
+    stream = data.get('stream', False)
+  File "/Users/clay/Code/open-interpreter/interpreter/server/routes/chat.py", line 59, in <listcomp>
+    stream = data.get('stream', False)
+  File "/Users/clay/Code/open-interpreter/interpreter/server/message.py", line 55, in from_dict
+    type=data["type"],
+KeyError: 'type'
+ERROR:interpreter_server:Error processing chat request: 'type'
+Traceback (most recent call last):
+  File "/Users/clay/Code/open-interpreter/interpreter/server/routes/chat.py", line 59, in chat
+    stream = data.get('stream', False)
+  File "/Users/clay/Code/open-interpreter/interpreter/server/routes/chat.py", line 59, in <listcomp>
+    stream = data.get('stream', False)
+  File "/Users/clay/Code/open-interpreter/interpreter/server/message.py", line 55, in from_dict
+    type=data["type"],
+KeyError: 'type'
+2025-02-16 18:45:56,154 - interpreter_server - ERROR - 'type'
+Traceback (most recent call last):
+  File "/Users/clay/Code/open-interpreter/interpreter/server/routes/chat.py", line 59, in chat
+    stream = data.get('stream', False)
+  File "/Users/clay/Code/open-interpreter/interpreter/server/routes/chat.py", line 59, in <listcomp>
+    stream = data.get('stream', False)
+  File "/Users/clay/Code/open-interpreter/interpreter/server/message.py", line 55, in from_dict
+    type=data["type"],
+KeyError: 'type'
+ERROR:interpreter_server:'type'
+Traceback (most recent call last):
+  File "/Users/clay/Code/open-interpreter/interpreter/server/routes/chat.py", line 59, in chat
+    stream = data.get('stream', False)
+  File "/Users/clay/Code/open-interpreter/interpreter/server/routes/chat.py", line 59, in <listcomp>
+    stream = data.get('stream', False)
+  File "/Users/clay/Code/open-interpreter/interpreter/server/message.py", line 55, in from_dict
+    type=data["type"],
+KeyError: 'type'
+2025-02-16 18:45:56,155 - interpreter_server - ERROR - local variable 'stream' referenced before assignment
+Traceback (most recent call last):
+  File "/Users/clay/.pyenv/versions/3.9.5/lib/python3.9/site-packages/flask/app.py", line 917, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "/Users/clay/.pyenv/versions/3.9.5/lib/python3.9/site-packages/flask/app.py", line 902, in dispatch_request
+    return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)  # type: ignore[no-any-return]
+  File "/Users/clay/Code/open-interpreter/interpreter/server/routes/chat.py", line 299, in chat
+    return Response(
+UnboundLocalError: local variable 'stream' referenced before assignment
+ERROR:interpreter_server:local variable 'stream' referenced before assignment
+Traceback (most recent call last):
+  File "/Users/clay/.pyenv/versions/3.9.5/lib/python3.9/site-packages/flask/app.py", line 917, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "/Users/clay/.pyenv/versions/3.9.5/lib/python3.9/site-packages/flask/app.py", line 902, in dispatch_request
+    return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)  # type: ignore[no-any-return]
+  File "/Users/clay/Code/open-interpreter/interpreter/server/routes/chat.py", line 299, in chat
+    return Response(
+UnboundLocalError: local variable 'stream' referenced before assignment
+2025-02-16 18:46:29,701 - interpreter_server - ERROR - Error processing chat request: 'type'
+Traceback (most recent call last):
+  File "/Users/clay/Code/open-interpreter/interpreter/server/routes/chat.py", line 59, in chat
+    stream = data.get('stream', False)
+  File "/Users/clay/Code/open-interpreter/interpreter/server/routes/chat.py", line 59, in <listcomp>
+    stream = data.get('stream', False)
+  File "/Users/clay/Code/open-interpreter/interpreter/server/message.py", line 55, in from_dict
+    type=data["type"],
+KeyError: 'type'
+ERROR:interpreter_server:Error processing chat request: 'type'
+Traceback (most recent call last):
+  File "/Users/clay/Code/open-interpreter/interpreter/server/routes/chat.py", line 59, in chat
+    stream = data.get('stream', False)
+  File "/Users/clay/Code/open-interpreter/interpreter/server/routes/chat.py", line 59, in <listcomp>
+    stream = data.get('stream', False)
+  File "/Users/clay/Code/open-interpreter/interpreter/server/message.py", line 55, in from_dict
+    type=data["type"],
+KeyError: 'type'
+2025-02-16 18:46:29,702 - interpreter_server - ERROR - 'type'
+Traceback (most recent call last):
+  File "/Users/clay/Code/open-interpreter/interpreter/server/routes/chat.py", line 59, in chat
+    stream = data.get('stream', False)
+  File "/Users/clay/Code/open-interpreter/interpreter/server/routes/chat.py", line 59, in <listcomp>
+    stream = data.get('stream', False)
+  File "/Users/clay/Code/open-interpreter/interpreter/server/message.py", line 55, in from_dict
+    type=data["type"],
+KeyError: 'type'
+ERROR:interpreter_server:'type'
+Traceback (most recent call last):
+  File "/Users/clay/Code/open-interpreter/interpreter/server/routes/chat.py", line 59, in chat
+    stream = data.get('stream', False)
+  File "/Users/clay/Code/open-interpreter/interpreter/server/routes/chat.py", line 59, in <listcomp>
+    stream = data.get('stream', False)
+  File "/Users/clay/Code/open-interpreter/interpreter/server/message.py", line 55, in from_dict
+    type=data["type"],
+KeyError: 'type'
+2025-02-16 18:46:29,702 - interpreter_server - ERROR - local variable 'stream' referenced before assignment
+Traceback (most recent call last):
+  File "/Users/clay/.pyenv/versions/3.9.5/lib/python3.9/site-packages/flask/app.py", line 917, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "/Users/clay/.pyenv/versions/3.9.5/lib/python3.9/site-packages/flask/app.py", line 902, in dispatch_request
+    return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)  # type: ignore[no-any-return]
+  File "/Users/clay/Code/open-interpreter/interpreter/server/routes/chat.py", line 299, in chat
+    return Response(
+UnboundLocalError: local variable 'stream' referenced before assignment
+ERROR:interpreter_server:local variable 'stream' referenced before assignment
+Traceback (most recent call last):
+  File "/Users/clay/.pyenv/versions/3.9.5/lib/python3.9/site-packages/flask/app.py", line 917, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "/Users/clay/.pyenv/versions/3.9.5/lib/python3.9/site-packages/flask/app.py", line 902, in dispatch_request
+    return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)  # type: ignore[no-any-return]
+  File "/Users/clay/Code/open-interpreter/interpreter/server/routes/chat.py", line 299, in chat
+    return Response(
+UnboundLocalError: local variable 'stream' referenced before assignment
+2025-02-16 18:47:15,162 - interpreter_server - ERROR - Error processing chat request: 'type'
+Traceback (most recent call last):
+  File "/Users/clay/Code/open-interpreter/interpreter/server/routes/chat.py", line 59, in chat
+    stream = data.get('stream', False)
+  File "/Users/clay/Code/open-interpreter/interpreter/server/routes/chat.py", line 59, in <listcomp>
+    stream = data.get('stream', False)
+  File "/Users/clay/Code/open-interpreter/interpreter/server/message.py", line 55, in from_dict
+    type=data["type"],
+KeyError: 'type'
+ERROR:interpreter_server:Error processing chat request: 'type'
+Traceback (most recent call last):
+  File "/Users/clay/Code/open-interpreter/interpreter/server/routes/chat.py", line 59, in chat
+    stream = data.get('stream', False)
+  File "/Users/clay/Code/open-interpreter/interpreter/server/routes/chat.py", line 59, in <listcomp>
+    stream = data.get('stream', False)
+  File "/Users/clay/Code/open-interpreter/interpreter/server/message.py", line 55, in from_dict
+    type=data["type"],
+KeyError: 'type'
+2025-02-16 18:47:15,163 - interpreter_server - ERROR - 'type'
+Traceback (most recent call last):
+  File "/Users/clay/Code/open-interpreter/interpreter/server/routes/chat.py", line 59, in chat
+    stream = data.get('stream', False)
+  File "/Users/clay/Code/open-interpreter/interpreter/server/routes/chat.py", line 59, in <listcomp>
+    stream = data.get('stream', False)
+  File "/Users/clay/Code/open-interpreter/interpreter/server/message.py", line 55, in from_dict
+    type=data["type"],
+KeyError: 'type'
+ERROR:interpreter_server:'type'
+Traceback (most recent call last):
+  File "/Users/clay/Code/open-interpreter/interpreter/server/routes/chat.py", line 59, in chat
+    stream = data.get('stream', False)
+  File "/Users/clay/Code/open-interpreter/interpreter/server/routes/chat.py", line 59, in <listcomp>
+    stream = data.get('stream', False)
+  File "/Users/clay/Code/open-interpreter/interpreter/server/message.py", line 55, in from_dict
+    type=data["type"],
+KeyError: 'type'
+2025-02-16 18:47:15,163 - interpreter_server - ERROR - local variable 'stream' referenced before assignment
+Traceback (most recent call last):
+  File "/Users/clay/.pyenv/versions/3.9.5/lib/python3.9/site-packages/flask/app.py", line 917, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "/Users/clay/.pyenv/versions/3.9.5/lib/python3.9/site-packages/flask/app.py", line 902, in dispatch_request
+    return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)  # type: ignore[no-any-return]
+  File "/Users/clay/Code/open-interpreter/interpreter/server/routes/chat.py", line 299, in chat
+    return jsonify(error_response), status_code
+UnboundLocalError: local variable 'stream' referenced before assignment
+ERROR:interpreter_server:local variable 'stream' referenced before assignment
+Traceback (most recent call last):
+  File "/Users/clay/.pyenv/versions/3.9.5/lib/python3.9/site-packages/flask/app.py", line 917, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "/Users/clay/.pyenv/versions/3.9.5/lib/python3.9/site-packages/flask/app.py", line 902, in dispatch_request
+    return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)  # type: ignore[no-any-return]
+  File "/Users/clay/Code/open-interpreter/interpreter/server/routes/chat.py", line 299, in chat
+    return jsonify(error_response), status_code
+UnboundLocalError: local variable 'stream' referenced before assignment
+2025-02-16 18:48:00,734 - interpreter_server - ERROR - Error processing chat request: 'type'
+Traceback (most recent call last):
+  File "/Users/clay/Code/open-interpreter/interpreter/server/routes/chat.py", line 59, in chat
+    stream = data.get('stream', False)
+  File "/Users/clay/Code/open-interpreter/interpreter/server/routes/chat.py", line 59, in <listcomp>
+    stream = data.get('stream', False)
+  File "/Users/clay/Code/open-interpreter/interpreter/server/message.py", line 55, in from_dict
+    type=data["type"],
+KeyError: 'type'
+ERROR:interpreter_server:Error processing chat request: 'type'
+Traceback (most recent call last):
+  File "/Users/clay/Code/open-interpreter/interpreter/server/routes/chat.py", line 59, in chat
+    stream = data.get('stream', False)
+  File "/Users/clay/Code/open-interpreter/interpreter/server/routes/chat.py", line 59, in <listcomp>
+    stream = data.get('stream', False)
+  File "/Users/clay/Code/open-interpreter/interpreter/server/message.py", line 55, in from_dict
+    type=data["type"],
+KeyError: 'type'
+2025-02-16 18:48:00,735 - interpreter_server - ERROR - 'type'
+Traceback (most recent call last):
+  File "/Users/clay/Code/open-interpreter/interpreter/server/routes/chat.py", line 59, in chat
+    stream = data.get('stream', False)
+  File "/Users/clay/Code/open-interpreter/interpreter/server/routes/chat.py", line 59, in <listcomp>
+    stream = data.get('stream', False)
+  File "/Users/clay/Code/open-interpreter/interpreter/server/message.py", line 55, in from_dict
+    type=data["type"],
+KeyError: 'type'
+ERROR:interpreter_server:'type'
+Traceback (most recent call last):
+  File "/Users/clay/Code/open-interpreter/interpreter/server/routes/chat.py", line 59, in chat
+    stream = data.get('stream', False)
+  File "/Users/clay/Code/open-interpreter/interpreter/server/routes/chat.py", line 59, in <listcomp>
+    stream = data.get('stream', False)
+  File "/Users/clay/Code/open-interpreter/interpreter/server/message.py", line 55, in from_dict
+    type=data["type"],
+KeyError: 'type'
+2025-02-16 18:48:00,735 - interpreter_server - ERROR - local variable 'stream' referenced before assignment
+Traceback (most recent call last):
+  File "/Users/clay/.pyenv/versions/3.9.5/lib/python3.9/site-packages/flask/app.py", line 917, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "/Users/clay/.pyenv/versions/3.9.5/lib/python3.9/site-packages/flask/app.py", line 902, in dispatch_request
+    return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)  # type: ignore[no-any-return]
+  File "/Users/clay/Code/open-interpreter/interpreter/server/routes/chat.py", line 299, in chat
+UnboundLocalError: local variable 'stream' referenced before assignment
+ERROR:interpreter_server:local variable 'stream' referenced before assignment
+Traceback (most recent call last):
+  File "/Users/clay/.pyenv/versions/3.9.5/lib/python3.9/site-packages/flask/app.py", line 917, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "/Users/clay/.pyenv/versions/3.9.5/lib/python3.9/site-packages/flask/app.py", line 902, in dispatch_request
+    return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)  # type: ignore[no-any-return]
+  File "/Users/clay/Code/open-interpreter/interpreter/server/routes/chat.py", line 299, in chat
+UnboundLocalError: local variable 'stream' referenced before assignment
+2025-02-16 18:48:36,494 - interpreter_server - ERROR - Error processing chat request: 'type'
+Traceback (most recent call last):
+  File "/Users/clay/Code/open-interpreter/interpreter/server/routes/chat.py", line 59, in chat
+    stream = bool(data.get('stream', False))  # 确保stream是布尔值
+  File "/Users/clay/Code/open-interpreter/interpreter/server/routes/chat.py", line 59, in <listcomp>
+    stream = bool(data.get('stream', False))  # 确保stream是布尔值
+  File "/Users/clay/Code/open-interpreter/interpreter/server/message.py", line 55, in from_dict
+    type=data["type"],
+KeyError: 'type'
+ERROR:interpreter_server:Error processing chat request: 'type'
+Traceback (most recent call last):
+  File "/Users/clay/Code/open-interpreter/interpreter/server/routes/chat.py", line 59, in chat
+    stream = bool(data.get('stream', False))  # 确保stream是布尔值
+  File "/Users/clay/Code/open-interpreter/interpreter/server/routes/chat.py", line 59, in <listcomp>
+    stream = bool(data.get('stream', False))  # 确保stream是布尔值
+  File "/Users/clay/Code/open-interpreter/interpreter/server/message.py", line 55, in from_dict
+    type=data["type"],
+KeyError: 'type'
+2025-02-16 18:48:36,495 - interpreter_server - ERROR - 'type'
+Traceback (most recent call last):
+  File "/Users/clay/Code/open-interpreter/interpreter/server/routes/chat.py", line 59, in chat
+    stream = bool(data.get('stream', False))  # 确保stream是布尔值
+  File "/Users/clay/Code/open-interpreter/interpreter/server/routes/chat.py", line 59, in <listcomp>
+    stream = bool(data.get('stream', False))  # 确保stream是布尔值
+  File "/Users/clay/Code/open-interpreter/interpreter/server/message.py", line 55, in from_dict
+    type=data["type"],
+KeyError: 'type'
+ERROR:interpreter_server:'type'
+Traceback (most recent call last):
+  File "/Users/clay/Code/open-interpreter/interpreter/server/routes/chat.py", line 59, in chat
+    stream = bool(data.get('stream', False))  # 确保stream是布尔值
+  File "/Users/clay/Code/open-interpreter/interpreter/server/routes/chat.py", line 59, in <listcomp>
+    stream = bool(data.get('stream', False))  # 确保stream是布尔值
+  File "/Users/clay/Code/open-interpreter/interpreter/server/message.py", line 55, in from_dict
+    type=data["type"],
+KeyError: 'type'
+2025-02-16 18:48:36,495 - interpreter_server - ERROR - local variable 'stream' referenced before assignment
+Traceback (most recent call last):
+  File "/Users/clay/.pyenv/versions/3.9.5/lib/python3.9/site-packages/flask/app.py", line 917, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "/Users/clay/.pyenv/versions/3.9.5/lib/python3.9/site-packages/flask/app.py", line 902, in dispatch_request
+    return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)  # type: ignore[no-any-return]
+  File "/Users/clay/Code/open-interpreter/interpreter/server/routes/chat.py", line 299, in chat
+UnboundLocalError: local variable 'stream' referenced before assignment
+ERROR:interpreter_server:local variable 'stream' referenced before assignment
+Traceback (most recent call last):
+  File "/Users/clay/.pyenv/versions/3.9.5/lib/python3.9/site-packages/flask/app.py", line 917, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "/Users/clay/.pyenv/versions/3.9.5/lib/python3.9/site-packages/flask/app.py", line 902, in dispatch_request
+    return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)  # type: ignore[no-any-return]
+  File "/Users/clay/Code/open-interpreter/interpreter/server/routes/chat.py", line 299, in chat
+UnboundLocalError: local variable 'stream' referenced before assignment
+2025-02-16 18:49:58,298 - interpreter_server - INFO - Processing chat completions request with 1 messages for session d2b07350-e7e2-4df8-82ca-c39cab851f9f
+INFO:interpreter_server:Processing chat completions request with 1 messages for session d2b07350-e7e2-4df8-82ca-c39cab851f9f
+2025-02-16 18:49:58,299 - interpreter_server - ERROR - Error processing chat completions request: 'Message' object has no attribute 'get'
+Traceback (most recent call last):
+  File "/Users/clay/Code/open-interpreter/interpreter/server/routes/chat.py", line 371, in chat_completions
+    interpreter_messages = convert_openai_to_interpreter(messages)
+  File "/Users/clay/Code/open-interpreter/interpreter/server/utils.py", line 28, in convert_openai_to_interpreter
+    role = msg.get('role')
+AttributeError: 'Message' object has no attribute 'get'
+ERROR:interpreter_server:Error processing chat completions request: 'Message' object has no attribute 'get'
+Traceback (most recent call last):
+  File "/Users/clay/Code/open-interpreter/interpreter/server/routes/chat.py", line 371, in chat_completions
+    interpreter_messages = convert_openai_to_interpreter(messages)
+  File "/Users/clay/Code/open-interpreter/interpreter/server/utils.py", line 28, in convert_openai_to_interpreter
+    role = msg.get('role')
+AttributeError: 'Message' object has no attribute 'get'
+2025-02-16 18:49:58,300 - interpreter_server - ERROR - 'Message' object has no attribute 'get'
+Traceback (most recent call last):
+  File "/Users/clay/Code/open-interpreter/interpreter/server/routes/chat.py", line 371, in chat_completions
+    interpreter_messages = convert_openai_to_interpreter(messages)
+  File "/Users/clay/Code/open-interpreter/interpreter/server/utils.py", line 28, in convert_openai_to_interpreter
+    role = msg.get('role')
+AttributeError: 'Message' object has no attribute 'get'
+ERROR:interpreter_server:'Message' object has no attribute 'get'
+Traceback (most recent call last):
+  File "/Users/clay/Code/open-interpreter/interpreter/server/routes/chat.py", line 371, in chat_completions
+    interpreter_messages = convert_openai_to_interpreter(messages)
+  File "/Users/clay/Code/open-interpreter/interpreter/server/utils.py", line 28, in convert_openai_to_interpreter
+    role = msg.get('role')
+AttributeError: 'Message' object has no attribute 'get'
+2025-02-16 18:50:07,099 - interpreter_server - ERROR - Error processing chat completions request: 'type'
+Traceback (most recent call last):
+  File "/Users/clay/Code/open-interpreter/interpreter/server/routes/chat.py", line 328, in chat_completions
+    messages = MessageProcessor.validate_messages(messages)
+  File "/Users/clay/Code/open-interpreter/interpreter/server/message_processor.py", line 61, in validate_messages
+    return [Message.from_dict(msg) if isinstance(msg, dict) else msg for msg in messages]
+  File "/Users/clay/Code/open-interpreter/interpreter/server/message_processor.py", line 61, in <listcomp>
+    return [Message.from_dict(msg) if isinstance(msg, dict) else msg for msg in messages]
+  File "/Users/clay/Code/open-interpreter/interpreter/server/message.py", line 55, in from_dict
+    type=data["type"],
+KeyError: 'type'
+ERROR:interpreter_server:Error processing chat completions request: 'type'
+Traceback (most recent call last):
+  File "/Users/clay/Code/open-interpreter/interpreter/server/routes/chat.py", line 328, in chat_completions
+    messages = MessageProcessor.validate_messages(messages)
+  File "/Users/clay/Code/open-interpreter/interpreter/server/message_processor.py", line 61, in validate_messages
+    return [Message.from_dict(msg) if isinstance(msg, dict) else msg for msg in messages]
+  File "/Users/clay/Code/open-interpreter/interpreter/server/message_processor.py", line 61, in <listcomp>
+    return [Message.from_dict(msg) if isinstance(msg, dict) else msg for msg in messages]
+  File "/Users/clay/Code/open-interpreter/interpreter/server/message.py", line 55, in from_dict
+    type=data["type"],
+KeyError: 'type'
+2025-02-16 18:50:07,100 - interpreter_server - ERROR - 'type'
+Traceback (most recent call last):
+  File "/Users/clay/Code/open-interpreter/interpreter/server/routes/chat.py", line 328, in chat_completions
+    messages = MessageProcessor.validate_messages(messages)
+  File "/Users/clay/Code/open-interpreter/interpreter/server/message_processor.py", line 61, in validate_messages
+    return [Message.from_dict(msg) if isinstance(msg, dict) else msg for msg in messages]
+  File "/Users/clay/Code/open-interpreter/interpreter/server/message_processor.py", line 61, in <listcomp>
+    return [Message.from_dict(msg) if isinstance(msg, dict) else msg for msg in messages]
+  File "/Users/clay/Code/open-interpreter/interpreter/server/message.py", line 55, in from_dict
+    type=data["type"],
+KeyError: 'type'
+ERROR:interpreter_server:'type'
+Traceback (most recent call last):
+  File "/Users/clay/Code/open-interpreter/interpreter/server/routes/chat.py", line 328, in chat_completions
+    messages = MessageProcessor.validate_messages(messages)
+  File "/Users/clay/Code/open-interpreter/interpreter/server/message_processor.py", line 61, in validate_messages
+    return [Message.from_dict(msg) if isinstance(msg, dict) else msg for msg in messages]
+  File "/Users/clay/Code/open-interpreter/interpreter/server/message_processor.py", line 61, in <listcomp>
+    return [Message.from_dict(msg) if isinstance(msg, dict) else msg for msg in messages]
+  File "/Users/clay/Code/open-interpreter/interpreter/server/message.py", line 55, in from_dict
+    type=data["type"],
+KeyError: 'type'
+2025-02-16 18:53:51,473 - interpreter_server - INFO - Session lock acquired for session a8aaddf9-9d05-4d27-aef5-af775ddce694
+INFO:interpreter_server:Session lock acquired for session a8aaddf9-9d05-4d27-aef5-af775ddce694
+2025-02-16 18:53:51,474 - interpreter_server - INFO - Processing chat request with 1 messages for session a8aaddf9-9d05-4d27-aef5-af775ddce694
+INFO:interpreter_server:Processing chat request with 1 messages for session a8aaddf9-9d05-4d27-aef5-af775ddce694
+2025-02-16 18:53:53,005 - interpreter_server - ERROR - Error adding message to session a8aaddf9-9d05-4d27-aef5-af775ddce694: 'dict' object has no attribute 'append'
+ERROR:interpreter_server:Error adding message to session a8aaddf9-9d05-4d27-aef5-af775ddce694: 'dict' object has no attribute 'append'
+2025-02-16 18:53:53,010 - interpreter_server - INFO - Releasing session lock for session a8aaddf9-9d05-4d27-aef5-af775ddce694
+INFO:interpreter_server:Releasing session lock for session a8aaddf9-9d05-4d27-aef5-af775ddce694
+2025-02-16 18:53:59,757 - interpreter_server - INFO - Session lock acquired for session a8aaddf9-9d05-4d27-aef5-af775ddce694
+INFO:interpreter_server:Session lock acquired for session a8aaddf9-9d05-4d27-aef5-af775ddce694
+2025-02-16 18:53:59,757 - interpreter_server - INFO - Processing chat request with 1 messages for session a8aaddf9-9d05-4d27-aef5-af775ddce694
+INFO:interpreter_server:Processing chat request with 1 messages for session a8aaddf9-9d05-4d27-aef5-af775ddce694
+2025-02-16 18:53:59,907 - interpreter_server - INFO - Starting streaming response
+INFO:interpreter_server:Starting streaming response
+2025-02-16 18:54:00,602 - interpreter_server - INFO - Releasing session lock for session a8aaddf9-9d05-4d27-aef5-af775ddce694
+INFO:interpreter_server:Releasing session lock for session a8aaddf9-9d05-4d27-aef5-af775ddce694
+2025-02-16 18:54:13,489 - interpreter_server - ERROR - Error processing chat completions request: 'type'
+Traceback (most recent call last):
+  File "/Users/clay/Code/open-interpreter/interpreter/server/routes/chat.py", line 328, in chat_completions
+    messages = MessageProcessor.validate_messages(messages)
+  File "/Users/clay/Code/open-interpreter/interpreter/server/message_processor.py", line 61, in validate_messages
+    return [Message.from_dict(msg) if isinstance(msg, dict) else msg for msg in messages]
+  File "/Users/clay/Code/open-interpreter/interpreter/server/message_processor.py", line 61, in <listcomp>
+    return [Message.from_dict(msg) if isinstance(msg, dict) else msg for msg in messages]
+  File "/Users/clay/Code/open-interpreter/interpreter/server/message.py", line 55, in from_dict
+    type=data["type"],
+KeyError: 'type'
+ERROR:interpreter_server:Error processing chat completions request: 'type'
+Traceback (most recent call last):
+  File "/Users/clay/Code/open-interpreter/interpreter/server/routes/chat.py", line 328, in chat_completions
+    messages = MessageProcessor.validate_messages(messages)
+  File "/Users/clay/Code/open-interpreter/interpreter/server/message_processor.py", line 61, in validate_messages
+    return [Message.from_dict(msg) if isinstance(msg, dict) else msg for msg in messages]
+  File "/Users/clay/Code/open-interpreter/interpreter/server/message_processor.py", line 61, in <listcomp>
+    return [Message.from_dict(msg) if isinstance(msg, dict) else msg for msg in messages]
+  File "/Users/clay/Code/open-interpreter/interpreter/server/message.py", line 55, in from_dict
+    type=data["type"],
+KeyError: 'type'
+2025-02-16 18:54:13,490 - interpreter_server - ERROR - 'type'
+Traceback (most recent call last):
+  File "/Users/clay/Code/open-interpreter/interpreter/server/routes/chat.py", line 328, in chat_completions
+    messages = MessageProcessor.validate_messages(messages)
+  File "/Users/clay/Code/open-interpreter/interpreter/server/message_processor.py", line 61, in validate_messages
+    return [Message.from_dict(msg) if isinstance(msg, dict) else msg for msg in messages]
+  File "/Users/clay/Code/open-interpreter/interpreter/server/message_processor.py", line 61, in <listcomp>
+    return [Message.from_dict(msg) if isinstance(msg, dict) else msg for msg in messages]
+  File "/Users/clay/Code/open-interpreter/interpreter/server/message.py", line 55, in from_dict
+    type=data["type"],
+KeyError: 'type'
+ERROR:interpreter_server:'type'
+Traceback (most recent call last):
+  File "/Users/clay/Code/open-interpreter/interpreter/server/routes/chat.py", line 328, in chat_completions
+    messages = MessageProcessor.validate_messages(messages)
+  File "/Users/clay/Code/open-interpreter/interpreter/server/message_processor.py", line 61, in validate_messages
+    return [Message.from_dict(msg) if isinstance(msg, dict) else msg for msg in messages]
+  File "/Users/clay/Code/open-interpreter/interpreter/server/message_processor.py", line 61, in <listcomp>
+    return [Message.from_dict(msg) if isinstance(msg, dict) else msg for msg in messages]
+  File "/Users/clay/Code/open-interpreter/interpreter/server/message.py", line 55, in from_dict
+    type=data["type"],
+KeyError: 'type'

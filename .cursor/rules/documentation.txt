@@ -1,0 +1,156 @@
+# Documentation Guidelines for Open Interpreter HTTP Server
+
+## API Documentation
+
+### Endpoint Documentation
+```python
+@app.route('/v1/resource', methods=['POST'])
+def resource_handler():
+    """Handle resource requests.
+    
+    Args:
+        None (reads from request.json)
+        
+    Request Body:
+        {
+            "field1": str,
+            "field2": int
+        }
+        
+    Returns:
+        JSON response with fields:
+        {
+            "status": str,
+            "data": dict
+        }
+        
+    Raises:
+        400: Invalid request
+        401: Unauthorized
+        500: Server error
+    """
+    pass
+```
+
+### Function Documentation
+```python
+def process_data(input_data: dict, options: Optional[dict] = None) -> dict:
+    """Process the input data with given options.
+    
+    Args:
+        input_data: Dictionary containing the input data
+        options: Optional configuration dictionary
+        
+    Returns:
+        Processed data as dictionary
+        
+    Raises:
+        ValueError: If input_data is invalid
+        ProcessingError: If processing fails
+    """
+    pass
+```
+
+## Code Comments
+
+### Implementation Comments
+```python
+# Good
+def complex_calculation():
+    # Using Newton's method for better convergence
+    result = initial_guess
+    while not converged:
+        result = improve(result)
+    return result
+
+# Bad
+def calc():
+    # Do stuff
+    x = y + z
+    return x
+```
+
+### TODO Comments
+```python
+# TODO(P1.1.1): Implement rate limiting
+# FIXME(security): Properly handle authentication
+# NOTE: This is a temporary solution
+```
+
+## Commit Messages
+
+### Format
+```
+[Phase-X][Task] Brief description
+
+Detailed explanation if needed
+- Point 1
+- Point 2
+
+Related: #issue_number
+```
+
+### Examples
+```
+[Phase-1][Server Setup] Implement basic Flask application
+
+- Add Flask application structure
+- Configure basic logging
+- Setup environment variables
+- Add health check endpoint
+
+Related: #123
+```
+
+## Progress Updates
+
+### Task Update Format
+```markdown
+### Task P1.1.1: Implement Flask Application
+- Status: ✅ Complete
+- Time: 2024-02-11 14:30
+- Changes:
+  - Added basic Flask structure
+  - Configured logging
+  - Added health endpoint
+- Tests: All passing (coverage 85%)
+- Notes: Ready for review
+```
+
+### Problem Report Format
+```markdown
+### Problem: Rate Limiting Not Working
+- Status: 🔴 Open
+- Priority: High
+- Description: Rate limiting middleware not catching all requests
+- Impact: Potential DoS vulnerability
+- Solution: Implement proper Redis-based rate limiting
+```
+
+## Configuration Documentation
+
+### Environment Variables
+```bash
+# Required
+LITELLM_MODEL=bedrock/anthropic.claude-3-sonnet
+PORT=5001
+
+# Optional
+LOG_LEVEL=INFO
+RATE_LIMIT=100
+```
+
+### Configuration Files
+```python
+# config.py
+class Config:
+    """Application configuration."""
+    
+    # API Settings
+    API_VERSION = "v1"
+    API_PREFIX = f"/api/{API_VERSION}"
+    
+    # Security
+    RATE_LIMIT = 100  # requests per minute
+    TOKEN_EXPIRE = 3600  # seconds
+``` 
