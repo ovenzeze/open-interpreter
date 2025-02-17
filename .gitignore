@@ -241,3 +241,6 @@ litellm_uuid.txt
 file.txt
 numbers.txt
 poetry.lock
+
+# Workspace states
+.workspace_states/
