@@ -616,3 +616,13 @@ Traceback (most recent call last):
   File "/Users/clay/.pyenv/versions/3.9.5/lib/python3.9/site-packages/waitress/wasyncore.py", line 374, in bind
     return self.socket.bind(addr)
 OSError: [Errno 48] Address already in use
+2025-02-20 18:18:08,697 - interpreter_server - ERROR - Error processing chunk: can only concatenate str (not "int") to str
+Traceback (most recent call last):
+  File "/Users/clay/Code/open-interpreter/interpreter/server/routes/chat.py", line 229, in generate
+    current_message.content += chunk.content
+TypeError: can only concatenate str (not "int") to str
+2025-02-20 18:26:41,130 - interpreter_server - ERROR - Error processing chunk: can only concatenate str (not "int") to str
+Traceback (most recent call last):
+  File "/Users/clay/Code/open-interpreter/interpreter/server/routes/chat.py", line 229, in generate
+    # 确保内容为字符串类型
+TypeError: can only concatenate str (not "int") to str

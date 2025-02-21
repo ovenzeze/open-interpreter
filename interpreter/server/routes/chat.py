@@ -226,7 +226,9 @@ def chat():
                         # 处理消息内容
                         if chunk.content is not None and current_message:
                             current_app.logger.debug(f"Adding content to message: {chunk.content}")
-                            current_message.content += chunk.content
+                            # 确保内容为字符串类型
+                            content_str = str(chunk.content) if chunk.content is not None else ""
+                            current_message.content += content_str
                         
                         # 处理消息结束
                         if chunk.end:
