@@ -27,6 +27,7 @@ def convert_openai_to_interpreter(messages: List[Dict[str, str]]) -> List[Messag
     for msg in messages:
         role = msg.get('role')
         content = msg.get('content', '')
+        msg_type = msg.get('type', 'message')  # 获取消息类型，默认为message
         recipient = msg.get('recipient', 'assistant' if role == 'user' else 'user')
         
         if role in ['user', 'assistant']:
@@ -39,7 +40,7 @@ def convert_openai_to_interpreter(messages: List[Dict[str, str]]) -> List[Messag
                         if block.strip():
                             interpreter_messages.append(Message(
                                 role='assistant',
-                                type='message',
+                                type='message',  # 明确指定类型
                                 content=block.strip(),
                                 recipient=recipient
                             ))
@@ -54,15 +55,16 @@ def convert_openai_to_interpreter(messages: List[Dict[str, str]]) -> List[Messag
                         
                         interpreter_messages.append(Message(
                             role='assistant',
-                            type='code',
+                            type='code',  # 明确指定类型
                             format=lang,
                             content=code.strip(),
                             recipient=recipient
                         ))
             else:
+                # 对于普通消息，使用默认类型
                 interpreter_messages.append(Message(
                     role=role,
-                    type='message',
+                    type=msg_type,  # 使用消息中指定的类型或默认值
                     content=content,
                     recipient=recipient
                 ))
@@ -70,7 +72,7 @@ def convert_openai_to_interpreter(messages: List[Dict[str, str]]) -> List[Messag
             # 系统消息转换为assistant消息
             interpreter_messages.append(Message(
                 role='assistant',
-                type='message',
+                type='message',  # 明确指定类型
                 content=content,
                 recipient='user'  # 系统消息总是发给用户
             ))
@@ -98,7 +100,7 @@ def convert_interpreter_to_openai(messages: List[Message]) -> List[Dict[str, str
             # 如果有未完成的消息，先添加到结果列表
             if current_message and (
                 current_message['role'] != msg.role or
-                current_message.get('type') != msg.type
+                msg.type != 'message'  # 使用属性而不是get方法
             ):
                 openai_messages.append(current_message)
                 current_message = None
@@ -216,7 +218,7 @@ def format_openai_stream_chunk(chunk: Union[StreamingChunk, Dict]) -> str:
         }]
     }
     
-    return f"data: {json.dumps(response)}\n\n" 
+    return f"data: {json.dumps(response)}\n\n"
 
 class MessageProcessor:
     """消息处理工具类"""
@@ -228,7 +230,8 @@ class MessageProcessor:
         try:
             for chunk in response:
                 try:
-                    chunk = Message.from_dict(chunk)
+                    if isinstance(chunk, dict):
+                        chunk = Message.from_dict(chunk)
                     if chunk.type == 'message' and chunk.role == 'assistant':
                         if content:
                             content += '\n'
@@ -237,14 +240,14 @@ class MessageProcessor:
                         if session_manager and session_id:
                             session_manager.add_message(session_id, chunk.to_dict())
                 except Exception as e:
-                    current_app.logger.error(f"Error processing chunk: {str(e)}", exc_info=True)
+                    logger.error(f"Error processing chunk: {str(e)}", exc_info=True)
                     continue
                     
             return {
                 "id": f"chatcmpl-{str(uuid.uuid4())}",
                 "object": "chat.completion",
                 "created": int(time.time()),
-                "model": current_app.interpreter_instance.llm.model,
+                "model": "bedrock/anthropic.claude-3-sonnet-20240229-v1:0",  # 使用固定的模型名称
                 "choices": [{
                     "index": 0,
                     "message": {
@@ -260,7 +263,7 @@ class MessageProcessor:
                 }
             }
         except Exception as e:
-            current_app.logger.error(f"Error processing response: {str(e)}", exc_info=True)
+            logger.error(f"Error processing response: {str(e)}", exc_info=True)
             raise
 
     @staticmethod

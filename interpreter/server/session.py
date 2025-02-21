@@ -254,19 +254,23 @@ class SessionManager:
         """
         try:
             # 验证消息格式
-            required_fields = ['role', 'type', 'content']
+            required_fields = ['role', 'content']
             if not all(field in message for field in required_fields):
                 logger.error(f"Message missing required fields: {required_fields}")
                 return False
                 
             # 获取当前会话消息
             messages = self._load_session_messages(session_id)
+            if not isinstance(messages, list):
+                messages = []
             
             # 添加新消息
             messages.append({
                 "role": message["role"],
-                "type": message["type"],
-                "content": message["content"]
+                "type": message.get("type", "message"),
+                "content": message["content"],
+                "format": message.get("format"),
+                "created_at": datetime.now().isoformat()
             })
             
             # 保存到文件
@@ -275,8 +279,6 @@ class SessionManager:
             # 更新内存中的会话
             session = self.sessions.get(session_id)
             if session:
-                if 'messages' not in session:
-                    session['messages'] = []
                 session['messages'] = messages
                 session['last_active'] = time.time()
             

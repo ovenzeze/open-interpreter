@@ -417,3 +417,359 @@ Traceback (most recent call last):
   File "/Users/clay/Code/open-interpreter/interpreter/server/message.py", line 55, in from_dict
     type=data["type"],
 KeyError: 'type'
+2025-02-20 17:42:28,556 - interpreter_server - INFO - Initializing server...
+2025-02-20 17:42:28,573 - interpreter_server - INFO - Application initialized successfully
+2025-02-20 17:42:28,573 - interpreter_server - INFO - Starting server on http://0.0.0.0:5002
+2025-02-20 17:43:39,887 - interpreter_server - INFO - Initializing server...
+2025-02-20 17:43:39,904 - interpreter_server - INFO - Application initialized successfully
+2025-02-20 17:43:39,904 - interpreter_server - INFO - Starting server on http://0.0.0.0:5002
+2025-02-20 17:44:04,358 - interpreter_server - ERROR - Error processing chat completions request: 'type'
+Traceback (most recent call last):
+  File "/Users/clay/Code/open-interpreter/interpreter/server/routes/chat.py", line 328, in chat_completions
+    messages = MessageProcessor.validate_messages(messages)
+  File "/Users/clay/Code/open-interpreter/interpreter/server/message_processor.py", line 61, in validate_messages
+    return [Message.from_dict(msg) if isinstance(msg, dict) else msg for msg in messages]
+  File "/Users/clay/Code/open-interpreter/interpreter/server/message_processor.py", line 61, in <listcomp>
+    return [Message.from_dict(msg) if isinstance(msg, dict) else msg for msg in messages]
+  File "/Users/clay/Code/open-interpreter/interpreter/server/message.py", line 55, in from_dict
+    type=data["type"],
+KeyError: 'type'
+2025-02-20 17:44:04,359 - interpreter_server - ERROR - 'type'
+Traceback (most recent call last):
+  File "/Users/clay/Code/open-interpreter/interpreter/server/routes/chat.py", line 328, in chat_completions
+    messages = MessageProcessor.validate_messages(messages)
+  File "/Users/clay/Code/open-interpreter/interpreter/server/message_processor.py", line 61, in validate_messages
+    return [Message.from_dict(msg) if isinstance(msg, dict) else msg for msg in messages]
+  File "/Users/clay/Code/open-interpreter/interpreter/server/message_processor.py", line 61, in <listcomp>
+    return [Message.from_dict(msg) if isinstance(msg, dict) else msg for msg in messages]
+  File "/Users/clay/Code/open-interpreter/interpreter/server/message.py", line 55, in from_dict
+    type=data["type"],
+KeyError: 'type'
+2025-02-20 17:44:15,670 - interpreter_server - INFO - Processing chat completions request with 1 messages for session e43854c9-800e-4415-b12d-1e9495a800c6
+2025-02-20 17:44:15,671 - interpreter_server - ERROR - Error processing chat completions request: 'Message' object has no attribute 'get'
+Traceback (most recent call last):
+  File "/Users/clay/Code/open-interpreter/interpreter/server/routes/chat.py", line 371, in chat_completions
+    interpreter_messages = convert_openai_to_interpreter(messages)
+  File "/Users/clay/Code/open-interpreter/interpreter/server/utils.py", line 28, in convert_openai_to_interpreter
+    role = msg.get('role')
+AttributeError: 'Message' object has no attribute 'get'
+2025-02-20 17:44:15,671 - interpreter_server - ERROR - 'Message' object has no attribute 'get'
+Traceback (most recent call last):
+  File "/Users/clay/Code/open-interpreter/interpreter/server/routes/chat.py", line 371, in chat_completions
+    interpreter_messages = convert_openai_to_interpreter(messages)
+  File "/Users/clay/Code/open-interpreter/interpreter/server/utils.py", line 28, in convert_openai_to_interpreter
+    role = msg.get('role')
+AttributeError: 'Message' object has no attribute 'get'
+2025-02-20 17:44:23,090 - interpreter_server - DEBUG - Received request data: {'messages': [{'role': 'user', 'type': 'message', 'content': '你好'}]}
+2025-02-20 17:44:23,091 - interpreter_server - INFO - No session_id provided, creating new session
+2025-02-20 17:44:23,093 - interpreter_server - DEBUG - Created new session: e3630503-2fa0-4a95-b7f6-d93e267a069a
+2025-02-20 17:44:23,093 - interpreter_server - INFO - Session lock acquired for session e3630503-2fa0-4a95-b7f6-d93e267a069a
+2025-02-20 17:44:23,093 - interpreter_server - INFO - Processing chat request with 1 messages for session e3630503-2fa0-4a95-b7f6-d93e267a069a
+2025-02-20 17:44:23,094 - interpreter_server - DEBUG - Loaded 5 messages from session
+2025-02-20 17:44:23,094 - interpreter_server - DEBUG - Starting chat with interpreter
+2025-02-20 17:44:25,016 - interpreter_server - DEBUG - Got response from interpreter
+2025-02-20 17:44:25,017 - interpreter_server - ERROR - Error adding message to session e3630503-2fa0-4a95-b7f6-d93e267a069a: 'dict' object has no attribute 'append'
+2025-02-20 17:44:25,017 - interpreter_server - INFO - Releasing session lock for session e3630503-2fa0-4a95-b7f6-d93e267a069a
+2025-02-20 17:45:19,397 - interpreter_server - ERROR - 404 Not Found: The requested URL was not found on the server. If you entered the URL manually please check your spelling and try again.
+Traceback (most recent call last):
+  File "/Users/clay/.pyenv/versions/3.9.5/lib/python3.9/site-packages/flask/app.py", line 917, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "/Users/clay/.pyenv/versions/3.9.5/lib/python3.9/site-packages/flask/app.py", line 891, in dispatch_request
+    self.raise_routing_exception(req)
+  File "/Users/clay/.pyenv/versions/3.9.5/lib/python3.9/site-packages/flask/app.py", line 500, in raise_routing_exception
+    raise request.routing_exception  # type: ignore[misc]
+  File "/Users/clay/.pyenv/versions/3.9.5/lib/python3.9/site-packages/flask/ctx.py", line 362, in match_request
+    result = self.url_adapter.match(return_rule=True)  # type: ignore
+  File "/Users/clay/.pyenv/versions/3.9.5/lib/python3.9/site-packages/werkzeug/routing/map.py", line 629, in match
+    raise NotFound() from None
+werkzeug.exceptions.NotFound: 404 Not Found: The requested URL was not found on the server. If you entered the URL manually please check your spelling and try again.
+2025-02-20 17:45:27,305 - interpreter_server - ERROR - 404 Not Found: The requested URL was not found on the server. If you entered the URL manually please check your spelling and try again.
+Traceback (most recent call last):
+  File "/Users/clay/.pyenv/versions/3.9.5/lib/python3.9/site-packages/flask/app.py", line 917, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "/Users/clay/.pyenv/versions/3.9.5/lib/python3.9/site-packages/flask/app.py", line 891, in dispatch_request
+    self.raise_routing_exception(req)
+  File "/Users/clay/.pyenv/versions/3.9.5/lib/python3.9/site-packages/flask/app.py", line 500, in raise_routing_exception
+    raise request.routing_exception  # type: ignore[misc]
+  File "/Users/clay/.pyenv/versions/3.9.5/lib/python3.9/site-packages/flask/ctx.py", line 362, in match_request
+    result = self.url_adapter.match(return_rule=True)  # type: ignore
+  File "/Users/clay/.pyenv/versions/3.9.5/lib/python3.9/site-packages/werkzeug/routing/map.py", line 629, in match
+    raise NotFound() from None
+werkzeug.exceptions.NotFound: 404 Not Found: The requested URL was not found on the server. If you entered the URL manually please check your spelling and try again.
+2025-02-20 17:47:53,097 - interpreter_server - INFO - Initializing server...
+2025-02-20 17:47:53,118 - interpreter_server - INFO - Application initialized successfully
+2025-02-20 17:47:53,118 - interpreter_server - INFO - Starting server on http://0.0.0.0:5002
+2025-02-20 17:56:03,948 - interpreter_server - ERROR - Error processing chat completions request: __init__() got an unexpected keyword argument 'start'
+Traceback (most recent call last):
+  File "/Users/clay/Code/open-interpreter/interpreter/server/routes/chat.py", line 328, in chat_completions
+    messages = MessageProcessor.validate_messages(messages)
+  File "/Users/clay/Code/open-interpreter/interpreter/server/message_processor.py", line 61, in validate_messages
+    return [Message.from_dict(msg) if isinstance(msg, dict) else msg for msg in messages]
+  File "/Users/clay/Code/open-interpreter/interpreter/server/message_processor.py", line 61, in <listcomp>
+    return [Message.from_dict(msg) if isinstance(msg, dict) else msg for msg in messages]
+  File "/Users/clay/Code/open-interpreter/interpreter/server/message.py", line 53, in from_dict
+    return cls(
+TypeError: __init__() got an unexpected keyword argument 'start'
+2025-02-20 17:56:03,950 - interpreter_server - ERROR - __init__() got an unexpected keyword argument 'start'
+Traceback (most recent call last):
+  File "/Users/clay/Code/open-interpreter/interpreter/server/routes/chat.py", line 328, in chat_completions
+    messages = MessageProcessor.validate_messages(messages)
+  File "/Users/clay/Code/open-interpreter/interpreter/server/message_processor.py", line 61, in validate_messages
+    return [Message.from_dict(msg) if isinstance(msg, dict) else msg for msg in messages]
+  File "/Users/clay/Code/open-interpreter/interpreter/server/message_processor.py", line 61, in <listcomp>
+    return [Message.from_dict(msg) if isinstance(msg, dict) else msg for msg in messages]
+  File "/Users/clay/Code/open-interpreter/interpreter/server/message.py", line 53, in from_dict
+    return cls(
+TypeError: __init__() got an unexpected keyword argument 'start'
+2025-02-20 17:56:27,470 - interpreter_server - ERROR - Error processing chat completions request: __init__() got an unexpected keyword argument 'start'
+Traceback (most recent call last):
+  File "/Users/clay/Code/open-interpreter/interpreter/server/routes/chat.py", line 328, in chat_completions
+    messages = MessageProcessor.validate_messages(messages)
+  File "/Users/clay/Code/open-interpreter/interpreter/server/message_processor.py", line 61, in validate_messages
+    return [Message.from_dict(msg) if isinstance(msg, dict) else msg for msg in messages]
+  File "/Users/clay/Code/open-interpreter/interpreter/server/message_processor.py", line 61, in <listcomp>
+    return [Message.from_dict(msg) if isinstance(msg, dict) else msg for msg in messages]
+  File "/Users/clay/Code/open-interpreter/interpreter/server/message.py", line 53, in from_dict
+    return cls(
+TypeError: __init__() got an unexpected keyword argument 'start'
+2025-02-20 17:56:27,471 - interpreter_server - ERROR - __init__() got an unexpected keyword argument 'start'
+Traceback (most recent call last):
+  File "/Users/clay/Code/open-interpreter/interpreter/server/routes/chat.py", line 328, in chat_completions
+    messages = MessageProcessor.validate_messages(messages)
+  File "/Users/clay/Code/open-interpreter/interpreter/server/message_processor.py", line 61, in validate_messages
+    return [Message.from_dict(msg) if isinstance(msg, dict) else msg for msg in messages]
+  File "/Users/clay/Code/open-interpreter/interpreter/server/message_processor.py", line 61, in <listcomp>
+    return [Message.from_dict(msg) if isinstance(msg, dict) else msg for msg in messages]
+  File "/Users/clay/Code/open-interpreter/interpreter/server/message.py", line 53, in from_dict
+    return cls(
+TypeError: __init__() got an unexpected keyword argument 'start'
+2025-02-20 17:56:52,828 - interpreter_server - ERROR - Error processing chat completions request: __init__() got an unexpected keyword argument 'start'
+Traceback (most recent call last):
+  File "/Users/clay/Code/open-interpreter/interpreter/server/routes/chat.py", line 328, in chat_completions
+    messages = MessageProcessor.validate_messages(messages)
+  File "/Users/clay/Code/open-interpreter/interpreter/server/message_processor.py", line 61, in validate_messages
+    return [Message.from_dict(msg) if isinstance(msg, dict) else msg for msg in messages]
+  File "/Users/clay/Code/open-interpreter/interpreter/server/message_processor.py", line 61, in <listcomp>
+    return [Message.from_dict(msg) if isinstance(msg, dict) else msg for msg in messages]
+  File "/Users/clay/Code/open-interpreter/interpreter/server/message.py", line 53, in from_dict
+    return cls(
+TypeError: __init__() got an unexpected keyword argument 'start'
+2025-02-20 17:56:52,829 - interpreter_server - ERROR - __init__() got an unexpected keyword argument 'start'
+Traceback (most recent call last):
+  File "/Users/clay/Code/open-interpreter/interpreter/server/routes/chat.py", line 328, in chat_completions
+    messages = MessageProcessor.validate_messages(messages)
+  File "/Users/clay/Code/open-interpreter/interpreter/server/message_processor.py", line 61, in validate_messages
+    return [Message.from_dict(msg) if isinstance(msg, dict) else msg for msg in messages]
+  File "/Users/clay/Code/open-interpreter/interpreter/server/message_processor.py", line 61, in <listcomp>
+    return [Message.from_dict(msg) if isinstance(msg, dict) else msg for msg in messages]
+  File "/Users/clay/Code/open-interpreter/interpreter/server/message.py", line 53, in from_dict
+    return cls(
+TypeError: __init__() got an unexpected keyword argument 'start'
+2025-02-20 17:57:19,875 - interpreter_server - INFO - Initializing server...
+2025-02-20 17:57:19,897 - interpreter_server - INFO - Application initialized successfully
+2025-02-20 17:57:19,897 - interpreter_server - INFO - Starting server on http://0.0.0.0:5002
+2025-02-20 17:57:24,475 - interpreter_server - INFO - Processing chat completions request with 1 messages for session 9e69808d-7789-4514-8712-63a8d9620254
+2025-02-20 17:57:24,476 - interpreter_server - ERROR - Error processing chat completions request: 'Message' object has no attribute 'get'
+Traceback (most recent call last):
+  File "/Users/clay/Code/open-interpreter/interpreter/server/routes/chat.py", line 371, in chat_completions
+    interpreter_messages = convert_openai_to_interpreter(messages)
+  File "/Users/clay/Code/open-interpreter/interpreter/server/utils.py", line 28, in convert_openai_to_interpreter
+    role = msg.get('role')
+AttributeError: 'Message' object has no attribute 'get'
+2025-02-20 17:57:24,477 - interpreter_server - ERROR - 'Message' object has no attribute 'get'
+Traceback (most recent call last):
+  File "/Users/clay/Code/open-interpreter/interpreter/server/routes/chat.py", line 371, in chat_completions
+    interpreter_messages = convert_openai_to_interpreter(messages)
+  File "/Users/clay/Code/open-interpreter/interpreter/server/utils.py", line 28, in convert_openai_to_interpreter
+    role = msg.get('role')
+AttributeError: 'Message' object has no attribute 'get'
+2025-02-20 17:57:31,861 - interpreter_server - INFO - Processing chat completions request with 1 messages for session eab8b7a6-8ac8-4d19-b011-257e67cc4a5c
+2025-02-20 17:57:31,861 - interpreter_server - ERROR - Error processing chat completions request: 'Message' object has no attribute 'get'
+Traceback (most recent call last):
+  File "/Users/clay/Code/open-interpreter/interpreter/server/routes/chat.py", line 371, in chat_completions
+    interpreter_messages = convert_openai_to_interpreter(messages)
+  File "/Users/clay/Code/open-interpreter/interpreter/server/utils.py", line 28, in convert_openai_to_interpreter
+    role = msg.get('role')
+AttributeError: 'Message' object has no attribute 'get'
+2025-02-20 17:57:31,862 - interpreter_server - ERROR - 'Message' object has no attribute 'get'
+Traceback (most recent call last):
+  File "/Users/clay/Code/open-interpreter/interpreter/server/routes/chat.py", line 371, in chat_completions
+    interpreter_messages = convert_openai_to_interpreter(messages)
+  File "/Users/clay/Code/open-interpreter/interpreter/server/utils.py", line 28, in convert_openai_to_interpreter
+    role = msg.get('role')
+AttributeError: 'Message' object has no attribute 'get'
+2025-02-20 17:57:54,797 - interpreter_server - INFO - Processing chat completions request with 1 messages for session f9fc17a0-789d-441a-9468-013ad91d4261
+2025-02-20 17:57:54,798 - interpreter_server - ERROR - Error processing chat completions request: 'Message' object has no attribute 'get'
+Traceback (most recent call last):
+  File "/Users/clay/Code/open-interpreter/interpreter/server/routes/chat.py", line 371, in chat_completions
+    interpreter_messages = convert_openai_to_interpreter(messages)
+  File "/Users/clay/Code/open-interpreter/interpreter/server/utils.py", line 28, in convert_openai_to_interpreter
+    role = msg.get('role')
+AttributeError: 'Message' object has no attribute 'get'
+2025-02-20 17:57:54,798 - interpreter_server - ERROR - 'Message' object has no attribute 'get'
+Traceback (most recent call last):
+  File "/Users/clay/Code/open-interpreter/interpreter/server/routes/chat.py", line 371, in chat_completions
+    interpreter_messages = convert_openai_to_interpreter(messages)
+  File "/Users/clay/Code/open-interpreter/interpreter/server/utils.py", line 28, in convert_openai_to_interpreter
+    role = msg.get('role')
+AttributeError: 'Message' object has no attribute 'get'
+2025-02-20 17:58:13,495 - interpreter_server - INFO - Initializing server...
+2025-02-20 17:58:13,513 - interpreter_server - INFO - Application initialized successfully
+2025-02-20 17:58:13,513 - interpreter_server - INFO - Starting server on http://0.0.0.0:5002
+2025-02-20 17:58:14,485 - interpreter_server - INFO - Processing chat completions request with 1 messages for session 284a8e71-eb28-4f04-a054-bd1ea6df14f6
+2025-02-20 17:58:14,486 - interpreter_server - ERROR - Error processing chat completions request: 'Message' object has no attribute 'get'
+Traceback (most recent call last):
+  File "/Users/clay/Code/open-interpreter/interpreter/server/routes/chat.py", line 378, in chat_completions
+    interpreter_messages = convert_openai_to_interpreter(messages)
+  File "/Users/clay/Code/open-interpreter/interpreter/server/utils.py", line 28, in convert_openai_to_interpreter
+    role = msg.get('role')
+AttributeError: 'Message' object has no attribute 'get'
+2025-02-20 17:58:14,487 - interpreter_server - ERROR - 'Message' object has no attribute 'get'
+Traceback (most recent call last):
+  File "/Users/clay/Code/open-interpreter/interpreter/server/routes/chat.py", line 378, in chat_completions
+    interpreter_messages = convert_openai_to_interpreter(messages)
+  File "/Users/clay/Code/open-interpreter/interpreter/server/utils.py", line 28, in convert_openai_to_interpreter
+    role = msg.get('role')
+AttributeError: 'Message' object has no attribute 'get'
+2025-02-20 17:58:20,246 - interpreter_server - INFO - Processing chat completions request with 1 messages for session 781b9a92-2082-434d-8c3a-ae2abff24928
+2025-02-20 17:58:20,246 - interpreter_server - ERROR - Error processing chat completions request: 'Message' object has no attribute 'get'
+Traceback (most recent call last):
+  File "/Users/clay/Code/open-interpreter/interpreter/server/routes/chat.py", line 378, in chat_completions
+    interpreter_messages = convert_openai_to_interpreter(messages)
+  File "/Users/clay/Code/open-interpreter/interpreter/server/utils.py", line 28, in convert_openai_to_interpreter
+    role = msg.get('role')
+AttributeError: 'Message' object has no attribute 'get'
+2025-02-20 17:58:20,247 - interpreter_server - ERROR - 'Message' object has no attribute 'get'
+Traceback (most recent call last):
+  File "/Users/clay/Code/open-interpreter/interpreter/server/routes/chat.py", line 378, in chat_completions
+    interpreter_messages = convert_openai_to_interpreter(messages)
+  File "/Users/clay/Code/open-interpreter/interpreter/server/utils.py", line 28, in convert_openai_to_interpreter
+    role = msg.get('role')
+AttributeError: 'Message' object has no attribute 'get'
+2025-02-20 17:59:01,067 - interpreter_server - INFO - Initializing server...
+2025-02-20 17:59:01,085 - interpreter_server - INFO - Application initialized successfully
+2025-02-20 17:59:01,085 - interpreter_server - INFO - Starting server on http://0.0.0.0:5002
+2025-02-20 17:59:01,947 - interpreter_server - INFO - Processing chat completions request with 1 messages for session 82655a77-caf7-4768-96a4-4c63037476f1
+2025-02-20 17:59:01,948 - interpreter_server - ERROR - Error processing chat completions request: 'Message' object has no attribute 'get'
+Traceback (most recent call last):
+  File "/Users/clay/Code/open-interpreter/interpreter/server/routes/chat.py", line 378, in chat_completions
+    interpreter_messages = convert_openai_to_interpreter(messages)
+  File "/Users/clay/Code/open-interpreter/interpreter/server/utils.py", line 28, in convert_openai_to_interpreter
+    role = msg.get('role')
+AttributeError: 'Message' object has no attribute 'get'
+2025-02-20 17:59:01,949 - interpreter_server - ERROR - 'Message' object has no attribute 'get'
+Traceback (most recent call last):
+  File "/Users/clay/Code/open-interpreter/interpreter/server/routes/chat.py", line 378, in chat_completions
+    interpreter_messages = convert_openai_to_interpreter(messages)
+  File "/Users/clay/Code/open-interpreter/interpreter/server/utils.py", line 28, in convert_openai_to_interpreter
+    role = msg.get('role')
+AttributeError: 'Message' object has no attribute 'get'
+2025-02-20 17:59:12,210 - interpreter_server - INFO - Initializing server...
+2025-02-20 17:59:12,218 - interpreter_server - INFO - Application initialized successfully
+2025-02-20 17:59:12,218 - interpreter_server - INFO - Starting server on http://0.0.0.0:5002
+2025-02-20 17:59:13,219 - interpreter_server - INFO - Processing chat completions request with 1 messages for session fb242ec9-3494-40d2-b51c-fbba736babc3
+2025-02-20 17:59:13,220 - interpreter_server - ERROR - Error processing chat completions request: 'Message' object has no attribute 'get'
+Traceback (most recent call last):
+  File "/Users/clay/Code/open-interpreter/interpreter/server/routes/chat.py", line 378, in chat_completions
+    interpreter_messages = convert_openai_to_interpreter(messages)
+  File "/Users/clay/Code/open-interpreter/interpreter/server/utils.py", line 28, in convert_openai_to_interpreter
+    role = msg.get('role')
+AttributeError: 'Message' object has no attribute 'get'
+2025-02-20 17:59:13,221 - interpreter_server - ERROR - 'Message' object has no attribute 'get'
+Traceback (most recent call last):
+  File "/Users/clay/Code/open-interpreter/interpreter/server/routes/chat.py", line 378, in chat_completions
+    interpreter_messages = convert_openai_to_interpreter(messages)
+  File "/Users/clay/Code/open-interpreter/interpreter/server/utils.py", line 28, in convert_openai_to_interpreter
+    role = msg.get('role')
+AttributeError: 'Message' object has no attribute 'get'
+2025-02-20 17:59:46,803 - interpreter_server - INFO - Initializing server...
+2025-02-20 17:59:46,812 - interpreter_server - INFO - Application initialized successfully
+2025-02-20 17:59:46,813 - interpreter_server - INFO - Starting server on http://0.0.0.0:5002
+2025-02-20 17:59:48,901 - interpreter_server - INFO - Initializing server...
+2025-02-20 17:59:48,909 - interpreter_server - INFO - Application initialized successfully
+2025-02-20 17:59:48,909 - interpreter_server - INFO - Starting server on http://0.0.0.0:5002
+2025-02-20 17:59:48,910 - interpreter_server - ERROR - Server startup failed: [Errno 48] Address already in use
+Traceback (most recent call last):
+  File "/Users/clay/Code/open-interpreter/interpreter/server/cli.py", line 42, in main
+    serve(app, host=host, port=port)
+  File "/Users/clay/.pyenv/versions/3.9.5/lib/python3.9/site-packages/waitress/__init__.py", line 13, in serve
+    server = _server(app, **kw)
+  File "/Users/clay/.pyenv/versions/3.9.5/lib/python3.9/site-packages/waitress/server.py", line 78, in create_server
+    last_serv = TcpWSGIServer(
+  File "/Users/clay/.pyenv/versions/3.9.5/lib/python3.9/site-packages/waitress/server.py", line 243, in __init__
+    self.bind_server_socket()
+  File "/Users/clay/.pyenv/versions/3.9.5/lib/python3.9/site-packages/waitress/server.py", line 364, in bind_server_socket
+    self.bind(sockaddr)
+  File "/Users/clay/.pyenv/versions/3.9.5/lib/python3.9/site-packages/waitress/wasyncore.py", line 374, in bind
+    return self.socket.bind(addr)
+OSError: [Errno 48] Address already in use
+2025-02-20 17:59:49,846 - interpreter_server - INFO - Processing chat completions request with 1 messages for session 65d3c54c-779f-457c-9f05-7b8bdad07144
+2025-02-20 18:00:06,610 - interpreter_server - INFO - Processing chat completions request with 1 messages for session 3b92a2b4-1414-4964-91bb-e29f8f9e01b2
+2025-02-20 18:01:10,945 - interpreter_server - DEBUG - Received request data: {'messages': [{'role': 'user', 'content': '你好'}]}
+2025-02-20 18:01:10,945 - interpreter_server - INFO - No session_id provided, creating new session
+2025-02-20 18:01:10,948 - interpreter_server - DEBUG - Created new session: ec6c0b8f-2334-42d4-b8fd-fd2ac1fa549d
+2025-02-20 18:01:10,948 - interpreter_server - INFO - Session lock acquired for session ec6c0b8f-2334-42d4-b8fd-fd2ac1fa549d
+2025-02-20 18:01:10,948 - interpreter_server - INFO - Processing chat request with 1 messages for session ec6c0b8f-2334-42d4-b8fd-fd2ac1fa549d
+2025-02-20 18:01:10,949 - interpreter_server - DEBUG - Loaded 5 messages from session
+2025-02-20 18:01:10,949 - interpreter_server - DEBUG - Starting chat with interpreter
+2025-02-20 18:01:12,504 - interpreter_server - DEBUG - Got response from interpreter
+2025-02-20 18:01:12,505 - interpreter_server - INFO - Releasing session lock for session ec6c0b8f-2334-42d4-b8fd-fd2ac1fa549d
+2025-02-20 18:01:20,222 - interpreter_server - DEBUG - Received request data: {'messages': [{'role': 'user', 'content': '你好'}], 'stream': True}
+2025-02-20 18:01:20,222 - interpreter_server - INFO - No session_id provided, creating new session
+2025-02-20 18:01:20,224 - interpreter_server - DEBUG - Created new session: 365c49c2-57cb-4a0b-b993-87c9aab6d760
+2025-02-20 18:01:20,224 - interpreter_server - INFO - Session lock acquired for session 365c49c2-57cb-4a0b-b993-87c9aab6d760
+2025-02-20 18:01:20,224 - interpreter_server - INFO - Processing chat request with 1 messages for session 365c49c2-57cb-4a0b-b993-87c9aab6d760
+2025-02-20 18:01:20,225 - interpreter_server - DEBUG - Loaded 5 messages from session
+2025-02-20 18:01:20,225 - interpreter_server - DEBUG - Starting chat with interpreter
+2025-02-20 18:01:20,374 - interpreter_server - DEBUG - Got response from interpreter
+2025-02-20 18:01:20,374 - interpreter_server - INFO - Starting streaming response
+2025-02-20 18:01:20,374 - interpreter_server - DEBUG - Starting stream generation
+2025-02-20 18:01:21,264 - interpreter_server - DEBUG - Processing chunk: <interpreter.server.message.StreamingChunk object at 0x110a19670>
+2025-02-20 18:01:21,264 - interpreter_server - DEBUG - Message start detected
+2025-02-20 18:01:21,265 - interpreter_server - DEBUG - Adding content to message: 
+2025-02-20 18:01:21,265 - interpreter_server - DEBUG - Sending formatted chunk: {"role": "assistant", "type": "message", "content": "", "id": "0b2680db-80fe-4a1d-815f-03126ab1e660", "created_at": "2025-02-20T18:01:21.264534", "start": true}
+2025-02-20 18:01:21,266 - interpreter_server - DEBUG - Chunk sent successfully
+2025-02-20 18:01:21,267 - interpreter_server - DEBUG - Processing chunk: <interpreter.server.message.StreamingChunk object at 0x110a19670>
+2025-02-20 18:01:21,267 - interpreter_server - DEBUG - Adding content to message: 你好
+2025-02-20 18:01:21,267 - interpreter_server - DEBUG - Sending formatted chunk: {"role": "assistant", "type": "message", "content": "\u4f60\u597d", "id": "45b60d68-bc94-4fd8-b5c1-dd097a0d28e4", "created_at": "2025-02-20T18:01:21.267328"}
+2025-02-20 18:01:21,267 - interpreter_server - DEBUG - Chunk sent successfully
+2025-02-20 18:01:21,269 - interpreter_server - DEBUG - Processing chunk: <interpreter.server.message.StreamingChunk object at 0x110a19670>
+2025-02-20 18:01:21,269 - interpreter_server - DEBUG - Adding content to message: ！
+2025-02-20 18:01:21,269 - interpreter_server - DEBUG - Sending formatted chunk: {"role": "assistant", "type": "message", "content": "\uff01", "id": "1da7881d-adde-4762-bad6-e70e10fd9253", "created_at": "2025-02-20T18:01:21.269526"}
+2025-02-20 18:01:21,269 - interpreter_server - DEBUG - Chunk sent successfully
+2025-02-20 18:01:21,286 - interpreter_server - DEBUG - Processing chunk: <interpreter.server.message.StreamingChunk object at 0x110a19670>
+2025-02-20 18:01:21,287 - interpreter_server - DEBUG - Adding content to message: 有什么
+2025-02-20 18:01:21,287 - interpreter_server - DEBUG - Sending formatted chunk: {"role": "assistant", "type": "message", "content": "\u6709\u4ec0\u4e48", "id": "06c870a6-dda5-401f-a758-548f78c65b28", "created_at": "2025-02-20T18:01:21.286783"}
+2025-02-20 18:01:21,287 - interpreter_server - DEBUG - Chunk sent successfully
+2025-02-20 18:01:21,289 - interpreter_server - DEBUG - Processing chunk: <interpreter.server.message.StreamingChunk object at 0x110a19670>
+2025-02-20 18:01:21,290 - interpreter_server - DEBUG - Adding content to message: 我
+2025-02-20 18:01:21,290 - interpreter_server - DEBUG - Sending formatted chunk: {"role": "assistant", "type": "message", "content": "\u6211", "id": "5a70d659-d219-43b1-b662-e12223753422", "created_at": "2025-02-20T18:01:21.289924"}
+2025-02-20 18:01:21,290 - interpreter_server - DEBUG - Chunk sent successfully
+2025-02-20 18:01:21,310 - interpreter_server - DEBUG - Processing chunk: <interpreter.server.message.StreamingChunk object at 0x110a19670>
+2025-02-20 18:01:21,310 - interpreter_server - DEBUG - Adding content to message: 可以
+2025-02-20 18:01:21,311 - interpreter_server - DEBUG - Sending formatted chunk: {"role": "assistant", "type": "message", "content": "\u53ef\u4ee5", "id": "f8c71991-5f03-428f-bdb9-8ce94f151e31", "created_at": "2025-02-20T18:01:21.310436"}
+2025-02-20 18:01:21,311 - interpreter_server - DEBUG - Chunk sent successfully
+2025-02-20 18:01:21,313 - interpreter_server - DEBUG - Processing chunk: <interpreter.server.message.StreamingChunk object at 0x110a19670>
+2025-02-20 18:01:21,314 - interpreter_server - DEBUG - Adding content to message: 帮
+2025-02-20 18:01:21,314 - interpreter_server - DEBUG - Sending formatted chunk: {"role": "assistant", "type": "message", "content": "\u5e2e", "id": "7d207b80-2da3-4cf2-ad15-a6d38c7e6378", "created_at": "2025-02-20T18:01:21.313868"}
+2025-02-20 18:01:21,314 - interpreter_server - DEBUG - Chunk sent successfully
+2025-02-20 18:01:21,444 - interpreter_server - DEBUG - Processing chunk: <interpreter.server.message.StreamingChunk object at 0x110a19670>
+2025-02-20 18:01:21,445 - interpreter_server - DEBUG - Adding content to message: 您
+2025-02-20 18:01:21,445 - interpreter_server - DEBUG - Sending formatted chunk: {"role": "assistant", "type": "message", "content": "\u60a8", "id": "b6254219-ef34-46c3-9f6d-448ad8e86f85", "created_at": "2025-02-20T18:01:21.444727"}
+2025-02-20 18:01:21,445 - interpreter_server - DEBUG - Chunk sent successfully
+2025-02-20 18:01:21,448 - interpreter_server - DEBUG - Processing chunk: <interpreter.server.message.StreamingChunk object at 0x110a19670>
+2025-02-20 18:01:21,448 - interpreter_server - DEBUG - Adding content to message: 的吗
+2025-02-20 18:01:21,448 - interpreter_server - DEBUG - Sending formatted chunk: {"role": "assistant", "type": "message", "content": "\u7684\u5417", "id": "daa2e6dd-ebad-4b73-90c9-d116d7d0ad13", "created_at": "2025-02-20T18:01:21.448312"}
+2025-02-20 18:01:21,449 - interpreter_server - DEBUG - Chunk sent successfully
+2025-02-20 18:01:21,451 - interpreter_server - DEBUG - Processing chunk: <interpreter.server.message.StreamingChunk object at 0x110a19670>
+2025-02-20 18:01:21,451 - interpreter_server - DEBUG - Adding content to message: ？
+2025-02-20 18:01:21,451 - interpreter_server - DEBUG - Sending formatted chunk: {"role": "assistant", "type": "message", "content": "\uff1f", "id": "8ffa70f1-b0ca-4e20-a89e-9ead5a7a7f1c", "created_at": "2025-02-20T18:01:21.451393"}
+2025-02-20 18:01:21,452 - interpreter_server - DEBUG - Chunk sent successfully
+2025-02-20 18:01:21,454 - interpreter_server - DEBUG - Processing chunk: <interpreter.server.message.StreamingChunk object at 0x110a39fd0>
+2025-02-20 18:01:21,454 - interpreter_server - DEBUG - Adding content to message: 
+2025-02-20 18:01:21,454 - interpreter_server - DEBUG - Message end detected
+2025-02-20 18:01:21,460 - interpreter_server - DEBUG - Sending formatted chunk: {"role": "assistant", "type": "message", "content": "", "id": "03c2371a-d8fc-4318-8b64-872e989ad227", "created_at": "2025-02-20T18:01:21.454255", "end": true}
+2025-02-20 18:01:21,460 - interpreter_server - DEBUG - Chunk sent successfully
+2025-02-20 18:01:21,463 - interpreter_server - DEBUG - Final chunk sent
+2025-02-20 18:01:21,463 - interpreter_server - INFO - Releasing session lock for session 365c49c2-57cb-4a0b-b993-87c9aab6d760
+2025-02-20 18:01:30,673 - interpreter_server - INFO - Processing chat completions request with 1 messages for session d579da76-4a6a-48d3-bad9-f1e075c78f07

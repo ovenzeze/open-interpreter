@@ -56,7 +56,14 @@ def chat():
             raise ValidationError("Messages array is required")
             
         # 转换消息为Message对象
-        messages = [Message.from_dict(msg) if isinstance(msg, dict) else msg for msg in messages]
+        validated_messages = []
+        for msg in messages:
+            if isinstance(msg, dict):
+                msg = msg.copy()  # 创建副本以不修改原始数据
+                msg.pop('start', None)
+                msg.pop('end', None)
+            validated_messages.append(Message.from_dict(msg) if isinstance(msg, dict) else msg)
+        messages = validated_messages
             
         stream = data.get('stream', False)
         session_id = data.get('session_id')
