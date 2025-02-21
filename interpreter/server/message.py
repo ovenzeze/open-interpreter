@@ -2,7 +2,7 @@
 NCU (New Computer Update) Message Structure Definitions
 """
 
-from typing import Union, Literal, Dict, Optional
+from typing import Union, Literal, Dict, Optional, Any
 from datetime import datetime
 import uuid
 
@@ -47,17 +47,21 @@ class Message:
             message["recipient"] = self.recipient
         return message
 
+    def get(self, key: str, default: Any = None) -> Any:
+        """Get attribute value with default"""
+        return getattr(self, key, default)
+
     @classmethod
-    def from_dict(cls, data: Dict) -> 'Message':
+    def from_dict(cls, data: Dict[str, Any]) -> 'Message':
         """Create message from dictionary"""
         return cls(
             role=data["role"],
-            type=data["type"],
-            content=data.get("content", ""),
+            type=data.get("type", "message"),
+            content=data.get("content"),
             format=data.get("format"),
             recipient=data.get("recipient"),
-            id=data.get("id"),
-            created_at=data.get("created_at")
+            created_at=data.get("created_at"),
+            id=data.get("id")
         )
 
     def validate(self) -> bool:
@@ -120,4 +124,19 @@ class StreamingChunk(Message):
             chunk["start"] = True
         if self.end:
             chunk["end"] = True
-        return chunk 
+        return chunk
+
+    @classmethod
+    def from_dict(cls, data: Dict[str, Any]) -> 'StreamingChunk':
+        """Create streaming chunk from dictionary"""
+        return cls(
+            role=data["role"],
+            type=data.get("type", "message"),
+            content=data.get("content", ""),
+            format=data.get("format"),
+            recipient=data.get("recipient"),
+            created_at=data.get("created_at"),
+            id=data.get("id"),
+            start=data.get("start", False),
+            end=data.get("end", False)
+        ) 

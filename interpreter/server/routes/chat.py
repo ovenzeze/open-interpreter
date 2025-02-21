@@ -56,7 +56,14 @@ def chat():
             raise ValidationError("Messages array is required")
             
         # 转换消息为Message对象
-        messages = [Message.from_dict(msg) if isinstance(msg, dict) else msg for msg in messages]
+        validated_messages = []
+        for msg in messages:
+            if isinstance(msg, dict):
+                msg = msg.copy()  # 创建副本以不修改原始数据
+                msg.pop('start', None)
+                msg.pop('end', None)
+            validated_messages.append(Message.from_dict(msg) if isinstance(msg, dict) else msg)
+        messages = validated_messages
             
         stream = data.get('stream', False)
         session_id = data.get('session_id')
@@ -219,7 +226,9 @@ def chat():
                         # 处理消息内容
                         if chunk.content is not None and current_message:
                             current_app.logger.debug(f"Adding content to message: {chunk.content}")
-                            current_message.content += chunk.content
+                            # 确保内容为字符串类型
+                            content_str = str(chunk.content) if chunk.content is not None else ""
+                            current_message.content += content_str
                         
                         # 处理消息结束
                         if chunk.end:

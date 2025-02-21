@@ -374,3 +374,255 @@ Traceback (most recent call last):
   File "/Users/clay/Code/open-interpreter/interpreter/server/message.py", line 55, in from_dict
     type=data["type"],
 KeyError: 'type'
+2025-02-20 17:44:04,358 - interpreter_server - ERROR - Error processing chat completions request: 'type'
+Traceback (most recent call last):
+  File "/Users/clay/Code/open-interpreter/interpreter/server/routes/chat.py", line 328, in chat_completions
+    messages = MessageProcessor.validate_messages(messages)
+  File "/Users/clay/Code/open-interpreter/interpreter/server/message_processor.py", line 61, in validate_messages
+    return [Message.from_dict(msg) if isinstance(msg, dict) else msg for msg in messages]
+  File "/Users/clay/Code/open-interpreter/interpreter/server/message_processor.py", line 61, in <listcomp>
+    return [Message.from_dict(msg) if isinstance(msg, dict) else msg for msg in messages]
+  File "/Users/clay/Code/open-interpreter/interpreter/server/message.py", line 55, in from_dict
+    type=data["type"],
+KeyError: 'type'
+2025-02-20 17:44:04,359 - interpreter_server - ERROR - 'type'
+Traceback (most recent call last):
+  File "/Users/clay/Code/open-interpreter/interpreter/server/routes/chat.py", line 328, in chat_completions
+    messages = MessageProcessor.validate_messages(messages)
+  File "/Users/clay/Code/open-interpreter/interpreter/server/message_processor.py", line 61, in validate_messages
+    return [Message.from_dict(msg) if isinstance(msg, dict) else msg for msg in messages]
+  File "/Users/clay/Code/open-interpreter/interpreter/server/message_processor.py", line 61, in <listcomp>
+    return [Message.from_dict(msg) if isinstance(msg, dict) else msg for msg in messages]
+  File "/Users/clay/Code/open-interpreter/interpreter/server/message.py", line 55, in from_dict
+    type=data["type"],
+KeyError: 'type'
+2025-02-20 17:44:15,671 - interpreter_server - ERROR - Error processing chat completions request: 'Message' object has no attribute 'get'
+Traceback (most recent call last):
+  File "/Users/clay/Code/open-interpreter/interpreter/server/routes/chat.py", line 371, in chat_completions
+    interpreter_messages = convert_openai_to_interpreter(messages)
+  File "/Users/clay/Code/open-interpreter/interpreter/server/utils.py", line 28, in convert_openai_to_interpreter
+    role = msg.get('role')
+AttributeError: 'Message' object has no attribute 'get'
+2025-02-20 17:44:15,671 - interpreter_server - ERROR - 'Message' object has no attribute 'get'
+Traceback (most recent call last):
+  File "/Users/clay/Code/open-interpreter/interpreter/server/routes/chat.py", line 371, in chat_completions
+    interpreter_messages = convert_openai_to_interpreter(messages)
+  File "/Users/clay/Code/open-interpreter/interpreter/server/utils.py", line 28, in convert_openai_to_interpreter
+    role = msg.get('role')
+AttributeError: 'Message' object has no attribute 'get'
+2025-02-20 17:44:25,017 - interpreter_server - ERROR - Error adding message to session e3630503-2fa0-4a95-b7f6-d93e267a069a: 'dict' object has no attribute 'append'
+2025-02-20 17:45:19,397 - interpreter_server - ERROR - 404 Not Found: The requested URL was not found on the server. If you entered the URL manually please check your spelling and try again.
+Traceback (most recent call last):
+  File "/Users/clay/.pyenv/versions/3.9.5/lib/python3.9/site-packages/flask/app.py", line 917, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "/Users/clay/.pyenv/versions/3.9.5/lib/python3.9/site-packages/flask/app.py", line 891, in dispatch_request
+    self.raise_routing_exception(req)
+  File "/Users/clay/.pyenv/versions/3.9.5/lib/python3.9/site-packages/flask/app.py", line 500, in raise_routing_exception
+    raise request.routing_exception  # type: ignore[misc]
+  File "/Users/clay/.pyenv/versions/3.9.5/lib/python3.9/site-packages/flask/ctx.py", line 362, in match_request
+    result = self.url_adapter.match(return_rule=True)  # type: ignore
+  File "/Users/clay/.pyenv/versions/3.9.5/lib/python3.9/site-packages/werkzeug/routing/map.py", line 629, in match
+    raise NotFound() from None
+werkzeug.exceptions.NotFound: 404 Not Found: The requested URL was not found on the server. If you entered the URL manually please check your spelling and try again.
+2025-02-20 17:45:27,305 - interpreter_server - ERROR - 404 Not Found: The requested URL was not found on the server. If you entered the URL manually please check your spelling and try again.
+Traceback (most recent call last):
+  File "/Users/clay/.pyenv/versions/3.9.5/lib/python3.9/site-packages/flask/app.py", line 917, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "/Users/clay/.pyenv/versions/3.9.5/lib/python3.9/site-packages/flask/app.py", line 891, in dispatch_request
+    self.raise_routing_exception(req)
+  File "/Users/clay/.pyenv/versions/3.9.5/lib/python3.9/site-packages/flask/app.py", line 500, in raise_routing_exception
+    raise request.routing_exception  # type: ignore[misc]
+  File "/Users/clay/.pyenv/versions/3.9.5/lib/python3.9/site-packages/flask/ctx.py", line 362, in match_request
+    result = self.url_adapter.match(return_rule=True)  # type: ignore
+  File "/Users/clay/.pyenv/versions/3.9.5/lib/python3.9/site-packages/werkzeug/routing/map.py", line 629, in match
+    raise NotFound() from None
+werkzeug.exceptions.NotFound: 404 Not Found: The requested URL was not found on the server. If you entered the URL manually please check your spelling and try again.
+2025-02-20 17:56:03,948 - interpreter_server - ERROR - Error processing chat completions request: __init__() got an unexpected keyword argument 'start'
+Traceback (most recent call last):
+  File "/Users/clay/Code/open-interpreter/interpreter/server/routes/chat.py", line 328, in chat_completions
+    messages = MessageProcessor.validate_messages(messages)
+  File "/Users/clay/Code/open-interpreter/interpreter/server/message_processor.py", line 61, in validate_messages
+    return [Message.from_dict(msg) if isinstance(msg, dict) else msg for msg in messages]
+  File "/Users/clay/Code/open-interpreter/interpreter/server/message_processor.py", line 61, in <listcomp>
+    return [Message.from_dict(msg) if isinstance(msg, dict) else msg for msg in messages]
+  File "/Users/clay/Code/open-interpreter/interpreter/server/message.py", line 53, in from_dict
+    return cls(
+TypeError: __init__() got an unexpected keyword argument 'start'
+2025-02-20 17:56:03,950 - interpreter_server - ERROR - __init__() got an unexpected keyword argument 'start'
+Traceback (most recent call last):
+  File "/Users/clay/Code/open-interpreter/interpreter/server/routes/chat.py", line 328, in chat_completions
+    messages = MessageProcessor.validate_messages(messages)
+  File "/Users/clay/Code/open-interpreter/interpreter/server/message_processor.py", line 61, in validate_messages
+    return [Message.from_dict(msg) if isinstance(msg, dict) else msg for msg in messages]
+  File "/Users/clay/Code/open-interpreter/interpreter/server/message_processor.py", line 61, in <listcomp>
+    return [Message.from_dict(msg) if isinstance(msg, dict) else msg for msg in messages]
+  File "/Users/clay/Code/open-interpreter/interpreter/server/message.py", line 53, in from_dict
+    return cls(
+TypeError: __init__() got an unexpected keyword argument 'start'
+2025-02-20 17:56:27,470 - interpreter_server - ERROR - Error processing chat completions request: __init__() got an unexpected keyword argument 'start'
+Traceback (most recent call last):
+  File "/Users/clay/Code/open-interpreter/interpreter/server/routes/chat.py", line 328, in chat_completions
+    messages = MessageProcessor.validate_messages(messages)
+  File "/Users/clay/Code/open-interpreter/interpreter/server/message_processor.py", line 61, in validate_messages
+    return [Message.from_dict(msg) if isinstance(msg, dict) else msg for msg in messages]
+  File "/Users/clay/Code/open-interpreter/interpreter/server/message_processor.py", line 61, in <listcomp>
+    return [Message.from_dict(msg) if isinstance(msg, dict) else msg for msg in messages]
+  File "/Users/clay/Code/open-interpreter/interpreter/server/message.py", line 53, in from_dict
+    return cls(
+TypeError: __init__() got an unexpected keyword argument 'start'
+2025-02-20 17:56:27,471 - interpreter_server - ERROR - __init__() got an unexpected keyword argument 'start'
+Traceback (most recent call last):
+  File "/Users/clay/Code/open-interpreter/interpreter/server/routes/chat.py", line 328, in chat_completions
+    messages = MessageProcessor.validate_messages(messages)
+  File "/Users/clay/Code/open-interpreter/interpreter/server/message_processor.py", line 61, in validate_messages
+    return [Message.from_dict(msg) if isinstance(msg, dict) else msg for msg in messages]
+  File "/Users/clay/Code/open-interpreter/interpreter/server/message_processor.py", line 61, in <listcomp>
+    return [Message.from_dict(msg) if isinstance(msg, dict) else msg for msg in messages]
+  File "/Users/clay/Code/open-interpreter/interpreter/server/message.py", line 53, in from_dict
+    return cls(
+TypeError: __init__() got an unexpected keyword argument 'start'
+2025-02-20 17:56:52,828 - interpreter_server - ERROR - Error processing chat completions request: __init__() got an unexpected keyword argument 'start'
+Traceback (most recent call last):
+  File "/Users/clay/Code/open-interpreter/interpreter/server/routes/chat.py", line 328, in chat_completions
+    messages = MessageProcessor.validate_messages(messages)
+  File "/Users/clay/Code/open-interpreter/interpreter/server/message_processor.py", line 61, in validate_messages
+    return [Message.from_dict(msg) if isinstance(msg, dict) else msg for msg in messages]
+  File "/Users/clay/Code/open-interpreter/interpreter/server/message_processor.py", line 61, in <listcomp>
+    return [Message.from_dict(msg) if isinstance(msg, dict) else msg for msg in messages]
+  File "/Users/clay/Code/open-interpreter/interpreter/server/message.py", line 53, in from_dict
+    return cls(
+TypeError: __init__() got an unexpected keyword argument 'start'
+2025-02-20 17:56:52,829 - interpreter_server - ERROR - __init__() got an unexpected keyword argument 'start'
+Traceback (most recent call last):
+  File "/Users/clay/Code/open-interpreter/interpreter/server/routes/chat.py", line 328, in chat_completions
+    messages = MessageProcessor.validate_messages(messages)
+  File "/Users/clay/Code/open-interpreter/interpreter/server/message_processor.py", line 61, in validate_messages
+    return [Message.from_dict(msg) if isinstance(msg, dict) else msg for msg in messages]
+  File "/Users/clay/Code/open-interpreter/interpreter/server/message_processor.py", line 61, in <listcomp>
+    return [Message.from_dict(msg) if isinstance(msg, dict) else msg for msg in messages]
+  File "/Users/clay/Code/open-interpreter/interpreter/server/message.py", line 53, in from_dict
+    return cls(
+TypeError: __init__() got an unexpected keyword argument 'start'
+2025-02-20 17:57:24,476 - interpreter_server - ERROR - Error processing chat completions request: 'Message' object has no attribute 'get'
+Traceback (most recent call last):
+  File "/Users/clay/Code/open-interpreter/interpreter/server/routes/chat.py", line 371, in chat_completions
+    interpreter_messages = convert_openai_to_interpreter(messages)
+  File "/Users/clay/Code/open-interpreter/interpreter/server/utils.py", line 28, in convert_openai_to_interpreter
+    role = msg.get('role')
+AttributeError: 'Message' object has no attribute 'get'
+2025-02-20 17:57:24,477 - interpreter_server - ERROR - 'Message' object has no attribute 'get'
+Traceback (most recent call last):
+  File "/Users/clay/Code/open-interpreter/interpreter/server/routes/chat.py", line 371, in chat_completions
+    interpreter_messages = convert_openai_to_interpreter(messages)
+  File "/Users/clay/Code/open-interpreter/interpreter/server/utils.py", line 28, in convert_openai_to_interpreter
+    role = msg.get('role')
+AttributeError: 'Message' object has no attribute 'get'
+2025-02-20 17:57:31,861 - interpreter_server - ERROR - Error processing chat completions request: 'Message' object has no attribute 'get'
+Traceback (most recent call last):
+  File "/Users/clay/Code/open-interpreter/interpreter/server/routes/chat.py", line 371, in chat_completions
+    interpreter_messages = convert_openai_to_interpreter(messages)
+  File "/Users/clay/Code/open-interpreter/interpreter/server/utils.py", line 28, in convert_openai_to_interpreter
+    role = msg.get('role')
+AttributeError: 'Message' object has no attribute 'get'
+2025-02-20 17:57:31,862 - interpreter_server - ERROR - 'Message' object has no attribute 'get'
+Traceback (most recent call last):
+  File "/Users/clay/Code/open-interpreter/interpreter/server/routes/chat.py", line 371, in chat_completions
+    interpreter_messages = convert_openai_to_interpreter(messages)
+  File "/Users/clay/Code/open-interpreter/interpreter/server/utils.py", line 28, in convert_openai_to_interpreter
+    role = msg.get('role')
+AttributeError: 'Message' object has no attribute 'get'
+2025-02-20 17:57:54,798 - interpreter_server - ERROR - Error processing chat completions request: 'Message' object has no attribute 'get'
+Traceback (most recent call last):
+  File "/Users/clay/Code/open-interpreter/interpreter/server/routes/chat.py", line 371, in chat_completions
+    interpreter_messages = convert_openai_to_interpreter(messages)
+  File "/Users/clay/Code/open-interpreter/interpreter/server/utils.py", line 28, in convert_openai_to_interpreter
+    role = msg.get('role')
+AttributeError: 'Message' object has no attribute 'get'
+2025-02-20 17:57:54,798 - interpreter_server - ERROR - 'Message' object has no attribute 'get'
+Traceback (most recent call last):
+  File "/Users/clay/Code/open-interpreter/interpreter/server/routes/chat.py", line 371, in chat_completions
+    interpreter_messages = convert_openai_to_interpreter(messages)
+  File "/Users/clay/Code/open-interpreter/interpreter/server/utils.py", line 28, in convert_openai_to_interpreter
+    role = msg.get('role')
+AttributeError: 'Message' object has no attribute 'get'
+2025-02-20 17:58:14,486 - interpreter_server - ERROR - Error processing chat completions request: 'Message' object has no attribute 'get'
+Traceback (most recent call last):
+  File "/Users/clay/Code/open-interpreter/interpreter/server/routes/chat.py", line 378, in chat_completions
+    interpreter_messages = convert_openai_to_interpreter(messages)
+  File "/Users/clay/Code/open-interpreter/interpreter/server/utils.py", line 28, in convert_openai_to_interpreter
+    role = msg.get('role')
+AttributeError: 'Message' object has no attribute 'get'
+2025-02-20 17:58:14,487 - interpreter_server - ERROR - 'Message' object has no attribute 'get'
+Traceback (most recent call last):
+  File "/Users/clay/Code/open-interpreter/interpreter/server/routes/chat.py", line 378, in chat_completions
+    interpreter_messages = convert_openai_to_interpreter(messages)
+  File "/Users/clay/Code/open-interpreter/interpreter/server/utils.py", line 28, in convert_openai_to_interpreter
+    role = msg.get('role')
+AttributeError: 'Message' object has no attribute 'get'
+2025-02-20 17:58:20,246 - interpreter_server - ERROR - Error processing chat completions request: 'Message' object has no attribute 'get'
+Traceback (most recent call last):
+  File "/Users/clay/Code/open-interpreter/interpreter/server/routes/chat.py", line 378, in chat_completions
+    interpreter_messages = convert_openai_to_interpreter(messages)
+  File "/Users/clay/Code/open-interpreter/interpreter/server/utils.py", line 28, in convert_openai_to_interpreter
+    role = msg.get('role')
+AttributeError: 'Message' object has no attribute 'get'
+2025-02-20 17:58:20,247 - interpreter_server - ERROR - 'Message' object has no attribute 'get'
+Traceback (most recent call last):
+  File "/Users/clay/Code/open-interpreter/interpreter/server/routes/chat.py", line 378, in chat_completions
+    interpreter_messages = convert_openai_to_interpreter(messages)
+  File "/Users/clay/Code/open-interpreter/interpreter/server/utils.py", line 28, in convert_openai_to_interpreter
+    role = msg.get('role')
+AttributeError: 'Message' object has no attribute 'get'
+2025-02-20 17:59:01,948 - interpreter_server - ERROR - Error processing chat completions request: 'Message' object has no attribute 'get'
+Traceback (most recent call last):
+  File "/Users/clay/Code/open-interpreter/interpreter/server/routes/chat.py", line 378, in chat_completions
+    interpreter_messages = convert_openai_to_interpreter(messages)
+  File "/Users/clay/Code/open-interpreter/interpreter/server/utils.py", line 28, in convert_openai_to_interpreter
+    role = msg.get('role')
+AttributeError: 'Message' object has no attribute 'get'
+2025-02-20 17:59:01,949 - interpreter_server - ERROR - 'Message' object has no attribute 'get'
+Traceback (most recent call last):
+  File "/Users/clay/Code/open-interpreter/interpreter/server/routes/chat.py", line 378, in chat_completions
+    interpreter_messages = convert_openai_to_interpreter(messages)
+  File "/Users/clay/Code/open-interpreter/interpreter/server/utils.py", line 28, in convert_openai_to_interpreter
+    role = msg.get('role')
+AttributeError: 'Message' object has no attribute 'get'
+2025-02-20 17:59:13,220 - interpreter_server - ERROR - Error processing chat completions request: 'Message' object has no attribute 'get'
+Traceback (most recent call last):
+  File "/Users/clay/Code/open-interpreter/interpreter/server/routes/chat.py", line 378, in chat_completions
+    interpreter_messages = convert_openai_to_interpreter(messages)
+  File "/Users/clay/Code/open-interpreter/interpreter/server/utils.py", line 28, in convert_openai_to_interpreter
+    role = msg.get('role')
+AttributeError: 'Message' object has no attribute 'get'
+2025-02-20 17:59:13,221 - interpreter_server - ERROR - 'Message' object has no attribute 'get'
+Traceback (most recent call last):
+  File "/Users/clay/Code/open-interpreter/interpreter/server/routes/chat.py", line 378, in chat_completions
+    interpreter_messages = convert_openai_to_interpreter(messages)
+  File "/Users/clay/Code/open-interpreter/interpreter/server/utils.py", line 28, in convert_openai_to_interpreter
+    role = msg.get('role')
+AttributeError: 'Message' object has no attribute 'get'
+2025-02-20 17:59:48,910 - interpreter_server - ERROR - Server startup failed: [Errno 48] Address already in use
+Traceback (most recent call last):
+  File "/Users/clay/Code/open-interpreter/interpreter/server/cli.py", line 42, in main
+    serve(app, host=host, port=port)
+  File "/Users/clay/.pyenv/versions/3.9.5/lib/python3.9/site-packages/waitress/__init__.py", line 13, in serve
+    server = _server(app, **kw)
+  File "/Users/clay/.pyenv/versions/3.9.5/lib/python3.9/site-packages/waitress/server.py", line 78, in create_server
+    last_serv = TcpWSGIServer(
+  File "/Users/clay/.pyenv/versions/3.9.5/lib/python3.9/site-packages/waitress/server.py", line 243, in __init__
+    self.bind_server_socket()
+  File "/Users/clay/.pyenv/versions/3.9.5/lib/python3.9/site-packages/waitress/server.py", line 364, in bind_server_socket
+    self.bind(sockaddr)
+  File "/Users/clay/.pyenv/versions/3.9.5/lib/python3.9/site-packages/waitress/wasyncore.py", line 374, in bind
+    return self.socket.bind(addr)
+OSError: [Errno 48] Address already in use
+2025-02-20 18:18:08,697 - interpreter_server - ERROR - Error processing chunk: can only concatenate str (not "int") to str
+Traceback (most recent call last):
+  File "/Users/clay/Code/open-interpreter/interpreter/server/routes/chat.py", line 229, in generate
+    current_message.content += chunk.content
+TypeError: can only concatenate str (not "int") to str
+2025-02-20 18:26:41,130 - interpreter_server - ERROR - Error processing chunk: can only concatenate str (not "int") to str
+Traceback (most recent call last):
+  File "/Users/clay/Code/open-interpreter/interpreter/server/routes/chat.py", line 229, in generate
+    # 确保内容为字符串类型
+TypeError: can only concatenate str (not "int") to str
