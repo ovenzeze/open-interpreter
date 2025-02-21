@@ -79,7 +79,7 @@ class Message:
         """Create message from dictionary"""
         return cls(
             role=data["role"],
-            type=data["type"],
+            type=data.get("type", "message"),
             content=data.get("content"),
             format=data.get("format"),
             recipient=data.get("recipient"),
