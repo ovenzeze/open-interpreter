@@ -13,8 +13,8 @@ fi
 
 SUPERVISOR_CONF="$SCRIPT_DIR/supervisord.conf"
 SUPERVISOR_HTTP="http://localhost:9001"
-SUPERVISOR_USER="admin"
-SUPERVISOR_PASS="123456"
+SUPERVISOR_USER="your_username"
+SUPERVISOR_PASS="your_password"
 
 # 设置基础环境变量
 export INTERPRETER_HOME="$HOME/.interpreter"
