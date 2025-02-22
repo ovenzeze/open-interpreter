@@ -13,8 +13,8 @@ fi
 
 SUPERVISOR_CONF="$SCRIPT_DIR/supervisord.conf"
 SUPERVISOR_HTTP="http://localhost:9001"
-SUPERVISOR_USER="your_username"
-SUPERVISOR_PASS="your_password"
+SUPERVISOR_USER="isakeem"
+SUPERVISOR_PASS="isakeem123"
 
 # 设置基础环境变量
 export INTERPRETER_HOME="$HOME/.interpreter"
@@ -150,8 +150,7 @@ function start_prod() {
     ensure_prod_code
     ensure_supervisor
     supervisorctl_cmd start interpreter_server_prod
-    echo "Production server status:"
-    supervisorctl_cmd status interpreter_server_prod
+    supervisorctl_cmd status >/dev/null 2>&1;
     print_api_info 5001
     print_management_info
 }
@@ -181,14 +180,22 @@ function stop_prod() {
 
 function status() {
     echo "Server status:"
+    local status_ok=false
+    
     if supervisorctl_cmd status >/dev/null 2>&1; then
         supervisorctl_cmd status
-        print_management_info
-        return 0
+        status_ok=true
     else
         echo "Warning: Cannot get server status"
         echo "Supervisor may not be running or not responding"
         check_port 9001
+    fi
+    
+    print_management_info
+    
+    if [ "$status_ok" = true ]; then
+        return 0
+    else
         return 1
     fi
 }
