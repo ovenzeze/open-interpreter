@@ -124,8 +124,17 @@ function ensure_prod_code() {
     else
         echo "Updating production code..."
         cd "$PROD_CODE_PATH"
-        git checkout main
-        git pull
+        # 保存当前分支名称
+        current_branch=$(git symbolic-ref --short HEAD)
+        
+        # 如果不在 main 分支，切换到 main
+        if [ "$current_branch" != "main" ]; then
+            git checkout main
+        fi
+        
+        # 只重置被跟踪的文件，保留未跟踪的文件（如日志）
+        git reset --hard origin/main
+        git pull origin main
     fi
 }
 
