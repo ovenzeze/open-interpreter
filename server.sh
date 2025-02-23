@@ -7,19 +7,49 @@ export PYTHONPATH="$INTERPRETER_HOME:$PYTHONPATH"
 
 # Poetry 环境检查和配置
 function ensure_poetry_env() {
+    # 检查 poetry 是否已安装
     if ! command -v poetry &> /dev/null; then
         echo "Poetry not found. Installing Poetry..."
         curl -sSL https://install.python-poetry.org | python3 -
+        export PATH="$HOME/.local/bin:$PATH"
     fi
     
-    if [ ! -d ".venv" ]; then
-        echo "Virtual environment not found. Creating one with Poetry..."
-        poetry config virtualenvs.in-project true
-        poetry install
+    # 获取当前项目的虚拟环境信息
+    local venv_path=""
+    if poetry env info -p &> /dev/null; then
+        venv_path=$(poetry env info -p)
     fi
     
-    # 使用 Poetry 的虚拟环境
-    eval "$(poetry env info --path)/bin/activate"
+    # 检查当前是否已在虚拟环境中
+    if [ -n "$VIRTUAL_ENV" ]; then
+        if [ "$VIRTUAL_ENV" = "$venv_path" ]; then
+            echo "Already in the correct virtual environment: $VIRTUAL_ENV"
+        else
+            echo "Switching from $VIRTUAL_ENV to project's virtual environment"
+            deactivate 2>/dev/null || true
+            source "$venv_path/bin/activate"
+        fi
+    else
+        if [ -n "$venv_path" ]; then
+            echo "Activating existing virtual environment: $venv_path"
+            source "$venv_path/bin/activate"
+        else
+            echo "Creating new virtual environment..."
+            poetry install
+            venv_path=$(poetry env info -p)
+            source "$venv_path/bin/activate"
+        fi
+    fi
+    
+    # 设置并验证Python解释器路径
+    PYTHON_PATH="$(poetry env info -p)/bin/python"
+    if [ ! -f "$PYTHON_PATH" ]; then
+        echo "Error: Python interpreter not found at $PYTHON_PATH"
+        exit 1
+    fi
+    
+    echo "Using Python interpreter: $PYTHON_PATH"
+    export PYTHON_PATH
 }
 
 # 确保 Poetry 环境在任何操作之前准备就绪
@@ -29,8 +59,8 @@ ensure_poetry_env
 function setup_env_vars() {
     # 设置服务端口
     export SERVER_PORT_PROD=5001
-    # 设置Python路径(使用Poetry虚拟环境)
-    export PYTHON_PATH="$(poetry env info --path)/bin/python"
+    # 使用 ensure_poetry_env 中设置的 PYTHON_PATH
+    echo "Using Python path: $PYTHON_PATH"
     # 设置日志级别
     export LOG_LEVEL=${LOG_LEVEL:-"INFO"}
 }
