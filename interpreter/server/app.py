@@ -8,7 +8,7 @@ import threading
 from typing import Optional, Union
 
 from flask import Flask, jsonify
-from interpreter import OpenInterpreter, interpreter
+from interpreter import OpenInterpreter
 
 from .config import Config, config
 from .errors import ConfigurationError, format_error_response
@@ -62,7 +62,7 @@ def setup_interpreter(app: Flask, interpreter_instance: Optional[Union[OpenInter
     if interpreter_instance is None:
         try:
             app.logger.debug("Creating new interpreter instance...")
-            interpreter_instance = interpreter
+            interpreter_instance = OpenInterpreter()
             configure_interpreter_instance(interpreter_instance, app)
             app.logger.info("Interpreter configured successfully")
         except Exception as e:
