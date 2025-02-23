@@ -1,14 +1,14 @@
 #!/bin/bash
 
 # 设置基础目录
-INTERPRETER_BASE="$HOME/.interpreter"
-INTERPRETER_HOME="$INTERPRETER_BASE/.prod"  # 生产环境完整项目目录
+export INTERPRETER_BASE="$HOME/.interpreter"  # 基础目录
+export INTERPRETER_HOME="$INTERPRETER_BASE/.prod"  # 生产环境完整项目目录
 export PYTHONPATH="$INTERPRETER_HOME:$PYTHONPATH"
 
-# 定义其他路径 (基于生产环境目录)
-LOGS_DIR="$INTERPRETER_HOME/logs"
-CONFIG_DIR="$INTERPRETER_HOME/interpreter/server"  # 使用项目内的配置
-SUPERVISOR_SOCK="$INTERPRETER_HOME/run/supervisor.sock"
+# 定义其他路径
+LOGS_DIR="$INTERPRETER_BASE/logs"  # 改为基础目录下的logs
+CONFIG_DIR="$INTERPRETER_HOME/interpreter/server"
+SUPERVISOR_SOCK="$INTERPRETER_BASE/run/supervisor.sock"
 
 # 获取当前脚本路径(用于开发环境)
 SCRIPT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
@@ -86,13 +86,13 @@ function print_management_info() {
     echo "  Password: $SUPERVISOR_PASS"
     
     echo -e "\nLog Files:"
-    echo "  Supervisor: $INTERPRETER_HOME/logs/supervisord.log"
+    echo "  Supervisor: $INTERPRETER_BASE/logs/supervisord.log"
     echo "  Production:"
-    echo "    - Main: $INTERPRETER_HOME/logs/prod/server.log"
-    echo "    - Error: $INTERPRETER_HOME/logs/prod/server.err.log"
+    echo "    - Main: $INTERPRETER_BASE/logs/prod/server.log"
+    echo "    - Error: $INTERPRETER_BASE/logs/prod/server.err.log"
     echo "  Development:"
-    echo "    - Main: $INTERPRETER_HOME/logs/dev/server.log"
-    echo "    - Error: $INTERPRETER_HOME/logs/dev/server.err.log"
+    echo "    - Main: $INTERPRETER_BASE/logs/dev/server.log"
+    echo "    - Error: $INTERPRETER_BASE/logs/dev/server.err.log"
     print_section_footer
 }
 
@@ -147,18 +147,15 @@ function check_supervisor() {
 function ensure_supervisor() {
     local env=$1
     local config_path
-    local log_dir
     
     if [[ "$env" == "prod" ]]; then
         config_path="$CONFIG_DIR/supervisord.conf"
-        log_dir="$LOGS_DIR/prod"
     else
         config_path="$SCRIPT_DIR/supervisord.conf"
-        log_dir="$LOGS_DIR/dev"
     fi
     
-    # 确保目录存在
-    mkdir -p "$log_dir"
+    # 确保日志目录存在
+    ensure_directories
     
     # 检查 supervisor 是否已运行
     if ! check_supervisor; then
@@ -170,9 +167,7 @@ function ensure_supervisor() {
 
 function ensure_directories() {
     # 创建必要的目录结构
-    mkdir -p "$LOGS_DIR"/{prod,dev}
-    mkdir -p "$CONFIG_DIR"
-    mkdir -p "$INTERPRETER_HOME/run"
+    mkdir -p "$INTERPRETER_BASE"/{logs/{prod,dev},run}
 }
 
 function ensure_prod_code() {
