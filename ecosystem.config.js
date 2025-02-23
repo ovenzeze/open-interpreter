@@ -1,21 +1,27 @@
+require('dotenv').config();
+
+const path = require('path');
+const rootDir = __dirname;
+
 module.exports = {
   apps: [{
     name: 'interpreter-prod',
     script: 'interpreter/server/cli.py',
-    interpreter: 'python',
-    args: '--host 0.0.0.0 --port 5001 --log-level INFO',
-    cwd: '/Users/clay/.interpreter/.prod',
+    interpreter: process.env.PYTHON_PATH,
+    args: `--host 0.0.0.0 --port ${process.env.SERVER_PORT_PROD} --log-level ${process.env.LOG_LEVEL}`,
+    cwd: rootDir,
     exec_mode: 'fork',
     env: {
-      INTERPRETER_HOME: '/Users/clay/.interpreter/.prod',
-      PYTHONPATH: '/Users/clay/.interpreter/.prod',
+      NODE_ENV: 'production',
+      INTERPRETER_HOME: process.env.INTERPRETER_HOME,
+      PYTHONPATH: rootDir,
+      VIRTUAL_ENV: process.env.VENV_PATH,
+      PATH: process.env.PATH,
       PYTHONUNBUFFERED: '1',
-      LOG_LEVEL: 'INFO',
-      ENV: 'production',
-      LITELLM_MODEL: 'bedrock/anthropic.claude-3-5-sonnet-20240620-v1:0'
+      LOG_LEVEL: process.env.LOG_LEVEL || 'INFO'
     },
-    error_file: '/Users/clay/.interpreter/logs/prod/err.log',
-    out_file: '/Users/clay/.interpreter/logs/prod/out.log',
+    error_file: path.join(process.env.INTERPRETER_BASE, 'logs/prod/err.log'),
+    out_file: path.join(process.env.INTERPRETER_BASE, 'logs/prod/out.log'),
     log_date_format: 'YYYY-MM-DD HH:mm:ss',
     time: true,
     autorestart: true,
@@ -28,16 +34,17 @@ module.exports = {
   }, {
     name: 'interpreter-dev',
     script: 'interpreter/server/cli.py',
-    interpreter: 'python',
-    args: '--host 0.0.0.0 --port 5002 --log-level DEBUG',
-    cwd: __dirname,  // 使用项目根目录
+    interpreter: process.env.PYTHON_PATH,
+    args: `--host 0.0.0.0 --port ${process.env.SERVER_PORT_DEV} --log-level DEBUG`,
+    cwd: rootDir,
     exec_mode: 'fork',
     env: {
-      PYTHONPATH: __dirname,
+      NODE_ENV: 'development',
+      PYTHONPATH: rootDir,
+      VIRTUAL_ENV: process.env.VENV_PATH,
+      PATH: process.env.PATH,
       PYTHONUNBUFFERED: '1',
-      LOG_LEVEL: 'DEBUG',
-      ENV: 'development',
-      LITELLM_MODEL: 'bedrock/anthropic.claude-3-5-sonnet-20240620-v1:0'
+      LOG_LEVEL: 'DEBUG'
     },
     error_file: '/Users/clay/.interpreter/logs/dev/err.log',
     out_file: '/Users/clay/.interpreter/logs/dev/out.log',
