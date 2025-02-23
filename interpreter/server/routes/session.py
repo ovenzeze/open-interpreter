@@ -32,21 +32,18 @@ def create_session():
     创建新的会话
     
     Returns:
-        JSON响应，包含新创建的会话ID和创建时间
+        JSON响应，包含新创建的会话信息
     """
     try:
-        session = current_app.session_manager.create_session()
-        return jsonify({
-            'session_id': session['session_id'],
-            'created_at': session['created_at']
-        }), 201
+        metadata = request.get_json() if request.is_json else None
+        session = current_app.session_manager.create_session(metadata=metadata)
+        current_app.logger.info(f"Created new session with ID: {session['session_id']}")
+        return jsonify(session)
     except Exception as e:
-        current_app.logger.error(f"Session creation failed: {str(e)}", exc_info=True)
+        current_app.logger.error(f"Error creating session: {str(e)}", exc_info=True)
         log_error(e)
-        return jsonify({
-            'error': 'Session creation failed',
-            'details': str(e)
-        }), 500
+        error_response, status_code = format_error_response(e)
+        return jsonify(error_response), status_code
 
 @bp.route('/v1/sessions/<session_id>/messages', methods=['GET'])
 def get_session_messages(session_id):

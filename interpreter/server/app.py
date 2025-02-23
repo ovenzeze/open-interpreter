@@ -16,6 +16,39 @@ from .log_config import setup_logging, log_error
 from .session import SessionManager
 from .routes import chat_bp, session_bp, health_bp
 
+def configure_interpreter_instance(interpreter_instance: Union[OpenInterpreter, 'interpreter'], app: Flask) -> None:
+    """
+    统一配置解释器实例
+    
+    Args:
+        interpreter_instance: 解释器实例
+        app: Flask应用实例，用于获取配置和记录日志
+    """
+    # TODO: 后续将配置迁移到独立的配置文件中统一管理
+    
+    # 设置 LLM 相关配置
+    app.logger.debug("Configuring interpreter settings...")
+    app.logger.debug(f"  Model: {app.config['DEFAULT_MODEL']}")
+    app.logger.debug(f"  Context Window: {app.config['CONTEXT_WINDOW']}")
+    app.logger.debug(f"  Max Tokens: {app.config['MAX_TOKENS']}")
+    
+    interpreter_instance.llm.model = app.config['DEFAULT_MODEL']
+    interpreter_instance.llm.context_window = app.config['CONTEXT_WINDOW']
+    interpreter_instance.llm.max_tokens = app.config['MAX_TOKENS']
+    
+    # 基础配置
+    interpreter_instance.conversation_history = True
+    interpreter_instance.auto_run = True
+    
+    # 设置安全模式
+    if hasattr(interpreter_instance, 'safe_mode'):
+        interpreter_instance.safe_mode = 'off'
+    elif hasattr(interpreter_instance, 'safeMode'):
+        interpreter_instance.safeMode = 'off'
+    else:
+        app.logger.warning("Interpreter instance missing safe_mode property. Adding property and setting to 'off'.")
+        setattr(interpreter_instance, 'safe_mode', 'off')
+
 def setup_interpreter(app: Flask, interpreter_instance: Optional[Union[OpenInterpreter, 'interpreter']]) -> None:
     """
     配置解释器实例
@@ -30,37 +63,17 @@ def setup_interpreter(app: Flask, interpreter_instance: Optional[Union[OpenInter
         try:
             app.logger.debug("Creating new interpreter instance...")
             interpreter_instance = interpreter
-            
-            app.logger.debug("Configuring interpreter settings...")
-            app.logger.debug(f"  Model: {app.config['DEFAULT_MODEL']}")
-            app.logger.debug(f"  Context Window: {app.config['CONTEXT_WINDOW']}")
-            app.logger.debug(f"  Max Tokens: {app.config['MAX_TOKENS']}")
-            
-            interpreter_instance.llm.model = app.config['DEFAULT_MODEL']
-            interpreter_instance.llm.context_window = app.config['CONTEXT_WINDOW']
-            interpreter_instance.llm.max_tokens = app.config['MAX_TOKENS']
-            interpreter_instance.conversation_history = True
-            
+            configure_interpreter_instance(interpreter_instance, app)
             app.logger.info("Interpreter configured successfully")
         except Exception as e:
             app.logger.error("Failed to configure interpreter", exc_info=True)
             app.logger.error(f"Error details: {str(e)}")
             raise ConfigurationError(f"Failed to configure interpreter: {str(e)}")
-    
-    interpreter_instance.auto_run = True
-
-    # 根据官方文档设置安全模式为 'off'
-    # 参考：https://docs.openinterpreter.com/settings/all-settings
-    if hasattr(interpreter_instance, 'safe_mode'):  # 注意实际属性名可能是 snake_case
-        interpreter_instance.safe_mode = 'off'
-    elif hasattr(interpreter_instance, 'safeMode'):  # 兼容可能的 camelCase
-        interpreter_instance.safeMode = 'off'
     else:
-        app.logger.warning("Interpreter instance missing safe_mode property. Adding property and setting to 'off'.")
-        setattr(interpreter_instance, 'safe_mode', 'off')
+        # 即使是现有实例也需要确保配置一致
+        configure_interpreter_instance(interpreter_instance, app)
     
     app.interpreter_instance = interpreter_instance
-
 def setup_components(app: Flask) -> None:
     """
     设置应用组件
