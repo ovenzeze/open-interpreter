@@ -15,6 +15,7 @@ from .errors import ConfigurationError, format_error_response
 from .log_config import setup_logging, log_error
 from .session import SessionManager
 from .routes import chat_bp, session_bp, health_bp
+from .routes.openai import openai_bp  # 添加这行
 
 def configure_interpreter_instance(interpreter_instance: Union[OpenInterpreter, 'interpreter'], app: Flask) -> None:
     """
@@ -32,14 +33,18 @@ def configure_interpreter_instance(interpreter_instance: Union[OpenInterpreter, 
     app.logger.debug(f"  Context Window: {app.config['CONTEXT_WINDOW']}")
     app.logger.debug(f"  Max Tokens: {app.config['MAX_TOKENS']}")
     
+    interpreter_instance.auto_run = True
+    interpreter_instance.loop = True
+
+
     interpreter_instance.llm.model = app.config['DEFAULT_MODEL']
     interpreter_instance.llm.context_window = app.config['CONTEXT_WINDOW']
     interpreter_instance.llm.max_tokens = app.config['MAX_TOKENS']
+    interpreter_instance.computer.import_computer_api = True
+
     
     # 基础配置
-    interpreter_instance.conversation_history = True
-    interpreter_instance.auto_run = True
-    
+    interpreter_instance.conversation_history = True    
     # 设置安全模式
     if hasattr(interpreter_instance, 'safe_mode'):
         interpreter_instance.safe_mode = 'off'
@@ -110,6 +115,7 @@ def register_blueprints(app: Flask) -> None:
     app.register_blueprint(chat_bp)
     app.register_blueprint(session_bp)
     app.register_blueprint(health_bp)
+    app.register_blueprint(openai_bp)  # 添加这行
 
 def register_error_handlers(app: Flask) -> None:
     """

@@ -1,3 +1,4 @@
+Open Interpreter HTTP Server
 # Open Interpreter HTTP Server
 
 Open Interpreter HTTP Server 是一个基于 Flask 的 HTTP 服务，提供了与 Open Interpreter 交互的 REST API 接口。它支持原生的聊天功能以及 OpenAI 兼容的接口，可以轻松集成到各种应用中。
