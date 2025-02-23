@@ -6,6 +6,9 @@ import json
 import uuid
 import time
 import logging
+import platform
+import psutil
+import sys
 from typing import Any, Dict, List, Union
 from datetime import datetime
 from .message import Message, StreamingChunk
@@ -272,3 +275,42 @@ class MessageProcessor:
         if not messages:
             raise ValidationError("Messages array is required")
         return [Message.from_dict(msg) if isinstance(msg, dict) else msg for msg in messages]
+
+def get_system_info() -> Dict[str, Any]:
+    """Safely gather system information"""
+    info = {
+        "timestamp": datetime.now().isoformat(),
+        "system": {
+            "platform": platform.system(),
+            "version": platform.release(),
+            "python": sys.version,
+            "hostname": platform.node()
+        }
+    }
+    
+    try:
+        memory = psutil.virtual_memory()
+        info["memory"] = {
+            "total": memory.total,
+            "available": memory.available,
+            "used_percent": memory.percent
+        }
+        
+        disk = psutil.disk_usage('/')
+        info["disk"] = {
+            "total": disk.total,
+            "free": disk.free,
+            "used_percent": disk.percent
+        }
+    except Exception:
+        pass  # Silently handle any hardware info gathering errors
+        
+    return info
+
+def format_size(bytes: int) -> str:
+    """Format bytes to human readable string"""
+    for unit in ['B', 'KB', 'MB', 'GB', 'TB']:
+        if bytes < 1024:
+            return f"{bytes:.2f}{unit}"
+        bytes /= 1024
+    return f"{bytes:.2f}PB"

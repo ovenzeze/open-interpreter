@@ -395,10 +395,9 @@ class SessionManager:
             logger.error(f"Error persisting session {session_id}: {str(e)}")
 
     def create_session(self, metadata: Optional[Dict] = None) -> Dict:
-        """创建新会话"""
+        """Create a new session with metadata"""
         session_id = str(uuid.uuid4())
         
-        # 确保单层元数据结构
         if metadata and isinstance(metadata, dict):
             if 'metadata' in metadata:
                 metadata = metadata['metadata']

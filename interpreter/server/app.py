@@ -8,6 +8,7 @@ import threading
 from typing import Optional, Union
 
 from flask import Flask, jsonify
+import interpreter
 from interpreter import OpenInterpreter
 
 from .config import Config
@@ -136,6 +137,12 @@ def register_error_handlers(app: Flask) -> None:
 
 def create_app(config=None):
     app = Flask(__name__)
+    
+    # Update version setting using the imported interpreter module
+    try:
+        app.version = interpreter.__version__
+    except AttributeError:
+        app.version = 'unknown'
     
     # 1. 首先加载默认配置
     app.config.update(vars(Config()))
