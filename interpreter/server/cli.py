@@ -22,36 +22,60 @@ def main(host, port, debug, log_level):
     """启动 Open Interpreter HTTP Server"""
     logger = None
     try:
+        # 记录启动环境信息
+        env_info = {
+            'INTERPRETER_HOME': os.getenv('INTERPRETER_HOME'),
+            'PYTHONPATH': os.getenv('PYTHONPATH'),
+            'PYTHON_VERSION': sys.version,
+            'CWD': os.getcwd(),
+        }
+        
         # 设置日志
         logger = setup_logging(
             app_name="interpreter_server",
             log_level=log_level if not debug else 'DEBUG'
         )
         
+        # 输出环境信息
+        logger.info("Starting server with environment:")
+        for key, value in env_info.items():
+            logger.info(f"  {key}: {value}")
+        
         # 验证端口可用性
         if not is_port_available(host, port):
             raise RuntimeError(f"Port {port} is already in use")
-            
-        logger.info("Initializing server...")
         
-        # 创建应用
+        logger.info("Initializing application...")
         app = create_app()
+        logger.info("Application initialized successfully")
         
         # 配置服务器
         if debug:
-            logger.info(f"Starting server in DEBUG mode on http://{host}:{port}")
+            logger.info(f"Starting debug server on http://{host}:{port}")
             app.debug = True
             app.run(host=host, port=port, use_reloader=True)
         else:
-            logger.info(f"Starting server on http://{host}:{port}")
-            serve(app, host=host, port=port)
+            logger.info(f"Starting production server on http://{host}:{port}")
+            logger.info("Server configuration:")
+            logger.info(f"  Host: {host}")
+            logger.info(f"  Port: {port}")
+            logger.info(f"  Debug: {debug}")
+            logger.info(f"  Log Level: {log_level}")
+            
+            try:
+                serve(app, host=host, port=port)
+            except Exception as e:
+                logger.error(f"Server failed to start: {str(e)}", exc_info=True)
+                raise
             
     except Exception as e:
-        # 确保即使在setup_logging失败的情况下也能输出错误
         if logger:
             logger.error(f"Server startup failed: {str(e)}", exc_info=True)
         else:
             print(f"Fatal error during startup: {str(e)}", file=sys.stderr)
+            print("Environment information:")
+            for key, value in env_info.items():
+                print(f"  {key}: {value}")
         sys.exit(1)
 
 def is_port_available(host: str, port: int) -> bool:

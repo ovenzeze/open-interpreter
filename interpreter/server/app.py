@@ -24,15 +24,27 @@ def setup_interpreter(app: Flask, interpreter_instance: Optional[Union[OpenInter
         app: Flask应用实例
         interpreter_instance: 可选的解释器实例
     """
+    app.logger.info("Configuring interpreter instance...")
+    
     if interpreter_instance is None:
         try:
+            app.logger.debug("Creating new interpreter instance...")
             interpreter_instance = interpreter
+            
+            app.logger.debug("Configuring interpreter settings...")
+            app.logger.debug(f"  Model: {app.config['DEFAULT_MODEL']}")
+            app.logger.debug(f"  Context Window: {app.config['CONTEXT_WINDOW']}")
+            app.logger.debug(f"  Max Tokens: {app.config['MAX_TOKENS']}")
+            
             interpreter_instance.llm.model = app.config['DEFAULT_MODEL']
             interpreter_instance.llm.context_window = app.config['CONTEXT_WINDOW']
             interpreter_instance.llm.max_tokens = app.config['MAX_TOKENS']
             interpreter_instance.conversation_history = True
+            
+            app.logger.info("Interpreter configured successfully")
         except Exception as e:
             app.logger.error("Failed to configure interpreter", exc_info=True)
+            app.logger.error(f"Error details: {str(e)}")
             raise ConfigurationError(f"Failed to configure interpreter: {str(e)}")
     
     interpreter_instance.auto_run = True
@@ -113,27 +125,31 @@ def create_app(interpreter_instance: Optional[Union[OpenInterpreter, 'interprete
     # 创建Flask应用
     app = Flask(__name__)
     
-    # 加载配置
-    for key in dir(config):
-        if key.isupper():
-            app.config[key] = getattr(config, key)
-    
     try:
-        # 设置应用组件
+        # 加载配置
+        app.logger.info("Loading configuration...")
+        for key in dir(config):
+            if key.isupper():
+                app.config[key] = getattr(config, key)
+                app.logger.debug(f"Config: {key} = {app.config[key]}")
+        
+        app.logger.info("Setting up application components...")
         setup_components(app)
         
-        # 配置解释器
+        app.logger.info("Configuring interpreter...")
         setup_interpreter(app, interpreter_instance)
         
-        # 注册蓝图
+        app.logger.info("Registering blueprints...")
         register_blueprints(app)
         
-        # 注册错误处理器
+        app.logger.info("Registering error handlers...")
         register_error_handlers(app)
         
-        app.logger.info("Application initialized successfully")
+        app.logger.info("Application initialization complete")
         return app
         
     except Exception as e:
         app.logger.error(f"Failed to initialize application: {str(e)}", exc_info=True)
-        raise 
+        if hasattr(app, 'logger'):
+            app.logger.error("Initialization error details:", exc_info=True)
+        raise
