@@ -5,68 +5,28 @@ export INTERPRETER_BASE="$HOME/.interpreter"
 export INTERPRETER_HOME="$INTERPRETER_BASE/.prod"
 export PYTHONPATH="$INTERPRETER_HOME:$PYTHONPATH"
 
-# Poetry 环境检查和配置
-function ensure_poetry_env() {
-    # 检查 poetry 是否已安装
-    if ! command -v poetry &> /dev/null; then
-        echo "Poetry not found. Installing Poetry..."
-        curl -sSL https://install.python-poetry.org | python3 -
-        export PATH="$HOME/.local/bin:$PATH"
-    fi
-    
-    # 获取当前项目的虚拟环境信息
-    local venv_path=""
-    if poetry env info -p &> /dev/null; then
-        venv_path=$(poetry env info -p)
-    fi
-    
-    # 检查当前是否已在虚拟环境中
-    if [ -n "$VIRTUAL_ENV" ]; then
-        if [ "$VIRTUAL_ENV" = "$venv_path" ]; then
-            echo "Already in the correct virtual environment: $VIRTUAL_ENV"
-        else
-            echo "Switching from $VIRTUAL_ENV to project's virtual environment"
-            deactivate 2>/dev/null || true
-            source "$venv_path/bin/activate"
-        fi
+# 准备Python环境
+function prepare_environment() {
+    local script_dir="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+    if [ -f "$script_dir/scripts/uv-prepare.sh" ]; then
+        echo "Preparing Python environment using uv..."
+        source "$script_dir/scripts/uv-prepare.sh"
     else
-        if [ -n "$venv_path" ]; then
-            echo "Activating existing virtual environment: $venv_path"
-            source "$venv_path/bin/activate"
-        else
-            echo "Creating new virtual environment..."
-            poetry install
-            venv_path=$(poetry env info -p)
-            source "$venv_path/bin/activate"
-        fi
-    fi
-    
-    # 设置并验证Python解释器路径
-    PYTHON_PATH="$(poetry env info -p)/bin/python"
-    if [ ! -f "$PYTHON_PATH" ]; then
-        echo "Error: Python interpreter not found at $PYTHON_PATH"
+        echo "Error: uv-prepare.sh not found"
         exit 1
     fi
-    
-    echo "Using Python interpreter: $PYTHON_PATH"
-    export PYTHON_PATH
 }
-
-# 确保 Poetry 环境在任何操作之前准备就绪
-ensure_poetry_env
 
 # 添加环境变量配置
 function setup_env_vars() {
     # 设置服务端口
     export SERVER_PORT_PROD=5001
-    # 使用 ensure_poetry_env 中设置的 PYTHON_PATH
-    echo "Using Python path: $PYTHON_PATH"
+    export SERVER_PORT_DEV=5002
+    # 确保当前目录在PYTHONPATH中
+    export PYTHONPATH="$(pwd):$PYTHONPATH"
     # 设置日志级别
     export LOG_LEVEL=${LOG_LEVEL:-"INFO"}
 }
-
-# 在ensure_poetry_env后调用
-setup_env_vars
 
 # 创建必要的目录
 mkdir -p "$INTERPRETER_BASE"/{logs/{prod,dev},run}
@@ -91,29 +51,50 @@ function ensure_prod_code() {
 # 添加服务信息打印函数
 function print_service_info() {
     local service_type=$1
+    local port
+    if [ "$service_type" = "prod" ]; then
+        port=$SERVER_PORT_PROD
+    else
+        port=$SERVER_PORT_DEV
+    fi
+    
     echo "========== Service Information =========="
     echo "Service Type: $service_type"
     echo "Python Path: $PYTHON_PATH"
     echo "Open Interpreter Path: $INTERPRETER_HOME"
-    echo "Virtual Environment: $(poetry env info --path)"
+    echo "Virtual Environment: $VIRTUAL_ENV"
     echo "Log Directory: $INTERPRETER_BASE/logs/$service_type"
     echo "Error Log: $INTERPRETER_BASE/logs/$service_type/err.log"
     echo "Output Log: $INTERPRETER_BASE/logs/$service_type/out.log"
-    echo "Server Port: ${service_type}-prod && echo $SERVER_PORT_PROD || echo $SERVER_PORT_DEV"
+    echo "Server Port: $port"
     echo "Log Level: $LOG_LEVEL"
     echo "========================================"
 }
 
+# 检查并安装Node.js依赖
+function ensure_node_deps() {
+    if [ ! -d "node_modules" ]; then
+        echo "Installing Node.js dependencies..."
+        if command -v yarn &> /dev/null; then
+            yarn install
+        else
+            npm install
+        fi
+    fi
+}
+
 case "$1" in
     "start-dev")
-        ensure_poetry_env
+        prepare_environment
         setup_env_vars
+        ensure_node_deps
         print_service_info "dev"
         pm2 start ecosystem.config.js --only interpreter-dev
         ;;
     "start-prod")
-        ensure_poetry_env
+        prepare_environment
         setup_env_vars
+        ensure_node_deps
         ensure_prod_code
         print_service_info "prod"
         echo "Starting production server with Python: $PYTHON_PATH"
