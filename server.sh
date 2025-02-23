@@ -87,14 +87,12 @@ case "$1" in
     "start-dev")
         prepare_environment
         setup_env_vars
-        ensure_node_deps
         print_service_info "dev"
         pm2 start ecosystem.config.js --only interpreter-dev
         ;;
     "start-prod")
         prepare_environment
         setup_env_vars
-        ensure_node_deps
         ensure_prod_code
         print_service_info "prod"
         echo "Starting production server with Python: $PYTHON_PATH"
