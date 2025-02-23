@@ -15,8 +15,12 @@ import os
 import time
 import threading
 
-# 创建 logger
-logger = logging.getLogger('interpreter_server')
+# 只导入需要的类，避免循环依赖
+from .log_config import setup_logging
+from .models import MessageBase, Session
+
+# 获取logger实例
+logger = setup_logging('interpreter_server')
 
 MessageRole = Literal["user", "assistant", "computer"]
 MessageType = Literal["message", "code", "image", "console", "file", "confirmation"]
@@ -194,10 +198,11 @@ class Session:
 
 class SessionManager:
     """Manages chat sessions with NCU message format support"""
-    def __init__(self, storage_path: str = None, 
-                 session_timeout: int = 3600,  # 1小时超时
-                 cleanup_interval: int = 300,   # 5分钟清理一次
-                 max_active_instances: int = 3): # 最大活跃实例数
+    def __init__(self, 
+                 storage_path: str = None, 
+                 session_timeout: int = 3600,
+                 cleanup_interval: int = 300,
+                 max_active_instances: int = 3):
         # 使用 platformdirs 获取系统配置目录
         if storage_path is None:
             storage_path = platformdirs.user_config_dir("open-interpreter")
@@ -213,6 +218,9 @@ class SessionManager:
         self.lock = threading.Lock()  # 添加全局锁对象
         self.max_active_instances = max_active_instances
         self.instance_last_used = {}  # 记录实例最后使用时间
+        
+        self._active_locks = set()
+        self._lock_timeout = 30  # 30秒锁超时
         
         # 启动清理线程
         self.cleanup_thread = threading.Thread(target=self._cleanup_expired_sessions, daemon=True)
@@ -247,38 +255,29 @@ class SessionManager:
         return []
 
     def add_message(self, session_id: str, message: Dict[str, Any]) -> bool:
-        """添加消息到会话并持久化存储
-        Args:
-            session_id: 会话ID
-            message: 消息字典，必须包含 role、type、content 字段
-        Returns:
-            bool: 是否成功添加消息
-        """
+        """添加消息到会话并持久化存储"""
         try:
-            # 验证消息格式
-            required_fields = ['role', 'content']
-            if not all(field in message for field in required_fields):
-                logger.error(f"Message missing required fields: {required_fields}")
+            session = self.get_session(session_id)
+            if not session:
                 return False
-            # 获取当前会话消息
-            messages = self._load_session_messages(session_id)
-            if not isinstance(messages, list):
-                messages = []
-            # 添加新消息
-            messages.append({
+
+            # 构造消息对象
+            msg_data = {
                 "role": message["role"],
                 "type": message.get("type", "message"),
                 "content": message["content"],
                 "format": message.get("format"),
                 "created_at": datetime.now().isoformat()
-            })
-            # 保存到文件
-            self._save_session_messages(session_id, messages)
-            # 更新内存中的会话
-            session = self.sessions.get(session_id)
-            if session:
-                session['messages'] = messages
-                session['last_active'] = time.time()
+            }
+
+            # 更新会话消息
+            if 'messages' not in session:
+                session['messages'] = []
+            session['messages'].append(msg_data)
+            session['last_active'] = time.time()
+
+            # 持久化保存
+            self._persist_session(session_id, session)
             return True
         except Exception as e:
             logger.error(f"Error adding message to session {session_id}: {str(e)}")
@@ -286,23 +285,10 @@ class SessionManager:
 
     def get_messages(self, session_id: str) -> Optional[List[Dict]]:
         """获取会话的消息列表"""
-        try:
-            # 首先检查会话是否存在且有效
-            session = self.get_session(session_id)
-            if not session:
-                return None
-                
-            # 从文件加载最新消息
-            messages = self._load_session_messages(session_id)
-            if not isinstance(messages, list):
-                messages = []
-            # 更新会话的最后活动时间
-            session['last_active'] = time.time()
-            return messages
-            
-        except Exception as e:
-            logger.error(f"Error getting messages for session {session_id}: {str(e)}")
-            return None
+        session = self.get_session(session_id)
+        if session:
+            return session.get('messages', [])
+        return None
 
     def _cleanup_expired_sessions(self):
         """清理过期会话"""
@@ -410,13 +396,13 @@ class SessionManager:
 
     def create_session(self, metadata: Optional[Dict] = None) -> Dict:
         """创建新会话"""
-        from interpreter import OpenInterpreter  # 延迟导入避免循环依赖
-        
         session_id = str(uuid.uuid4())
-        # 为新会话创建独立的interpreter实例
-        interpreter_instance = OpenInterpreter()
-        interpreter_instance.conversation_history = True
-        self.interpreter_instances[session_id] = interpreter_instance
+        
+        # 确保单层元数据结构
+        if metadata and isinstance(metadata, dict):
+            if 'metadata' in metadata:
+                metadata = metadata['metadata']
+                
         session = {
             'session_id': session_id,
             'created_at': datetime.now().isoformat(),
@@ -424,10 +410,25 @@ class SessionManager:
             'last_active': time.time(),
             'metadata': metadata or {}
         }
-        self.sessions[session_id] = session
-        self.session_locks[session_id] = threading.Lock()
-        self._persist_session(session_id, session)
-        return session
+        
+        try:
+            # 创建解释器实例
+            from interpreter import OpenInterpreter
+            interpreter_instance = OpenInterpreter()
+            interpreter_instance.conversation_history = True
+            self.interpreter_instances[session_id] = interpreter_instance
+            
+            # 保存会话数据
+            self.sessions[session_id] = session
+            self.session_locks[session_id] = threading.Lock()
+            self._persist_session(session_id, session)
+            
+            logger.info(f"Created new session: {session_id}")
+            return session
+            
+        except Exception as e:
+            logger.error(f"Failed to create session: {str(e)}")
+            raise
 
     def get_session(self, session_id: str) -> Optional[Dict]:
         """获取会话信息"""
@@ -464,15 +465,41 @@ class SessionManager:
         return []
 
     def acquire_session_lock(self, session_id: str, timeout: float = 5.0) -> bool:
-        """获取会话锁"""
-        if session_id not in self.session_locks:
+        """获取会话锁，增加超时检查"""
+        try:
+            if session_id in self._active_locks:
+                # 检查是否超时
+                lock_time = self.instance_last_used.get(session_id, 0)
+                if time.time() - lock_time > self._lock_timeout:
+                    self.release_session_lock(session_id)
+                else:
+                    return False
+                    
+            if session_id not in self.session_locks:
+                self.session_locks[session_id] = threading.Lock()
+                
+            if self.session_locks[session_id].acquire(timeout=timeout):
+                self._active_locks.add(session_id)
+                self.instance_last_used[session_id] = time.time()
+                return True
             return False
-        return self.session_locks[session_id].acquire(timeout=timeout)
+            
+        except Exception as e:
+            logger.error(f"Lock acquisition failed: {str(e)}")
+            return False
 
     def release_session_lock(self, session_id: str) -> None:
-        """释放会话锁"""
-        if session_id in self.session_locks and self.session_locks[session_id].locked():
-            self.session_locks[session_id].release()
+        """释放会话锁，增加错误处理"""
+        try:
+            if session_id in self._active_locks:
+                self._active_locks.remove(session_id)
+            if session_id in self.session_locks:
+                try:
+                    self.session_locks[session_id].release()
+                except RuntimeError:
+                    pass  # 忽略重复释放的错误
+        except Exception as e:
+            logger.error(f"Lock release failed: {str(e)}")
 
     def get_or_create_session(self, session_id: Optional[str] = None) -> Tuple[Dict, bool]:
         """Get existing session or create new one
@@ -568,3 +595,64 @@ class SessionManager:
                     for session_id, last_used in self.instance_last_used.items()
                 }
             }
+
+from typing import Dict, Optional
+from .models import Session, MessageBase
+from .log_config import logger
+
+class SessionService:
+    """Session management service layer"""
+    def __init__(self):
+        self._manager = SessionManager()
+    
+    def create_session(self, metadata: Optional[Dict] = None) -> Session:
+        """Create new session"""
+        try:
+            session = self._manager.create_session(metadata)
+            logger.info(f"Created new session: {session.session_id}")
+            return session
+        except Exception as e:
+            logger.error(f"Failed to create session: {str(e)}")
+            raise
+
+    def add_message(self, session_id: str, message: MessageBase) -> None:
+        """Add message to session"""
+        try:
+            session = self._manager.get_session(session_id)
+            if not session:
+                raise ValueError(f"Session {session_id} not found")
+            
+            session.messages.append(message)
+            session.last_active = datetime.now().isoformat()
+            logger.debug(f"Added message to session {session_id}")
+        except Exception as e:
+            logger.error(f"Failed to add message: {str(e)}")
+            raise
+
+    def get_session(self, session_id: str) -> Optional[Session]:
+        """Get session by ID"""
+        try:
+            return self._manager.get_session(session_id)
+        except Exception as e:
+            logger.error(f"Failed to get session {session_id}: {str(e)}")
+            raise
+
+    def update_session_metadata(self, session_id: str, metadata: Dict) -> None:
+        """Update session metadata"""
+        try:
+            self._manager.update_session_metadata(session_id, metadata)
+            logger.info(f"Updated metadata for session {session_id}")
+        except Exception as e:
+            logger.error(f"Failed to update metadata: {str(e)}")
+            raise
+
+    def export_session(self, session_id: str) -> Dict:
+        """Export session data"""
+        try:
+            session = self._manager.get_session(session_id)
+            if not session:
+                raise ValueError(f"Session {session_id} not found")
+            return session.to_dict()
+        except Exception as e:
+            logger.error(f"Failed to export session: {str(e)}")
+            raise

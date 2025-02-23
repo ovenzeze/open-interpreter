@@ -22,35 +22,20 @@ bp = Blueprint('chat', __name__)
 
 @bp.route('/v1/chat', methods=['POST'])
 def chat():
-    """
-    处理聊天请求，支持流式和非流式响应
-    
-    Request Body:
-        {
-            "messages": [消息数组],
-            "stream": bool,
-            "session_id": str (可选)
-        }
-    
-    Returns:
-        流式响应或JSON响应
-    """
-    if not request.is_json:
-        current_app.logger.error("Invalid content type: not application/json")
-        raise ValidationError("Content-Type must be application/json")
-        
-    lock_acquired = False
-    session_id = None
+    """Chat endpoint that handles both streaming and non-streaming responses"""
     try:
-        # 获取请求数据
         data = request.get_json()
+        messages = data.get('messages', [])
+        stream = data.get('stream', False)
+        session_id = data.get('session_id')
+        
+        # 获取请求数据
         current_app.logger.debug(f"Received request data: {data}")
         
         if data is None:
             current_app.logger.error("Invalid request: empty data")
             raise ValidationError("Invalid request data")
             
-        messages = data.get('messages', [])
         if not messages:
             current_app.logger.error("Invalid request: empty messages array")
             raise ValidationError("Messages array is required")
@@ -65,9 +50,6 @@ def chat():
             validated_messages.append(Message.from_dict(msg) if isinstance(msg, dict) else msg)
         messages = validated_messages
             
-        stream = data.get('stream', False)
-        session_id = data.get('session_id')
-        
         # 获取会话管理器
         session_manager = current_app.session_manager
         
@@ -161,144 +143,59 @@ def chat():
                 interpreter_instance.messages.append(msg_dict)
         
         current_app.logger.debug("Starting chat with interpreter")
-        interpreter_instance.auto_run = True
-        response = interpreter_instance.chat(last_message_content, stream=stream)
-        current_app.logger.debug("Got response from interpreter")
-        
-        if not stream:
-            content = ''
-            for chunk in response:
-                try:
-                    chunk = Message.from_dict(chunk)
-                    if chunk.type == 'message' and chunk.role == 'assistant':
-                        if content:
-                            content += '\n'
-                        content += chunk.content
-                        # 保存消息到会话
-                        session_manager.add_message(session_id, chunk.to_dict())
-                except Exception as e:
-                    current_app.logger.error(f"Error processing chunk: {str(e)}", exc_info=True)
-                    continue
-            
-            return jsonify({
-                "id": f"chatcmpl-{str(uuid.uuid4())}",
-                "object": "chat.completion",
-                "created": int(time.time()),
-                "model": interpreter_instance.llm.model,
-                "choices": [{
-                    "index": 0,
-                    "message": {
-                        "role": "assistant",
-                        "content": content
-                    },
-                    "finish_reason": "stop"
-                }],
-                "usage": {
-                    "prompt_tokens": 0,  # 暂时不计算 token
-                    "completion_tokens": 0,
-                    "total_tokens": 0
-                }
-            })
-        
-        def generate():
-            """生成流式响应"""
-            try:
-                current_app.logger.debug("Starting stream generation")
-                current_message = None
-                
-                for chunk in response:
-                    try:
-                        chunk = StreamingChunk.from_dict(chunk)
-                        current_app.logger.debug(f"Processing chunk: {chunk}")
-                        
-                        # 处理确认消息
-                        if chunk.type == 'confirmation':
-                            current_app.logger.debug("Confirmation message detected")
-                            yield f"data: {format_stream_chunk(chunk)}\n\n"
-                            continue
-                        
-                        # 处理消息开始
-                        if chunk.start:
-                            current_app.logger.debug("Message start detected")
-                            current_message = Message(
-                                role=chunk.role,
-                                type=chunk.type,
-                                content='',
-                                format=chunk.format,
-                                recipient=chunk.recipient
-                            )
-                            
-                        # 处理消息内容
-                        if chunk.content is not None and current_message:
-                            current_app.logger.debug(f"Adding content to message: {chunk.content}")
-                            # 确保内容为字符串类型
-                            content_str = str(chunk.content) if chunk.content is not None else ""
-                            current_message.content += content_str
-                        
-                        # 处理消息结束
-                        if chunk.end:
-                            current_app.logger.debug("Message end detected")
-                            if current_message:
-                                # 保存所有类型的完整消息到会话
-                                if current_message.role in ['user', 'assistant']:
-                                    session_manager.add_message(session_id, current_message.to_dict())
-                                current_message = None
-                        
-                        # 格式化并发送块
-                        formatted_chunk = format_stream_chunk(chunk)
-                        if formatted_chunk:
-                            current_app.logger.debug(f"Sending formatted chunk: {formatted_chunk}")
-                            yield f"data: {formatted_chunk}\n\n"
-                            current_app.logger.debug("Chunk sent successfully")
-                        
-                    except Exception as chunk_error:
-                        current_app.logger.error(f"Error processing chunk: {str(chunk_error)}", exc_info=True)
-                        error_chunk = StreamingChunk(
-                            role='assistant',
-                            type='error',
-                            content=str(chunk_error),
-                            recipient='user'
-                        )
-                        yield f"data: {format_stream_chunk(error_chunk)}\n\n"
-                        continue
-                
-                # 发送结束标记
-                final_chunk = StreamingChunk(
-                    role='assistant',
-                    type='message',
-                    content='',
-                    end=True,
-                    recipient='user'
-                )
-                yield f"data: {format_stream_chunk(final_chunk)}\n\n"
-                yield f"event: done\n\n"
-                current_app.logger.debug("Final chunk sent")
-                
-            except Exception as e:
-                current_app.logger.error(f"Stream generation error: {str(e)}", exc_info=True)
-                error_chunk = StreamingChunk(
-                    role='assistant',
-                    type='error',
-                    content=str(e),
-                    recipient='user'
-                )
-                yield f"data: {format_stream_chunk(error_chunk)}\n\n"
-            finally:
-                # 释放锁
-                if lock_acquired and session_id:
-                    current_app.logger.info(f"Releasing session lock for session {session_id}")
-                    session_manager.release_session_lock(session_id)
-        
-        current_app.logger.info("Starting streaming response")
-        return Response(
-            stream_with_context(generate()),
-            mimetype='text/event-stream',
-            headers={
-                'Cache-Control': 'no-cache',
-                'X-Accel-Buffering': 'no'
-            }
+        response = interpreter_instance.chat(
+            last_message_content,
+            stream=False,  # 这里改为 False 以便收集所有消息
+            display=False
         )
-            
+        
+        response_messages = []
+        # 用于收集代码和执行结果
+        code_messages = []
+        
+        # 遍历生成的所有消息
+        for msg in interpreter_instance.messages:
+            if msg["role"] in ["assistant", "computer"]:
+                if msg["type"] == "message":
+                    response_messages.append({
+                        "role": "assistant",
+                        "content": msg["content"]
+                    })
+                elif msg["type"] == "code":
+                    code_messages.append({
+                        "role": "assistant",
+                        "type": "code",
+                        "content": msg["content"],
+                        "format": msg.get("format", "python")
+                    })
+                elif msg["type"] == "console" and msg["role"] == "computer":
+                    code_messages.append({
+                        "role": "computer",
+                        "type": "console",
+                        "content": msg["content"]
+                    })
+        
+        # 构造最终响应
+        chat_response = {
+            "id": f"chatcmpl-{session_id}",
+            "object": "chat.completion",
+            "created": int(time.time()),
+            "model": getattr(interpreter_instance, "model", "gpt-4"),
+            "choices": [{
+                "index": 0,
+                "messages": code_messages + response_messages,  # 先显示代码和执行结果，再显示总结
+                "finish_reason": "stop"
+            }],
+            "usage": {
+                "prompt_tokens": 0,
+                "completion_tokens": 0,
+                "total_tokens": 0
+            }
+        }
+        
+        current_app.logger.debug(f"Returning chat response with {len(code_messages)} code messages and {len(response_messages)} text messages")
+        return jsonify(chat_response)
+        
     except Exception as e:
         # 确保在发生异常时也释放锁
         if lock_acquired and session_id:

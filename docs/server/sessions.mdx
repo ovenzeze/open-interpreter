@@ -1,0 +1,239 @@
+# Sessions API Documentation
+
+## Overview
+
+The Sessions API provides endpoints for managing interactive sessions with Open Interpreter. Each session maintains its own interpreter instance and execution context.
+
+## Key Concepts
+
+### Session Definition
+- A session represents an isolated interaction context with Open Interpreter
+- Each session has its own interpreter instance with independent state
+- Sessions are subject to resource management and lifecycle controls
+
+### Special Considerations
+- Interpreter instances have significant memory footprint
+- Code execution requires isolation
+- Support for streaming responses
+- Different execution modes (safe/unsafe)
+
+## API Endpoints
+
+### Session Management
+
+#### Create Session
+```http
+POST /v1/sessions
+Request Body:
+{
+    "name": "Optional session name",
+    "model": "Optional model configuration",
+    "safe_mode": true,
+    "context": "Optional initial context"
+}
+
+Response:
+{
+    "session_id": "uuid",
+    "created_at": "ISO timestamp",
+    "status": "active",
+    "interpreter": {
+        "mode": "safe",
+        "model": "configured-model"
+    }
+}
+```
+
+#### List Sessions
+```http
+GET /v1/sessions
+Query Parameters:
+- page: Page number
+- limit: Items per page 
+- active_only: Only active sessions
+- sort: created_at:desc/asc
+
+Response:
+{
+    "sessions": [
+        {
+            "session_id": "uuid",
+            "name": "session name",
+            "created_at": "ISO timestamp",
+            "last_active": "ISO timestamp",
+            "status": "active|inactive",
+            "message_count": 10
+        }
+    ],
+    "total": 100,
+    "page": 1
+}
+```
+
+#### Get Session Details 
+```http
+GET /v1/sessions/{session_id}
+
+Response:
+{
+    "session_id": "uuid",
+    "name": "session name",
+    "created_at": "ISO timestamp",
+    "interpreter": {
+        "status": "ready|busy|error",
+        "mode": "safe|unsafe",
+        "memory_usage": "memory stats"
+    },
+    "messages": {
+        "count": 10,
+        "last_message": "timestamp"
+    }
+}
+```
+
+### Message Operations
+
+#### Get Session Messages
+```http
+GET /v1/sessions/{session_id}/messages
+Query Parameters:
+- before: Timestamp
+- limit: Number of messages
+- types: Filter by message types
+
+Response:
+{
+    "messages": [
+        {
+            "id": "message-id",
+            "role": "user|assistant",
+            "type": "message|code|image|...",
+            "content": "message content",
+            "created_at": "timestamp"
+        }
+    ]
+}
+```
+
+#### Clear Session Messages
+```http
+DELETE /v1/sessions/{session_id}/messages
+Query Parameters:
+- clear_context: Reset context
+- reset_interpreter: Reset interpreter instance
+
+Response:
+{
+    "success": true,
+    "cleared_at": "timestamp",
+    "message_count": "number of cleared messages"
+}
+```
+
+### Session Operations
+
+#### Load Historical Session
+```http
+POST /v1/sessions/{session_id}/load
+Request Body:
+{
+    "target_id": "optional target session id",
+    "copy_context": true
+}
+
+Response:
+{
+    "source_id": "original session id",
+    "target_id": "new/target session id",
+    "status": "success",
+    "copied_messages": 10
+}
+```
+
+#### Export Session
+```http
+GET /v1/sessions/{session_id}/export
+Query Parameters:
+- format: json|markdown
+- include_outputs: Include execution results
+
+Response:
+// For JSON format
+{
+    "session": {
+        "metadata": {...},
+        "messages": [...],
+        "context": {...}
+    }
+}
+```
+
+## Implementation Details
+
+### Storage Strategy
+- File-based session storage
+- Message content sharding
+- LRU caching for active sessions
+
+### Instance Management 
+- Maximum active instance limit
+- LRU-based instance cleanup
+- Instance state monitoring
+
+### Security Controls
+- API key authentication
+- Session-level access control
+- Isolated execution environments
+
+## Error Handling
+
+### Common Error Responses
+```json
+{
+    "error": {
+        "code": "error_code",
+        "message": "Error description",
+        "details": {
+            "session_id": "affected session",
+            "resource_state": "current state"
+        }
+    }
+}
+```
+
+### HTTP Status Codes
+- 404: Session not found
+- 409: Session state conflict
+- 429: Instance limit exceeded
+- 503: Resources unavailable
+
+## Best Practices
+
+1. Monitor instance resource usage
+2. Implement proper error handling
+3. Use message pagination for large sessions
+4. Clean up inactive sessions regularly
+5. Handle streaming responses correctly
+6. Validate session states before operations
+
+## Usage Example
+
+```python
+import requests
+
+# Create a new session
+session = requests.post("http://localhost:8000/v1/sessions", 
+    json={"name": "My Session"})
+session_id = session.json()["session_id"]
+
+# Send a message
+message = requests.post(f"http://localhost:8000/v1/sessions/{session_id}/messages",
+    json={
+        "role": "user",
+        "type": "message",
+        "content": "Hello!"
+    })
+
+# Get session messages
+messages = requests.get(f"http://localhost:8000/v1/sessions/{session_id}/messages")
+```

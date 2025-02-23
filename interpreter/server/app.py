@@ -10,12 +10,11 @@ from typing import Optional, Union
 from flask import Flask, jsonify
 from interpreter import OpenInterpreter
 
-from .config import Config, config
+from .config import Config
 from .errors import ConfigurationError, format_error_response
 from .log_config import setup_logging, log_error
-from .session import SessionManager
-from .routes import chat_bp, session_bp, health_bp
-from .routes.openai import openai_bp  # 添加这行
+from .session import SessionManager  # 直接从 session.py 导入
+from .routes import chat_bp, session_bp, health_bp  # 移除 openai_bp
 
 def configure_interpreter_instance(interpreter_instance: Union[OpenInterpreter, 'interpreter'], app: Flask) -> None:
     """
@@ -119,7 +118,7 @@ def register_blueprints(app: Flask) -> None:
     app.register_blueprint(chat_bp)
     app.register_blueprint(session_bp)
     app.register_blueprint(health_bp)
-    app.register_blueprint(openai_bp)  # 添加这行
+    # app.register_blueprint(openai_bp)  # 暂时注释掉
 
 def register_error_handlers(app: Flask) -> None:
     """
@@ -146,23 +145,26 @@ def create_app(config=None):
         app.config.update(config)
     
     try:
-        # 3. 设置基础日志
+        # 3. 设置基础日志（在其他初始化之前）
+        log_level = app.config.get('LOG_LEVEL', 'INFO')
+        app.logger = setup_logging(
+            app_name="interpreter_server",
+            log_level=log_level
+        )
+        
         app.logger.info("Initializing application...")
         
-        # 4. 设置组件
-        setup_components(app)
-        
-        # 5. 初始化会话管理器
+        # 4. 初始化会话管理器
         app.session_manager = SessionManager(
             max_active_instances=app.config.get('MAX_ACTIVE_INSTANCES', 3),
             session_timeout=app.config.get('INSTANCE_TIMEOUT', 3600),
             cleanup_interval=app.config.get('CLEANUP_INTERVAL', 300)
         )
         
-        # 6. 设置解释器
-        setup_interpreter(app, None)  # 修改这里,传入 None 让函数创建新实例
+        # 5. 设置解释器
+        setup_interpreter(app, None)
         
-        # 7. 注册蓝图和错误处理
+        # 6. 注册蓝图和错误处理
         register_blueprints(app)
         register_error_handlers(app)
         
@@ -170,7 +172,6 @@ def create_app(config=None):
         return app
         
     except Exception as e:
-        # 使用 print 确保即使日志系统未初始化也能看到错误
         print(f"Failed to initialize application: {str(e)}")
         if hasattr(app, 'logger'):
             app.logger.error("Initialization error details:", exc_info=True)
