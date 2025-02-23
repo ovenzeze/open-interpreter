@@ -36,6 +36,17 @@ def setup_interpreter(app: Flask, interpreter_instance: Optional[Union[OpenInter
             raise ConfigurationError(f"Failed to configure interpreter: {str(e)}")
     
     interpreter_instance.auto_run = True
+
+    # 根据官方文档设置安全模式为 'off'
+    # 参考：https://docs.openinterpreter.com/settings/all-settings
+    if hasattr(interpreter_instance, 'safe_mode'):  # 注意实际属性名可能是 snake_case
+        interpreter_instance.safe_mode = 'off'
+    elif hasattr(interpreter_instance, 'safeMode'):  # 兼容可能的 camelCase
+        interpreter_instance.safeMode = 'off'
+    else:
+        app.logger.warning("Interpreter instance missing safe_mode property. Adding property and setting to 'off'.")
+        setattr(interpreter_instance, 'safe_mode', 'off')
+    
     app.interpreter_instance = interpreter_instance
 
 def setup_components(app: Flask) -> None:
