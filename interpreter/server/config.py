@@ -38,6 +38,11 @@ class Config:
         # 速率限制
         self.RATE_LIMIT = int(os.getenv('RATE_LIMIT_PER_MINUTE', 60))
         self.SESSION_RATE_LIMIT = int(os.getenv('SESSION_RATE_LIMIT_PER_MINUTE', 10))
+        
+        # 实例管理配置
+        self.MAX_ACTIVE_INSTANCES = int(os.getenv("MAX_ACTIVE_INSTANCES", "3"))
+        self.INSTANCE_TIMEOUT = int(os.getenv("INSTANCE_TIMEOUT", "3600"))  # 1小时
+        self.CLEANUP_INTERVAL = int(os.getenv("CLEANUP_INTERVAL", "300"))   # 5分钟
     
     @classmethod
     def from_env(cls):
@@ -45,4 +50,4 @@ class Config:
         return cls()
 
 # 创建默认配置实例
-config = Config() 
+config = Config()

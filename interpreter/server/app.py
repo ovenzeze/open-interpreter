@@ -79,6 +79,7 @@ def setup_interpreter(app: Flask, interpreter_instance: Optional[Union[OpenInter
         configure_interpreter_instance(interpreter_instance, app)
     
     app.interpreter_instance = interpreter_instance
+
 def setup_components(app: Flask) -> None:
     """
     设置应用组件
@@ -86,10 +87,13 @@ def setup_components(app: Flask) -> None:
     Args:
         app: Flask应用实例
     """
+    # 使用 app.config.get() 避免 KeyError
+    log_level = app.config.get('LOG_LEVEL', 'INFO')
+    
     # 设置日志
     app.logger = setup_logging(
         app_name="interpreter_server",
-        log_level=app.config['LOG_LEVEL']
+        log_level=log_level
     )
     
     # 设置会话管理器
@@ -131,44 +135,43 @@ def register_error_handlers(app: Flask) -> None:
         error_response, status_code = format_error_response(error)
         return jsonify(error_response), status_code
 
-def create_app(interpreter_instance: Optional[Union[OpenInterpreter, 'interpreter']] = None) -> Flask:
-    """
-    创建并配置Flask应用实例
-    
-    Args:
-        interpreter_instance: 可选的解释器实例。如果未提供，将创建新实例。
-    
-    Returns:
-        Flask应用实例
-    """
-    # 创建Flask应用
+def create_app(config=None):
     app = Flask(__name__)
     
+    # 1. 首先加载默认配置
+    app.config.update(vars(Config()))
+    
+    # 2. 然后用传入的配置覆盖默认值
+    if config:
+        app.config.update(config)
+    
     try:
-        # 加载配置
-        app.logger.info("Loading configuration...")
-        for key in dir(config):
-            if key.isupper():
-                app.config[key] = getattr(config, key)
-                app.logger.debug(f"Config: {key} = {app.config[key]}")
+        # 3. 设置基础日志
+        app.logger.info("Initializing application...")
         
-        app.logger.info("Setting up application components...")
+        # 4. 设置组件
         setup_components(app)
         
-        app.logger.info("Configuring interpreter...")
-        setup_interpreter(app, interpreter_instance)
+        # 5. 初始化会话管理器
+        app.session_manager = SessionManager(
+            max_active_instances=app.config.get('MAX_ACTIVE_INSTANCES', 3),
+            session_timeout=app.config.get('INSTANCE_TIMEOUT', 3600),
+            cleanup_interval=app.config.get('CLEANUP_INTERVAL', 300)
+        )
         
-        app.logger.info("Registering blueprints...")
+        # 6. 设置解释器
+        setup_interpreter(app, None)  # 修改这里,传入 None 让函数创建新实例
+        
+        # 7. 注册蓝图和错误处理
         register_blueprints(app)
-        
-        app.logger.info("Registering error handlers...")
         register_error_handlers(app)
         
         app.logger.info("Application initialization complete")
         return app
         
     except Exception as e:
-        app.logger.error(f"Failed to initialize application: {str(e)}", exc_info=True)
+        # 使用 print 确保即使日志系统未初始化也能看到错误
+        print(f"Failed to initialize application: {str(e)}")
         if hasattr(app, 'logger'):
             app.logger.error("Initialization error details:", exc_info=True)
         raise

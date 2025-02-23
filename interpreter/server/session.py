@@ -196,7 +196,8 @@ class SessionManager:
     """Manages chat sessions with NCU message format support"""
     def __init__(self, storage_path: str = None, 
                  session_timeout: int = 3600,  # 1小时超时
-                 cleanup_interval: int = 300):  # 5分钟清理一次
+                 cleanup_interval: int = 300,   # 5分钟清理一次
+                 max_active_instances: int = 3): # 最大活跃实例数
         # 使用 platformdirs 获取系统配置目录
         if storage_path is None:
             storage_path = platformdirs.user_config_dir("open-interpreter")
@@ -210,6 +211,8 @@ class SessionManager:
         self.session_locks: Dict[str, threading.Lock] = {}
         self.interpreter_instances: Dict[str, Any] = {}
         self.lock = threading.Lock()  # 添加全局锁对象
+        self.max_active_instances = max_active_instances
+        self.instance_last_used = {}  # 记录实例最后使用时间
         
         # 启动清理线程
         self.cleanup_thread = threading.Thread(target=self._cleanup_expired_sessions, daemon=True)
@@ -237,18 +240,17 @@ class SessionManager:
             file_path = self._get_session_file_path(session_id)
             if file_path.exists():
                 with open(file_path, 'r', encoding='utf-8') as f:
-                    return json.load(f)
+                    messages = json.load(f)
+                    return messages if isinstance(messages, list) else []
         except Exception as e:
             logger.error(f"Error loading session {session_id}: {str(e)}")
         return []
 
     def add_message(self, session_id: str, message: Dict[str, Any]) -> bool:
         """添加消息到会话并持久化存储
-        
         Args:
             session_id: 会话ID
             message: 消息字典，必须包含 role、type、content 字段
-            
         Returns:
             bool: 是否成功添加消息
         """
@@ -258,12 +260,10 @@ class SessionManager:
             if not all(field in message for field in required_fields):
                 logger.error(f"Message missing required fields: {required_fields}")
                 return False
-                
             # 获取当前会话消息
             messages = self._load_session_messages(session_id)
             if not isinstance(messages, list):
                 messages = []
-            
             # 添加新消息
             messages.append({
                 "role": message["role"],
@@ -272,18 +272,14 @@ class SessionManager:
                 "format": message.get("format"),
                 "created_at": datetime.now().isoformat()
             })
-            
             # 保存到文件
             self._save_session_messages(session_id, messages)
-            
             # 更新内存中的会话
             session = self.sessions.get(session_id)
             if session:
                 session['messages'] = messages
                 session['last_active'] = time.time()
-            
             return True
-            
         except Exception as e:
             logger.error(f"Error adding message to session {session_id}: {str(e)}")
             return False
@@ -298,10 +294,10 @@ class SessionManager:
                 
             # 从文件加载最新消息
             messages = self._load_session_messages(session_id)
-            
+            if not isinstance(messages, list):
+                messages = []
             # 更新会话的最后活动时间
             session['last_active'] = time.time()
-            
             return messages
             
         except Exception as e:
@@ -312,30 +308,21 @@ class SessionManager:
         """清理过期会话"""
         while True:
             try:
-                current_time = time.time()
-                expired_sessions = [
-                    session_id
-                    for session_id, session in self.sessions.items()
-                    if current_time - session['last_active'] > self.session_timeout
-                ]
-                
-                for session_id in expired_sessions:
-                    # 清理锁
-                    if session_id in self.session_locks:
-                        del self.session_locks[session_id]
-                    # 清理会话
-                    if session_id in self.sessions:
-                        del self.sessions[session_id]
-                    # 清理interpreter实例
-                    if session_id in self.interpreter_instances:
-                        del self.interpreter_instances[session_id]
-                    # 清理文件
-                    file_path = self._get_session_file_path(session_id)
-                    if file_path.exists():
-                        file_path.unlink()
-                
+                with self.lock:
+                    current_time = time.time()
+                    # 检查并清理过期的会话
+                    expired_sessions = [
+                        session_id
+                        for session_id, last_used in self.instance_last_used.items()
+                        if current_time - last_used > self.session_timeout
+                    ]
+                    
+                    for session_id in expired_sessions:
+                        logger.info(f"Cleaning up expired session {session_id}")
+                        self._cleanup_instance(session_id)
+                        self._remove_session(session_id)
+                        
                 time.sleep(self.cleanup_interval)
-                
             except Exception as e:
                 logger.error(f"Error in cleanup thread: {str(e)}")
                 time.sleep(self.cleanup_interval)
@@ -430,7 +417,6 @@ class SessionManager:
         interpreter_instance = OpenInterpreter()
         interpreter_instance.conversation_history = True
         self.interpreter_instances[session_id] = interpreter_instance
-        
         session = {
             'session_id': session_id,
             'created_at': datetime.now().isoformat(),
@@ -490,7 +476,6 @@ class SessionManager:
 
     def get_or_create_session(self, session_id: Optional[str] = None) -> Tuple[Dict, bool]:
         """Get existing session or create new one
-        
         Returns:
             Tuple of (session, created) where created is True if new session was created
         """
@@ -520,4 +505,66 @@ class SessionManager:
 
     def get_interpreter(self, session_id: str) -> Optional[Any]:
         """获取会话对应的interpreter实例"""
-        return self.interpreter_instances.get(session_id) 
+        with self.lock:
+            interpreter = self.interpreter_instances.get(session_id)
+            if interpreter is None:
+                logger.info(f"Creating new interpreter instance for session {session_id}")
+                # 在创建新实例前检查是否需要优化
+                self.optimize_interpreter_instances(session_id)
+                interpreter = self._create_new_interpreter(session_id)
+                self.interpreter_instances[session_id] = interpreter
+            # 更新最后使用时间
+            self.instance_last_used[session_id] = time.time()
+            logger.debug(f"Active interpreter instances: {len(self.interpreter_instances)}/{self.max_active_instances}")
+            return interpreter
+
+    def _create_new_interpreter(self, session_id: str) -> Any:
+        """创建新的interpreter实例"""
+        from interpreter import OpenInterpreter
+        interpreter = OpenInterpreter()
+        interpreter.auto_run = True
+        interpreter.conversation_history = True
+        # 加载历史消息
+        messages = self._load_session_messages(session_id)
+        if messages:
+            interpreter.messages = messages
+        return interpreter            
+
+    def optimize_interpreter_instances(self, session_id: str) -> None:
+        """优化 interpreter 实例管理"""
+        with self.lock:
+            if len(self.interpreter_instances) >= self.max_active_instances:
+                # 找出最不活跃的实例进行清理
+                oldest_session = min(
+                    self.instance_last_used.items(), 
+                    key=lambda x: x[1]
+                )[0]
+                if oldest_session != session_id:
+                    logger.info(
+                        f"Cleaning up inactive interpreter instance for session {oldest_session} "
+                        f"(active instances: {len(self.interpreter_instances)})"
+                    )
+                    self._cleanup_instance(oldest_session)
+
+    def _cleanup_instance(self, session_id: str) -> None:
+        """清理指定会话的interpreter实例"""
+        try:
+            if session_id in self.interpreter_instances:
+                del self.interpreter_instances[session_id]
+            if session_id in self.instance_last_used:
+                del self.instance_last_used[session_id]
+        except Exception as e:
+            logger.error(f"Error cleaning up instance {session_id}: {str(e)}")
+
+    def get_instances_status(self) -> Dict[str, Any]:
+        """获取实例状态信息"""
+        with self.lock:
+            current_time = time.time()
+            return {
+                "max_instances": self.max_active_instances,
+                "active_instances": len(self.interpreter_instances),
+                "instance_usage": {
+                    session_id: current_time - last_used
+                    for session_id, last_used in self.instance_last_used.items()
+                }
+            }
