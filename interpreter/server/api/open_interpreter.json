@@ -48,7 +48,7 @@
           ],
           "body": {
             "mode": "raw",
-            "raw": "{\n    \"llm\": {\n        \"model\": \"bedrock/anthropic.claude-3-sonnet-20240229-v1:0\",\n        \"status\": \"ready\"\n    },\n    \"status\": \"healthy\",\n    \"version\": \"0.4.3\"\n}"
+            "raw": "{\n    \"llm\": {\n        \"model\": \"bedrock/anthropic.claude-3-sonnet-20240229-v1:0\",\n        \"status\": \"ready\"\n    },\n    \"instances\": {\n        \"active\": 0,\n        \"max\": 3\n    },\n    \"status\": \"healthy\",\n    \"uptime\": \"unknown\",\n    \"version\": \"0.4.3\"\n}"
           }
         }
       ]

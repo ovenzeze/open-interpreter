@@ -31,8 +31,52 @@ GET /v1/health
         "model": "bedrock/anthropic.claude-3-sonnet-20240229-v1:0",
         "status": "ready"
     },
+    "instances": {
+        "active": 0,
+        "max": 3
+    },
     "status": "healthy",
+    "uptime": "unknown",
     "version": "0.4.3"
+}
+```
+
+可选查询参数：
+- `detail=full`: 返回更详细的系统信息，包括内存、磁盘和系统信息
+
+详细响应示例：
+```json
+{
+    "llm": {
+        "model": "bedrock/anthropic.claude-3-sonnet-20240229-v1:0",
+        "status": "ready"
+    },
+    "instances": {
+        "active": 0,
+        "max": 3
+    },
+    "status": "healthy",
+    "uptime": "unknown",
+    "version": "0.4.3",
+    "system": {
+        "disk": {
+            "free": "96.44GB",
+            "total": "233.47GB",
+            "used_percent": 8.7
+        },
+        "memory": {
+            "available": "2.02GB",
+            "total": "8.00GB",
+            "used_percent": 74.8
+        },
+        "system": {
+            "hostname": "server.example.com",
+            "platform": "Darwin",
+            "python": "3.9.5",
+            "version": "23.1.0"
+        },
+        "timestamp": "2025-02-24T20:56:46.884080"
+    }
 }
 ```
 

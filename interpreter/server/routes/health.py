@@ -25,6 +25,55 @@ def health_check():
             "uptime": get_system_info().get("uptime", "unknown")
         }
         
+        # 添加 LLM 相关信息
+        # 首先尝试从默认解释器实例获取
+        if hasattr(current_app, 'interpreter_instance'):
+            try:
+                interpreter = current_app.interpreter_instance
+                model = getattr(interpreter.llm, 'model', 'unknown')
+                response["llm"] = {
+                    "model": model,
+                    "status": "ready"
+                }
+            except Exception as e:
+                response["llm"] = {
+                    "model": "unknown",
+                    "status": "unknown",
+                    "error": str(e)
+                }
+        # 如果没有默认解释器实例，尝试从会话管理器中获取活跃的解释器实例
+        elif hasattr(current_app, 'session_manager') and hasattr(current_app.session_manager, 'interpreter_instances'):
+            try:
+                # 获取第一个活跃的解释器实例
+                instances = current_app.session_manager.interpreter_instances
+                if instances:
+                    # 获取第一个实例的模型信息
+                    first_instance = next(iter(instances.values()))
+                    model = getattr(first_instance.llm, 'model', 'unknown')
+                    response["llm"] = {
+                        "model": model,
+                        "status": "ready"
+                    }
+                else:
+                    # 如果没有活跃实例，使用配置中的默认模型
+                    model = current_app.config.get('DEFAULT_MODEL', 'unknown')
+                    response["llm"] = {
+                        "model": model,
+                        "status": "ready"
+                    }
+            except Exception as e:
+                response["llm"] = {
+                    "model": current_app.config.get('DEFAULT_MODEL', 'unknown'),
+                    "status": "ready",
+                    "note": f"Using default model from config due to error: {str(e)}"
+                }
+        else:
+            # 如果无法获取实例，使用配置中的默认值
+            response["llm"] = {
+                "model": current_app.config.get('DEFAULT_MODEL', 'unknown'),
+                "status": "ready"
+            }
+        
         # 使用无锁的方式获取实例状态
         if hasattr(current_app, 'session_manager'):
             try:
