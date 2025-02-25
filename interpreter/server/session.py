@@ -222,7 +222,7 @@ class SessionManager:
         self._active_locks = set()
         self._lock_timeout = 30  # 30秒锁超时
         
-        # 添加缺失的锁
+        # 确保所有锁都被正确初始化
         self._instances_lock = threading.Lock()
         self._sessions_lock = threading.Lock()
         self.lock = threading.Lock()
@@ -307,6 +307,10 @@ class SessionManager:
             try:
                 # 获取需要清理的会话列表
                 to_cleanup = []
+                # 确保_instances_lock存在
+                if not hasattr(self, '_instances_lock'):
+                    self._instances_lock = threading.Lock()
+                    
                 with self._instances_lock:
                     current_time = time.time()
                     expired_sessions = [
@@ -570,6 +574,10 @@ class SessionManager:
     def get_interpreter(self, session_id: str) -> Optional[Any]:
         """获取会话对应的interpreter实例（优化锁的使用）"""
         try:
+            # 确保_instances_lock存在
+            if not hasattr(self, '_instances_lock'):
+                self._instances_lock = threading.Lock()
+                
             # 快速路径：检查实例是否存在
             interpreter = self.interpreter_instances.get(session_id)
             if interpreter is not None:
@@ -629,6 +637,14 @@ class SessionManager:
     def _cleanup_instance(self, session_id: str) -> None:
         """清理指定会话的interpreter实例（优化锁的使用）"""
         try:
+            # 确保_instances_lock存在
+            if not hasattr(self, '_instances_lock'):
+                self._instances_lock = threading.Lock()
+                
+            # 确保_sessions_lock存在
+            if not hasattr(self, '_sessions_lock'):
+                self._sessions_lock = threading.Lock()
+                
             with self._instances_lock:
                 if session_id in self.interpreter_instances:
                     del self.interpreter_instances[session_id]

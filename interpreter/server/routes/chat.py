@@ -147,6 +147,9 @@ def chat():
                 interpreter_instance.messages.append(msg_dict)
         
         current_app.logger.debug("Starting chat with interpreter")
+        # 记录当前消息数量，用于过滤历史消息
+        current_message_count = len(interpreter_instance.messages)
+        
         response = interpreter_instance.chat(
             last_message_content,
             stream=False,  # 这里改为 False 以便收集所有消息
@@ -157,8 +160,11 @@ def chat():
         # 用于收集代码和执行结果
         code_messages = []
         
+        # 只处理新生成的消息，跳过历史消息
+        new_messages = interpreter_instance.messages[current_message_count:]
+        
         # 遍历生成的所有消息
-        for msg in interpreter_instance.messages:
+        for msg in new_messages:
             if msg["role"] in ["assistant", "computer"]:
                 if msg["type"] == "message":
                     response_messages.append({
