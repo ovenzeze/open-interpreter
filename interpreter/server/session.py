@@ -222,6 +222,11 @@ class SessionManager:
         self._active_locks = set()
         self._lock_timeout = 30  # 30秒锁超时
         
+        # 添加缺失的锁
+        self._instances_lock = threading.Lock()
+        self._sessions_lock = threading.Lock()
+        self.lock = threading.Lock()
+        
         # 启动清理线程
         self.cleanup_thread = threading.Thread(target=self._cleanup_expired_sessions, daemon=True)
         self.cleanup_thread.start()
@@ -285,10 +290,16 @@ class SessionManager:
 
     def get_messages(self, session_id: str) -> Optional[List[Dict]]:
         """获取会话的消息列表"""
-        session = self.get_session(session_id)
-        if session:
-            return session.get('messages', [])
-        return None
+        try:
+            session = self.get_session(session_id)
+            if session:
+                messages = session.get('messages', [])
+                return messages
+            logger.debug(f"Cannot get messages: session {session_id} not found")
+            return None
+        except Exception as e:
+            logger.error(f"Error getting messages for session {session_id}: {str(e)}", exc_info=True)
+            return None
 
     def _cleanup_expired_sessions(self):
         """优化清理过期会话的逻辑"""
@@ -441,9 +452,17 @@ class SessionManager:
                     self._persist_session(session_id, session)
                 threading.Thread(target=update_last_active, daemon=True).start()
                 return session
+            
+            # 如果会话不存在或已过期，记录日志并返回 None
+            if not session:
+                logger.debug(f"Session not found: {session_id}")
+            elif not self._is_session_valid(session.get('last_active', 0)):
+                logger.debug(f"Session expired: {session_id}")
+            
             return None
         except Exception as e:
-            logger.error(f"Error getting session: {str(e)}")
+            # 记录详细错误信息，但仍然返回 None 而不是抛出异常
+            logger.error(f"Error getting session {session_id}: {str(e)}", exc_info=True)
             return None
 
     def update_session(self, session_id: str, updates: Dict) -> Optional[Dict]:

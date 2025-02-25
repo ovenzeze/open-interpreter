@@ -74,11 +74,15 @@ def manage_session(session_id):
         if request.method == 'GET':
             session = current_app.session_manager.get_session(session_id)
             if not session:
+                logger.debug(f"Session not found: {session_id}")
                 return jsonify({"error": "Session not found"}), 404
+                
             # 确保返回的metadata结构正确
-            session['metadata'] = session.get('metadata', {})
-            if isinstance(session['metadata'], dict) and 'metadata' in session['metadata']:
+            if 'metadata' not in session:
+                session['metadata'] = {}
+            elif isinstance(session['metadata'], dict) and 'metadata' in session['metadata']:
                 session['metadata'] = session['metadata']['metadata']
+                
             return jsonify(session)
             
         elif request.method == 'PATCH':
@@ -104,8 +108,16 @@ def manage_session(session_id):
 def manage_messages(session_id):
     """管理会话消息"""
     try:
+        # 首先检查会话是否存在
+        session = current_app.session_manager.get_session(session_id)
+        if not session:
+            logger.debug(f"Session not found when accessing messages: {session_id}")
+            return jsonify({"error": "Session not found"}), 404
+            
         if request.method == 'GET':
             messages = current_app.session_manager.get_messages(session_id)
+            if messages is None:
+                messages = []
             return jsonify({"messages": messages})
             
         elif request.method == 'POST':
@@ -126,6 +138,12 @@ def manage_messages(session_id):
 def add_message(session_id):
     """添加消息到会话"""
     try:
+        # 首先检查会话是否存在
+        session = current_app.session_manager.get_session(session_id)
+        if not session:
+            logger.debug(f"Session not found when adding message: {session_id}")
+            return jsonify({"error": "Session not found"}), 404
+            
         data = request.get_json()
         if not isinstance(data, dict) or 'content' not in data or 'role' not in data:
             raise ValidationError("Invalid message format")
@@ -145,6 +163,12 @@ def add_message(session_id):
 def load_session(session_id):
     """加载历史会话"""
     try:
+        # 首先检查会话是否存在
+        session = current_app.session_manager.get_session(session_id)
+        if not session:
+            logger.debug(f"Session not found when loading: {session_id}")
+            return jsonify({"error": "Session not found"}), 404
+            
         data = request.get_json()
         messages = data.get('messages', [])
         current_app.session_manager.merge_messages(session_id, messages)
@@ -160,7 +184,8 @@ def export_session(session_id):
     try:
         session = current_app.session_manager.get_session(session_id)
         if not session:
-            raise ValidationError(f"Session {session_id} not found")
+            logger.debug(f"Session not found when exporting: {session_id}")
+            return jsonify({"error": "Session not found"}), 404
         return jsonify(session)
     except Exception as e:
         logger.error(f"Session export failed: {str(e)}", exc_info=True)

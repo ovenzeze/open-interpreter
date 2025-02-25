@@ -23,6 +23,10 @@ bp = Blueprint('chat', __name__)
 @bp.route('/v1/chat', methods=['POST'])
 def chat():
     """Chat endpoint that handles both streaming and non-streaming responses"""
+    # 初始化lock_acquired变量，确保在所有执行路径中都有定义
+    lock_acquired = False
+    session_id = None
+    
     try:
         data = request.get_json()
         messages = data.get('messages', [])

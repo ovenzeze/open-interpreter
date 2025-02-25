@@ -100,15 +100,22 @@ def log_request_info(request) -> None:
     """记录请求信息"""
     logger.info(f"Request: {request.method} {request.url}")
     logger.debug(f"Headers: {dict(request.headers)}")
-    if request.is_json:
-        logger.debug(f"JSON Data: {request.get_json()}")
+    # 只在非 GET 请求且内容类型为 JSON 时解析 JSON 数据
+    if request.method != 'GET' and request.is_json:
+        try:
+            logger.debug(f"JSON Data: {request.get_json()}")
+        except Exception as e:
+            logger.warning(f"Failed to parse JSON data: {str(e)}")
 
 def log_response_info(response) -> None:
     """记录响应信息"""
     logger.info(f"Response Status: {response.status_code}")
     logger.debug(f"Response Headers: {dict(response.headers)}")
     if response.is_json:
-        logger.debug(f"Response Data: {response.get_json()}")
+        try:
+            logger.debug(f"Response Data: {response.get_json()}")
+        except Exception as e:
+            logger.warning(f"Failed to parse response JSON data: {str(e)}")
 
 def log_error(error: Exception) -> None:
     """记录错误信息"""
