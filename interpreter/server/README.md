@@ -2,6 +2,14 @@
 
 Open Interpreter HTTP Server 是一个基于 Flask 的 HTTP 服务，提供了与 Open Interpreter 交互的 REST API 接口。它支持原生的聊天功能以及 OpenAI 兼容的接口，可以轻松集成到各种应用中。
 
+## 版本信息
+
+当前版本：v1.0.0
+
+### 版本历史
+
+- v1.0.0 (2024-02-25) - 初始版本发布
+
 ## 功能特点
 
 - 支持 Open Interpreter 原生 API
@@ -19,6 +27,16 @@ Open Interpreter HTTP Server 是一个基于 Flask 的 HTTP 服务，提供了�
 ```bash
 pip install -r requirements.txt
 ```
+
+### 依赖项
+
+主要依赖项包括：
+- Flask
+- Flask-RESTful
+- Flask-Limiter
+- PM2 (Node.js)
+
+完整依赖列表请参见项目根目录下的 `requirements.txt` 文件。
 
 ### 配置环境变量
 
@@ -79,6 +97,10 @@ pm2 logs interpreter-prod
 pm2 logs interpreter-dev
 ```
 
+### PM2 配置
+
+服务使用 PM2 进行进程管理，配置文件位于项目根目录的 `ecosystem.config.js`。您可以根据需要修改此文件以调整服务配置。
+
 ### 环境说明
 
 #### 生产环境 (interpreter-prod)
@@ -98,12 +120,26 @@ pm2 logs interpreter-dev
 - 文件监控：启用（监控 interpreter 目录）
 - 忽略监控：logs, tests, *.pyc, __pycache__, .git, node_modules
 
+## API 端点概览
+
+### 会话管理
+- `POST /api/sessions` - 创建新会话
+- `GET /api/sessions/{session_id}` - 获取会话信息
+- `DELETE /api/sessions/{session_id}` - 删除会话
+
+### 消息交互
+- `POST /api/sessions/{session_id}/messages` - 发送消息
+- `GET /api/sessions/{session_id}/messages` - 获取消息历史
+
+### OpenAI 兼容接口
+- `POST /v1/chat/completions` - 兼容 OpenAI 聊天接口
+
 ## API 文档
 
-完整的 API 文档已移至 Postman 配置文件，您可以在 `interpreter/server/api/postman_collection.json` 中找到。要使用这些 API：
+完整的 API 文档已移至 Postman 配置文件，您可以在 `interpreter/server/api/collection.json` 或 `interpreter/server/api/open_interpreter.json` 中找到。要使用这些 API：
 
 1. 下载并安装 [Postman](https://www.postman.com/downloads/)
-2. 导入位于 `interpreter/server/api/postman_collection.json` 的配置文件
+2. 导入位于 `interpreter/server/api` 目录下的配置文件
 3. 设置环境变量：
    - `base_url`: 您的服务器地址（默认为 `http://localhost:5001`）
    - `api_key`: 您的 API 密钥
@@ -164,6 +200,23 @@ Content-Type: application/json
 - 敏感数据在日志中自动脱敏
 - 会话数据定期清理
 - 代码执行在隔离环境中进行
+
+## 故障排除
+
+### 常见问题
+
+1. **服务无法启动**
+   - 检查端口是否被占用
+   - 确认环境变量配置正确
+   - 检查 PM2 是否正确安装
+
+2. **API 请求返回 401**
+   - 确认 API Key 配置正确
+   - 检查请求头中的 Authorization 格式
+
+3. **代码执行失败**
+   - 检查 PYTHON_PATH 环境变量是否正确
+   - 确认执行环境中已安装所需依赖
 
 ## 贡献指南
 
