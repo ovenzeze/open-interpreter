@@ -1,4 +1,3 @@
-Open Interpreter HTTP Server
 # Open Interpreter HTTP Server
 
 Open Interpreter HTTP Server 是一个基于 Flask 的 HTTP 服务，提供了与 Open Interpreter 交互的 REST API 接口。它支持原生的聊天功能以及 OpenAI 兼容的接口，可以轻松集成到各种应用中。
@@ -33,192 +32,86 @@ RATE_LIMIT_PER_MINUTE=60
 SESSION_RATE_LIMIT_PER_MINUTE=10
 MAX_TOKENS=4096
 TEMPERATURE=0.7
+SERVER_PORT_PROD=5001
+SERVER_PORT_DEV=5002
+INTERPRETER_BASE=~/.interpreter
+INTERPRETER_HOME=~/.interpreter/.prod
+PYTHON_PATH=/path/to/your/python
 ```
 
-### 启动服务器
+### 启动服务
+
+服务使用 PM2 进行管理，提供了生产环境和开发环境两种配置：
+
+#### 使用脚本启动
 
 ```bash
-python -m interpreter.server.cli --host 0.0.0.0 --port 5001
+# 启动服务
+./server.sh start
+
+# 停止服务
+./server.sh stop
+
+# 重启服务
+./server.sh restart
+
+# 查看服务状态
+./server.sh status
 ```
 
-## API 端点
+#### PM2 直接管理
 
-所有请求需要包含以下 Header：
+```bash
+# 启动所有服务
+pm2 start ecosystem.config.js
+
+# 只启动生产环境
+pm2 start ecosystem.config.js --only interpreter-prod
+
+# 只启动开发环境
+pm2 start ecosystem.config.js --only interpreter-dev
+
+# 查看服务状态
+pm2 status
+
+# 查看日志
+pm2 logs interpreter-prod
+pm2 logs interpreter-dev
+```
+
+### 环境说明
+
+#### 生产环境 (interpreter-prod)
+- 端口：5001（可通过 SERVER_PORT_PROD 环境变量配置）
+- 日志级别：INFO（可通过 LOG_LEVEL 环境变量配置）
+- 日志位置：~/.interpreter/logs/prod/
+- 自动重启：启用
+- 内存限制：1GB
+- 文件监控：禁用
+
+#### 开发环境 (interpreter-dev)
+- 端口：5002（可通过 SERVER_PORT_DEV 环境变量配置）
+- 日志级别：DEBUG
+- 日志位置：~/.interpreter/logs/dev/
+- 自动重启：启用
+- 内存限制：1GB
+- 文件监控：启用（监控 interpreter 目录）
+- 忽略监控：logs, tests, *.pyc, __pycache__, .git, node_modules
+
+## API 文档
+
+完整的 API 文档已移至 Postman 配置文件，您可以在 `interpreter/server/api/postman_collection.json` 中找到。要使用这些 API：
+
+1. 下载并安装 [Postman](https://www.postman.com/downloads/)
+2. 导入位于 `interpreter/server/api/postman_collection.json` 的配置文件
+3. 设置环境变量：
+   - `base_url`: 您的服务器地址（默认为 `http://localhost:5001`）
+   - `api_key`: 您的 API 密钥
+
+所有请求都需要包含以下 Header：
 ```http
 Authorization: Bearer your-api-key
 Content-Type: application/json
-```
-
-### 1. 健康检查
-
-```http
-GET /v1/health
-```
-
-响应示例：
-```json
-{
-    "status": "healthy",
-    "version": "1.0.0",
-    "model": "bedrock/anthropic.claude-3-sonnet-20240229-v1:0"
-}
-```
-
-### 2. 会话管理
-
-#### 创建会话
-```http
-POST /v1/sessions
-```
-
-响应示例：
-```json
-{
-    "session_id": "550e8400-e29b-41d4-a716-446655440000",
-    "created_at": "2024-02-12T10:00:00Z",
-    "model": "bedrock/anthropic.claude-3-sonnet-20240229-v1:0"
-}
-```
-
-#### 获取会话列表
-```http
-GET /v1/sessions
-```
-
-响应示例：
-```json
-{
-    "sessions": [
-        {
-            "session_id": "550e8400-e29b-41d4-a716-446655440000",
-            "created_at": "2024-02-12T10:00:00Z",
-            "message_count": 10
-        }
-    ]
-}
-```
-
-#### 获取会话消息
-```http
-GET /v1/sessions/<session_id>/messages
-```
-
-响应示例：
-```json
-{
-    "messages": [
-        {
-            "role": "user",
-            "type": "message",
-            "content": "Hello!",
-            "created_at": "2024-02-12T10:00:00Z"
-        },
-        {
-            "role": "assistant",
-            "type": "message",
-            "content": "Hi! How can I help you today?",
-            "created_at": "2024-02-12T10:00:01Z"
-        }
-    ]
-}
-```
-
-### 3. 聊天接口
-
-#### 原生聊天
-```http
-POST /v1/chat
-Content-Type: application/json
-
-请求体：
-{
-    "messages": [
-        {
-            "role": "user",
-            "type": "message",
-            "content": "Hello!"
-        }
-    ],
-    "session_id": "optional-session-id",
-    "stream": false,
-    "config": {
-        "llm": {
-            "model": "bedrock/anthropic.claude-3-sonnet-20240229-v1:0",
-            "temperature": 0.7,
-            "max_tokens": 4096
-        }
-    }
-}
-```
-
-响应示例：
-```json
-{
-    "message": {
-        "role": "assistant",
-        "type": "message",
-        "content": "Hello! How can I help you today?",
-        "created_at": "2024-02-12T10:00:00Z"
-    },
-    "session_id": "550e8400-e29b-41d4-a716-446655440000"
-}
-```
-
-流式响应格式：
-```
-event: message
-data: {"role": "assistant", "type": "message", "content": "Hello", "created_at": "2024-02-12T10:00:00Z"}
-
-event: message
-data: {"role": "assistant", "type": "message", "content": "! How can I ", "created_at": "2024-02-12T10:00:00Z"}
-
-event: message
-data: {"role": "assistant", "type": "message", "content": "help you today?", "created_at": "2024-02-12T10:00:00Z"}
-
-event: done
-data: {"session_id": "550e8400-e29b-41d4-a716-446655440000"}
-```
-
-#### OpenAI 兼容接口
-```http
-POST /v1/chat/completions
-Content-Type: application/json
-
-{
-    "messages": [
-        {
-            "role": "user",
-            "content": "Hello!"
-        }
-    ],
-    "model": "bedrock/anthropic.claude-3-sonnet-20240229-v1:0",
-    "stream": false,
-    "temperature": 0.7,
-    "max_tokens": 4096
-}
-```
-
-响应示例：
-```json
-{
-    "id": "chatcmpl-123",
-    "object": "chat.completion",
-    "created": 1677652288,
-    "model": "bedrock/anthropic.claude-3-sonnet-20240229-v1:0",
-    "choices": [{
-        "index": 0,
-        "message": {
-            "role": "assistant",
-            "content": "Hello! How can I help you today?"
-        },
-        "finish_reason": "stop"
-    }],
-    "usage": {
-        "prompt_tokens": 9,
-        "completion_tokens": 12,
-        "total_tokens": 21
-    }
-}
 ```
 
 ## 消息格式
@@ -250,53 +143,6 @@ Content-Type: application/json
 - 429: 请求过于频繁
 - 500: 服务器内部错误
 
-### 错误响应示例
-
-1. 无效的会话 ID
-```json
-{
-    "error": {
-        "message": "Session not found",
-        "type": "session_error",
-        "code": "session_not_found"
-    }
-}
-```
-
-2. 无效的请求参数
-```json
-{
-    "error": {
-        "message": "Invalid message format",
-        "type": "validation_error",
-        "code": "invalid_message"
-    }
-}
-```
-
-3. 认证失败
-```json
-{
-    "error": {
-        "message": "Invalid API key",
-        "type": "auth_error",
-        "code": "invalid_api_key"
-    }
-}
-```
-
-4. 速率限制
-```json
-{
-    "error": {
-        "message": "Too many requests",
-        "type": "rate_limit_error",
-        "code": "rate_limit_exceeded",
-        "retry_after": 60
-    }
-}
-```
-
 ## 安全措施
 
 ### 认证
@@ -319,57 +165,6 @@ Content-Type: application/json
 - 会话数据定期清理
 - 代码执行在隔离环境中进行
 
-## 开发指南
-
-### 项目结构
-
-```
-interpreter/server/
-├── __init__.py
-├── app.py           # Flask 应用主文件
-├── cli.py          # 命令行接口
-├── core/           # 核心功能模块
-├── errors.py       # 错误处理
-├── session.py      # 会话管理
-├── utils.py        # 工具函数
-└── logs/           # 日志文件
-```
-
-### 运行测试
-
-```bash
-python tests/server/test_endpoints.py
-```
-
-### 日志配置
-
-日志文件位置：
-- 错误日志：`interpreter/server/logs/server_err.log`
-- 输出日志：`interpreter/server/logs/server_out.log`
-
-## 部署
-
-### 使用 Supervisor
-
-配置文件示例 (`supervisord.conf`):
-
-```ini
-[program:interpreter_server]
-directory=/path/to/open-interpreter
-command=python -m interpreter.server.cli --host 0.0.0.0 --port 5001
-autostart=true
-autorestart=true
-stderr_logfile=interpreter/server/logs/server_err.log
-stdout_logfile=interpreter/server/logs/server_out.log
-```
-
-### 环境要求
-
-- Python 3.9+
-- Flask
-- Waitress (生产环境)
-- python-dotenv
-
 ## 贡献指南
 
 1. Fork 项目
@@ -380,4 +175,4 @@ stdout_logfile=interpreter/server/logs/server_out.log
 
 ## 许可证
 
-MIT License 
+MIT License

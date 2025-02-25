@@ -5,7 +5,7 @@
 from flask import Blueprint, jsonify, request, current_app
 from ..log_config import log_error
 from ..errors import format_error_response
-from ..utils import get_system_info, format_size  # Updated import path
+from ..utils import get_system_info, format_size
 
 bp = Blueprint('health', __name__)
 
@@ -22,11 +22,22 @@ def health_check():
         response = {
             "status": "healthy",
             "version": getattr(current_app, 'version', 'unknown'),
-            "llm": {
-                "model": getattr(current_app.interpreter_instance.llm, 'model', 'unknown'),
-                "status": "ready"
-            }
+            "uptime": get_system_info().get("uptime", "unknown")
         }
+        
+        # 使用无锁的方式获取实例状态
+        if hasattr(current_app, 'session_manager'):
+            try:
+                active_count = len(current_app.session_manager.interpreter_instances)
+                max_count = current_app.session_manager.max_active_instances
+                response["instances"] = {
+                    "max": max_count,
+                    "active": active_count
+                }
+            except:
+                response["instances"] = {
+                    "status": "unavailable"
+                }
         
         if detail == 'full':
             try:

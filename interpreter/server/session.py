@@ -215,7 +215,7 @@ class SessionManager:
         self.cleanup_interval = cleanup_interval
         self.session_locks: Dict[str, threading.Lock] = {}
         self.interpreter_instances: Dict[str, Any] = {}
-        self.lock = threading.Lock()  # 添加全局锁对象
+        self._chat_locks: Dict[str, threading.Lock] = {}  # 专用于聊天操作的锁
         self.max_active_instances = max_active_instances
         self.instance_last_used = {}  # 记录实例最后使用时间
         
@@ -291,23 +291,24 @@ class SessionManager:
         return None
 
     def _cleanup_expired_sessions(self):
-        """清理过期会话"""
+        """优化清理过期会话的逻辑"""
         while True:
             try:
-                with self.lock:
+                # 获取需要清理的会话列表
+                to_cleanup = []
+                with self._instances_lock:
                     current_time = time.time()
-                    # 检查并清理过期的会话
                     expired_sessions = [
                         session_id
                         for session_id, last_used in self.instance_last_used.items()
                         if current_time - last_used > self.session_timeout
                     ]
+                    to_cleanup.extend(expired_sessions)
+                
+                # 在锁外执行清理
+                for session_id in to_cleanup:
+                    self._cleanup_instance(session_id)
                     
-                    for session_id in expired_sessions:
-                        logger.info(f"Cleaning up expired session {session_id}")
-                        self._cleanup_instance(session_id)
-                        self._remove_session(session_id)
-                        
                 time.sleep(self.cleanup_interval)
             except Exception as e:
                 logger.error(f"Error in cleanup thread: {str(e)}")
@@ -430,13 +431,20 @@ class SessionManager:
             raise
 
     def get_session(self, session_id: str) -> Optional[Dict]:
-        """获取会话信息"""
-        session = self.sessions.get(session_id)
-        if session and self._is_session_valid(session.get('last_active', 0)):
-            session['last_active'] = time.time()
-            self._persist_session(session_id, session)
-            return session
-        return None
+        """获取会话信息（无锁快速路径）"""
+        try:
+            session = self.sessions.get(session_id)
+            if session and self._is_session_valid(session.get('last_active', 0)):
+                # 异步更新最后活动时间
+                def update_last_active():
+                    session['last_active'] = time.time()
+                    self._persist_session(session_id, session)
+                threading.Thread(target=update_last_active, daemon=True).start()
+                return session
+            return None
+        except Exception as e:
+            logger.error(f"Error getting session: {str(e)}")
+            return None
 
     def update_session(self, session_id: str, updates: Dict) -> Optional[Dict]:
         """更新会话信息"""
@@ -449,12 +457,20 @@ class SessionManager:
         return None
 
     def list_sessions(self) -> List[Dict]:
-        """列出所有有效会话"""
-        with self.lock:
+        """列出所有有效会话（快速路径）"""
+        try:
+            # 快速拷贝会话列表，避免长时间持有锁
+            with self._sessions_lock:
+                sessions = list(self.sessions.values())
+            
+            # 在锁外部处理过滤
             return [
-                session for session in self.sessions.values()
+                session for session in sessions
                 if self._is_session_valid(session.get('last_active', 0))
             ]
+        except Exception as e:
+            logger.error(f"Error listing sessions: {str(e)}")
+            return []
 
     def get_session_messages(self, session_id: str) -> List[Dict]:
         """获取会话消息历史"""
@@ -464,7 +480,7 @@ class SessionManager:
         return []
 
     def acquire_session_lock(self, session_id: str, timeout: float = 5.0) -> bool:
-        """获取会话锁，增加超时检查"""
+        """获取会话锁（只用于聊天操作）"""
         try:
             if session_id in self._active_locks:
                 # 检查是否超时
@@ -473,11 +489,13 @@ class SessionManager:
                     self.release_session_lock(session_id)
                 else:
                     return False
-                    
-            if session_id not in self.session_locks:
-                self.session_locks[session_id] = threading.Lock()
-                
-            if self.session_locks[session_id].acquire(timeout=timeout):
+
+            # 创建或获取聊天锁
+            if session_id not in self._chat_locks:
+                self._chat_locks[session_id] = threading.Lock()
+            
+            # 尝试获取锁
+            if self._chat_locks[session_id].acquire(timeout=timeout):
                 self._active_locks.add(session_id)
                 self.instance_last_used[session_id] = time.time()
                 return True
@@ -488,13 +506,14 @@ class SessionManager:
             return False
 
     def release_session_lock(self, session_id: str) -> None:
-        """释放会话锁，增加错误处理"""
+        """释放会话锁，仅用于聊天操作"""
         try:
             if session_id in self._active_locks:
                 self._active_locks.remove(session_id)
-            if session_id in self.session_locks:
+                
+            if session_id in self._chat_locks:
                 try:
-                    self.session_locks[session_id].release()
+                    self._chat_locks[session_id].release()
                 except RuntimeError:
                     pass  # 忽略重复释放的错误
         except Exception as e:
@@ -530,19 +549,35 @@ class SessionManager:
             raise ValueError("Session not found")
 
     def get_interpreter(self, session_id: str) -> Optional[Any]:
-        """获取会话对应的interpreter实例"""
-        with self.lock:
+        """获取会话对应的interpreter实例（优化锁的使用）"""
+        try:
+            # 快速路径：检查实例是否存在
             interpreter = self.interpreter_instances.get(session_id)
-            if interpreter is None:
+            if interpreter is not None:
+                with self._instances_lock:
+                    self.instance_last_used[session_id] = time.time()
+                return interpreter
+            
+            # 慢路径：需要创建新实例
+            with self._instances_lock:
+                # 双重检查，避免竞态条件
+                interpreter = self.interpreter_instances.get(session_id)
+                if interpreter is not None:
+                    self.instance_last_used[session_id] = time.time()
+                    return interpreter
+                    
                 logger.info(f"Creating new interpreter instance for session {session_id}")
-                # 在创建新实例前检查是否需要优化
                 self.optimize_interpreter_instances(session_id)
                 interpreter = self._create_new_interpreter(session_id)
                 self.interpreter_instances[session_id] = interpreter
-            # 更新最后使用时间
-            self.instance_last_used[session_id] = time.time()
+                self.instance_last_used[session_id] = time.time()
+                
             logger.debug(f"Active interpreter instances: {len(self.interpreter_instances)}/{self.max_active_instances}")
             return interpreter
+            
+        except Exception as e:
+            logger.error(f"Error getting interpreter: {str(e)}")
+            return None
 
     def _create_new_interpreter(self, session_id: str) -> Any:
         """创建新的interpreter实例"""
@@ -573,26 +608,48 @@ class SessionManager:
                     self._cleanup_instance(oldest_session)
 
     def _cleanup_instance(self, session_id: str) -> None:
-        """清理指定会话的interpreter实例"""
+        """清理指定会话的interpreter实例（优化锁的使用）"""
         try:
-            if session_id in self.interpreter_instances:
-                del self.interpreter_instances[session_id]
-            if session_id in self.instance_last_used:
-                del self.instance_last_used[session_id]
+            with self._instances_lock:
+                if session_id in self.interpreter_instances:
+                    del self.interpreter_instances[session_id]
+                if session_id in self.instance_last_used:
+                    del self.instance_last_used[session_id]
+            
+            # 分开使用会话锁
+            with self._sessions_lock:
+                if session_id in self.sessions:
+                    del self.sessions[session_id]
+                    
+            # 异步删除文件
+            def delete_file():
+                try:
+                    session_file = self.storage_path / f"{session_id}.json"
+                    if session_file.exists():
+                        session_file.unlink()
+                except Exception as e:
+                    logger.error(f"Error deleting session file: {str(e)}")
+                    
+            threading.Thread(target=delete_file, daemon=True).start()
+            
         except Exception as e:
             logger.error(f"Error cleaning up instance {session_id}: {str(e)}")
 
     def get_instances_status(self) -> Dict[str, Any]:
-        """获取实例状态信息"""
-        with self.lock:
-            current_time = time.time()
+        """获取实例状态信息（无锁实现）"""
+        try:
+            # 直接读取实例数量，不使用锁
+            # 由于这只是用于监控，即使数据有少许不准确也可接受
             return {
                 "max_instances": self.max_active_instances,
-                "active_instances": len(self.interpreter_instances),
-                "instance_usage": {
-                    session_id: current_time - last_used
-                    for session_id, last_used in self.instance_last_used.items()
-                }
+                "active_instances": len(self.interpreter_instances)
+            }
+        except Exception as e:
+            logger.error(f"Error getting instances status: {str(e)}")
+            return {
+                "max_instances": self.max_active_instances,
+                "active_instances": 0,
+                "error": str(e)
             }
 
 from typing import Dict, Optional

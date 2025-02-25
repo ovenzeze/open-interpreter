@@ -37,6 +37,11 @@ def list_sessions():
 def create_session():
     """创建新会话"""
     try:
+        if not request.is_json:
+            error_msg = "Request must be JSON with Content-Type: application/json"
+            logger.debug(f"Invalid request content type: {request.content_type}")
+            return jsonify({"error": error_msg}), 415
+            
         data = request.get_json() or {}
         session_create = SessionCreate(**data)
         session = current_app.session_manager.create_session(session_create.model_dump())
@@ -52,9 +57,15 @@ def create_session():
             "metadata": session['metadata']  # 现在是正确的单层结构
         }
         return jsonify(response_data), 201
+        
+    except ValueError as e:
+        # 处理参数验证错误
+        logger.debug(f"Invalid session creation parameters: {str(e)}")
+        return jsonify({"error": str(e)}), 400
+        
     except Exception as e:
         logger.error(f"Session creation failed: {str(e)}", exc_info=True)
-        return jsonify({"error": str(e)}), 500
+        return jsonify({"error": "Internal server error"}), 500
 
 @bp.route('/v1/sessions/<session_id>', methods=['GET', 'PATCH', 'DELETE'])
 def manage_session(session_id):
@@ -119,17 +130,10 @@ def add_message(session_id):
         if not isinstance(data, dict) or 'content' not in data or 'role' not in data:
             raise ValidationError("Invalid message format")
 
-        # 获取锁确保并发安全
-        if not current_app.session_manager.acquire_session_lock(session_id):
-            raise ValidationError("Session is locked")
-
-        try:
-            success = current_app.session_manager.add_message(session_id, data)
-            if not success:
-                raise ValidationError("Failed to add message")
-            return jsonify({"success": True})
-        finally:
-            current_app.session_manager.release_session_lock(session_id)
+        success = current_app.session_manager.add_message(session_id, data)
+        if not success:
+            raise ValidationError("Failed to add message")
+        return jsonify({"success": True})
 
     except Exception as e:
         logger.error(f"Message operation failed: {str(e)}", exc_info=True)
