@@ -7,7 +7,8 @@ import pkg_resources
 import threading
 from typing import Optional, Union
 
-from flask import Flask, jsonify
+from flask import Flask, jsonify, request, g, current_app
+# 移除 flask_cors 导入
 import interpreter
 from interpreter import OpenInterpreter
 
@@ -137,6 +138,24 @@ def register_error_handlers(app: Flask) -> None:
 
 def create_app(config=None):
     app = Flask(__name__)
+    
+    # 移除 CORS 初始化
+    
+    if config:
+        app.config.update(config)
+    
+    # 设置默认配置
+    app.config.setdefault("MAX_INSTANCES", 3)
+    app.config.setdefault("MODEL", "gpt-3.5-turbo")
+    app.config.setdefault("SAFE_MODE", "true")
+    
+    # 添加CORS支持
+    @app.after_request
+    def add_cors_headers(response):
+        response.headers.add('Access-Control-Allow-Origin', '*')
+        response.headers.add('Access-Control-Allow-Headers', 'Content-Type,Authorization')
+        response.headers.add('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE,OPTIONS')
+        return response
     
     # Update version setting using the imported interpreter module
     try:
