@@ -152,9 +152,23 @@ def create_app(config=None):
     # 添加CORS支持
     @app.after_request
     def add_cors_headers(response):
-        response.headers.add('Access-Control-Allow-Origin', '*')
+        origin = request.headers.get('Origin')
+        if origin:
+            # 使用请求的实际源而不是通配符
+            response.headers.add('Access-Control-Allow-Origin', origin)
+            # 允许凭据
+            response.headers.add('Access-Control-Allow-Credentials', 'true')
+        else:
+            response.headers.add('Access-Control-Allow-Origin', '*')
+            
         response.headers.add('Access-Control-Allow-Headers', 'Content-Type,Authorization')
         response.headers.add('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE,OPTIONS')
+        
+        # 处理预检请求
+        if request.method == 'OPTIONS':
+            # 预检请求缓存时间（秒）
+            response.headers.add('Access-Control-Max-Age', '3600')
+            
         return response
     
     # Update version setting using the imported interpreter module
