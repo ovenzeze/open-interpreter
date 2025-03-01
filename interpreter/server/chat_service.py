@@ -71,6 +71,36 @@ class ChatService:
             # 5. 处理消息
             try:
                 if is_openai_format:
+                    # 保存用户消息到会话
+                    if session_id and messages and len(messages) > 0:
+                        # 获取最后一条用户消息
+                        last_message = messages[-1]
+                        self.logger.info(f"Last message type: {type(last_message)}")
+                        
+                        # 确保消息是字典格式
+                        if isinstance(last_message, dict):
+                            self.logger.info(f"Last message content: {last_message}")
+                            if last_message.get('role') == 'user':
+                                self.logger.info(f"Attempting to save user message to session {session_id}")
+                                # 将用户消息保存到会话
+                                success = self.session_manager.add_message(session_id, last_message)
+                                self.logger.info(f"Save result: {success}")
+                            else:
+                                self.logger.info(f"Last message is not a user message: {last_message.get('role')}")
+                        else:
+                            self.logger.info(f"Converting message to dict format")
+                            # 尝试转换为字典格式
+                            if hasattr(last_message, 'to_dict'):
+                                msg_dict = last_message.to_dict()
+                                self.logger.info(f"Converted message: {msg_dict}")
+                                if msg_dict.get('role') == 'user':
+                                    success = self.session_manager.add_message(session_id, msg_dict)
+                                    self.logger.info(f"Save result: {success}")
+                            else:
+                                self.logger.info(f"Cannot convert message to dict format")
+                    else:
+                        self.logger.info(f"No messages to save or session_id is None. session_id: {session_id}, messages length: {len(messages) if messages else 0}")
+                    
                     # 转换OpenAI格式的消息
                     interpreter_messages = convert_openai_to_interpreter(messages)
                     # 加载历史消息
@@ -253,6 +283,14 @@ class ChatService:
                 format_func = format_openai_stream_chunk if is_openai_format else format_stream_chunk
                 
                 if is_openai_format:
+                    # 保存用户消息到会话
+                    if session_id and messages and len(messages) > 0:
+                        # 获取最后一条用户消息
+                        last_message = messages[-1]
+                        if isinstance(last_message, dict) and last_message.get('role') == 'user':
+                            # 将用户消息保存到会话
+                            self.session_manager.add_message(session_id, last_message)
+                    
                     # 转换OpenAI格式的消息
                     interpreter_messages = convert_openai_to_interpreter(messages)
                     # 加载历史消息
