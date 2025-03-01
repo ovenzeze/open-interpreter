@@ -22,50 +22,45 @@ def log_response(response):
     return response
 
 # 基础会话管理路由
-@bp.route('/v1/sessions', methods=['GET'])
-def list_sessions():
-    """获取会话列表"""
+@bp.route('/v1/sessions', methods=['GET', 'POST'])
+def sessions():
+    """会话管理接口"""
     try:
-        sessions = current_app.session_manager.list_sessions()
-        return jsonify({"sessions": sessions, "total": len(sessions)})
+        if request.method == 'GET':
+            # 获取分页参数
+            page = request.args.get('page', 1, type=int)
+            limit = request.args.get('limit', 20, type=int)
+            
+            # 获取会话列表
+            sessions = current_app.session_manager.list_sessions(page, limit)
+            
+            # 规范化会话数据
+            from ..utils import normalize_session_batch
+            normalized_sessions = normalize_session_batch(sessions['sessions'])
+            
+            # 返回规范化后的会话列表
+            return jsonify({
+                'sessions': normalized_sessions,
+                'total': sessions['total'],
+                'page': page,
+                'limit': limit
+            })
+            
+        elif request.method == 'POST':
+            # 创建新会话
+            data = request.get_json()
+            session = current_app.session_manager.create_session(data)
+            
+            # 规范化会话数据
+            from ..utils import normalize_session
+            normalized_session = normalize_session(session)
+            
+            return jsonify(normalized_session), 201
+            
     except Exception as e:
-        logger.error("Failed to list sessions", exc_info=True)
+        logger.error(f"Session operation failed: {str(e)}", exc_info=True)
         error_response, status_code = format_error_response(e)
         return jsonify(error_response), status_code
-
-@bp.route('/v1/sessions', methods=['POST'])
-def create_session():
-    """创建新会话"""
-    try:
-        if not request.is_json:
-            error_msg = "Request must be JSON with Content-Type: application/json"
-            logger.debug(f"Invalid request content type: {request.content_type}")
-            return jsonify({"error": error_msg}), 415
-            
-        data = request.get_json() or {}
-        session_create = SessionCreate(**data)
-        session = current_app.session_manager.create_session(session_create.model_dump())
-
-        # 修复嵌套的元数据结构
-        if 'metadata' in session and isinstance(session['metadata'], dict):
-            if 'metadata' in session['metadata']:
-                session['metadata'] = session['metadata']['metadata']
-
-        response_data = {
-            "session_id": session['session_id'],
-            "created_at": session['created_at'],
-            "metadata": session['metadata']  # 现在是正确的单层结构
-        }
-        return jsonify(response_data), 201
-        
-    except ValueError as e:
-        # 处理参数验证错误
-        logger.debug(f"Invalid session creation parameters: {str(e)}")
-        return jsonify({"error": str(e)}), 400
-        
-    except Exception as e:
-        logger.error(f"Session creation failed: {str(e)}", exc_info=True)
-        return jsonify({"error": "Internal server error"}), 500
 
 @bp.route('/v1/sessions/<session_id>', methods=['GET', 'PATCH', 'DELETE'])
 def manage_session(session_id):
@@ -77,20 +72,23 @@ def manage_session(session_id):
                 logger.debug(f"Session not found: {session_id}")
                 return jsonify({"error": "Session not found"}), 404
                 
-            # 确保返回的metadata结构正确
-            if 'metadata' not in session:
-                session['metadata'] = {}
-            elif isinstance(session['metadata'], dict) and 'metadata' in session['metadata']:
-                session['metadata'] = session['metadata']['metadata']
+            # 规范化会话数据
+            from ..utils import normalize_session
+            normalized_session = normalize_session(session)
                 
-            return jsonify(session)
+            return jsonify(normalized_session)
             
         elif request.method == 'PATCH':
             data = request.get_json()
             session = current_app.session_manager.update_session(session_id, data)
             if not session:
                 return jsonify({"error": "Session not found"}), 404
-            return jsonify(session)
+                
+            # 规范化会话数据
+            from ..utils import normalize_session
+            normalized_session = normalize_session(session)
+                
+            return jsonify(normalized_session)
             
         elif request.method == 'DELETE':
             if not current_app.session_manager.get_session(session_id):
@@ -151,6 +149,13 @@ def add_message(session_id):
         success = current_app.session_manager.add_message(session_id, data)
         if not success:
             raise ValidationError("Failed to add message")
+            
+        # 重新获取会话并规范化数据
+        from ..utils import normalize_session
+        updated_session = current_app.session_manager.get_session(session_id)
+        if updated_session:
+            normalized_session = normalize_session(updated_session)
+            return jsonify({"success": True, "session": normalized_session})
         return jsonify({"success": True})
 
     except Exception as e:

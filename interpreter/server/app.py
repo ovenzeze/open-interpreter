@@ -16,7 +16,7 @@ from .config import Config
 from .errors import ConfigurationError, format_error_response
 from .log_config import setup_logging, log_error
 from .session import SessionManager  # 直接从 session.py 导入
-from .routes import chat_bp, session_bp, health_bp, openai_bp  # 移除 openai_bp
+from .routes import chat_bp, session_bp, health_bp, openai_bp, title_generator_bp  # 添加 title_generator_bp
 
 def configure_interpreter_instance(interpreter_instance: Union[OpenInterpreter, 'interpreter'], app: Flask) -> None:
     """
@@ -121,6 +121,7 @@ def register_blueprints(app: Flask) -> None:
     app.register_blueprint(session_bp)
     app.register_blueprint(health_bp)
     app.register_blueprint(openai_bp)  # 启用 OpenAI 兼容接口
+    app.register_blueprint(title_generator_bp)  # 启用标题生成接口
 
 def register_error_handlers(app: Flask) -> None:
     """

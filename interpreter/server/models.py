@@ -43,13 +43,21 @@ class MessageCreate(BaseModel):
 
 class SessionMetadata(TypedDict, total=False):
     """Session metadata structure"""
-    title: str                    
-    description: Optional[str]    
-    tags: List[str]              
-    model: Optional[str]         
-    safe_mode: bool              # 移除默认值，TypedDict 不支持
-    preview: Optional[str]       
-    language: Optional[str]      
+    title: str                    # 会话标题
+    description: Optional[str]    # 会话描述
+    tags: List[str]              # 标签列表
+    model: Optional[str]         # 使用的模型
+    safe_mode: bool              # 安全模式
+    preview: Optional[str]       # 预览内容
+    language: Optional[str]      # 主要编程语言
+    is_starred: bool             # 是否标星
+    status: str                  # 会话状态 (active/archived/deleted)
+    turn_count: int              # 对话轮次计数
+    category: str                # 会话分类
+    last_modified: str           # 最后修改时间
+    modified_by: str             # 最后修改者
+    context_window: Optional[int] # 上下文窗口大小
+    max_tokens: Optional[int]     # 最大令牌数
 
 class SessionState(TypedDict):
     """Session state tracking"""

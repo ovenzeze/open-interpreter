@@ -6,5 +6,6 @@ from .chat import bp as chat_bp
 from .session import bp as session_bp
 from .health import bp as health_bp
 from .openai import openai_bp  # 启用 openai 路由
+from .title_generator import bp as title_generator_bp  # 启用标题生成路由
 
-__all__ = ['chat_bp', 'session_bp', 'health_bp', 'openai_bp']  # 添加 'openai_bp'
+__all__ = ['chat_bp', 'session_bp', 'health_bp', 'openai_bp', 'title_generator_bp']  # 添加 'title_generator_bp'

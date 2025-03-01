@@ -275,7 +275,7 @@ class SessionManager:
             if 'messages' not in session:
                 session['messages'] = []
             session['messages'].append(msg_data)
-            session['last_active'] = time.time()
+            session['last_active'] = datetime.now().isoformat()
 
             # 持久化保存
             self._persist_session(session_id, session)
@@ -403,6 +403,89 @@ class SessionManager:
         except Exception as e:
             logger.error(f"Error persisting session {session_id}: {str(e)}")
 
+    def normalize_session_data(self, session_data: Dict[str, Any]) -> Dict[str, Any]:
+        """规范化会话数据，确保所有字段符合模型定义"""
+        normalized = session_data.copy()
+        
+        # 确保基本字段存在
+        if 'session_id' not in normalized:
+            normalized['session_id'] = str(uuid.uuid4())
+        
+        if 'created_at' not in normalized:
+            normalized['created_at'] = datetime.now().isoformat()
+        
+        # 确保 last_active 是 ISO 格式字符串
+        if 'last_active' in normalized and isinstance(normalized['last_active'], (int, float)):
+            # 将时间戳转换为 ISO 格式
+            normalized['last_active'] = datetime.fromtimestamp(normalized['last_active']).isoformat()
+        elif 'last_active' not in normalized:
+            normalized['last_active'] = datetime.now().isoformat()
+        
+        # 确保 messages 字段存在且为列表
+        if 'messages' not in normalized:
+            normalized['messages'] = []
+        
+        # 规范化每条消息
+        for i, msg in enumerate(normalized['messages']):
+            # 确保消息有 id
+            if 'id' not in msg:
+                msg['id'] = str(uuid.uuid4())
+            
+            # 确保消息有 created_at
+            if 'created_at' not in msg:
+                msg['created_at'] = datetime.now().isoformat()
+            
+            # 确保消息有 role 和 type
+            if 'role' not in msg:
+                msg['role'] = 'assistant'  # 默认为助手
+            
+            if 'type' not in msg:
+                msg['type'] = 'message'  # 默认为消息类型
+        
+        # 确保 metadata 字段存在且为字典
+        if 'metadata' not in normalized:
+            normalized['metadata'] = {}
+        elif not isinstance(normalized['metadata'], dict):
+            normalized['metadata'] = {}
+        
+        # 规范化元数据
+        metadata = normalized['metadata']
+        
+        # 设置默认值（如果不存在）
+        if 'safe_mode' not in metadata:
+            metadata['safe_mode'] = True
+        
+        # 其他可选元数据字段，如果需要默认值可以在这里设置
+        optional_fields = {
+            'title': '',  # 空字符串而不是 None
+            'description': '',  # 空字符串而不是 None
+            'tags': [],
+            'model': '',  # 空字符串而不是 None
+            'preview': '',  # 空字符串而不是 None
+            'language': '',  # 空字符串而不是 None
+            'is_starred': False,
+            'status': 'active',
+            'turn_count': len(normalized['messages']) // 2,  # 粗略估计对话轮次
+            'category': 'general',
+            'last_modified': datetime.now().isoformat(),
+            'context_window': 0,  # 0 而不是 None
+            'max_tokens': 0  # 0 而不是 None
+        }
+        
+        # 只设置不存在的字段
+        for field, default_value in optional_fields.items():
+            if field not in metadata:
+                metadata[field] = default_value
+        
+        return normalized
+
+    def get_session(self, session_id: str) -> Optional[Dict]:
+        """Get session by ID with normalized data"""
+        session = self.sessions.get(session_id)
+        if session:
+            return self.normalize_session_data(session)
+        return None
+
     def create_session(self, metadata: Optional[Dict] = None) -> Dict:
         """Create a new session with metadata"""
         session_id = str(uuid.uuid4())
@@ -415,7 +498,7 @@ class SessionManager:
             'session_id': session_id,
             'created_at': datetime.now().isoformat(),
             'messages': [],
-            'last_active': time.time(),
+            'last_active': datetime.now().isoformat(),
             'metadata': metadata or {}
         }
         
@@ -423,48 +506,25 @@ class SessionManager:
             # 使用实例管理器创建实例
             self.instance_manager.create_instance(session_id)
             
-            # 保存会话数据
-            self.sessions[session_id] = session
+            # 规范化并保存会话数据
+            normalized_session = self.normalize_session_data(session)
+            self.sessions[session_id] = normalized_session
             self.session_locks[session_id] = threading.Lock()
-            self._persist_session(session_id, session)
+            self._persist_session(session_id, normalized_session)
             
             logger.info(f"Created new session: {session_id}")
-            return session
+            return normalized_session
             
         except Exception as e:
             logger.error(f"Failed to create session: {str(e)}")
             raise
-
-    def get_session(self, session_id: str) -> Optional[Dict]:
-        """获取会话信息（无锁快速路径）"""
-        try:
-            session = self.sessions.get(session_id)
-            if session and self._is_session_valid(session.get('last_active', 0)):
-                # 异步更新最后活动时间
-                def update_last_active():
-                    session['last_active'] = time.time()
-                    self._persist_session(session_id, session)
-                threading.Thread(target=update_last_active, daemon=True).start()
-                return session
-            
-            # 如果会话不存在或已过期，记录日志并返回 None
-            if not session:
-                logger.debug(f"Session not found: {session_id}")
-            elif not self._is_session_valid(session.get('last_active', 0)):
-                logger.debug(f"Session expired: {session_id}")
-            
-            return None
-        except Exception as e:
-            # 记录详细错误信息，但仍然返回 None 而不是抛出异常
-            logger.error(f"Error getting session {session_id}: {str(e)}", exc_info=True)
-            return None
 
     def update_session(self, session_id: str, updates: Dict) -> Optional[Dict]:
         """更新会话信息"""
         session = self.get_session(session_id)
         if session:
             session.update(updates)
-            session['last_active'] = time.time()
+            session['last_active'] = datetime.now().isoformat()
             self._persist_session(session_id, session)
             return session
         return None
@@ -476,11 +536,15 @@ class SessionManager:
             with self._sessions_lock:
                 sessions = list(self.sessions.values())
             
-            # 在锁外部处理过滤
-            return [
-                session for session in sessions
-                if self._is_session_valid(session.get('last_active', 0))
-            ]
+            # 在锁外部处理过滤和规范化
+            valid_sessions = []
+            for session in sessions:
+                if self._is_session_valid(session.get('last_active', 0)):
+                    # 对每个有效会话应用规范化
+                    normalized_session = self.normalize_session_data(session)
+                    valid_sessions.append(normalized_session)
+            
+            return valid_sessions
         except Exception as e:
             logger.error(f"Error listing sessions: {str(e)}")
             return []

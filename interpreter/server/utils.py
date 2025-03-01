@@ -9,7 +9,7 @@ import logging
 import platform
 import psutil
 import sys
-from typing import Any, Dict, List, Union
+from typing import Any, Dict, List, Union, Optional
 from datetime import datetime
 from .message import Message, StreamingChunk
 
@@ -314,3 +314,149 @@ def format_size(bytes: int) -> str:
             return f"{bytes:.2f}{unit}"
         bytes /= 1024
     return f"{bytes:.2f}PB"
+
+def normalize_session_batch(sessions: List[Dict[str, Any]]) -> List[Dict[str, Any]]:
+    """
+    批量规范化会话数据，确保所有会话数据都符合模型定义
+    
+    Args:
+        sessions: 会话数据列表
+        
+    Returns:
+        规范化后的会话数据列表
+    """
+    normalized_sessions = []
+    
+    for session in sessions:
+        normalized = normalize_session(session)
+        normalized_sessions.append(normalized)
+    
+    return normalized_sessions
+
+def normalize_session(session_data: Dict[str, Any]) -> Dict[str, Any]:
+    """
+    规范化单个会话数据，确保所有字段符合模型定义
+    
+    Args:
+        session_data: 会话数据
+        
+    Returns:
+        规范化后的会话数据
+    """
+    normalized = session_data.copy()
+    
+    # 确保基本字段存在
+    if 'session_id' not in normalized:
+        normalized['session_id'] = str(uuid.uuid4())
+    
+    if 'created_at' not in normalized:
+        normalized['created_at'] = datetime.now().isoformat()
+    
+    # 确保 last_active 是 ISO 格式字符串
+    if 'last_active' in normalized and isinstance(normalized['last_active'], (int, float)):
+        # 将时间戳转换为 ISO 格式
+        normalized['last_active'] = datetime.fromtimestamp(normalized['last_active']).isoformat()
+    elif 'last_active' not in normalized:
+        normalized['last_active'] = datetime.now().isoformat()
+    
+    # 确保 messages 字段存在且为列表
+    if 'messages' not in normalized:
+        normalized['messages'] = []
+    
+    # 规范化每条消息
+    normalized_messages = []
+    for msg in normalized['messages']:
+        normalized_msg = msg.copy()
+        
+        # 确保消息有 id
+        if 'id' not in normalized_msg:
+            normalized_msg['id'] = str(uuid.uuid4())
+        
+        # 确保消息有 created_at
+        if 'created_at' not in normalized_msg:
+            normalized_msg['created_at'] = datetime.now().isoformat()
+        
+        # 确保消息有 role 和 type
+        if 'role' not in normalized_msg:
+            normalized_msg['role'] = 'assistant'  # 默认为助手
+        
+        if 'type' not in normalized_msg:
+            normalized_msg['type'] = 'message'  # 默认为消息类型
+            
+        # 确保 content 字段存在
+        if 'content' not in normalized_msg:
+            normalized_msg['content'] = ""
+            
+        normalized_messages.append(normalized_msg)
+    
+    normalized['messages'] = normalized_messages
+    
+    # 确保 metadata 字段存在且为字典
+    if 'metadata' not in normalized:
+        normalized['metadata'] = {}
+    elif not isinstance(normalized['metadata'], dict):
+        normalized['metadata'] = {}
+    
+    # 规范化元数据
+    metadata = normalized['metadata']
+    
+    # 设置默认值（如果不存在）
+    if 'safe_mode' not in metadata:
+        metadata['safe_mode'] = True
+    
+    # 其他可选元数据字段，如果需要默认值可以在这里设置
+    optional_fields = {
+        'title': '',
+        'description': '',
+        'tags': [],
+        'model': '',
+        'preview': '',
+        'language': '',
+        'is_starred': False,
+        'status': 'active',
+        'turn_count': len(normalized['messages']) // 2,  # 粗略估计对话轮次
+        'category': 'general',
+        'last_modified': datetime.now().isoformat(),
+        'context_window': 0,
+        'max_tokens': 0
+    }
+    
+    # 只设置不存在的字段
+    for field, default_value in optional_fields.items():
+        if field not in metadata:
+            metadata[field] = default_value
+    
+    return normalized
+
+def get_session_summary(session: Dict[str, Any]) -> Dict[str, Any]:
+    """
+    获取会话摘要信息，用于列表展示
+    
+    Args:
+        session: 会话数据
+        
+    Returns:
+        会话摘要信息
+    """
+    summary = {
+        'session_id': session['session_id'],
+        'created_at': session['created_at'],
+        'last_active': session['last_active'],
+        'message_count': len(session.get('messages', [])),
+        'metadata': session.get('metadata', {})
+    }
+    
+    # 添加标题（如果存在）
+    metadata = session.get('metadata', {})
+    if metadata.get('title'):
+        summary['title'] = metadata['title']
+    
+    # 添加最后一条消息预览（如果存在）
+    messages = session.get('messages', [])
+    if messages:
+        last_message = messages[-1]
+        if last_message.get('role') == 'assistant' and last_message.get('type') == 'message':
+            content = last_message.get('content', '')
+            summary['last_message_preview'] = content[:100] + '...' if len(content) > 100 else content
+    
+    return summary
