@@ -1,8 +1,9 @@
 """OpenAI兼容接口路由处理"""
-from flask import Blueprint, request, jsonify, Response, current_app
-from ..message import Message
+from flask import Blueprint, request, jsonify, Response, current_app, stream_with_context
+from ..message import Message, StreamingChunk
 from ..errors import ValidationError, format_error_response
 from ..utils import convert_openai_to_interpreter, format_openai_stream_chunk
+from ..message_processor import MessageProcessor
 import uuid
 import time
 
@@ -43,8 +44,10 @@ def chat_completions():
         
         # 如果没有提供session_id，创建新会话
         if not session_id:
+            current_app.logger.info("No session_id provided, creating new session")
             session = session_manager.create_session()
             session_id = session['session_id']
+            current_app.logger.debug(f"Created new session: {session_id}")
         
         # 获取interpreter实例
         interpreter_instance = session_manager.get_interpreter(session_id)
@@ -63,10 +66,8 @@ def chat_completions():
         # 如果提供了模型，更新interpreter配置
         if 'model' in data:
             interpreter_instance.llm.model = data['model']
+            current_app.logger.debug(f"Updated model to {data['model']} for session {session_id}")
         
-        current_app.logger.info(f"Processing chat completions request with {len(messages)} messages for session {session_id}")
-        interpreter_instance.auto_run = True
-
         # 加载会话消息
         session_messages = session_manager.get_messages(session_id)
         if session_messages:
@@ -119,6 +120,5 @@ def chat_completions():
             
     except Exception as e:
         current_app.logger.error(f"Error processing chat completions request: {str(e)}", exc_info=True)
-        log_error(e)
         error_response, status_code = format_error_response(e)
         return jsonify(error_response), status_code 
