@@ -529,8 +529,17 @@ class SessionManager:
             return session
         return None
 
-    def list_sessions(self) -> List[Dict]:
-        """列出所有有效会话（快速路径）"""
+    def list_sessions(self, page=1, limit=20) -> Dict[str, Any]:
+        """
+        列出所有有效会话，支持分页
+        
+        参数:
+        - page: 页码，从1开始
+        - limit: 每页数量
+        
+        返回:
+        - 包含会话列表和分页信息的字典
+        """
         try:
             # 快速拷贝会话列表，避免长时间持有锁
             with self._sessions_lock:
@@ -544,10 +553,29 @@ class SessionManager:
                     normalized_session = self.normalize_session_data(session)
                     valid_sessions.append(normalized_session)
             
-            return valid_sessions
+            # 计算总数
+            total = len(valid_sessions)
+            
+            # 验证分页参数
+            page = max(1, page)  # 确保页码至少为1
+            limit = max(1, min(100, limit))  # 确保每页数量在1-100之间
+            
+            # 计算起始和结束索引
+            start_idx = (page - 1) * limit
+            end_idx = start_idx + limit
+            
+            # 分页
+            paginated_sessions = valid_sessions[start_idx:end_idx]
+            
+            return {
+                'sessions': paginated_sessions,
+                'total': total,
+                'page': page,
+                'limit': limit
+            }
         except Exception as e:
             logger.error(f"Error listing sessions: {str(e)}")
-            return []
+            return {'sessions': [], 'total': 0, 'page': page, 'limit': limit}
 
     def get_session_messages(self, session_id: str) -> List[Dict]:
         """获取会话消息历史"""
