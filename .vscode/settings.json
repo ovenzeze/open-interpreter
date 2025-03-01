@@ -9,5 +9,7 @@
         "*.sqlite3": true,
         "*.db": true,
         "**/__init__.py": true
-    }
+    },
+    "python.analysis.typeCheckingMode": "basic",
+    "python.analysis.autoImportCompletions": true
 }

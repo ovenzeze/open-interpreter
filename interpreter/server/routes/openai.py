@@ -2,7 +2,6 @@
 from flask import Blueprint, request, jsonify, Response, current_app, stream_with_context
 from ..message import Message, StreamingChunk
 from ..errors import ValidationError, format_error_response
-from ..utils import convert_openai_to_interpreter, format_openai_stream_chunk
 from ..message_processor import MessageProcessor
 import uuid
 import time
@@ -38,85 +37,51 @@ def chat_completions():
             
         stream = data.get('stream', False)
         session_id = data.get('session_id')
+        model = data.get('model')
         
-        # 获取会话管理器
-        session_manager = current_app.session_manager
+        # 获取聊天服务
+        if not hasattr(current_app, 'chat_service'):
+            from ..chat_service import ChatService
+            current_app.chat_service = ChatService(current_app.session_manager)
         
-        # 如果没有提供session_id，创建新会话
-        if not session_id:
-            current_app.logger.info("No session_id provided, creating new session")
-            session = session_manager.create_session()
-            session_id = session['session_id']
-            current_app.logger.debug(f"Created new session: {session_id}")
+        chat_service = current_app.chat_service
         
-        # 获取interpreter实例
-        interpreter_instance = session_manager.get_interpreter(session_id)
-        if not interpreter_instance:
-            current_app.logger.error(f"No interpreter instance found for session {session_id}")
-            return jsonify({
-                "error": {
-                    "message": "会话已过期或不存在",
-                    "code": "session_expired",
-                    "details": {
-                        "session_id": session_id
-                    }
+        current_app.logger.info(f"Processing OpenAI chat request with {len(messages)} messages")
+        
+        if stream:
+            # 流式响应
+            def generate_stream():
+                for chunk in chat_service.process_streaming_chat(
+                    messages=messages,
+                    session_id=session_id,
+                    model=model,
+                    is_openai_format=True
+                ):
+                    yield chunk
+            
+            return Response(
+                stream_with_context(generate_stream()),
+                mimetype='text/event-stream',
+                headers={
+                    'Cache-Control': 'no-cache',
+                    'X-Accel-Buffering': 'no'
                 }
-            }), 404
-        
-        # 如果提供了模型，更新interpreter配置
-        if 'model' in data:
-            interpreter_instance.llm.model = data['model']
-            current_app.logger.debug(f"Updated model to {data['model']} for session {session_id}")
-        
-        # 加载会话消息
-        session_messages = session_manager.get_messages(session_id)
-        if session_messages:
-            if isinstance(session_messages, dict):
-                session_messages = [session_messages]
-            elif not isinstance(session_messages, list):
-                session_messages = []
-            messages = session_messages + (messages if isinstance(messages, list) else [messages])
-        
-        # 转换消息格式并发送请求
-        interpreter_messages = convert_openai_to_interpreter(messages)
-        interpreter_instance.messages = [msg.to_dict() for msg in interpreter_messages[:-1]]  # 加载历史消息
-        response = interpreter_instance.chat(interpreter_messages[-1].content, stream=stream)
-        
-        if not stream:
-            result = MessageProcessor.process_response(response, session_manager, session_id)
+            )
+        else:
+            # 非流式响应
+            result = chat_service.process_chat(
+                messages=messages,
+                session_id=session_id,
+                stream=stream,
+                model=model,
+                is_openai_format=True
+            )
+            
+            # 检查是否是错误响应
+            if 'error' in result:
+                return jsonify(result), 400 if 'code' in result.get('error', {}) and result['error']['code'] == 'session_busy' else 500
+            
             return jsonify(result)
-        
-        def generate_stream():
-            """生成OpenAI格式的流式响应"""
-            try:
-                for chunk in response:
-                    chunk = StreamingChunk.from_dict(chunk)
-                    if chunk.type == 'message':
-                        session_manager.add_message(session_id, Message(
-                            role=chunk.role,
-                            type=chunk.type,
-                            content=chunk.content,
-                            format=chunk.format
-                        ).to_dict())
-                    yield format_openai_stream_chunk(chunk)
-            except Exception as e:
-                current_app.logger.error(f"Error in stream generation: {str(e)}", exc_info=True)
-                error_chunk = StreamingChunk(
-                    role='assistant',
-                    type='error',
-                    content=str(e),
-                    recipient='user'
-                )
-                yield format_openai_stream_chunk(error_chunk)
-        
-        return Response(
-            stream_with_context(generate_stream()),
-            mimetype='text/event-stream',
-            headers={
-                'Cache-Control': 'no-cache',
-                'X-Accel-Buffering': 'no'
-            }
-        )
             
     except Exception as e:
         current_app.logger.error(f"Error processing chat completions request: {str(e)}", exc_info=True)

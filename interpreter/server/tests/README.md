@@ -25,7 +25,10 @@ pip install pytest requests pytest-asyncio
 Make sure the Open Interpreter HTTP Server is running:
 
 ```bash
+# Navigate to the project root
 cd /path/to/open-interpreter
+
+# Start the development server (port 5002)
 interpreter/server/server.sh start-dev
 ```
 
@@ -36,7 +39,10 @@ You can run tests at different levels depending on your needs:
 #### Core Functionality Tests
 
 ```bash
+# Navigate to the server directory
 cd interpreter/server
+
+# Make the script executable and run core tests
 chmod +x tests/run_core_tests.sh
 ./tests/run_core_tests.sh
 ```
@@ -44,7 +50,10 @@ chmod +x tests/run_core_tests.sh
 #### Basic Functionality Tests
 
 ```bash
+# Navigate to the server directory
 cd interpreter/server
+
+# Make the script executable and run basic tests
 chmod +x tests/run_basic_tests.sh
 ./tests/run_basic_tests.sh
 ```
@@ -52,7 +61,10 @@ chmod +x tests/run_basic_tests.sh
 #### All Tests
 
 ```bash
+# Navigate to the server directory
 cd interpreter/server
+
+# Make the script executable and run all tests
 chmod +x tests/run_all_tests.sh
 ./tests/run_all_tests.sh
 ```
@@ -79,4 +91,6 @@ If your server uses different settings, modify the fixtures in `tests/conftest.p
 
 - Tests for features that are not yet implemented will be skipped rather than failing
 - Rate limiting tests may temporarily exhaust your API quota
-- Some tests require specific environment variables to be set in your `.env` file 
+- Some tests require specific environment variables to be set in your `.env` file
+- The server uses PM2 for process management, you can check server status with `server.sh status`
+- Current implementation skips some authentication and OpenAI compatibility tests 

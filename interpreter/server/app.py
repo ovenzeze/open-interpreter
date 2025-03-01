@@ -201,6 +201,10 @@ def create_app(config=None):
             cleanup_interval=app.config.get('CLEANUP_INTERVAL', 300)
         )
         
+        # 4.5 初始化聊天服务
+        from .chat_service import ChatService
+        app.chat_service = ChatService(app.session_manager)
+        
         # 5. 设置解释器
         setup_interpreter(app, None)
         
