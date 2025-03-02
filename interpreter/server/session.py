@@ -201,7 +201,7 @@ class SessionManager:
     """Manages chat sessions with NCU message format support"""
     def __init__(self, 
                  storage_path: str = None, 
-                 session_timeout: int = 3600,
+                 session_timeout: int = 30*24*3600,  # 默认30天
                  cleanup_interval: int = 300,
                  max_active_instances: int = 3):
         # 使用 platformdirs 获取系统配置目录
@@ -481,10 +481,47 @@ class SessionManager:
 
     def get_session(self, session_id: str) -> Optional[Dict]:
         """Get session by ID with normalized data"""
-        session = self.sessions.get(session_id)
-        if session:
-            return self.normalize_session_data(session)
-        return None
+        # 首先从文件系统尝试加载会话
+        try:
+            file_path = self._get_session_file_path(session_id)
+            if not file_path.exists():
+                # 如果文件不存在，尝试从内存获取
+                session = self.sessions.get(session_id)
+                if session:
+                    return self.normalize_session_data(session)
+                return None
+                
+            # 从文件读取会话数据
+            with open(file_path, 'r', encoding='utf-8') as f:
+                session_data = json.load(f)
+                
+            # 处理旧格式会话文件（直接是消息列表）
+            if isinstance(session_data, list):
+                # 获取文件的最后修改时间
+                file_mtime = os.path.getmtime(file_path)
+                session = {
+                    'session_id': session_id,
+                    'created_at': datetime.fromtimestamp(file_mtime).isoformat(),
+                    'messages': session_data,
+                    'last_active': datetime.fromtimestamp(file_mtime).isoformat(),
+                    'metadata': {}
+                }
+                return self.normalize_session_data(session)
+            else:
+                # 确保session_id存在且正确
+                if isinstance(session_data, dict):
+                    session_data['session_id'] = session_id
+                    return self.normalize_session_data(session_data)
+            
+            return None
+        except Exception as e:
+            logger.error(f"Error loading session {session_id} from file: {str(e)}")
+            
+            # 发生错误时，尝试从内存中获取
+            session = self.sessions.get(session_id)
+            if session:
+                return self.normalize_session_data(session)
+            return None
 
     def create_session(self, metadata: Optional[Dict] = None) -> Dict:
         """Create a new session with metadata"""
@@ -541,17 +578,51 @@ class SessionManager:
         - 包含会话列表和分页信息的字典
         """
         try:
-            # 快速拷贝会话列表，避免长时间持有锁
-            with self._sessions_lock:
-                sessions = list(self.sessions.values())
-            
-            # 在锁外部处理过滤和规范化
+            # 直接从文件系统获取会话数据
             valid_sessions = []
-            for session in sessions:
-                if self._is_session_valid(session.get('last_active', 0)):
-                    # 对每个有效会话应用规范化
-                    normalized_session = self.normalize_session_data(session)
-                    valid_sessions.append(normalized_session)
+            session_files = list(self.storage_path.glob("*.json"))
+            
+            for session_file in session_files:
+                try:
+                    # 获取文件的最后修改时间作为备用排序依据
+                    file_mtime = os.path.getmtime(session_file)
+                    
+                    with open(session_file, 'r', encoding='utf-8') as f:
+                        session_data = json.load(f)
+                    
+                    # 处理旧格式的会话文件（直接是消息列表）
+                    if isinstance(session_data, list):
+                        session_id = session_file.stem
+                        session = {
+                            'session_id': session_id,
+                            'created_at': datetime.fromtimestamp(file_mtime).isoformat(),
+                            'messages': session_data,
+                            'last_active': datetime.fromtimestamp(file_mtime).isoformat(),
+                            'metadata': {}
+                        }
+                        # 仅添加有效会话
+                        if self._is_session_valid(file_mtime):
+                            valid_sessions.append(self.normalize_session_data(session))
+                    else:
+                        # 新格式的会话文件
+                        session_id = session_data.get('session_id', '') or session_file.stem
+                        
+                        # 确保session_data中有session_id
+                        if isinstance(session_data, dict):
+                            session_data['session_id'] = session_id
+                            
+                            # 如果last_active不存在或格式不对，使用文件修改时间
+                            if 'last_active' not in session_data or not session_data.get('last_active'):
+                                session_data['last_active'] = datetime.fromtimestamp(file_mtime).isoformat()
+                            
+                            # 仅添加有效会话
+                            last_active = session_data.get('last_active', datetime.fromtimestamp(file_mtime).isoformat())
+                            if self._is_session_valid(last_active):
+                                valid_sessions.append(self.normalize_session_data(session_data))
+                            
+                except Exception as e:
+                    logger.error(f"Error processing session file {session_file}: {str(e)}")
+                    continue
             
             # 按最后活动时间倒序排序（从最新到最旧）
             valid_sessions.sort(key=lambda x: x.get('last_active', ''), reverse=True)

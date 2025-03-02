@@ -5,6 +5,7 @@
 ## 文档列表
 
 - [会话管理 API](./session_api.md) - 会话创建、获取、更新、删除等操作的接口定义
+- [聊天 API](./chat_api.md) - 聊天功能接口，包括原生聊天和OpenAI兼容接口的定义
 - [标题生成 API](./title_generator_api.md) - 基于会话内容自动生成标题和元数据的接口定义
 - [OpenAPI规范](./open_interpreter.json) - 符合OpenAPI规范的API定义文件
 - [Postman集合](./collection.json) - 可导入Postman的API集合
