@@ -2,15 +2,27 @@
 NCU (New Computer Update) Message Structure Definitions
 """
 
-from typing import Union, Literal, Dict, Optional, Any
+from typing import Union, Literal, Dict, Optional, Any, cast
 from datetime import datetime
 import uuid
+import logging
 
-# Type definitions
-MessageRole = Literal["user", "assistant", "computer"]
-MessageType = Literal["message", "code", "image", "console", "file", "confirmation"]
-MessageFormat = Literal["output", "path", "base64.png", "base64.jpeg", "python", "javascript", "shell", "html", "active_line", "execution"]
-MessageRecipient = Literal["user", "assistant"]
+logger = logging.getLogger(__name__)
+
+# Type definitions - 扩展支持的角色和类型，使得处理更灵活
+MessageRole = Union[Literal["user", "assistant", "computer"], str]
+MessageType = Union[Literal["message", "code", "image", "console", "file", "confirmation"], str]
+MessageFormat = Union[Literal["output", "path", "base64.png", "base64.jpeg", "python", "javascript", "shell", "html", "active_line", "execution"], str]
+MessageRecipient = Union[Literal["user", "assistant"], str]
+
+# 有效角色列表
+VALID_ROLES = ["user", "assistant", "computer"]
+# 有效类型列表
+VALID_TYPES = ["message", "code", "image", "console", "file", "confirmation"]
+# 有效格式列表
+VALID_FORMATS = ["output", "path", "base64.png", "base64.jpeg", "python", "javascript", "shell", "html", "active_line", "execution"]
+# 有效接收者列表
+VALID_RECIPIENTS = ["user", "assistant"]
 
 class Message:
     """NCU Message Structure"""
@@ -24,11 +36,36 @@ class Message:
         id: Optional[str] = None,
         created_at: Optional[str] = None
     ):
-        self.role = role
-        self.type = type
+        # 验证并修正角色
+        if role not in VALID_ROLES:
+            logger.warning(f"Invalid role: {role}, defaulting to 'user'")
+            self.role = "user"
+        else:
+            self.role = role
+            
+        # 验证并修正类型    
+        if type not in VALID_TYPES:
+            logger.warning(f"Invalid type: {type}, defaulting to 'message'")
+            self.type = "message"
+        else:
+            self.type = type
+            
         self.content = content
-        self.format = format
-        self.recipient = recipient
+        
+        # 验证并修正格式
+        if format is not None and format not in VALID_FORMATS:
+            logger.warning(f"Invalid format: {format}, setting to None")
+            self.format = None
+        else:
+            self.format = format
+            
+        # 验证并修正接收者
+        if recipient is not None and recipient not in VALID_RECIPIENTS:
+            logger.warning(f"Invalid recipient: {recipient}, setting to None")
+            self.recipient = None
+        else:
+            self.recipient = recipient
+            
         self.id = id or str(uuid.uuid4())
         self.created_at = created_at or datetime.now().isoformat()
 
@@ -54,10 +91,30 @@ class Message:
     @classmethod
     def from_dict(cls, data: Dict[str, Any]) -> 'Message':
         """Create message from dictionary"""
+        # 确保角色值有效
+        role = data.get("role", "user")
+        if role not in VALID_ROLES:
+            # 针对OpenAI兼容格式的特殊处理
+            if role == "system":
+                logger.warning(f"Converting 'system' role to 'assistant'")
+                role = "assistant"
+            elif role in ["function", "tool", "developer"]:
+                logger.warning(f"Converting '{role}' role to 'computer'")
+                role = "computer"
+            else:
+                logger.warning(f"Invalid role '{role}', defaulting to 'user'")
+                role = "user"
+        
+        # 确保消息类型有效
+        msg_type = data.get("type", "message")
+        if msg_type not in VALID_TYPES:
+            logger.warning(f"Invalid message type '{msg_type}', defaulting to 'message'")
+            msg_type = "message"
+            
         return cls(
-            role=data["role"],
-            type=data.get("type", "message"),
-            content=data.get("content"),
+            role=role,
+            type=msg_type,
+            content=data.get("content", ""),
             format=data.get("format"),
             recipient=data.get("recipient"),
             created_at=data.get("created_at"),
@@ -71,22 +128,19 @@ class Message:
             return False
         
         # Role validation
-        if self.role not in ["user", "assistant", "computer"]:
+        if self.role not in VALID_ROLES:
             return False
             
         # Type validation
-        if self.type not in ["message", "code", "image", "console", "file", "confirmation"]:
+        if self.type not in VALID_TYPES:
             return False
             
         # Format validation if present
-        if self.format and self.format not in [
-            "output", "path", "base64.png", "base64.jpeg", "python", 
-            "javascript", "shell", "html", "active_line", "execution"
-        ]:
+        if self.format and self.format not in VALID_FORMATS:
             return False
             
         # Recipient validation if present
-        if self.recipient and self.recipient not in ["user", "assistant"]:
+        if self.recipient and self.recipient not in VALID_RECIPIENTS:
             return False
             
         return True
@@ -130,7 +184,7 @@ class StreamingChunk(Message):
     def from_dict(cls, data: Dict[str, Any]) -> 'StreamingChunk':
         """Create streaming chunk from dictionary"""
         return cls(
-            role=data["role"],
+            role=data.get("role", "user"),
             type=data.get("type", "message"),
             content=data.get("content", ""),
             format=data.get("format"),

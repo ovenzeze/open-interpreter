@@ -123,16 +123,55 @@ class ChatService:
                     interpreter.messages = [msg.to_dict() for msg in interpreter_messages[:-1]]
                     # 处理最后一条消息
                     response = interpreter.chat(interpreter_messages[-1].content, stream=False, display=False)
-                    # 处理响应
-                    from .message_processor import MessageProcessor
-                    result = MessageProcessor.process_response(response, self.session_manager, session_id)
+                    
+                    # 转换响应格式
+                    chat_response = convert_interpreter_to_openai(response, session_id, getattr(interpreter, "model", "gpt-4"))
+                    
                     # 处理完成后标记为空闲
                     self.session_manager.mark_instance_status(session_id, 'idle')
-                    return result
+                    return chat_response
                 else:
                     # 原生格式处理
                     # 记录当前消息数量，用于过滤历史消息
                     current_message_count = len(interpreter.messages)
+                    
+                    # 保存用户消息到会话
+                    if session_id and messages and len(messages) > 0:
+                        # 获取最后一条用户消息
+                        last_message = messages[-1]
+                        is_user_message = False
+                        
+                        if isinstance(last_message, dict) and last_message.get('role') == 'user':
+                            is_user_message = True
+                            msg_dict = last_message
+                        elif hasattr(last_message, 'role') and getattr(last_message, 'role') == 'user':
+                            is_user_message = True
+                            # 尝试转换为字典格式
+                            if hasattr(last_message, 'to_dict'):
+                                msg_dict = last_message.to_dict()
+                            else:
+                                msg_dict = {
+                                    'role': 'user',
+                                    'type': 'message',
+                                    'content': str(last_message)
+                                }
+                        
+                        if is_user_message and session_id:
+                            # 检查会话中是否已有相同内容的用户消息，避免重复添加
+                            existing_messages = self.session_manager.get_messages(session_id) or []
+                            existing_user_contents = []
+                            
+                            if existing_messages:
+                                existing_user_contents = [
+                                    msg.get('content', '') for msg in existing_messages 
+                                    if msg.get('role') == 'user'
+                                ]
+                            
+                            if msg_dict.get('content') not in existing_user_contents:
+                                self.logger.info(f"添加用户消息到会话 {session_id}: {msg_dict.get('content')[:50]}...")
+                                # 将用户消息保存到会话
+                                success = self.session_manager.add_message(session_id, msg_dict)
+                                self.logger.info(f"保存结果: {success}")
                     
                     # 准备消息
                     last_message = messages[-1]
@@ -321,6 +360,45 @@ class ChatService:
                     response = interpreter.chat(interpreter_messages[-1].content, stream=True, display=False)
                 else:
                     # 原生格式处理
+                    # 记录当前消息数量，用于过滤历史消息
+                    current_message_count = len(interpreter.messages)
+                    
+                    # 保存用户消息到会话
+                    if session_id and messages and len(messages) > 0:
+                        # 获取最后一条用户消息
+                        last_message = messages[-1]
+                        is_user_message = False
+                        
+                        if isinstance(last_message, dict) and last_message.get('role') == 'user':
+                            is_user_message = True
+                            msg_dict = last_message
+                        elif hasattr(last_message, 'role') and getattr(last_message, 'role') == 'user':
+                            is_user_message = True
+                            if hasattr(last_message, 'to_dict'):
+                                msg_dict = last_message.to_dict()
+                            else:
+                                msg_dict = {
+                                    'role': 'user',
+                                    'type': 'message',
+                                    'content': str(last_message)
+                                }
+                        
+                        if is_user_message and session_id:
+                            # 检查会话中是否已有相同内容的用户消息，避免重复添加
+                            existing_messages = self.session_manager.get_messages(session_id) or []
+                            existing_user_contents = []
+                            
+                            if existing_messages:
+                                existing_user_contents = [
+                                    msg.get('content', '') for msg in existing_messages 
+                                    if msg.get('role') == 'user'
+                                ]
+                            
+                            if msg_dict.get('content') not in existing_user_contents:
+                                self.logger.info(f"添加用户消息到会话 {session_id}: {msg_dict.get('content')[:50]}...")
+                                # 将用户消息保存到会话
+                                self.session_manager.add_message(session_id, msg_dict)
+                    
                     # 准备消息
                     last_message = messages[-1]
                     if isinstance(last_message, dict):

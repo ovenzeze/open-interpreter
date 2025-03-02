@@ -45,10 +45,17 @@ def chat():
                 msg = msg.copy()  # 创建副本以不修改原始数据
                 msg.pop('start', None)
                 msg.pop('end', None)
+                # 确保消息类型正确设置
+                if 'type' not in msg:
+                    msg['type'] = 'message'
+                # 验证角色，如果不符合要求则设置为用户消息
+                if msg.get('role') not in ['user', 'assistant', 'computer']:
+                    current_app.logger.warning(f"Invalid role in message: {msg.get('role')}, converting to 'user'")
+                    msg['role'] = 'user'
             validated_messages.append(Message.from_dict(msg) if isinstance(msg, dict) else msg)
         messages = validated_messages
         
-        current_app.logger.info(f"Processing chat request with {len(messages)} messages")
+        current_app.logger.info(f"Processing chat request with {len(messages)} messages, session_id: {session_id}")
         
         if stream:
             # 流式响应
@@ -57,7 +64,7 @@ def chat():
                     messages=messages,
                     session_id=session_id,
                     model=model,
-                    is_openai_format=False
+                    is_openai_format=False  # 强制设置为False，确保使用原生格式
                 ):
                     yield chunk
             
@@ -76,7 +83,7 @@ def chat():
                 session_id=session_id,
                 stream=stream,
                 model=model,
-                is_openai_format=False
+                is_openai_format=False  # 强制设置为False，确保使用原生格式
             )
             
             # 检查是否是错误响应

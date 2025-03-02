@@ -59,7 +59,8 @@ def generate_title(session_id):
         
         # 如果没有消息，返回错误
         if not messages:
-            return jsonify({"error": "No messages in session to generate metadata from"}), 400
+            logger.warning(f"No messages in session {session_id}, cannot generate title")
+            return jsonify({"error": "Cannot generate title for empty session"}), 400
         
         # 构建提示词
         if custom_prompt:
@@ -186,6 +187,21 @@ def parse_metadata(metadata_text, fields, is_custom_prompt=False):
     if cleaned_text.endswith("```"):
         cleaned_text = cleaned_text[:-3].strip()
     
+    # 首先尝试将整个文本解析为JSON
+    try:
+        json_data = json.loads(cleaned_text)
+        # 如果成功解析为JSON，直接提取所需字段
+        for field in fields:
+            if field in json_data:
+                result[field] = json_data[field]
+        
+        # 如果提取到了所有字段，直接返回结果
+        if all(field in result for field in fields):
+            return result
+    except json.JSONDecodeError:
+        # 如果不是有效的JSON，继续使用其他解析方法
+        logger.debug(f"Failed to parse as JSON: {cleaned_text[:100]}...")
+    
     # 如果是自定义提示，尝试更灵活的解析方式
     if is_custom_prompt:
         # 尝试解析为JSON
@@ -252,8 +268,18 @@ def parse_metadata(metadata_text, fields, is_custom_prompt=False):
         if len(fields) == 1 and fields[0] == 'title' and 'title' not in result:
             result['title'] = cleaned_text.strip()
     else:
-        # 如果只生成标题，直接返回
+        # 如果只生成标题，直接解析
         if len(fields) == 1 and fields[0] == 'title':
+            # 尝试解析为JSON
+            try:
+                json_data = json.loads(cleaned_text)
+                if 'title' in json_data:
+                    result['title'] = json_data['title']
+                    return result
+            except json.JSONDecodeError:
+                pass
+            
+            # 如果无法解析为JSON或不包含title字段，直接使用清理后的文本
             result['title'] = cleaned_text.strip()
             return result
         
@@ -329,7 +355,7 @@ def call_gemini_api(prompt):
             return None
         
         # 添加格式化指令
-        formatted_prompt = prompt + "\n\n请严格按照以下要求返回：\n1. 只返回JSON格式数据，不要包含任何其他文本\n2. 不要使用markdown代码块标记(```)包裹JSON\n3. 确保JSON格式正确，可以被解析"
+        formatted_prompt = prompt + "\n\n请严格按照以下要求返回：\n1. 只返回JSON格式数据，不要包含任何其他文本\n2. 不要使用markdown代码块标记(```)包裹JSON\n3. 确保JSON格式正确，可以被解析\n4. 使用JSON.stringify格式化输出结果"
         
         # Gemini API端点
         url = f"https://generativelanguage.googleapis.com/v1/models/gemini-2.0-flash:generateContent?key={api_key}"

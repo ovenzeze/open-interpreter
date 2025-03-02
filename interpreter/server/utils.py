@@ -28,56 +28,59 @@ def convert_openai_to_interpreter(messages: List[Dict[str, str]]) -> List[Messag
     interpreter_messages = []
     
     for msg in messages:
-        role = msg.get('role')
+        role = msg.get('role', 'user')
         content = msg.get('content', '')
         msg_type = msg.get('type', 'message')  # 获取消息类型，默认为message
         recipient = msg.get('recipient', 'assistant' if role == 'user' else 'user')
         
-        if role in ['user', 'assistant']:
-            # 检查是否包含代码块
-            if role == 'assistant' and '```' in content:
-                # 提取代码块
-                code_blocks = content.split('```')
-                for i, block in enumerate(code_blocks):
-                    if i % 2 == 0:  # 非代码块部分
-                        if block.strip():
-                            interpreter_messages.append(Message(
-                                role='assistant',
-                                type='message',  # 明确指定类型
-                                content=block.strip(),
-                                recipient=recipient
-                            ))
-                    else:  # 代码块部分
-                        # 支持多种语言检测
-                        lang, code = 'python', block
-                        if '\n' in block:
-                            first_line = block.split('\n', 1)[0].strip()
-                            if first_line in ['python', 'javascript', 'shell', 'html']:
-                                lang = first_line
-                                code = block.split('\n', 1)[1] if '\n' in block else ''
-                        
+        # 角色映射
+        interpreter_role = role
+        if role == 'system':
+            interpreter_role = 'assistant'  # 系统消息在解释器中视为助手消息
+            logger.info("Converting 'system' role to 'assistant'")
+        elif role in ['function', 'tool', 'developer']:
+            interpreter_role = 'computer'  # 这些角色在解释器中视为计算机消息
+            logger.info(f"Converting '{role}' role to 'computer'")
+        elif role not in ['user', 'assistant', 'computer']:
+            interpreter_role = 'user'  # 默认将未知角色当作用户消息
+            logger.warning(f"Unknown role '{role}', converting to 'user'")
+        
+        # 处理助手消息中的代码块
+        if interpreter_role == 'assistant' and '```' in content:
+            # 提取代码块
+            code_blocks = content.split('```')
+            for i, block in enumerate(code_blocks):
+                if i % 2 == 0:  # 非代码块部分
+                    if block.strip():
                         interpreter_messages.append(Message(
                             role='assistant',
-                            type='code',  # 明确指定类型
-                            format=lang,
-                            content=code.strip(),
+                            type='message',  # 明确指定类型
+                            content=block.strip(),
                             recipient=recipient
                         ))
-            else:
-                # 对于普通消息，使用默认类型
-                interpreter_messages.append(Message(
-                    role=role,
-                    type=msg_type,  # 使用消息中指定的类型或默认值
-                    content=content,
-                    recipient=recipient
-                ))
-        elif role == 'system':
-            # 系统消息转换为assistant消息
+                else:  # 代码块部分
+                    # 支持多种语言检测
+                    lang, code = 'python', block
+                    if '\n' in block:
+                        first_line = block.split('\n', 1)[0].strip()
+                        if first_line in ['python', 'javascript', 'shell', 'html']:
+                            lang = first_line
+                            code = block.split('\n', 1)[1] if '\n' in block else ''
+                    
+                    interpreter_messages.append(Message(
+                        role='assistant',
+                        type='code',  # 明确指定类型
+                        format=lang,
+                        content=code.strip(),
+                        recipient=recipient
+                    ))
+        else:
+            # 对于普通消息，使用已转换的角色和指定的类型
             interpreter_messages.append(Message(
-                role='assistant',
-                type='message',  # 明确指定类型
+                role=interpreter_role,
+                type=msg_type,
                 content=content,
-                recipient='user'  # 系统消息总是发给用户
+                recipient=recipient
             ))
             
     return interpreter_messages
