@@ -81,10 +81,18 @@ class ChatService:
                         if isinstance(last_message, dict):
                             self.logger.info(f"Last message content: {last_message}")
                             if last_message.get('role') == 'user':
-                                self.logger.info(f"Attempting to save user message to session {session_id}")
-                                # 将用户消息保存到会话
-                                success = self.session_manager.add_message(session_id, last_message)
-                                self.logger.info(f"Save result: {success}")
+                                # 检查会话中是否已有相同内容的用户消息，避免重复添加
+                                existing_messages = self.session_manager.get_messages(session_id) or []
+                                existing_user_contents = [msg.get('content', '') for msg in existing_messages 
+                                                        if msg.get('role') == 'user']
+                                
+                                if last_message.get('content') not in existing_user_contents:
+                                    self.logger.info(f"Attempting to save user message to session {session_id}")
+                                    # 将用户消息保存到会话
+                                    success = self.session_manager.add_message(session_id, last_message)
+                                    self.logger.info(f"Save result: {success}")
+                                else:
+                                    self.logger.info(f"User message already exists in session, skipping save")
                             else:
                                 self.logger.info(f"Last message is not a user message: {last_message.get('role')}")
                         else:
@@ -94,8 +102,16 @@ class ChatService:
                                 msg_dict = last_message.to_dict()
                                 self.logger.info(f"Converted message: {msg_dict}")
                                 if msg_dict.get('role') == 'user':
-                                    success = self.session_manager.add_message(session_id, msg_dict)
-                                    self.logger.info(f"Save result: {success}")
+                                    # 检查会话中是否已有相同内容的用户消息
+                                    existing_messages = self.session_manager.get_messages(session_id) or []
+                                    existing_user_contents = [msg.get('content', '') for msg in existing_messages 
+                                                            if msg.get('role') == 'user']
+                                    
+                                    if msg_dict.get('content') not in existing_user_contents:
+                                        success = self.session_manager.add_message(session_id, msg_dict)
+                                        self.logger.info(f"Save result: {success}")
+                                    else:
+                                        self.logger.info(f"User message already exists in session, skipping save")
                             else:
                                 self.logger.info(f"Cannot convert message to dict format")
                     else:
@@ -288,8 +304,14 @@ class ChatService:
                         # 获取最后一条用户消息
                         last_message = messages[-1]
                         if isinstance(last_message, dict) and last_message.get('role') == 'user':
-                            # 将用户消息保存到会话
-                            self.session_manager.add_message(session_id, last_message)
+                            # 检查会话中是否已有相同内容的用户消息，避免重复添加
+                            existing_messages = self.session_manager.get_messages(session_id) or []
+                            existing_user_contents = [msg.get('content', '') for msg in existing_messages 
+                                                    if msg.get('role') == 'user']
+                            
+                            if last_message.get('content') not in existing_user_contents:
+                                # 将用户消息保存到会话
+                                self.session_manager.add_message(session_id, last_message)
                     
                     # 转换OpenAI格式的消息
                     interpreter_messages = convert_openai_to_interpreter(messages)

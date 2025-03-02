@@ -553,6 +553,9 @@ class SessionManager:
                     normalized_session = self.normalize_session_data(session)
                     valid_sessions.append(normalized_session)
             
+            # 按最后活动时间倒序排序（从最新到最旧）
+            valid_sessions.sort(key=lambda x: x.get('last_active', ''), reverse=True)
+            
             # 计算总数
             total = len(valid_sessions)
             
