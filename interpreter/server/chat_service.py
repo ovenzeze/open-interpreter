@@ -441,7 +441,7 @@ class ChatService:
                 for chunk in response:
                     # 创建包装后的chunk对象
                     chunk_obj = StreamingChunk(
-                        role='assistant' if chunk.get('role') == 'assistant' else 'computer',
+                        role=chunk.get('role', 'assistant'),  # 保留原始角色，包括"computer"
                         type=chunk.get('type', 'message'),
                         content=chunk.get('content', ''),
                         format=chunk.get('format'),

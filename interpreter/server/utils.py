@@ -9,9 +9,10 @@ import logging
 import platform
 import psutil
 import sys
-from typing import Any, Dict, List, Union, Optional
+from typing import Any, Dict, List, Union, Optional, Tuple, Generator, cast
 from datetime import datetime
 from .message import Message, StreamingChunk
+from .errors import ValidationError
 
 logger = logging.getLogger(__name__)
 
@@ -102,10 +103,13 @@ def convert_interpreter_to_openai(messages: List[Message]) -> List[Dict[str, str
         if not isinstance(msg, Message):
             msg = Message.from_dict(msg)
             
-        if msg.role in ['user', 'assistant']:
+        # 将"computer"角色转换为OpenAI支持的"assistant"角色
+        openai_role = 'assistant' if msg.role == 'computer' else msg.role
+            
+        if openai_role in ['user', 'assistant']:
             # 如果有未完成的消息，先添加到结果列表
             if current_message and (
-                current_message['role'] != msg.role or
+                current_message['role'] != openai_role or
                 msg.type != 'message'  # 使用属性而不是get方法
             ):
                 openai_messages.append(current_message)
@@ -115,23 +119,23 @@ def convert_interpreter_to_openai(messages: List[Message]) -> List[Dict[str, str
             if msg.type == 'message':
                 if not current_message:
                     current_message = {
-                        'role': msg.role,
-                        'content': msg.content
+                        'role': openai_role,
+                        'content': str(msg.content) if not isinstance(msg.content, str) else msg.content
                     }
                 else:
-                    current_message['content'] += msg.content
+                    current_message['content'] += str(msg.content) if not isinstance(msg.content, str) else msg.content
                     
             elif msg.type == 'code':
                 if not current_message:
                     current_message = {
-                        'role': msg.role,
+                        'role': openai_role,
                         'content': ''
                     }
                 # 添加代码块
                 if msg.content:
                     if current_message['content']:
                         current_message['content'] += '\n'
-                    current_message['content'] += f"```{msg.format or 'python'}\n{msg.content}\n```"
+                    current_message['content'] += f"```{msg.format or 'python'}\n{str(msg.content) if not isinstance(msg.content, str) else msg.content}\n```"
     
     # 添加最后一个未完成的消息
     if current_message:
@@ -150,24 +154,14 @@ def format_stream_chunk(chunk: Union[StreamingChunk, Dict]) -> str:
         Formatted SSE data string
     """
     if isinstance(chunk, dict):
-        # 确保包含所有必要字段
-        if 'type' not in chunk:
-            chunk['type'] = 'message'
-        if 'format' not in chunk and chunk['type'] in ['code', 'image', 'console']:
-            chunk['format'] = 'python' if chunk['type'] == 'code' else 'output'
-        if 'recipient' not in chunk:
-            chunk['recipient'] = 'user' if chunk.get('role') == 'assistant' else 'assistant'
-            
         chunk = StreamingChunk.from_dict(chunk)
-    
-    if not isinstance(chunk, StreamingChunk):
-        return None
         
-    try:
-        return json.dumps(chunk.to_dict())
-    except Exception as e:
-        logger.error(f"Error formatting chunk: {e}")
-        return None
+    if not isinstance(chunk, StreamingChunk):
+        return ""  # 返回空字符串而不是None
+        
+    # 构建事件数据
+    data = chunk.to_dict()
+    return f"data: {json.dumps(data)}\n\n"
 
 def format_openai_stream_chunk(chunk: Union[StreamingChunk, Dict]) -> str:
     """
@@ -183,15 +177,20 @@ def format_openai_stream_chunk(chunk: Union[StreamingChunk, Dict]) -> str:
         chunk = StreamingChunk.from_dict(chunk)
     
     if not isinstance(chunk, StreamingChunk):
-        return None
+        return ""
+    
+    # 将"computer"角色转换为OpenAI支持的"assistant"角色
+    openai_role = 'assistant' if chunk.role == 'computer' else chunk.role
         
     # 添加对代码执行输出的处理
     if chunk.type == 'console' and chunk.role == 'computer':
-        output_block = f"\n```\n{chunk.content}\n```"
+        content_str = str(chunk.content) if not isinstance(chunk.content, str) else chunk.content
+        output_block = f"\n```\n{content_str}\n```"
+        current_time = int(time.time())  # 直接转换为整数
         response = {
             'id': f'chatcmpl-{str(uuid.uuid4())}',
             'object': 'chat.completion.chunk',
-            'created': int(time.time()),
+            'created': current_time,
             'model': 'bedrock/anthropic.claude-3-sonnet-20240229-v1:0',
             'choices': [{
                 'index': 0,
@@ -205,19 +204,20 @@ def format_openai_stream_chunk(chunk: Union[StreamingChunk, Dict]) -> str:
         return f"data: {json.dumps(response)}\n\n"
     
     # 统一处理消息内容
-    content = chunk.content
+    content = str(chunk.content) if not isinstance(chunk.content, str) else chunk.content
     if chunk.type == 'code':
         content = f"\n```{chunk.format or 'python'}\n{content}\n```"
     
+    current_time = int(time.time())  # 直接转换为整数
     response = {
         'id': f'chatcmpl-{str(uuid.uuid4())}',
         'object': 'chat.completion.chunk',
-        'created': int(time.time()),
+        'created': current_time,
         'model': 'bedrock/anthropic.claude-3-sonnet-20240229-v1:0',
         'choices': [{
             'index': 0,
             'delta': {
-                'role': chunk.role,
+                'role': openai_role,
                 'content': content
             },
             'finish_reason': 'stop' if chunk.end else None
@@ -241,7 +241,9 @@ class MessageProcessor:
                     if chunk.type == 'message' and chunk.role == 'assistant':
                         if content:
                             content += '\n'
-                        content += chunk.content
+                        # 确保内容是字符串
+                        chunk_content = str(chunk.content) if not isinstance(chunk.content, str) else chunk.content
+                        content += chunk_content
                         # 保存消息到会话
                         if session_manager and session_id:
                             session_manager.add_message(session_id, chunk.to_dict())
