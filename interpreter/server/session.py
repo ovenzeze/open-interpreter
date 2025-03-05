@@ -10,7 +10,7 @@ from datetime import datetime, timedelta
 from pathlib import Path
 from typing import Dict, List, Optional, Any, Literal, Union, Tuple
 
-import platformdirs
+import platformdirs  # type: ignore
 import os
 import time
 import threading
@@ -41,13 +41,13 @@ class Message:
         self,
         role: str,
         type: str,
-        content: str = None,
-        format: str = None,
-        recipient: str = None,
-        created_at: str = None,
-        id: str = None,
-        start: bool = None,
-        end: bool = None
+        content: Optional[str] = None,
+        format: Optional[str] = None,
+        recipient: Optional[str] = None,
+        created_at: Optional[str] = None,
+        id: Optional[str] = None,
+        start: Optional[bool] = None,
+        end: Optional[bool] = None
     ):
         self.role = role
         self.type = type
@@ -200,15 +200,19 @@ class Session:
 class SessionManager:
     """Manages chat sessions with NCU message format support"""
     def __init__(self, 
-                 storage_path: str = None, 
+                 storage_path: Optional[str] = None, 
                  session_timeout: int = 30*24*3600,  # 默认30天
                  cleanup_interval: int = 300,
                  max_active_instances: int = 3):
         # 使用 platformdirs 获取系统配置目录
         if storage_path is None:
-            storage_path = platformdirs.user_config_dir("open-interpreter")
-            storage_path = os.path.join(storage_path, "conversations")
-        self.storage_path = Path(storage_path)
+            base_config_dir = platformdirs.user_config_dir("open-interpreter")
+            storage_path = os.path.join(base_config_dir, "server_conversations")
+        
+        assert storage_path is not None
+        
+        from typing import cast
+        self.storage_path = Path(cast(str, storage_path))
         self.storage_path.mkdir(parents=True, exist_ok=True)
         
         self.sessions: Dict[str, Dict] = {}
@@ -453,7 +457,7 @@ class SessionManager:
         
         # 设置默认值（如果不存在）
         if 'safe_mode' not in metadata:
-            metadata['safe_mode'] = True
+            metadata['safe_mode'] = True  # type: ignore
         
         # 其他可选元数据字段，如果需要默认值可以在这里设置
         optional_fields = {
@@ -475,7 +479,7 @@ class SessionManager:
         # 只设置不存在的字段
         for field, default_value in optional_fields.items():
             if field not in metadata:
-                metadata[field] = default_value
+                metadata[field] = default_value  # type: ignore
         
         return normalized
 
@@ -523,7 +527,7 @@ class SessionManager:
                 return self.normalize_session_data(session)
             return None
 
-    def create_session(self, metadata: Optional[Dict] = None) -> Dict:
+    def create_session(self, metadata: Optional[Dict] = None) -> Dict[str, Any]:
         """Create a new session with metadata"""
         session_id = str(uuid.uuid4())
         
@@ -716,11 +720,11 @@ class SessionService:
     def __init__(self):
         self._manager = SessionManager()
     
-    def create_session(self, metadata: Optional[Dict] = None) -> Session:
+    def create_session(self, metadata: Optional[Dict] = None) -> Dict[str, Any]:
         """Create new session"""
         try:
             session = self._manager.create_session(metadata)
-            logger.info(f"Created new session: {session.session_id}")
+            logger.info(f"Created new session: {session['session_id']}")
             return session
         except Exception as e:
             logger.error(f"Failed to create session: {str(e)}")
@@ -733,8 +737,8 @@ class SessionService:
             if not session:
                 raise ValueError(f"Session {session_id} not found")
             
-            session.messages.append(message)
-            session.last_active = datetime.now().isoformat()
+            session['messages'].append(message)
+            session['last_active'] = datetime.now().isoformat()
             logger.debug(f"Added message to session {session_id}")
         except Exception as e:
             logger.error(f"Failed to add message: {str(e)}")
@@ -763,7 +767,7 @@ class SessionService:
             session = self._manager.get_session(session_id)
             if not session:
                 raise ValueError(f"Session {session_id} not found")
-            return session.to_dict()
+            return session
         except Exception as e:
             logger.error(f"Failed to export session: {str(e)}")
             raise

@@ -3,11 +3,39 @@
 """
 
 from flask import Blueprint, jsonify, request, current_app
-from ..log_config import log_error
+from ..log_config import log_error, logger
 from ..errors import format_error_response
 from ..utils import get_system_info, format_size
+import time
+import psutil
+import os
 
 bp = Blueprint('health', __name__)
+
+def get_uptime():
+    """获取服务器运行时间"""
+    try:
+        process = psutil.Process(os.getpid())
+        return time.time() - process.create_time()
+    except Exception as e:
+        logger.error(f"Error getting uptime: {str(e)}")
+        return None
+
+def format_uptime(seconds):
+    """格式化运行时间为人类可读的字符串"""
+    if seconds is None:
+        return "unknown"
+    
+    days = int(seconds // (24 * 3600))
+    hours = int((seconds % (24 * 3600)) // 3600)
+    minutes = int((seconds % 3600) // 60)
+    
+    if days > 0:
+        return f"{days}d {hours}h {minutes}m"
+    elif hours > 0:
+        return f"{hours}h {minutes}m"
+    else:
+        return f"{minutes}m"
 
 @bp.route('/v1/health', methods=['GET'])
 def health_check():
@@ -22,11 +50,10 @@ def health_check():
         response = {
             "status": "healthy",
             "version": getattr(current_app, 'version', 'unknown'),
-            "uptime": get_system_info().get("uptime", "unknown")
+            "uptime": format_uptime(get_uptime())
         }
         
         # 添加 LLM 相关信息
-        # 首先尝试从默认解释器实例获取
         if hasattr(current_app, 'interpreter_instance'):
             try:
                 interpreter = current_app.interpreter_instance
@@ -36,57 +63,80 @@ def health_check():
                     "status": "ready"
                 }
             except Exception as e:
+                logger.error(f"Error getting LLM info from interpreter instance: {str(e)}")
                 response["llm"] = {
                     "model": "unknown",
-                    "status": "unknown",
+                    "status": "error",
                     "error": str(e)
                 }
-        # 如果没有默认解释器实例，尝试从会话管理器中获取活跃的解释器实例
-        elif hasattr(current_app, 'session_manager') and hasattr(current_app.session_manager, 'interpreter_instances'):
+        elif hasattr(current_app, 'session_manager'):
             try:
-                # 获取第一个活跃的解释器实例
-                instances = current_app.session_manager.interpreter_instances
-                if instances:
-                    # 获取第一个实例的模型信息
-                    first_instance = next(iter(instances.values()))
-                    model = getattr(first_instance.llm, 'model', 'unknown')
-                    response["llm"] = {
-                        "model": model,
-                        "status": "ready"
-                    }
+                # 使用 instance_manager 获取实例状态
+                instance_manager = current_app.session_manager.instance_manager
+                instances_status = instance_manager.get_instances_status()
+                
+                # 如果有活跃实例，获取第一个实例的模型信息
+                if instances_status["active_instances"] > 0:
+                    # 获取第一个活跃实例的会话ID
+                    first_session_id = next(iter(instance_manager.interpreter_instances.keys()))
+                    interpreter = instance_manager.get_instance(first_session_id)
+                    if interpreter:
+                        model = getattr(interpreter.llm, 'model', 'unknown')
+                        response["llm"] = {
+                            "model": model,
+                            "status": "ready"
+                        }
+                    else:
+                        response["llm"] = {
+                            "model": current_app.config.get('DEFAULT_MODEL', 'unknown'),
+                            "status": "ready",
+                            "note": "Using default model from config"
+                        }
                 else:
-                    # 如果没有活跃实例，使用配置中的默认模型
-                    model = current_app.config.get('DEFAULT_MODEL', 'unknown')
                     response["llm"] = {
-                        "model": model,
-                        "status": "ready"
+                        "model": current_app.config.get('DEFAULT_MODEL', 'unknown'),
+                        "status": "ready",
+                        "note": "No active instances, using default model"
                     }
             except Exception as e:
+                logger.error(f"Error getting LLM info from session manager: {str(e)}")
                 response["llm"] = {
                     "model": current_app.config.get('DEFAULT_MODEL', 'unknown'),
-                    "status": "ready",
-                    "note": f"Using default model from config due to error: {str(e)}"
+                    "status": "error",
+                    "error": str(e)
                 }
         else:
-            # 如果无法获取实例，使用配置中的默认值
             response["llm"] = {
                 "model": current_app.config.get('DEFAULT_MODEL', 'unknown'),
-                "status": "ready"
+                "status": "not_initialized",
+                "note": "LLM not initialized yet"
             }
         
-        # 使用无锁的方式获取实例状态
+        # 获取实例状态
         if hasattr(current_app, 'session_manager'):
             try:
-                active_count = len(current_app.session_manager.interpreter_instances)
-                max_count = current_app.session_manager.max_active_instances
+                # 使用 instance_manager 获取实例状态
+                instance_manager = current_app.session_manager.instance_manager
+                instances_status = instance_manager.get_instances_status()
+                
                 response["instances"] = {
-                    "max": max_count,
-                    "active": active_count
+                    "max": instances_status["max_instances"],
+                    "active": instances_status["active_instances"],
+                    "status": "available",
+                    "status_counts": instances_status.get("status_counts", {}),
+                    "is_optimizing": instances_status.get("is_optimizing", False)
                 }
-            except:
+            except Exception as e:
+                logger.error(f"Error getting instance status: {str(e)}")
                 response["instances"] = {
-                    "status": "unavailable"
+                    "status": "error",
+                    "error": str(e)
                 }
+        else:
+            response["instances"] = {
+                "status": "not_initialized",
+                "note": "Session manager not initialized"
+            }
         
         if detail == 'full':
             try:
@@ -99,6 +149,7 @@ def health_check():
                     sys_info["disk"]["free"] = format_size(sys_info["disk"]["free"])
                 response["system"] = sys_info
             except Exception as e:
+                logger.error(f"Error getting system info: {str(e)}")
                 response["system"] = {"error": str(e)}
             
         return jsonify(response)

@@ -172,11 +172,13 @@ def create_app(config=None):
             
         return response
     
-    # Update version setting using the imported interpreter module
+    # 设置版本信息
     try:
-        app.version = interpreter.__version__
-    except AttributeError:
+        app.version = pkg_resources.get_distribution('open-interpreter').version
+    except pkg_resources.DistributionNotFound:
         app.version = 'unknown'
+        if hasattr(app, 'logger'):
+            app.logger.warning("Could not determine package version")
     
     # 1. 首先加载默认配置
     app.config.update(vars(Config()))
