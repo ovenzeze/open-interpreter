@@ -34,8 +34,7 @@ class ChatService:
                     messages: List[Dict], 
                     session_id: Optional[str] = None, 
                     stream: bool = False, 
-                    model: Optional[str] = None,
-                    is_openai_format: bool = False) -> Dict:
+                    model: Optional[str] = None) -> Union[Dict, List[Dict]]:
         """
         处理聊天请求（非流式）
         
@@ -44,7 +43,6 @@ class ChatService:
             session_id: 会话ID，如果为None则创建新会话
             stream: 是否使用流式响应
             model: 使用的模型名称
-            is_openai_format: 是否使用OpenAI格式
             
         Returns:
             处理结果
@@ -70,197 +68,66 @@ class ChatService:
             
             # 5. 处理消息
             try:
-                if is_openai_format:
-                    # 保存用户消息到会话
-                    if session_id and messages and len(messages) > 0:
-                        # 获取最后一条用户消息
-                        last_message = messages[-1]
-                        self.logger.info(f"Last message type: {type(last_message)}")
-                        
-                        # 确保消息是字典格式
-                        if isinstance(last_message, dict):
-                            self.logger.info(f"Last message content: {last_message}")
-                            if last_message.get('role') == 'user':
-                                # 检查会话中是否已有相同内容的用户消息，避免重复添加
+                # 保存用户消息到会话
+                if session_id and messages and len(messages) > 0:
+                    # 获取最后一条用户消息
+                    last_message = messages[-1]
+                    self.logger.info(f"Last message type: {type(last_message)}")
+                    
+                    # 确保消息是字典格式
+                    if isinstance(last_message, dict):
+                        self.logger.info(f"Last message content: {last_message}")
+                        if last_message.get('role') == 'user':
+                            # 检查会话中是否已有相同内容的用户消息，避免重复添加
+                            existing_messages = self.session_manager.get_messages(session_id) or []
+                            existing_user_contents = [msg.get('content', '') for msg in existing_messages 
+                                                    if msg.get('role') == 'user']
+                            
+                            if last_message.get('content') not in existing_user_contents:
+                                self.logger.info(f"Attempting to save user message to session {session_id}")
+                                # 将用户消息保存到会话
+                                success = self.session_manager.add_message(session_id, last_message)
+                                self.logger.info(f"Save result: {success}")
+                            else:
+                                self.logger.info(f"User message already exists in session, skipping save")
+                        else:
+                            self.logger.info(f"Last message is not a user message: {last_message.get('role')}")
+                    else:
+                        self.logger.info(f"Converting message to dict format")
+                        # 尝试转换为字典格式
+                        if hasattr(last_message, 'to_dict'):
+                            msg_dict = last_message.to_dict()
+                            self.logger.info(f"Converted message: {msg_dict}")
+                            if msg_dict.get('role') == 'user':
+                                # 检查会话中是否已有相同内容的用户消息
                                 existing_messages = self.session_manager.get_messages(session_id) or []
                                 existing_user_contents = [msg.get('content', '') for msg in existing_messages 
                                                         if msg.get('role') == 'user']
                                 
-                                if last_message.get('content') not in existing_user_contents:
-                                    self.logger.info(f"Attempting to save user message to session {session_id}")
-                                    # 将用户消息保存到会话
-                                    success = self.session_manager.add_message(session_id, last_message)
+                                if msg_dict.get('content') not in existing_user_contents:
+                                    success = self.session_manager.add_message(session_id, msg_dict)
                                     self.logger.info(f"Save result: {success}")
                                 else:
                                     self.logger.info(f"User message already exists in session, skipping save")
-                            else:
-                                self.logger.info(f"Last message is not a user message: {last_message.get('role')}")
                         else:
-                            self.logger.info(f"Converting message to dict format")
-                            # 尝试转换为字典格式
-                            if hasattr(last_message, 'to_dict'):
-                                msg_dict = last_message.to_dict()
-                                self.logger.info(f"Converted message: {msg_dict}")
-                                if msg_dict.get('role') == 'user':
-                                    # 检查会话中是否已有相同内容的用户消息
-                                    existing_messages = self.session_manager.get_messages(session_id) or []
-                                    existing_user_contents = [msg.get('content', '') for msg in existing_messages 
-                                                            if msg.get('role') == 'user']
-                                    
-                                    if msg_dict.get('content') not in existing_user_contents:
-                                        success = self.session_manager.add_message(session_id, msg_dict)
-                                        self.logger.info(f"Save result: {success}")
-                                    else:
-                                        self.logger.info(f"User message already exists in session, skipping save")
-                            else:
-                                self.logger.info(f"Cannot convert message to dict format")
-                    else:
-                        self.logger.info(f"No messages to save or session_id is None. session_id: {session_id}, messages length: {len(messages) if messages else 0}")
-                    
-                    # 转换OpenAI格式的消息
-                    interpreter_messages = convert_openai_to_interpreter(messages)
-                    # 加载历史消息
-                    interpreter.messages = [msg.to_dict() for msg in interpreter_messages[:-1]]
-                    # 处理最后一条消息
-                    response = interpreter.chat(interpreter_messages[-1].content, stream=False, display=False)
-                    
-                    # 转换响应格式
-                    chat_response = convert_interpreter_to_openai(response, session_id, getattr(interpreter, "model", "gpt-4"))
-                    
-                    # 处理完成后标记为空闲
-                    self.session_manager.mark_instance_status(session_id, 'idle')
-                    return chat_response
+                            self.logger.info(f"Cannot convert message to dict format")
                 else:
-                    # 原生格式处理
-                    # 记录当前消息数量，用于过滤历史消息
-                    current_message_count = len(interpreter.messages)
-                    
-                    # 保存用户消息到会话
-                    if session_id and messages and len(messages) > 0:
-                        # 获取最后一条用户消息
-                        last_message = messages[-1]
-                        is_user_message = False
-                        
-                        if isinstance(last_message, dict) and last_message.get('role') == 'user':
-                            is_user_message = True
-                            msg_dict = last_message
-                        elif hasattr(last_message, 'role') and getattr(last_message, 'role') == 'user':
-                            is_user_message = True
-                            # 尝试转换为字典格式
-                            if hasattr(last_message, 'to_dict'):
-                                msg_dict = last_message.to_dict()
-                            else:
-                                msg_dict = {
-                                    'role': 'user',
-                                    'type': 'message',
-                                    'content': str(last_message)
-                                }
-                        
-                        if is_user_message and session_id:
-                            # 检查会话中是否已有相同内容的用户消息，避免重复添加
-                            existing_messages = self.session_manager.get_messages(session_id) or []
-                            existing_user_contents = []
-                            
-                            if existing_messages:
-                                existing_user_contents = [
-                                    msg.get('content', '') for msg in existing_messages 
-                                    if msg.get('role') == 'user'
-                                ]
-                            
-                            if msg_dict.get('content') not in existing_user_contents:
-                                self.logger.info(f"添加用户消息到会话 {session_id}: {msg_dict.get('content')[:50]}...")
-                                # 将用户消息保存到会话
-                                success = self.session_manager.add_message(session_id, msg_dict)
-                                self.logger.info(f"保存结果: {success}")
-                    
-                    # 准备消息
-                    last_message = messages[-1]
-                    if isinstance(last_message, dict):
-                        last_message_content = last_message.get('content', '')
-                    elif isinstance(last_message, Message):
-                        last_message_content = last_message.content
-                    else:
-                        last_message_content = str(last_message)
-                    
-                    # 设置历史消息
-                    if len(messages) > 1:  # 如果有历史消息
-                        interpreter.messages = []  # 先清空
-                        for msg in messages[:-1]:
-                            if isinstance(msg, str):
-                                msg_dict = {
-                                    'role': 'user',
-                                    'type': 'message',
-                                    'content': msg
-                                }
-                            elif isinstance(msg, dict):
-                                msg_dict = msg
-                            elif isinstance(msg, Message):
-                                msg_dict = msg.to_dict()
-                            else:
-                                msg_dict = {
-                                    'role': 'user',
-                                    'type': 'message',
-                                    'content': str(msg)
-                                }
-                            interpreter.messages.append(msg_dict)
-                    
-                    # 执行聊天
-                    response = interpreter.chat(
-                        last_message_content,
-                        stream=False,
-                        display=False
-                    )
-                    
-                    # 处理响应
-                    response_messages = []
-                    code_messages = []
-                    
-                    # 只处理新生成的消息，跳过历史消息
-                    new_messages = interpreter.messages[current_message_count:]
-                    
-                    # 遍历生成的所有消息
-                    for msg in new_messages:
-                        if msg["role"] in ["assistant", "computer"]:
-                            if msg["type"] == "message":
-                                response_messages.append({
-                                    "role": "assistant",
-                                    "content": msg["content"]
-                                })
-                            elif msg["type"] == "code":
-                                code_messages.append({
-                                    "role": "assistant",
-                                    "type": "code",
-                                    "content": msg["content"],
-                                    "format": msg.get("format", "python")
-                                })
-                            elif msg["type"] == "console" and msg["role"] == "computer":
-                                code_messages.append({
-                                    "role": "computer",
-                                    "type": "console",
-                                    "content": msg["content"]
-                                })
-                    
-                    # 构造最终响应
-                    chat_response = {
-                        "id": f"chatcmpl-{session_id}",
-                        "object": "chat.completion",
-                        "created": int(time.time()),
-                        "model": getattr(interpreter, "model", "gpt-4"),
-                        "choices": [{
-                            "index": 0,
-                            "messages": code_messages + response_messages,
-                            "finish_reason": "stop"
-                        }],
-                        "usage": {
-                            "prompt_tokens": 0,
-                            "completion_tokens": 0,
-                            "total_tokens": 0
-                        }
-                    }
-                    
-                    # 处理完成后标记为空闲
-                    self.session_manager.mark_instance_status(session_id, 'idle')
-                    return chat_response
+                    self.logger.info(f"No messages to save or session_id is None. session_id: {session_id}, messages length: {len(messages) if messages else 0}")
+                
+                # 转换OpenAI格式的消息
+                interpreter_messages = convert_openai_to_interpreter(messages)
+                # 加载历史消息
+                interpreter.messages = [msg.to_dict() for msg in interpreter_messages[:-1]]
+                # 处理最后一条消息
+                response = interpreter.chat(interpreter_messages[-1].content, stream=False, display=False)
+                
+                # 转换响应格式
+                chat_response = convert_interpreter_to_openai(response, session_id, getattr(interpreter, "model", "gpt-4"))
+                
+                # 处理完成后标记为空闲
+                self.session_manager.mark_instance_status(session_id, 'idle')
+                return chat_response
+                
             except Exception as e:
                 # 处理过程中出错，标记状态为错误
                 self.session_manager.mark_instance_status(session_id, 'error')
@@ -271,18 +138,17 @@ class ChatService:
             # 确保出错时也标记状态
             if session_id:
                 self.session_manager.mark_instance_status(session_id, 'error')
-            return self._format_error(e, is_openai_format)
+            return self._format_error(e)
         finally:
             # 7. 释放会话锁
-            if lock_acquired:
+            if lock_acquired and session_id:
                 self.logger.info(f"Releasing session lock for session {session_id}")
                 self._release_session_lock(session_id)
     
     def process_streaming_chat(self, 
                               messages: List[Dict], 
                               session_id: Optional[str] = None, 
-                              model: Optional[str] = None,
-                              is_openai_format: bool = False) -> Generator:
+                              model: Optional[str] = None) -> Generator:
         """
         处理流式聊天请求
         
@@ -290,7 +156,6 @@ class ChatService:
             messages: 消息列表
             session_id: 会话ID，如果为None则创建新会话
             model: 使用的模型名称
-            is_openai_format: 是否使用OpenAI格式
             
         Returns:
             生成器，产生流式响应
@@ -309,8 +174,7 @@ class ChatService:
                     content=error_response['error']['message'],
                     recipient='user'
                 )
-                format_func = format_openai_stream_chunk if is_openai_format else format_stream_chunk
-                yield format_func(error_chunk)
+                yield format_openai_stream_chunk(error_chunk)
                 return
                 
             lock_acquired = True
@@ -326,8 +190,7 @@ class ChatService:
                     content=error_response['error']['message'],
                     recipient='user'
                 )
-                format_func = format_openai_stream_chunk if is_openai_format else format_stream_chunk
-                yield format_func(error_chunk)
+                yield format_openai_stream_chunk(error_chunk)
                 return
                 
             # 4. 标记实例为忙碌状态
@@ -335,113 +198,42 @@ class ChatService:
             
             try:
                 # 5. 处理消息并生成流式响应
-                format_func = format_openai_stream_chunk if is_openai_format else format_stream_chunk
-                
-                if is_openai_format:
-                    # 保存用户消息到会话
-                    if session_id and messages and len(messages) > 0:
-                        # 获取最后一条用户消息
-                        last_message = messages[-1]
-                        if isinstance(last_message, dict) and last_message.get('role') == 'user':
-                            # 检查会话中是否已有相同内容的用户消息，避免重复添加
-                            existing_messages = self.session_manager.get_messages(session_id) or []
+                # 保存用户消息到会话
+                if session_id and messages and len(messages) > 0:
+                    # 获取最后一条用户消息
+                    last_message = messages[-1]
+                    if isinstance(last_message, dict) and last_message.get('role') == 'user':
+                        # 检查会话中是否已有相同内容的用户消息，避免重复添加
+                        existing_messages = self.session_manager.get_messages(session_id) or []
+                        if existing_messages:
                             existing_user_contents = [msg.get('content', '') for msg in existing_messages 
-                                                    if msg.get('role') == 'user']
+                                                if msg.get('role') == 'user']
                             
                             if last_message.get('content') not in existing_user_contents:
                                 # 将用户消息保存到会话
                                 self.session_manager.add_message(session_id, last_message)
-                    
-                    # 转换OpenAI格式的消息
-                    interpreter_messages = convert_openai_to_interpreter(messages)
-                    # 加载历史消息
-                    interpreter.messages = [msg.to_dict() for msg in interpreter_messages[:-1]]
-                    # 处理最后一条消息
-                    response = interpreter.chat(interpreter_messages[-1].content, stream=True, display=False)
-                else:
-                    # 原生格式处理
-                    # 记录当前消息数量，用于过滤历史消息
-                    current_message_count = len(interpreter.messages)
-                    
-                    # 保存用户消息到会话
-                    if session_id and messages and len(messages) > 0:
-                        # 获取最后一条用户消息
-                        last_message = messages[-1]
-                        is_user_message = False
-                        
-                        if isinstance(last_message, dict) and last_message.get('role') == 'user':
-                            is_user_message = True
-                            msg_dict = last_message
-                        elif hasattr(last_message, 'role') and getattr(last_message, 'role') == 'user':
-                            is_user_message = True
-                            if hasattr(last_message, 'to_dict'):
-                                msg_dict = last_message.to_dict()
-                            else:
-                                msg_dict = {
-                                    'role': 'user',
-                                    'type': 'message',
-                                    'content': str(last_message)
-                                }
-                        
-                        if is_user_message and session_id:
-                            # 检查会话中是否已有相同内容的用户消息，避免重复添加
-                            existing_messages = self.session_manager.get_messages(session_id) or []
-                            existing_user_contents = []
-                            
-                            if existing_messages:
-                                existing_user_contents = [
-                                    msg.get('content', '') for msg in existing_messages 
-                                    if msg.get('role') == 'user'
-                                ]
-                            
-                            if msg_dict.get('content') not in existing_user_contents:
-                                self.logger.info(f"添加用户消息到会话 {session_id}: {msg_dict.get('content')[:50]}...")
-                                # 将用户消息保存到会话
-                                self.session_manager.add_message(session_id, msg_dict)
-                    
-                    # 准备消息
-                    last_message = messages[-1]
-                    if isinstance(last_message, dict):
-                        last_message_content = last_message.get('content', '')
-                    elif isinstance(last_message, Message):
-                        last_message_content = last_message.content
-                    else:
-                        last_message_content = str(last_message)
-                    
-                    # 设置历史消息
-                    if len(messages) > 1:  # 如果有历史消息
-                        interpreter.messages = []  # 先清空
-                        for msg in messages[:-1]:
-                            if isinstance(msg, str):
-                                msg_dict = {
-                                    'role': 'user',
-                                    'type': 'message',
-                                    'content': msg
-                                }
-                            elif isinstance(msg, dict):
-                                msg_dict = msg
-                            elif isinstance(msg, Message):
-                                msg_dict = msg.to_dict()
-                            else:
-                                msg_dict = {
-                                    'role': 'user',
-                                    'type': 'message',
-                                    'content': str(msg)
-                                }
-                            interpreter.messages.append(msg_dict)
-                    
-                    # 执行聊天
-                    response = interpreter.chat(
-                        last_message_content,
-                        stream=True,
-                        display=False
-                    )
+                
+                # 转换OpenAI格式的消息
+                interpreter_messages = convert_openai_to_interpreter(messages)
+                # 加载历史消息
+                interpreter.messages = [msg.to_dict() for msg in interpreter_messages[:-1]]
+                # 处理最后一条消息
+                response = interpreter.chat(interpreter_messages[-1].content, stream=True, display=False)
                 
                 # 处理流式响应
                 for chunk in response:
+                    # 处理角色映射，确保OpenAI格式兼容
+                    chunk_role = chunk.get('role', 'assistant')
+                    if chunk_role == 'computer':
+                        # 根据类型映射不同的角色
+                        if chunk.get('type') == 'console' and chunk.get('format') == 'output':
+                            chunk_role = 'function'
+                        else:
+                            chunk_role = 'assistant'
+                    
                     # 创建包装后的chunk对象
                     chunk_obj = StreamingChunk(
-                        role=chunk.get('role', 'assistant'),  # 保留原始角色，包括"computer"
+                        role=chunk_role,  # 使用转换后的角色
                         type=chunk.get('type', 'message'),
                         content=chunk.get('content', ''),
                         format=chunk.get('format'),
@@ -450,7 +242,7 @@ class ChatService:
                         start=chunk.get('start', False),
                         end=chunk.get('end', False)
                     )
-                    yield format_func(chunk_obj)
+                    yield format_openai_stream_chunk(chunk_obj)
                 
                 # 流处理结束后，标记实例为空闲
                 self.session_manager.mark_instance_status(session_id, 'idle')
@@ -465,8 +257,7 @@ class ChatService:
                     content=str(e),
                     recipient='user'
                 )
-                format_func = format_openai_stream_chunk if is_openai_format else format_stream_chunk
-                yield format_func(error_chunk)
+                yield format_openai_stream_chunk(error_chunk)
                 
         except Exception as e:
             # 确保出错时也标记状态
@@ -479,11 +270,10 @@ class ChatService:
                 content=str(e),
                 recipient='user'
             )
-            format_func = format_openai_stream_chunk if is_openai_format else format_stream_chunk
-            yield format_func(error_chunk)
+            yield format_openai_stream_chunk(error_chunk)
         finally:
             # 6. 释放会话锁
-            if lock_acquired:
+            if lock_acquired and session_id:
                 self.logger.info(f"Releasing session lock for session {session_id} (streaming)")
                 self._release_session_lock(session_id)
     
@@ -590,28 +380,16 @@ class ChatService:
             }
         }
     
-    def _format_error(self, error: Exception, is_openai_format: bool = False) -> Dict:
+    def _format_error(self, error: Exception) -> Dict:
         """
         格式化错误响应
         
         Args:
             error: 异常
-            is_openai_format: 是否使用OpenAI格式
             
         Returns:
             错误响应
         """
-        if is_openai_format:
-            # OpenAI格式的错误
-            return {
-                "error": {
-                    "message": str(error),
-                    "type": error.__class__.__name__,
-                    "param": None,
-                    "code": "internal_error"
-                }
-            }
-        
         # 使用现有的错误格式化函数
         error_response, _ = format_error_response(error)
         return error_response 

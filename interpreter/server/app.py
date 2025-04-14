@@ -136,6 +136,24 @@ def register_error_handlers(app: Flask) -> None:
         log_error(error)
         error_response, status_code = format_error_response(error)
         return jsonify(error_response), status_code
+    
+    # 添加特定的METHOD_NOT_ALLOWED处理器
+    @app.errorhandler(405)
+    def handle_method_not_allowed(error):
+        """方法不允许错误处理器"""
+        app.logger.warning(f"Method not allowed: {request.method} {request.path}")
+        error_response = {
+            "error": {
+                "message": f"Method {request.method} not allowed for this endpoint",
+                "type": "MethodNotAllowedError"
+            }
+        }
+        response = jsonify(error_response)
+        response.status_code = 405
+        # 添加允许的方法到响应头
+        if hasattr(error, 'valid_methods') and error.valid_methods:
+            response.headers['Allow'] = ', '.join(error.valid_methods)
+        return response
 
 def create_app(config=None):
     app = Flask(__name__)
@@ -169,6 +187,16 @@ def create_app(config=None):
         if request.method == 'OPTIONS':
             # 预检请求缓存时间（秒）
             response.headers.add('Access-Control-Max-Age', '3600')
+            # 确保预检请求返回200状态码
+            if response.status_code == 200:
+                return response
+            # 如果状态码不是200（可能是405），则创建一个新的成功响应
+            success_response = jsonify({"status": "success", "message": "API endpoint available"})
+            success_response.status_code = 200
+            # 复制原始响应的所有头部
+            for header, value in response.headers.items():
+                success_response.headers[header] = value
+            return success_response
             
         return response
     

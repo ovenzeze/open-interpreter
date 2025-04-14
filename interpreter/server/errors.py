@@ -26,6 +26,11 @@ class ExecutionError(InterpreterError):
     def __init__(self, message: str):
         super().__init__(message, status_code=500)
 
+class MethodNotAllowedError(InterpreterError):
+    """Raised when an HTTP method is not allowed for the requested endpoint"""
+    def __init__(self, message: str = "Method not allowed"):
+        super().__init__(message, status_code=405)
+
 def format_error_response(error: Union[InterpreterError, Exception]) -> Tuple[Dict, int]:
     """
     Format error response for API endpoints

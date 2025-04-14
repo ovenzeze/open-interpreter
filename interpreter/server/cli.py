@@ -7,8 +7,8 @@ import sys
 import click
 from flask import Flask
 from waitress import serve
-from .app import create_app
-from .log_config import setup_logging
+from interpreter.server.app import create_app
+from interpreter.server.log_config import setup_logging
 
 @click.command()
 @click.option('--host', default='0.0.0.0', help='服务器主机地址')

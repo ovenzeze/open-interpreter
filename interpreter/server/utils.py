@@ -1,6 +1,4 @@
-"""
-Utility functions for Open Interpreter HTTP Server
-"""
+"""Utility functions for Open Interpreter HTTP Server"""
 
 import json
 import uuid
@@ -13,180 +11,174 @@ from typing import Any, Dict, List, Union, Optional, Tuple, Generator, cast
 from datetime import datetime
 from .message import Message, StreamingChunk
 from .errors import ValidationError
+from pathlib import Path
+import socket
 
 logger = logging.getLogger(__name__)
 
+
 def convert_openai_to_interpreter(messages: List[Dict[str, str]]) -> List[Message]:
-    """
-    Convert OpenAI format messages to Open Interpreter format
-    
-    Args:
-        messages: List of messages in OpenAI format
-        
-    Returns:
-        List of messages in Open Interpreter format
-    """
+    """Convert OpenAI format messages to Open Interpreter format."""
     interpreter_messages = []
-    
     for msg in messages:
         role = msg.get('role', 'user')
         content = msg.get('content', '')
-        msg_type = msg.get('type', 'message')  # 获取消息类型，默认为message
+        msg_type = msg.get('type', 'message')  # Default message type
         recipient = msg.get('recipient', 'assistant' if role == 'user' else 'user')
-        
-        # 角色映射
+
+        # Role mapping
         interpreter_role = role
         if role == 'system':
-            interpreter_role = 'assistant'  # 系统消息在解释器中视为助手消息
+            interpreter_role = 'assistant'  # System messages treated as assistant
             logger.info("Converting 'system' role to 'assistant'")
         elif role in ['function', 'tool', 'developer']:
-            interpreter_role = 'computer'  # 这些角色在解释器中视为计算机消息
+            interpreter_role = 'computer'  # These roles treated as computer
             logger.info(f"Converting '{role}' role to 'computer'")
         elif role not in ['user', 'assistant', 'computer']:
-            interpreter_role = 'user'  # 默认将未知角色当作用户消息
+            interpreter_role = 'user'  # Unknown roles default to user
             logger.warning(f"Unknown role '{role}', converting to 'user'")
-        
-        # 处理助手消息中的代码块
+
+        # Handle code blocks in assistant messages
         if interpreter_role == 'assistant' and '```' in content:
-            # 提取代码块
             code_blocks = content.split('```')
             for i, block in enumerate(code_blocks):
-                if i % 2 == 0:  # 非代码块部分
+                if i % 2 == 0:  # Non-code block
                     if block.strip():
                         interpreter_messages.append(Message(
                             role='assistant',
-                            type='message',  # 明确指定类型
+                            type='message',
                             content=block.strip(),
                             recipient=recipient
                         ))
-                else:  # 代码块部分
-                    # 支持多种语言检测
+                else:  # Code block
                     lang, code = 'python', block
                     if '\n' in block:
                         first_line = block.split('\n', 1)[0].strip()
                         if first_line in ['python', 'javascript', 'shell', 'html']:
                             lang = first_line
                             code = block.split('\n', 1)[1] if '\n' in block else ''
-                    
-                    interpreter_messages.append(Message(
-                        role='assistant',
-                        type='code',  # 明确指定类型
-                        format=lang,
-                        content=code.strip(),
-                        recipient=recipient
-                    ))
+                        interpreter_messages.append(Message(
+                            role='assistant',
+                            type='code',
+                            format=lang,
+                            content=code.strip(),
+                            recipient=recipient
+                        ))
         else:
-            # 对于普通消息，使用已转换的角色和指定的类型
+            # Regular message handling
             interpreter_messages.append(Message(
                 role=interpreter_role,
                 type=msg_type,
                 content=content,
                 recipient=recipient
             ))
-            
     return interpreter_messages
 
-def convert_interpreter_to_openai(messages: List[Message]) -> List[Dict[str, str]]:
-    """
-    Convert Open Interpreter format messages to OpenAI format
-    
-    Args:
-        messages: List of messages in Open Interpreter format
-        
-    Returns:
-        List of messages in OpenAI format
-    """
+
+def convert_interpreter_to_openai(messages: List[Message], session_id: Optional[str] = None, model: str = "gpt-4") -> List[Dict[str, str]]:
+    """Convert Open Interpreter format messages to OpenAI format."""
     openai_messages = []
     current_message = None
-    
+
     for msg in messages:
         if not isinstance(msg, Message):
             msg = Message.from_dict(msg)
-            
-        # 将"computer"角色转换为OpenAI支持的"assistant"角色
-        openai_role = 'assistant' if msg.role == 'computer' else msg.role
-            
-        if openai_role in ['user', 'assistant']:
-            # 如果有未完成的消息，先添加到结果列表
-            if current_message and (
-                current_message['role'] != openai_role or
-                msg.type != 'message'  # 使用属性而不是get方法
-            ):
-                openai_messages.append(current_message)
-                current_message = None
-            
-            # 处理不同类型的消息
-            if msg.type == 'message':
-                if not current_message:
-                    current_message = {
+
+        # OpenAI不支持'computer'角色，将其转换为'function'或'assistant'
+        if msg.role == 'computer':
+            if msg.type == 'console' and msg.format == 'output':
+                new_message = {
+                    'role': 'function',
+                    'name': 'execute',
+                    'content': str(msg.content) if not isinstance(msg.content, str) else msg.content
+                }
+                openai_messages.append(new_message)
+                continue
+            elif msg.type in ['confirmation', 'message', 'code']:
+                new_message = {
+                    'role': 'assistant',
+                    'content': str(msg.content) if not isinstance(msg.content, str) else msg.content
+                }
+                openai_messages.append(new_message)
+                continue
+            else:
+                # 对于其他类型，默认转换为assistant
+                new_message = {
+                    'role': 'assistant',
+                    'content': str(msg.content) if not isinstance(msg.content, str) else msg.content
+                }
+                openai_messages.append(new_message)
+                continue
+        else:
+            openai_role = msg.role
+            if openai_role in ['user', 'assistant']:
+                if current_message and (
+                    current_message['role'] != openai_role or
+                    msg.type != 'message'
+                ):
+                    openai_messages.append(current_message)
+                    current_message = None
+
+                if msg.type == 'message':
+                    if current_message is None:
+                        current_message = {
+                            'role': openai_role,
+                            'content': str(msg.content) if not isinstance(msg.content, str) else msg.content
+                        }
+                    else:
+                        current_message['content'] += '\n' + str(msg.content)
+                elif msg.type == 'code':
+                    openai_messages.append({
+                        'role': 'assistant',
+                        'content': '',
+                        'function_call': {
+                            'name': 'execute',
+                            'arguments': json.dumps({
+                                'language': msg.format or 'python',
+                                'code': str(msg.content) if not isinstance(msg.content, str) else msg.content
+                            })
+                        }
+                    })
+                elif msg.type == 'image':
+                    openai_messages.append({
                         'role': openai_role,
-                        'content': str(msg.content) if not isinstance(msg.content, str) else msg.content
-                    }
-                else:
-                    current_message['content'] += str(msg.content) if not isinstance(msg.content, str) else msg.content
-                    
-            elif msg.type == 'code':
-                if not current_message:
-                    current_message = {
-                        'role': openai_role,
-                        'content': ''
-                    }
-                # 添加代码块
-                if msg.content:
-                    if current_message['content']:
-                        current_message['content'] += '\n'
-                    current_message['content'] += f"```{msg.format or 'python'}\n{str(msg.content) if not isinstance(msg.content, str) else msg.content}\n```"
-    
-    # 添加最后一个未完成的消息
+                        'content': [{
+                            'type': 'image_url',
+                            'image_url': {
+                                'url': f"data:image/{msg.format or 'png'};base64,{msg.content}"
+                            }
+                        }]
+                    })
+
     if current_message:
         openai_messages.append(current_message)
-        
     return openai_messages
 
+
 def format_stream_chunk(chunk: Union[StreamingChunk, Dict]) -> str:
-    """
-    Format a message chunk for SSE streaming
-    
-    Args:
-        chunk: Message chunk to format
-        
-    Returns:
-        Formatted SSE data string
-    """
+    """Format a message chunk for SSE streaming."""
     if isinstance(chunk, dict):
         chunk = StreamingChunk.from_dict(chunk)
-        
     if not isinstance(chunk, StreamingChunk):
-        return ""  # 返回空字符串而不是None
-        
-    # 构建事件数据
+        return ""
+
     data = chunk.to_dict()
     return f"data: {json.dumps(data)}\n\n"
 
+
 def format_openai_stream_chunk(chunk: Union[StreamingChunk, Dict]) -> str:
-    """
-    Format a message chunk for OpenAI-compatible SSE streaming
-    
-    Args:
-        chunk: Message chunk to format
-        
-    Returns:
-        Formatted SSE data string in OpenAI format
-    """
+    """Format a message chunk for OpenAI-compatible SSE streaming."""
     if isinstance(chunk, dict):
         chunk = StreamingChunk.from_dict(chunk)
-    
     if not isinstance(chunk, StreamingChunk):
         return ""
-    
-    # 将"computer"角色转换为OpenAI支持的"assistant"角色
+
     openai_role = 'assistant' if chunk.role == 'computer' else chunk.role
-        
-    # 添加对代码执行输出的处理
+
     if chunk.type == 'console' and chunk.role == 'computer':
         content_str = str(chunk.content) if not isinstance(chunk.content, str) else chunk.content
-        output_block = f"\n```\n{content_str}\n```"
-        current_time = int(time.time())  # 直接转换为整数
+        output_block = f"\n\n{content_str}\n"
+        current_time = int(time.time())
         response = {
             'id': f'chatcmpl-{str(uuid.uuid4())}',
             'object': 'chat.completion.chunk',
@@ -202,13 +194,12 @@ def format_openai_stream_chunk(chunk: Union[StreamingChunk, Dict]) -> str:
             }]
         }
         return f"data: {json.dumps(response)}\n\n"
-    
-    # 统一处理消息内容
+
     content = str(chunk.content) if not isinstance(chunk.content, str) else chunk.content
     if chunk.type == 'code':
-        content = f"\n```{chunk.format or 'python'}\n{content}\n```"
-    
-    current_time = int(time.time())  # 直接转换为整数
+        content = f"\n{chunk.format or 'python'}\n{content}\n"
+
+    current_time = int(time.time())
     response = {
         'id': f'chatcmpl-{str(uuid.uuid4())}',
         'object': 'chat.completion.chunk',
@@ -223,15 +214,15 @@ def format_openai_stream_chunk(chunk: Union[StreamingChunk, Dict]) -> str:
             'finish_reason': 'stop' if chunk.end else None
         }]
     }
-    
     return f"data: {json.dumps(response)}\n\n"
 
+
 class MessageProcessor:
-    """消息处理工具类"""
-    
+    """Message processing utility class."""
+
     @staticmethod
     def process_response(response, session_manager=None, session_id=None):
-        """处理非流式响应"""
+        """Process non-streaming response."""
         content = ''
         try:
             for chunk in response:
@@ -241,21 +232,20 @@ class MessageProcessor:
                     if chunk.type == 'message' and chunk.role == 'assistant':
                         if content:
                             content += '\n'
-                        # 确保内容是字符串
                         chunk_content = str(chunk.content) if not isinstance(chunk.content, str) else chunk.content
                         content += chunk_content
-                        # 保存消息到会话
+
                         if session_manager and session_id:
                             session_manager.add_message(session_id, chunk.to_dict())
                 except Exception as e:
                     logger.error(f"Error processing chunk: {str(e)}", exc_info=True)
                     continue
-                    
+
             return {
                 "id": f"chatcmpl-{str(uuid.uuid4())}",
                 "object": "chat.completion",
                 "created": int(time.time()),
-                "model": "bedrock/anthropic.claude-3-sonnet-20240229-v1:0",  # 使用固定的模型名称
+                "model": "bedrock/anthropic.claude-3-sonnet-20240229-v1:0",
                 "choices": [{
                     "index": 0,
                     "message": {
@@ -276,13 +266,14 @@ class MessageProcessor:
 
     @staticmethod
     def validate_messages(messages):
-        """验证消息格式"""
+        """Validate message format and return processed messages."""
         if not messages:
             raise ValidationError("Messages array is required")
         return [Message.from_dict(msg) if isinstance(msg, dict) else msg for msg in messages]
 
+
 def get_system_info() -> Dict[str, Any]:
-    """Safely gather system information"""
+    """Gather system information safely."""
     info = {
         "timestamp": datetime.now().isoformat(),
         "system": {
@@ -292,7 +283,7 @@ def get_system_info() -> Dict[str, Any]:
             "hostname": platform.node()
         }
     }
-    
+
     try:
         memory = psutil.virtual_memory()
         info["memory"] = {
@@ -300,7 +291,6 @@ def get_system_info() -> Dict[str, Any]:
             "available": memory.available,
             "used_percent": memory.percent
         }
-        
         disk = psutil.disk_usage('/')
         info["disk"] = {
             "total": disk.total,
@@ -308,108 +298,71 @@ def get_system_info() -> Dict[str, Any]:
             "used_percent": disk.percent
         }
     except Exception:
-        pass  # Silently handle any hardware info gathering errors
-        
+        pass  # Silently handle hardware info gathering errors
     return info
 
+
 def format_size(bytes: int) -> str:
-    """Format bytes to human readable string"""
+    """Format bytes to human readable string."""
     for unit in ['B', 'KB', 'MB', 'GB', 'TB']:
         if bytes < 1024:
             return f"{bytes:.2f}{unit}"
         bytes /= 1024
     return f"{bytes:.2f}PB"
 
+
 def normalize_session_batch(sessions: List[Dict[str, Any]]) -> List[Dict[str, Any]]:
-    """
-    批量规范化会话数据，确保所有会话数据都符合模型定义
-    
-    Args:
-        sessions: 会话数据列表
-        
-    Returns:
-        规范化后的会话数据列表
-    """
+    """Batch normalize session data to match model definition."""
     normalized_sessions = []
-    
     for session in sessions:
         normalized = normalize_session(session)
         normalized_sessions.append(normalized)
-    
     return normalized_sessions
 
+
 def normalize_session(session_data: Dict[str, Any]) -> Dict[str, Any]:
-    """
-    规范化单个会话数据，确保所有字段符合模型定义
-    
-    Args:
-        session_data: 会话数据
-        
-    Returns:
-        规范化后的会话数据
-    """
+    """Normalize single session data to match model definition."""
     normalized = session_data.copy()
-    
-    # 确保基本字段存在
+
     if 'session_id' not in normalized:
         normalized['session_id'] = str(uuid.uuid4())
-    
     if 'created_at' not in normalized:
         normalized['created_at'] = datetime.now().isoformat()
-    
-    # 确保 last_active 是 ISO 格式字符串
+
     if 'last_active' in normalized and isinstance(normalized['last_active'], (int, float)):
-        # 将时间戳转换为 ISO 格式
         normalized['last_active'] = datetime.fromtimestamp(normalized['last_active']).isoformat()
     elif 'last_active' not in normalized:
         normalized['last_active'] = datetime.now().isoformat()
-    
-    # 确保 messages 字段存在且为列表
+
     if 'messages' not in normalized:
         normalized['messages'] = []
-    
-    # 规范化每条消息
+
     normalized_messages = []
     for msg in normalized['messages']:
         normalized_msg = msg.copy()
-        
-        # 确保消息有 id
         if 'id' not in normalized_msg:
             normalized_msg['id'] = str(uuid.uuid4())
-        
-        # 确保消息有 created_at
         if 'created_at' not in normalized_msg:
             normalized_msg['created_at'] = datetime.now().isoformat()
-        
-        # 确保消息有 role 和 type
         if 'role' not in normalized_msg:
-            normalized_msg['role'] = 'assistant'  # 默认为助手
-        
+            normalized_msg['role'] = 'assistant'
         if 'type' not in normalized_msg:
-            normalized_msg['type'] = 'message'  # 默认为消息类型
-            
-        # 确保 content 字段存在
+            normalized_msg['type'] = 'message'
         if 'content' not in normalized_msg:
             normalized_msg['content'] = ""
-            
         normalized_messages.append(normalized_msg)
-    
+
     normalized['messages'] = normalized_messages
-    
-    # 确保 metadata 字段存在且为字典
+
     if 'metadata' not in normalized:
         normalized['metadata'] = {}
     elif not isinstance(normalized['metadata'], dict):
         normalized['metadata'] = {}
-    
-    # 规范化元数据
+
     metadata = normalized['metadata']
-    
-    # 设置默认值（如果不存在）
     if 'safe_mode' not in metadata:
         metadata['safe_mode'] = True
-    
-    # 其他可选元数据字段，如果需要默认值可以在这里设置
+
     optional_fields = {
         'title': '',
         'description': '',
@@ -419,30 +372,22 @@ def normalize_session(session_data: Dict[str, Any]) -> Dict[str, Any]:
         'language': '',
         'is_starred': False,
         'status': 'active',
-        'turn_count': len(normalized['messages']) // 2,  # 粗略估计对话轮次
+        'turn_count': len(normalized['messages']) // 2,
         'category': 'general',
         'last_modified': datetime.now().isoformat(),
         'context_window': 0,
         'max_tokens': 0
     }
-    
-    # 只设置不存在的字段
+
     for field, default_value in optional_fields.items():
         if field not in metadata:
             metadata[field] = default_value
-    
+
     return normalized
 
+
 def get_session_summary(session: Dict[str, Any]) -> Dict[str, Any]:
-    """
-    获取会话摘要信息，用于列表展示
-    
-    Args:
-        session: 会话数据
-        
-    Returns:
-        会话摘要信息
-    """
+    """Get session summary for list display."""
     summary = {
         'session_id': session['session_id'],
         'created_at': session['created_at'],
@@ -450,18 +395,16 @@ def get_session_summary(session: Dict[str, Any]) -> Dict[str, Any]:
         'message_count': len(session.get('messages', [])),
         'metadata': session.get('metadata', {})
     }
-    
-    # 添加标题（如果存在）
+
     metadata = session.get('metadata', {})
     if metadata.get('title'):
         summary['title'] = metadata['title']
-    
-    # 添加最后一条消息预览（如果存在）
+
     messages = session.get('messages', [])
     if messages:
         last_message = messages[-1]
         if last_message.get('role') == 'assistant' and last_message.get('type') == 'message':
             content = last_message.get('content', '')
             summary['last_message_preview'] = content[:100] + '...' if len(content) > 100 else content
-    
+
     return summary
