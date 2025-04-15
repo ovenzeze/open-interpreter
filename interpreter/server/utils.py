@@ -175,46 +175,205 @@ def format_openai_stream_chunk(chunk: Union[StreamingChunk, Dict]) -> str:
 
     openai_role = 'assistant' if chunk.role == 'computer' else chunk.role
 
-    if chunk.type == 'console' and chunk.role == 'computer':
-        content_str = str(chunk.content) if not isinstance(chunk.content, str) else chunk.content
-        output_block = f"\n\n{content_str}\n"
-        current_time = int(time.time())
-        response = {
-            'id': f'chatcmpl-{str(uuid.uuid4())}',
+    # 确保 JSON 转换为单行，避免多行导致的解析问题
+    def to_single_line_json(obj):
+        try:
+            # 确保生成的JSON不包含实际换行符，使用紧凑模式
+            return json.dumps(obj, ensure_ascii=False, separators=(',', ':'))
+        except Exception as e:
+            logger.error(f"JSON serialization error: {str(e)}")
+            # 提供一个安全的回退方案
+            return json.dumps({"error": str(e)})
+
+    try:
+        current_time = int(float(time.time()))  # 确保time.time()返回值被转换为int
+        chunk_id = f'chatcmpl-{str(uuid.uuid4())}'
+        
+        # 控制台输出特殊处理 - 改进代码块格式处理
+        if chunk.type == 'console' and chunk.role == 'computer':
+            content_str = str(chunk.content) if not isinstance(chunk.content, str) else chunk.content
+            # 替换可能导致问题的字符
+            content_str = content_str.replace('\r', '').replace('\0', '')
+            
+            # 处理控制台输出的不同阶段 - 统一使用markdown代码块格式
+            if chunk.start:
+                # 控制台输出开始 - 使用明确的shell标记
+                response = {
+                    'id': chunk_id,
+                    'object': 'chat.completion.chunk',
+                    'created': current_time,
+                    'model': 'bedrock/anthropic.claude-3-sonnet-20240229-v1:0',
+                    'choices': [{
+                        'index': 0,
+                        'delta': {
+                            'content': "\n```shell\n"  # 使用shell标记明确指示这是控制台输出
+                        },
+                        'finish_reason': None
+                    }]
+                }
+            elif chunk.end:
+                # 控制台输出结束
+                response = {
+                    'id': chunk_id,
+                    'object': 'chat.completion.chunk',
+                    'created': current_time,
+                    'model': 'bedrock/anthropic.claude-3-sonnet-20240229-v1:0',
+                    'choices': [{
+                        'index': 0,
+                        'delta': {
+                            'content': "\n```\n"
+                        },
+                        'finish_reason': None
+                    }]
+                }
+            else:
+                # 控制台输出内容 - 直接传递内容
+                response = {
+                    'id': chunk_id,
+                    'object': 'chat.completion.chunk',
+                    'created': current_time,
+                    'model': 'bedrock/anthropic.claude-3-sonnet-20240229-v1:0',
+                    'choices': [{
+                        'index': 0,
+                        'delta': {
+                            'content': content_str
+                        },
+                        'finish_reason': None
+                    }]
+                }
+            return f"data: {to_single_line_json(response)}\n\n"
+
+        # 代码块特殊处理 - 改进代码块的格式处理
+        if chunk.type == 'code':
+            content = str(chunk.content) if not isinstance(chunk.content, str) else chunk.content
+            # 清理内容中可能导致问题的字符
+            content = content.replace('\r', '').replace('\0', '')
+            
+            # 如果是代码块开始 - 使用更明确的语言标记
+            if chunk.start:
+                # 确保有语言标记，如果没有则默认为text
+                lang = chunk.format or 'python'  # 默认使用python作为更常见的选择
+                response = {
+                    'id': chunk_id,
+                    'object': 'chat.completion.chunk',
+                    'created': current_time,
+                    'model': 'bedrock/anthropic.claude-3-sonnet-20240229-v1:0',
+                    'choices': [{
+                        'index': 0,
+                        'delta': {
+                            'content': f"\n```{lang}\n"  # 明确的语言标记
+                        },
+                        'finish_reason': None
+                    }]
+                }
+            # 如果是代码块结束
+            elif chunk.end:
+                response = {
+                    'id': chunk_id,
+                    'object': 'chat.completion.chunk',
+                    'created': current_time,
+                    'model': 'bedrock/anthropic.claude-3-sonnet-20240229-v1:0',
+                    'choices': [{
+                        'index': 0,
+                        'delta': {
+                            'content': "\n```\n"
+                        },
+                        'finish_reason': None
+                    }]
+                }
+            # 普通代码内容
+            else:
+                response = {
+                    'id': chunk_id,
+                    'object': 'chat.completion.chunk',
+                    'created': current_time,
+                    'model': 'bedrock/anthropic.claude-3-sonnet-20240229-v1:0',
+                    'choices': [{
+                        'index': 0,
+                        'delta': {
+                            'content': content
+                        },
+                        'finish_reason': None
+                    }]
+                }
+            return f"data: {to_single_line_json(response)}\n\n"
+
+        # 普通消息内容处理
+        content = str(chunk.content) if not isinstance(chunk.content, str) else chunk.content
+        # 清理内容中可能导致问题的字符
+        content = content.replace('\r', '').replace('\0', '')
+        
+        # 根据消息块类型构建响应
+        # 如果是消息起始块
+        if chunk.start:
+            response = {
+                'id': chunk_id,
+                'object': 'chat.completion.chunk',
+                'created': current_time,
+                'model': 'bedrock/anthropic.claude-3-sonnet-20240229-v1:0',
+                'choices': [{
+                    'index': 0,
+                    'delta': {
+                        'role': openai_role,
+                        'content': content
+                    },
+                    'finish_reason': None
+                }]
+            }
+        # 如果是消息结束块
+        elif chunk.end:
+            response = {
+                'id': chunk_id,
+                'object': 'chat.completion.chunk',
+                'created': current_time,
+                'model': 'bedrock/anthropic.claude-3-sonnet-20240229-v1:0',
+                'choices': [{
+                    'index': 0,
+                    'delta': {
+                        'role': openai_role,
+                        'content': content
+                    },
+                    'finish_reason': 'stop'
+                }]
+            }
+            return f"data: {to_single_line_json(response)}\n\ndata: [DONE]\n\n"
+        # 普通内容块
+        else:
+            response = {
+                'id': chunk_id,
+                'object': 'chat.completion.chunk',
+                'created': current_time,
+                'model': 'bedrock/anthropic.claude-3-sonnet-20240229-v1:0',
+                'choices': [{
+                    'index': 0,
+                    'delta': {
+                        'role': openai_role,
+                        'content': content
+                    },
+                    'finish_reason': None
+                }]
+            }
+        
+        return f"data: {to_single_line_json(response)}\n\n"
+            
+    except Exception as e:
+        # 记录错误但避免中断流式响应
+        logger.error(f"Error formatting stream chunk: {str(e)}", exc_info=True)
+        # 返回一个简单但有效的响应
+        error_response = {
+            'id': f'chatcmpl-error-{str(uuid.uuid4())}',
             'object': 'chat.completion.chunk',
-            'created': current_time,
+            'created': int(float(time.time())),  # 确保time.time()返回值被转换为int
             'model': 'bedrock/anthropic.claude-3-sonnet-20240229-v1:0',
             'choices': [{
                 'index': 0,
                 'delta': {
-                    'content': output_block,
-                    'type': 'console_output'
+                    'content': f"[Error: {str(e)}]"
                 },
                 'finish_reason': None
             }]
         }
-        return f"data: {json.dumps(response)}\n\n"
-
-    content = str(chunk.content) if not isinstance(chunk.content, str) else chunk.content
-    if chunk.type == 'code':
-        content = f"\n{chunk.format or 'python'}\n{content}\n"
-
-    current_time = int(time.time())
-    response = {
-        'id': f'chatcmpl-{str(uuid.uuid4())}',
-        'object': 'chat.completion.chunk',
-        'created': current_time,
-        'model': 'bedrock/anthropic.claude-3-sonnet-20240229-v1:0',
-        'choices': [{
-            'index': 0,
-            'delta': {
-                'role': openai_role,
-                'content': content
-            },
-            'finish_reason': 'stop' if chunk.end else None
-        }]
-    }
-    return f"data: {json.dumps(response)}\n\n"
+        return f"data: {to_single_line_json(error_response)}\n\n"
 
 
 class MessageProcessor:

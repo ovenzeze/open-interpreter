@@ -65,15 +65,16 @@ def list_models():
         # OpenAI风格的模型列表响应
         models_response = {
             "object": "list",
-            "data": [
-                {
-                    "id": default_model,
-                    "object": "model",
-                    "created": int(time.time()),
-                    "owned_by": "open-interpreter"
-                }
-            ]
+            "data": []
         }
+        
+        # 添加默认模型
+        models_response["data"].append({
+            "id": default_model,
+            "object": "model",
+            "created": int(time.time()),
+            "owned_by": "open-interpreter"
+        })
         
         # 如果有配置多个模型，可以在这里添加
         if hasattr(current_app, 'interpreter_instance') and hasattr(current_app.interpreter_instance, 'llm'):
@@ -86,11 +87,45 @@ def list_models():
                     "owned_by": "open-interpreter"
                 })
         
-        return jsonify(models_response)
+        # 添加常用的Bedrock模型
+        bedrock_models = [
+            "bedrock/anthropic.claude-3-sonnet-20240229-v1:0",
+            "bedrock/anthropic.claude-3-5-sonnet-20240620-v1:0",
+            "bedrock/anthropic.claude-3-haiku-20240307-v1:0",
+            "bedrock/anthropic.claude-instant-v1",
+            "bedrock/meta.llama2-13b-chat-v1",
+            "bedrock/meta.llama2-70b-chat-v1"
+        ]
+        
+        for model in bedrock_models:
+            if model not in [item["id"] for item in models_response["data"]]:
+                models_response["data"].append({
+                    "id": model,
+                    "object": "model",
+                    "created": int(time.time()),
+                    "owned_by": "bedrock"
+                })
+        
+        response = jsonify(models_response)
+        
+        # 添加CORS头
+        response.headers['Access-Control-Allow-Origin'] = '*'
+        response.headers['Access-Control-Allow-Methods'] = 'GET, OPTIONS'
+        response.headers['Access-Control-Allow-Headers'] = 'Content-Type, Authorization'
+        
+        return response
     except Exception as e:
         current_app.logger.error(f"Error listing models: {str(e)}", exc_info=True)
         error_response, status_code = format_error_response(e)
-        return jsonify(error_response), status_code
+        response = jsonify(error_response)
+        response.status_code = status_code
+        
+        # 添加CORS头
+        response.headers['Access-Control-Allow-Origin'] = '*'
+        response.headers['Access-Control-Allow-Methods'] = 'GET, OPTIONS'
+        response.headers['Access-Control-Allow-Headers'] = 'Content-Type, Authorization'
+        
+        return response, status_code
 
 @openai_bp.route('/v1/engines', methods=['GET', 'OPTIONS'])
 @handle_method_not_allowed(['GET', 'OPTIONS'])
@@ -113,16 +148,17 @@ def list_engines():
         # OpenAI风格的引擎列表响应
         engines_response = {
             "object": "list",
-            "data": [
-                {
-                    "id": default_model,
-                    "object": "engine",
-                    "created": int(time.time()),
-                    "owner": "open-interpreter",
-                    "ready": True
-                }
-            ]
+            "data": []
         }
+        
+        # 添加默认模型
+        engines_response["data"].append({
+            "id": default_model,
+            "object": "engine",
+            "created": int(time.time()),
+            "owner": "open-interpreter",
+            "ready": True
+        })
         
         # 添加环境变量中的模型
         if env_model and env_model != default_model:
@@ -146,46 +182,75 @@ def list_engines():
                     "ready": True
                 })
         
-        return jsonify(engines_response)
+        # 添加常用的Bedrock模型
+        bedrock_models = [
+            "bedrock/anthropic.claude-3-sonnet-20240229-v1:0",
+            "bedrock/anthropic.claude-3-5-sonnet-20240620-v1:0",
+            "bedrock/anthropic.claude-3-haiku-20240307-v1:0",
+            "bedrock/anthropic.claude-instant-v1",
+            "bedrock/meta.llama2-13b-chat-v1",
+            "bedrock/meta.llama2-70b-chat-v1"
+        ]
+        
+        for model in bedrock_models:
+            if model not in [item["id"] for item in engines_response["data"]]:
+                engines_response["data"].append({
+                    "id": model,
+                    "object": "engine",
+                    "created": int(time.time()),
+                    "owner": "bedrock",
+                    "ready": True
+                })
+        
+        response = jsonify(engines_response)
+        
+        # 添加CORS头
+        response.headers['Access-Control-Allow-Origin'] = '*'
+        response.headers['Access-Control-Allow-Methods'] = 'GET, OPTIONS'
+        response.headers['Access-Control-Allow-Headers'] = 'Content-Type, Authorization'
+        
+        return response
     except Exception as e:
         current_app.logger.error(f"Error listing engines: {str(e)}", exc_info=True)
         error_response, status_code = format_error_response(e)
-        return jsonify(error_response), status_code
+        response = jsonify(error_response)
+        response.status_code = status_code
+        
+        # 添加CORS头
+        response.headers['Access-Control-Allow-Origin'] = '*'
+        response.headers['Access-Control-Allow-Methods'] = 'GET, OPTIONS'
+        response.headers['Access-Control-Allow-Headers'] = 'Content-Type, Authorization'
+        
+        return response, status_code
 
-@openai_bp.route('/v1/chat/completions', methods=['POST', 'OPTIONS'])
-@handle_method_not_allowed(['POST', 'OPTIONS'])
+@openai_bp.route('/v1/chat/completions', methods=['GET', 'POST', 'OPTIONS'])
+@handle_method_not_allowed(['GET', 'POST', 'OPTIONS'])
 def chat_completions():
     """
     OpenAI兼容的聊天完成接口
     
-    Request Body:
+    支持POST和GET方法:
+    - POST: 标准OpenAI格式的JSON请求体
+    - GET: 通过URL查询参数发送消息
+    
+    Request Body (POST):
         {
             "messages": [OpenAI格式的消息数组],
             "stream": bool,
             "model": str (可选),
             "session_id": str (可选)
         }
+        
+    Query Parameters (GET):
+        message: str - 消息内容
+        model: str - 模型名称（可选）
+        session_id: str - 会话ID（可选）
+        stream: bool - 是否流式响应（可选）
     
     Returns:
         OpenAI格式的响应
     """
-    if not request.is_json:
-        raise ValidationError("Content-Type must be application/json")
-        
     try:
-        data = request.get_json()
-        if data is None:
-            raise ValidationError("Invalid request data")
-            
-        # 获取原始消息
-        raw_messages = data.get('messages', [])
-        if not raw_messages:
-            raise ValidationError("Messages array is required")
-            
-        stream = data.get('stream', False)
-        session_id = data.get('session_id')
-        model = data.get('model')
-        
         # 获取聊天服务
         if not hasattr(current_app, 'chat_service'):
             from ..chat_service import ChatService
@@ -193,23 +258,57 @@ def chat_completions():
         
         chat_service = current_app.chat_service
         
-        current_app.logger.info(f"Processing OpenAI chat request with {len(raw_messages)} messages")
-        
-        # 转换消息为字典格式 - 直接使用原始消息的字典格式，避免类型转换问题
-        # MessageProcessor.validate_messages会返回Message对象，但chat_service需要字典
+        # 针对不同的请求方法处理数据
         message_dicts = []
-        for msg in raw_messages:
-            if isinstance(msg, dict):
-                message_dicts.append(msg)
-            elif hasattr(msg, 'to_dict'):
-                message_dicts.append(msg.to_dict())
-            else:
-                # 如果消息格式无法识别，尝试转换为字符串
-                message_dicts.append({
+        if request.method == 'GET':
+            # 从URL查询参数中获取数据
+            message_content = request.args.get('message', 'Hello')
+            model = request.args.get('model', 'bedrock/anthropic.claude-3-sonnet-20240229-v1:0')
+            session_id = request.args.get('session_id')
+            stream = request.args.get('stream', 'false').lower() == 'true'
+            
+            # 创建消息数组
+            message_dicts = [
+                {
                     "role": "user",
-                    "content": str(msg),
+                    "content": message_content,
                     "type": "message"
-                })
+                }
+            ]
+            
+            current_app.logger.info(f"Processing GET OpenAI chat request with message: {message_content}")
+        else:  # POST
+            if not request.is_json:
+                raise ValidationError("Content-Type must be application/json")
+                
+            data = request.get_json()
+            if data is None:
+                raise ValidationError("Invalid request data")
+                
+            # 获取原始消息
+            raw_messages = data.get('messages', [])
+            if not raw_messages:
+                raise ValidationError("Messages array is required")
+                
+            stream = data.get('stream', False)
+            session_id = data.get('session_id')
+            model = data.get('model')
+            
+            # 转换消息为字典格式
+            for msg in raw_messages:
+                if isinstance(msg, dict):
+                    message_dicts.append(msg)
+                elif hasattr(msg, 'to_dict'):
+                    message_dicts.append(msg.to_dict())
+                else:
+                    # 如果消息格式无法识别，尝试转换为字符串
+                    message_dicts.append({
+                        "role": "user",
+                        "content": str(msg),
+                        "type": "message"
+                    })
+            
+            current_app.logger.info(f"Processing POST OpenAI chat request with {len(raw_messages)} messages")
         
         if stream:
             # 流式响应
@@ -226,7 +325,10 @@ def chat_completions():
                 mimetype='text/event-stream',
                 headers={
                     'Cache-Control': 'no-cache',
-                    'X-Accel-Buffering': 'no'
+                    'X-Accel-Buffering': 'no',
+                    'Access-Control-Allow-Origin': '*',
+                    'Access-Control-Allow-Methods': 'GET, POST, OPTIONS',
+                    'Access-Control-Allow-Headers': 'Content-Type, Authorization'
                 }
             )
         else:
@@ -241,11 +343,34 @@ def chat_completions():
             # 检查是否是错误响应
             if isinstance(result, dict) and 'error' in result:
                 error_code = result.get('error', {}).get('code', '')
-                return jsonify(result), 400 if error_code == 'session_busy' else 500
+                response = jsonify(result)
+                response.status_code = 400 if error_code == 'session_busy' else 500
+                
+                # 添加CORS头
+                response.headers['Access-Control-Allow-Origin'] = '*'
+                response.headers['Access-Control-Allow-Methods'] = 'GET, POST, OPTIONS'
+                response.headers['Access-Control-Allow-Headers'] = 'Content-Type, Authorization'
+                
+                return response
             
-            return jsonify(result)
+            response = jsonify(result)
+            
+            # 添加CORS头
+            response.headers['Access-Control-Allow-Origin'] = '*'
+            response.headers['Access-Control-Allow-Methods'] = 'GET, POST, OPTIONS'
+            response.headers['Access-Control-Allow-Headers'] = 'Content-Type, Authorization'
+            
+            return response
             
     except Exception as e:
         current_app.logger.error(f"Error processing chat completions request: {str(e)}", exc_info=True)
         error_response, status_code = format_error_response(e)
-        return jsonify(error_response), status_code 
+        response = jsonify(error_response)
+        response.status_code = status_code
+        
+        # 添加CORS头
+        response.headers['Access-Control-Allow-Origin'] = '*'
+        response.headers['Access-Control-Allow-Methods'] = 'GET, POST, OPTIONS'
+        response.headers['Access-Control-Allow-Headers'] = 'Content-Type, Authorization'
+        
+        return response 

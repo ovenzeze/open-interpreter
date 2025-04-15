@@ -19,6 +19,12 @@ function prepare_environment() {
 
 # 添加环境变量配置
 function setup_env_vars() {
+    # 加载.env文件
+    if [ -f .env ]; then
+        echo "加载.env文件环境变量..."
+        export $(grep -v '^#' .env | xargs)
+    fi
+    
     # 设置服务端口
     export SERVER_PORT_PROD=5001
     export SERVER_PORT_DEV=5002

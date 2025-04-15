@@ -9,19 +9,19 @@
   "rules": [
     {
       "pattern": "^def \\w+\\([^\\)]*\\):",
-      "message": "函数定义需要包含类型注解和文档字符串",
+      "message": "Function definitions must include type annotations and docstrings",
       "severity": "error",
       "context": "development"
     },
     {
       "pattern": "print\\(",
-      "message": "使用logging模块而不是print语句",
+      "message": "Use logging module instead of print statements",
       "severity": "warning",
       "context": "production"
     },
     {
       "pattern": "os\\.environ\\[",
-      "message": "使用python-dotenv管理环境变量",
+      "message": "Use python-dotenv to manage environment variables",
       "severity": "warning",
       "context": "development"
     }
@@ -76,7 +76,7 @@
     "projectSpecific": ".cursor/rules/project-specific.yaml"
   },
   "aiInstructions": {
-    "preferredLanguage": "Chinese",
+    "preferredLanguage": "English",
     "codeLanguage": "English",
     "development": {
       "phaseOrder": true,
@@ -89,4 +89,4 @@
       "updateProgress": true
     }
   }
-} 
+}
