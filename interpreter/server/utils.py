@@ -322,21 +322,44 @@ def format_openai_stream_chunk(chunk: Union[StreamingChunk, Dict]) -> str:
             }
         # 如果是消息结束块
         elif chunk.end:
-            response = {
+            # 发送一个含有内容的chunk（如果有内容）
+            if content:
+                content_response = {
+                    'id': chunk_id,
+                    'object': 'chat.completion.chunk',
+                    'created': current_time,
+                    'model': 'bedrock/anthropic.claude-3-sonnet-20240229-v1:0',
+                    'choices': [{
+                        'index': 0,
+                        'delta': {
+                            'role': openai_role,
+                            'content': content
+                        },
+                        'finish_reason': None
+                    }]
+                }
+                # 如果结束块有内容，先发送内容，再发送一个空的结束块
+                result = f"data: {to_single_line_json(content_response)}\n\n"
+            else:
+                result = ""
+            
+            # 然后发送一个内容为空的带有finish_reason的结束块
+            final_response = {
                 'id': chunk_id,
                 'object': 'chat.completion.chunk',
-                'created': current_time,
+                'created': int(current_time),  # 确保current_time是整数
                 'model': 'bedrock/anthropic.claude-3-sonnet-20240229-v1:0',
                 'choices': [{
                     'index': 0,
                     'delta': {
-                        'role': openai_role,
-                        'content': content
+                        'content': ""  # 确保内容为空
                     },
                     'finish_reason': 'stop'
                 }]
             }
-            return f"data: {to_single_line_json(response)}\n\ndata: [DONE]\n\n"
+            result += f"data: {to_single_line_json(final_response)}\n\n"
+            result += "data: [DONE]\n\n"
+            return result
         # 普通内容块
         else:
             response = {

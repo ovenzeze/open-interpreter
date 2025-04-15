@@ -1,50 +1,50 @@
 #!/bin/bash
 
-# 设置基础目录
+# Set base directories
 export INTERPRETER_BASE="$HOME/.interpreter"
 export INTERPRETER_HOME="$INTERPRETER_BASE/.prod"
 export PYTHONPATH="$INTERPRETER_HOME:$PYTHONPATH"
 
-# 准备Python环境
+# Prepare Python environment
 function prepare_environment() {
     local script_dir="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
     if [ -f "$script_dir/scripts/uv-prepare.sh" ]; then
-        echo "Preparing Python environment using uv..."
+        echo "{\"status\":\"info\",\"message\":\"✅ Preparing Python environment using uv...\",\"timestamp\":\"$(date -u +"%Y-%m-%dT%H:%M:%SZ")\"}"
         source "$script_dir/scripts/uv-prepare.sh"
     else
-        echo "Error: uv-prepare.sh not found"
+        echo "{\"status\":\"error\",\"message\":\"❌ uv-prepare.sh not found\",\"timestamp\":\"$(date -u +"%Y-%m-%dT%H:%M:%SZ")\"}"
         exit 1
     fi
 }
 
-# 添加环境变量配置
+# Setup environment variables
 function setup_env_vars() {
-    # 加载.env文件
+    # Load .env file
     if [ -f .env ]; then
-        echo "加载.env文件环境变量..."
+        echo "{\"status\":\"info\",\"message\":\"✅ Loading environment variables from .env file\",\"timestamp\":\"$(date -u +"%Y-%m-%dT%H:%M:%SZ")\"}"
         export $(grep -v '^#' .env | xargs)
     fi
     
-    # 设置服务端口
+    # Set server ports
     export SERVER_PORT_PROD=5001
     export SERVER_PORT_DEV=5002
-    # 确保当前目录在PYTHONPATH中
+    # Ensure current directory is in PYTHONPATH
     export PYTHONPATH="$(pwd):$PYTHONPATH"
-    # 设置日志级别
+    # Set log level
     export LOG_LEVEL=${LOG_LEVEL:-"INFO"}
 }
 
-# 创建必要的目录
+# Create necessary directories
 mkdir -p "$INTERPRETER_BASE"/{logs/{prod,dev},run}
 
 function ensure_prod_code() {
     if [ ! -d "$INTERPRETER_HOME" ]; then
-        echo "Cloning production code..."
+        echo "{\"status\":\"info\",\"message\":\"⚠️ Cloning production code\",\"timestamp\":\"$(date -u +"%Y-%m-%dT%H:%M:%SZ")\"}"
         git clone https://github.com/ovenzeze/open-interpreter.git "$INTERPRETER_HOME"
         cd "$INTERPRETER_HOME"
         git checkout main
     else
-        echo "Updating production code..."
+        echo "{\"status\":\"info\",\"message\":\"⚠️ Updating production code\",\"timestamp\":\"$(date -u +"%Y-%m-%dT%H:%M:%SZ")\"}"
         cd "$INTERPRETER_HOME"
         git fetch origin
         git reset --hard origin/main
@@ -54,7 +54,7 @@ function ensure_prod_code() {
     fi
 }
 
-# 添加服务信息打印函数
+# Print service information
 function print_service_info() {
     local service_type=$1
     local port
@@ -64,23 +64,23 @@ function print_service_info() {
         port=$SERVER_PORT_DEV
     fi
     
-    echo "========== Service Information =========="
-    echo "Service Type: $service_type"
-    echo "Python Path: $PYTHON_PATH"
-    echo "Open Interpreter Path: $INTERPRETER_HOME"
-    echo "Virtual Environment: $VIRTUAL_ENV"
-    echo "Log Directory: $INTERPRETER_BASE/logs/$service_type"
-    echo "Error Log: $INTERPRETER_BASE/logs/$service_type/err.log"
-    echo "Output Log: $INTERPRETER_BASE/logs/$service_type/out.log"
-    echo "Server Port: $port"
-    echo "Log Level: $LOG_LEVEL"
-    echo "========================================"
+    echo "{\"status\":\"info\",\"message\":\"✅ Service Information\",\"details\":{
+        \"serviceType\":\"$service_type\",
+        \"pythonPath\":\"$PYTHON_PATH\",
+        \"interpreterPath\":\"$INTERPRETER_HOME\",
+        \"virtualEnv\":\"$VIRTUAL_ENV\",
+        \"logDirectory\":\"$INTERPRETER_BASE/logs/$service_type\",
+        \"errorLog\":\"$INTERPRETER_BASE/logs/$service_type/err.log\",
+        \"outputLog\":\"$INTERPRETER_BASE/logs/$service_type/out.log\",
+        \"serverPort\":\"$port\",
+        \"logLevel\":\"$LOG_LEVEL\"
+    },\"timestamp\":\"$(date -u +"%Y-%m-%dT%H:%M:%SZ")\"}"
 }
 
-# 检查并安装Node.js依赖
+# Check and install Node.js dependencies
 function ensure_node_deps() {
     if [ ! -d "node_modules" ]; then
-        echo "Installing Node.js dependencies..."
+        echo "{\"status\":\"info\",\"message\":\"⚠️ Installing Node.js dependencies\",\"timestamp\":\"$(date -u +"%Y-%m-%dT%H:%M:%SZ")\"}"
         if command -v yarn &> /dev/null; then
             yarn install
         else
@@ -101,7 +101,7 @@ case "$1" in
         setup_env_vars
         ensure_prod_code
         print_service_info "prod"
-        echo "Starting production server with Python: $PYTHON_PATH"
+        echo "{\"status\":\"info\",\"message\":\"✅ Starting production server\",\"python\":\"$PYTHON_PATH\",\"timestamp\":\"$(date -u +"%Y-%m-%dT%H:%M:%SZ")\"}"
         pm2 start ecosystem.config.js --only interpreter-prod
         ;;
     "stop-dev")
@@ -121,14 +121,17 @@ case "$1" in
         pm2 restart ecosystem.config.js
         ;;
     *)
-        echo "Usage: $0 {start-dev|start-prod|stop-dev|stop-prod|status|logs|restart}"
-        echo "  start-dev   - Start development server (port 5002)"
-        echo "  start-prod  - Start production server (port 5001)"
-        echo "  stop-dev    - Stop development server"
-        echo "  stop-prod   - Stop production server"
-        echo "  status      - Show process status"
-        echo "  logs [name] - Show logs (specify 'interpreter-dev' or 'interpreter-prod')"
-        echo "  restart     - Restart all servers"
+        echo "{\"status\":\"error\",\"message\":\"❌ Invalid command\",\"usage\":{
+            \"commands\":[
+                {\"cmd\":\"start-dev\",\"desc\":\"Start development server (port 5002)\"},
+                {\"cmd\":\"start-prod\",\"desc\":\"Start production server (port 5001)\"},
+                {\"cmd\":\"stop-dev\",\"desc\":\"Stop development server\"},
+                {\"cmd\":\"stop-prod\",\"desc\":\"Stop production server\"},
+                {\"cmd\":\"status\",\"desc\":\"Show process status\"},
+                {\"cmd\":\"logs\",\"desc\":\"Show logs (specify 'interpreter-dev' or 'interpreter-prod')\"},
+                {\"cmd\":\"restart\",\"desc\":\"Restart all servers\"}
+            ]
+        },\"timestamp\":\"$(date -u +"%Y-%m-%dT%H:%M:%SZ")\"}"
         exit 1
         ;;
 esac
