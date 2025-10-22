@@ -118,7 +118,7 @@ def respond(interpreter):
                     and "exceeded" in str(e).lower()
                     or "insufficient_quota" in str(e).lower()
                 ):
-                    display_markdown_message(
+                    interpreter.display_message(
                         f""" > You ran out of current quota for OpenAI's API, please check your plan and billing details. You can either wait for the quota to reset or upgrade your plan.
 
                         To check your current usage and billing details, visit the [OpenAI billing page](https://platform.openai.com/settings/organization/billing/overview).

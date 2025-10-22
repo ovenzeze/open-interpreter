@@ -121,8 +121,28 @@ class ChatService:
                 # 处理最后一条消息
                 response = interpreter.chat(interpreter_messages[-1].content, stream=False, display=False)
                 
-                # 转换响应格式
-                chat_response = convert_interpreter_to_openai(response, session_id, getattr(interpreter, "model", "gpt-4"))
+                # 转换响应格式为OpenAI消息列表
+                openai_messages = convert_interpreter_to_openai(response)
+                
+                # 包装成OpenAI标准响应格式
+                import uuid
+                import time
+                chat_response = {
+                    "id": f"chatcmpl-{str(uuid.uuid4())}",
+                    "object": "chat.completion",
+                    "created": int(time.time()),
+                    "model": model or getattr(interpreter, "model", "gpt-4"),
+                    "choices": [{
+                        "index": 0,
+                        "message": openai_messages[-1] if openai_messages else {"role": "assistant", "content": ""},
+                        "finish_reason": "stop"
+                    }],
+                    "usage": {
+                        "prompt_tokens": 0,
+                        "completion_tokens": 0,
+                        "total_tokens": 0
+                    }
+                }
                 
                 # 处理完成后标记为空闲
                 self.session_manager.mark_instance_status(session_id, 'idle')
@@ -243,6 +263,10 @@ class ChatService:
                         end=chunk.get('end', False)
                     )
                     yield format_openai_stream_chunk(chunk_obj)
+                
+                # 在OpenAI格式下发送[DONE]信号
+                if is_openai_format:
+                    yield "data: [DONE]\n\n"
                 
                 # 流处理结束后，标记实例为空闲
                 self.session_manager.mark_instance_status(session_id, 'idle')
