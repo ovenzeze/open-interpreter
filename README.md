@@ -13,6 +13,20 @@
     <br><a href="https://0ggfznkwh4j.typeform.com/to/G21i9lJ2">Get early access to the desktop app</a>‎ ‎ |‎ ‎ <a href="https://docs.openinterpreter.com/">Documentation</a><br>
 </p>
 
+> [!IMPORTANT]
+> **🚀 This is an Enhanced Fork**
+>
+> This repository is a production-ready fork of [Open Interpreter](https://github.com/OpenInterpreter/open-interpreter) with enterprise features:
+> - **REST API Server** with OpenAI-compatible endpoints
+> - **Session Management** for persistent conversations
+> - **Process Management** with PM2/Supervisor support
+> - **Advanced Monitoring** and structured logging
+> - **Production Deployment** scripts and configuration
+>
+> 👉 See [FORK.md](FORK.md) for detailed fork information and [CHANGELOG.md](CHANGELOG.md) for all enhancements.
+>
+> 🔗 **Upstream Repository**: https://github.com/OpenInterpreter/open-interpreter
+
 > [!NOTE]
 > **Open Interpreter 1.0** is almost here.
 >
