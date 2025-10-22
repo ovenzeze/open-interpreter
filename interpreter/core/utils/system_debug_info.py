@@ -28,7 +28,9 @@ def get_oi_version():
         oi_version_cmd = str(e)
     try:
         pkg_ver = version("open-interpreter")
-    except PackageNotFoundError:
+    except PackageNotFoundError as e:
+        # Log the exception to help with debugging
+        print(f"Warning: Could not find 'open-interpreter' package: {e}", file=__import__('sys').stderr)
         pkg_ver = None
     oi_version = oi_version_cmd, pkg_ver
     return oi_version

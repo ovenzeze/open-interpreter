@@ -1,6 +1,6 @@
-from importlib.metadata import version, PackageNotFoundError
+from importlib.metadata import version as get_version, PackageNotFoundError
 import requests
-
+from packaging import version
 
 
 def check_for_update():
@@ -9,6 +9,7 @@ def check_for_update():
     latest_version = response.json()["info"]["version"]
 
     # Get the current version using importlib.metadata
-    current_version = version("open-interpreter")
+    current_version = get_version("open-interpreter")
 
-    return latest_version > current_version
+    # Use packaging.version.parse for proper semantic version comparison
+    return version.parse(latest_version) > version.parse(current_version)
