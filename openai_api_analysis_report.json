@@ -1,0 +1,72 @@
+{
+  "endpoints": [
+    {
+      "path": "/v1/models",
+      "methods": [
+        "GET",
+        "OPTIONS"
+      ],
+      "function": "list_models",
+      "status": "✓"
+    },
+    {
+      "path": "/v1/engines",
+      "methods": [
+        "GET",
+        "OPTIONS"
+      ],
+      "function": "list_engines",
+      "status": "✓"
+    },
+    {
+      "path": "/v1/chat/completions",
+      "methods": [
+        "GET",
+        "POST",
+        "OPTIONS"
+      ],
+      "function": "chat_completions",
+      "status": "✓"
+    }
+  ],
+  "features": [
+    {
+      "name": "CORS 支持",
+      "status": "✓",
+      "description": "支持跨域请求"
+    },
+    {
+      "name": "HTTP 方法验证",
+      "status": "✓",
+      "description": "支持方法不允许的错误处理"
+    },
+    {
+      "name": "OPTIONS 预检",
+      "status": "✓",
+      "description": "支持 CORS 预检请求"
+    },
+    {
+      "name": "会话管理",
+      "status": "✓",
+      "description": "支持会话ID参数"
+    },
+    {
+      "name": "模型选择",
+      "status": "✓",
+      "description": "支持模型参数"
+    }
+  ],
+  "issues": [
+    "流式响应可能不完整"
+  ],
+  "recommendations": [
+    "修复: 流式响应可能不完整",
+    "添加请求速率限制以防止滥用",
+    "实现 token 使用统计",
+    "添加请求日志记录",
+    "实现缓存机制提高性能",
+    "添加健康检查端点",
+    "实现请求超时控制",
+    "添加详细的 API 文档"
+  ]
+}

@@ -42,5 +42,11 @@ def client(api_url, headers):
             all_headers = self.headers.copy()
             all_headers.update(headers)
             return requests.delete(f"{self.base_url}{path}", headers=all_headers, **kwargs)
-    
+
+        def options(self, path, **kwargs):
+            headers = kwargs.pop("headers", {})
+            all_headers = self.headers.copy()
+            all_headers.update(headers)
+            return requests.options(f"{self.base_url}{path}", headers=all_headers, **kwargs)
+
     return TestClient(api_url, headers) 
