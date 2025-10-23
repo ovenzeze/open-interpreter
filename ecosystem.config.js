@@ -40,7 +40,15 @@ module.exports = {
       VIRTUAL_ENV: defaultConfig.VENV_PATH,
       PATH: process.env.PATH,
       PYTHONUNBUFFERED: '1',
-      LOG_LEVEL: defaultConfig.LOG_LEVEL
+      LOG_LEVEL: defaultConfig.LOG_LEVEL,
+      // 确保传递正确的 API 配置
+      OPENAI_API_KEY: process.env.OPENAI_API_KEY || 'sk-isakeem',
+      OPENAI_API_BASE: process.env.OPENAI_API_BASE || 'https://llm.deth.dev',
+      ANTHROPIC_API_KEY: process.env.ANTHROPIC_API_KEY || process.env.OPENAI_API_KEY || 'sk-isakeem',
+      ANTHROPIC_BASE_URL: process.env.ANTHROPIC_BASE_URL || 'https://llm.deth.dev',
+      // 覆盖 .env 文件中的模型配置
+      LITELLM_MODEL: 'o3-mini',
+      OPENAI_MODEL_NAME: 'o3-mini'
     },
     error_file: path.join(defaultConfig.INTERPRETER_BASE, 'logs/prod/err.log'),
     out_file: path.join(defaultConfig.INTERPRETER_BASE, 'logs/prod/out.log'),
@@ -73,7 +81,15 @@ module.exports = {
       VIRTUAL_ENV: defaultConfig.VENV_PATH,
       PATH: process.env.PATH,
       PYTHONUNBUFFERED: '1',
-      LOG_LEVEL: 'DEBUG'
+      LOG_LEVEL: 'DEBUG',
+      // 确保传递正确的 API 配置
+      OPENAI_API_KEY: process.env.OPENAI_API_KEY || 'sk-isakeem',
+      OPENAI_API_BASE: process.env.OPENAI_API_BASE || 'https://llm.deth.dev',
+      ANTHROPIC_API_KEY: process.env.ANTHROPIC_API_KEY || process.env.OPENAI_API_KEY || 'sk-isakeem',
+      ANTHROPIC_BASE_URL: process.env.ANTHROPIC_BASE_URL || 'https://llm.deth.dev',
+      // 覆盖 .env 文件中的模型配置
+      LITELLM_MODEL: 'o3-mini',
+      OPENAI_MODEL_NAME: 'o3-mini'
     },
     error_file: path.join(defaultConfig.INTERPRETER_BASE, 'logs/dev/err.log'),
     out_file: path.join(defaultConfig.INTERPRETER_BASE, 'logs/dev/out.log'),

@@ -61,15 +61,20 @@ class ChatService:
             self.logger.info(f"Session lock acquired for session {session_id}")
             
             # 3. 获取解释器实例
+            self.logger.info(f"Getting interpreter instance for session {session_id} with model {model}")
             interpreter = self._get_interpreter(session_id, model)
             if not interpreter:
+                self.logger.error(f"Failed to get interpreter instance for session {session_id}")
                 return self._create_session_not_found_response(session_id)
             
             # 4. 标记实例为忙碌状态
+            self.logger.info(f"Marking instance {session_id} as busy")
             self.session_manager.mark_instance_status(session_id, 'busy')
             
             # 5. 处理消息
             try:
+                self.logger.info(f"Starting chat processing for session {session_id}")
+                self.logger.info(f"Interpreter config: model={getattr(interpreter.llm, 'model', 'unknown')}, api_base={getattr(interpreter.llm, 'api_base', 'unknown')}")
                 # 保存用户消息到会话
                 if session_id and messages and len(messages) > 0:
                     # 获取最后一条用户消息
@@ -121,7 +126,13 @@ class ChatService:
                 # 加载历史消息
                 interpreter.messages = [msg.to_dict() for msg in interpreter_messages[:-1]]
                 # 处理最后一条消息
-                response = interpreter.chat(interpreter_messages[-1].content, stream=False, display=False)
+                self.logger.info(f"Calling interpreter.chat() with message: {interpreter_messages[-1].content[:50]}...")
+                try:
+                    response = interpreter.chat(interpreter_messages[-1].content, stream=False, display=False)
+                    self.logger.info(f"interpreter.chat() completed successfully")
+                except Exception as chat_error:
+                    self.logger.error(f"interpreter.chat() failed with error: {str(chat_error)}", exc_info=True)
+                    raise chat_error
                 
                 # 转换响应格式为OpenAI消息列表
                 openai_messages = convert_interpreter_to_openai(response)
@@ -162,7 +173,14 @@ class ChatService:
                 self.session_manager.mark_instance_status(session_id, 'error')
             return self._format_error(e)
         finally:
-            # 7. 释放会话锁
+            # 7. 重置实例状态为空闲（无论成功还是失败）
+            if session_id:
+                current_status = self.session_manager.instance_manager.instance_status.get(session_id)
+                if current_status in ['busy', 'error']:
+                    self.session_manager.mark_instance_status(session_id, 'idle')
+                    self.logger.info(f"Reset instance {session_id} status from {current_status} to idle")
+            
+            # 8. 释放会话锁
             if lock_acquired and session_id:
                 self.logger.info(f"Releasing session lock for session {session_id}")
                 self._release_session_lock(session_id)
@@ -300,7 +318,14 @@ class ChatService:
             )
             yield format_openai_stream_chunk(error_chunk)
         finally:
-            # 6. 释放会话锁
+            # 6. 重置实例状态为空闲（无论成功还是失败）
+            if session_id:
+                current_status = self.session_manager.instance_manager.instance_status.get(session_id)
+                if current_status in ['busy', 'error']:
+                    self.session_manager.mark_instance_status(session_id, 'idle')
+                    self.logger.info(f"Reset streaming instance {session_id} status from {current_status} to idle")
+            
+            # 7. 释放会话锁
             if lock_acquired and session_id:
                 self.logger.info(f"Releasing session lock for session {session_id} (streaming)")
                 self._release_session_lock(session_id)

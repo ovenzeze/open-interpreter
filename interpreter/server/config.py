@@ -29,8 +29,8 @@ class Config:
         # 锁设置
         self.LOCK_TIMEOUT = 5  # 锁等待超时时间（秒）
         
-        # LLM设置
-        self.DEFAULT_MODEL = os.getenv('LITELLM_MODEL', 'gpt-3.5-turbo')
+        # LLM设置 - 优先使用正确的环境变量
+        self.DEFAULT_MODEL = os.getenv('OPENAI_MODEL_NAME', os.getenv('LITELLM_MODEL', 'gpt-3.5-turbo'))
         self.CONTEXT_WINDOW = 10000
         self.MAX_TOKENS = int(os.getenv('MAX_TOKENS', 4096))
         self.TEMPERATURE = float(os.getenv('TEMPERATURE', 0.7))

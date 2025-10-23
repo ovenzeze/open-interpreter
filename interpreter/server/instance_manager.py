@@ -642,8 +642,8 @@ class InterpreterInstanceManager:
         
         # 配置 LLM
         if hasattr(interpreter, 'llm'):
-            # 设置模型
-            model = session_config.get('model', os.getenv('LITELLM_MODEL', 'gpt-3.5-turbo'))
+            # 设置模型 - 优先使用正确的环境变量
+            model = session_config.get('model', os.getenv('OPENAI_MODEL_NAME', os.getenv('LITELLM_MODEL', 'gpt-3.5-turbo')))
             if hasattr(interpreter.llm, 'model'):
                 interpreter.llm.model = model
             
@@ -688,11 +688,11 @@ class InterpreterInstanceManager:
         """
         import os
         
-        # 默认配置
+        # 默认配置 - 优先使用环境变量中的正确配置
         default_config = {
-            'model': os.getenv('LITELLM_MODEL', 'claude-sonnet-4-5-20250929'),
-            'api_base': 'https://llm.deth.dev',
-            'api_key': 'sk-isakeem',
+            'model': os.getenv('OPENAI_MODEL_NAME', os.getenv('LITELLM_MODEL', 'gpt-3.5-turbo')),
+            'api_base': os.getenv('OPENAI_API_BASE', os.getenv('ANTHROPIC_BASE_URL', 'https://llm.deth.dev')),
+            'api_key': os.getenv('OPENAI_API_KEY', os.getenv('ANTHROPIC_AUTH_TOKEN', 'sk-isakeem')),
             'context_window': 10000,
             'max_tokens': 4096,
             'temperature': 0.7

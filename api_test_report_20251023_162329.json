@@ -1,0 +1,152 @@
+{
+  "timestamp": "2025-10-23T16:23:29.535245",
+  "base_url": "http://localhost:5002",
+  "total_tests": 7,
+  "passed": 2,
+  "failed": 5,
+  "pass_rate": 28.57142857142857,
+  "results": [
+    {
+      "name": "GET /v1/models",
+      "passed": true,
+      "error_message": "",
+      "response_time": 0.014901876449584961,
+      "status_code": 200,
+      "response_data": {
+        "data": [
+          {
+            "created": 1761261674,
+            "id": "bedrock/anthropic.claude-3-5-sonnet-20240620-v1:0",
+            "object": "model",
+            "owned_by": "open-interpreter"
+          },
+          {
+            "created": 1761261674,
+            "id": "bedrock/anthropic.claude-3-sonnet-20240229-v1:0",
+            "object": "model",
+            "owned_by": "bedrock"
+          },
+          {
+            "created": 1761261674,
+            "id": "bedrock/anthropic.claude-3-haiku-20240307-v1:0",
+            "object": "model",
+            "owned_by": "bedrock"
+          },
+          {
+            "created": 1761261674,
+            "id": "bedrock/anthropic.claude-instant-v1",
+            "object": "model",
+            "owned_by": "bedrock"
+          },
+          {
+            "created": 1761261674,
+            "id": "bedrock/meta.llama2-13b-chat-v1",
+            "object": "model",
+            "owned_by": "bedrock"
+          },
+          {
+            "created": 1761261674,
+            "id": "bedrock/meta.llama2-70b-chat-v1",
+            "object": "model",
+            "owned_by": "bedrock"
+          }
+        ],
+        "object": "list"
+      }
+    },
+    {
+      "name": "GET /v1/engines",
+      "passed": true,
+      "error_message": "",
+      "response_time": 0.003912925720214844,
+      "status_code": 200,
+      "response_data": {
+        "data": [
+          {
+            "created": 1761261674,
+            "id": "bedrock/anthropic.claude-3-5-sonnet-20240620-v1:0",
+            "object": "engine",
+            "owner": "open-interpreter",
+            "ready": true
+          },
+          {
+            "created": 1761261674,
+            "id": "bedrock/anthropic.claude-3-sonnet-20240229-v1:0",
+            "object": "engine",
+            "owner": "bedrock",
+            "ready": true
+          },
+          {
+            "created": 1761261674,
+            "id": "bedrock/anthropic.claude-3-haiku-20240307-v1:0",
+            "object": "engine",
+            "owner": "bedrock",
+            "ready": true
+          },
+          {
+            "created": 1761261674,
+            "id": "bedrock/anthropic.claude-instant-v1",
+            "object": "engine",
+            "owner": "bedrock",
+            "ready": true
+          },
+          {
+            "created": 1761261674,
+            "id": "bedrock/meta.llama2-13b-chat-v1",
+            "object": "engine",
+            "owner": "bedrock",
+            "ready": true
+          },
+          {
+            "created": 1761261674,
+            "id": "bedrock/meta.llama2-70b-chat-v1",
+            "object": "engine",
+            "owner": "bedrock",
+            "ready": true
+          }
+        ],
+        "object": "list"
+      }
+    },
+    {
+      "name": "POST /v1/chat/completions (非流式)",
+      "passed": false,
+      "error_message": "HTTPConnectionPool(host='localhost', port=5002): Read timed out. (read timeout=30)",
+      "response_time": 0.0,
+      "status_code": null,
+      "response_data": null
+    },
+    {
+      "name": "POST /v1/chat/completions (流式)",
+      "passed": false,
+      "error_message": "HTTPConnectionPool(host='localhost', port=5002): Read timed out. (read timeout=30)",
+      "response_time": 0.0,
+      "status_code": null,
+      "response_data": null
+    },
+    {
+      "name": "POST /v1/chat/completions (代码执行)",
+      "passed": false,
+      "error_message": "HTTPConnectionPool(host='localhost', port=5002): Read timed out. (read timeout=60)",
+      "response_time": 0.0,
+      "status_code": null,
+      "response_data": null
+    },
+    {
+      "name": "CORS支持测试",
+      "passed": false,
+      "error_message": "HTTPConnectionPool(host='localhost', port=5002): Read timed out. (read timeout=5)",
+      "response_time": 0.0,
+      "status_code": null,
+      "response_data": null
+    },
+    {
+      "name": "错误处理测试",
+      "passed": false,
+      "error_message": "HTTPConnectionPool(host='localhost', port=5002): Read timed out. (read timeout=10)",
+      "response_time": 0.0,
+      "status_code": null,
+      "response_data": null
+    }
+  ]
+}

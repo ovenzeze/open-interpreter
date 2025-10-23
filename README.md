@@ -44,58 +44,35 @@
 </p>
 <br>
 
+## 📚 核心文档导航
+
+| 文档 | 描述 | 链接 |
+|------|------|------|
+| **分支说明** | 企业级服务器分支的详细信息和增强功能 | [FORK.md](FORK.md) |
+| **贡献指南** | 如何参与项目贡献和开发流程 | [docs/CONTRIBUTING.md](docs/CONTRIBUTING.md) |
+| **项目路线图** | 未来开发计划和功能规划 | [docs/ROADMAP.md](docs/ROADMAP.md) |
+| **安全说明** | 安全最佳实践和注意事项 | [docs/SECURITY.md](docs/SECURITY.md) |
+| **安全模式** | 实验性安全模式的使用指南 | [docs/SAFE_MODE.md](docs/SAFE_MODE.md) |
+| **迁移指南** | 从其他版本迁移到此版本的详细步骤 | [docs/NCU_MIGRATION_GUIDE.md](docs/NCU_MIGRATION_GUIDE.md) |
+| **变更日志** | 所有版本变更和增强功能的详细记录 | [CHANGELOG.md](CHANGELOG.md) |
+
+## 🚀 快速开始
+
+### 安装
+
 ```shell
 pip install open-interpreter
 ```
 
 > Not working? Read our [setup guide](https://docs.openinterpreter.com/getting-started/setup).
 
-```shell
-interpreter
-```
-
-<br>
-
-**Open Interpreter** lets LLMs run code (Python, Javascript, Shell, and more) locally. You can chat with Open Interpreter through a ChatGPT-like interface in your terminal by running `$ interpreter` after installing.
-
-This provides a natural-language interface to your computer's general-purpose capabilities:
-
-- Create and edit photos, videos, PDFs, etc.
-- Control a Chrome browser to perform research
-- Plot, clean, and analyze large datasets
-- ...etc.
-
-**⚠️ Note: You'll be asked to approve code before it's run.**
-
-<br>
-
-## Demo
-
-https://github.com/OpenInterpreter/open-interpreter/assets/63927363/37152071-680d-4423-9af3-64836a6f7b60
-
-#### An interactive demo is also available on Google Colab:
-
-[![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/drive/1WKmRXZgsErej2xUriKzxrEAXdxMSgWbb?usp=sharing)
-
-#### Along with an example voice interface, inspired by _Her_:
-
-[![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/drive/1NojYGHDgxH6Y1G1oxThEBBb2AtyODBIK)
-
-## Quick Start
-
-```shell
-pip install open-interpreter
-```
-
-### Terminal
-
-After installation, simply run `interpreter`:
+### 基本使用
 
 ```shell
 interpreter
 ```
 
-### Python
+### Python API
 
 ```python
 from interpreter import interpreter
@@ -104,11 +81,73 @@ interpreter.chat("Plot AAPL and META's normalized stock prices") # Executes a si
 interpreter.chat() # Starts an interactive chat
 ```
 
+### 企业级服务器部署
+
+```shell
+# 启动 REST API 服务器
+python -m interpreter.server --host 0.0.0.0 --port 8000
+
+# 使用 PM2 进程管理
+pm2 start ecosystem.config.js
+
+# 使用 Supervisor
+supervisorctl start interpreter-server
+```
+
+## 🌟 企业级特性
+
+### REST API 服务器
+
+此分支提供了完整的 REST API 服务器，具有 OpenAI 兼容的端点：
+
+```python
+# 示例：使用 OpenAI 兼容的 API
+import openai
+
+client = openai.OpenAI(
+    base_url="http://localhost:8000/v1",
+    api_key="your-api-key"
+)
+
+response = client.chat.completions.create(
+    model="gpt-4",
+    messages=[{"role": "user", "content": "Hello, world!"}]
+)
+```
+
+### 会话管理
+
+- 持久化会话存储
+- 会话恢复和继续
+- 多用户会话隔离
+
+### 进程管理
+
+- PM2 配置支持
+- Supervisor 集成
+- 自动重启和监控
+
+### 高级监控
+
+- 结构化日志记录
+- 性能指标收集
+- 健康检查端点
+
+## 📖 详细功能
+
+### 终端交互
+
+After installation, simply run `interpreter`:
+
+```shell
+interpreter
+```
+
 ### GitHub Codespaces
 
 Press the `,` key on this repository's GitHub page to create a codespace. After a moment, you'll receive a cloud virtual machine environment pre-installed with open-interpreter. You can then start interacting with it directly and freely confirm its execution of system commands without worrying about damaging the system.
 
-## Comparison to ChatGPT's Code Interpreter
+## 🆚 与 ChatGPT Code Interpreter 的比较
 
 OpenAI's release of [Code Interpreter](https://openai.com/blog/chatgpt-plugins#code-interpreter) with GPT-4 presents a fantastic opportunity to accomplish real-world tasks with ChatGPT.
 
@@ -125,76 +164,9 @@ Open Interpreter overcomes these limitations by running in your local environmen
 
 This combines the power of GPT-4's Code Interpreter with the flexibility of your local development environment.
 
-## Commands
+## ⚙️ 高级配置
 
-**Update:** The Generator Update (0.1.5) introduced streaming:
-
-```python
-message = "What operating system are we on?"
-
-for chunk in interpreter.chat(message, display=False, stream=True):
-  print(chunk)
-```
-
-### Interactive Chat
-
-To start an interactive chat in your terminal, either run `interpreter` from the command line:
-
-```shell
-interpreter
-```
-
-Or `interpreter.chat()` from a .py file:
-
-```python
-interpreter.chat()
-```
-
-**You can also stream each chunk:**
-
-```python
-message = "What operating system are we on?"
-
-for chunk in interpreter.chat(message, display=False, stream=True):
-  print(chunk)
-```
-
-### Programmatic Chat
-
-For more precise control, you can pass messages directly to `.chat(message)`:
-
-```python
-interpreter.chat("Add subtitles to all videos in /videos.")
-
-# ... Streams output to your terminal, completes task ...
-
-interpreter.chat("These look great but can you make the subtitles bigger?")
-
-# ...
-```
-
-### Start a New Chat
-
-In Python, Open Interpreter remembers conversation history. If you want to start fresh, you can reset it:
-
-```python
-interpreter.messages = []
-```
-
-### Save and Restore Chats
-
-`interpreter.chat()` returns a List of messages, which can be used to resume a conversation with `interpreter.messages = messages`:
-
-```python
-messages = interpreter.chat("My name is Killian.") # Save messages to 'messages'
-interpreter.messages = [] # Reset interpreter ("Killian" will be forgotten)
-
-interpreter.messages = messages # Resume chat from 'messages' ("Killian" will be remembered)
-```
-
-### Customize System Message
-
-You can inspect and configure Open Interpreter's system message to extend its functionality, modify permissions, or give it more context.
+### 自定义系统消息
 
 ```python
 interpreter.system_message += """
@@ -203,11 +175,7 @@ Run shell commands with -y so the user doesn't have to confirm them.
 print(interpreter.system_message)
 ```
 
-### Change your Language Model
-
-Open Interpreter uses [LiteLLM](https://docs.litellm.ai/docs/providers/) to connect to hosted language models.
-
-You can change the model by setting the model parameter:
+### 更改语言模型
 
 ```shell
 interpreter --model gpt-3.5-turbo
@@ -215,157 +183,53 @@ interpreter --model claude-2
 interpreter --model command-nightly
 ```
 
-In Python, set the model on the object:
+### 本地运行
 
-```python
-interpreter.llm.model = "gpt-3.5-turbo"
+Open Interpreter 可以使用 OpenAI 兼容的服务器来运行模型。
+
+#### 使用 LML 服务
+
+此分支推荐使用 LML 服务，该服务运行自己的 OpenAI 兼容 API，与 OpenAI 额度无关：
+
+```shell
+interpreter --api_base "https://llm.deth.dev/v1" --api_key "your-api-key"
 ```
 
-[Find the appropriate "model" string for your language model here.](https://docs.litellm.ai/docs/providers/)
-
-### Running Open Interpreter locally
-
-#### Terminal
-
-Open Interpreter can use OpenAI-compatible server to run models locally. (LM Studio, jan.ai, ollama etc)
-
-Simply run `interpreter` with the api_base URL of your inference server (for LM studio it is `http://localhost:1234/v1` by default):
+#### 使用本地模型服务器
 
 ```shell
 interpreter --api_base "http://localhost:1234/v1" --api_key "fake_key"
 ```
 
-Alternatively you can use Llamafile without installing any third party software just by running
-
-```shell
-interpreter --local
-```
-
-for a more detailed guide check out [this video by Mike Bird](https://www.youtube.com/watch?v=CEs51hGWuGU?si=cN7f6QhfT4edfG5H)
-
-**How to run LM Studio in the background.**
-
-1. Download [https://lmstudio.ai/](https://lmstudio.ai/) then start it.
-2. Select a model then click **↓ Download**.
-3. Click the **↔️** button on the left (below 💬).
-4. Select your model at the top, then click **Start Server**.
-
-Once the server is running, you can begin your conversation with Open Interpreter.
-
-> **Note:** Local mode sets your `context_window` to 3000, and your `max_tokens` to 1000. If your model has different requirements, set these parameters manually (see below).
-
-#### Python
-
-Our Python package gives you more control over each setting. To replicate and connect to LM Studio, use these settings:
+#### Python 配置
 
 ```python
 from interpreter import interpreter
 
-interpreter.offline = True # Disables online features like Open Procedures
-interpreter.llm.model = "openai/x" # Tells OI to send messages in OpenAI's format
-interpreter.llm.api_key = "fake_key" # LiteLLM, which we use to talk to LM Studio, requires this
-interpreter.llm.api_base = "http://localhost:1234/v1" # Point this at any OpenAI compatible server
+# 使用 LML 服务
+interpreter.llm.api_base = "https://llm.deth.dev/v1"
+interpreter.llm.api_key = "your-api-key"
+
+# 或使用本地服务器
+# interpreter.llm.api_base = "http://localhost:1234/v1"
+# interpreter.llm.api_key = "fake_key"
 
 interpreter.chat()
 ```
 
-#### Context Window, Max Tokens
-
-You can modify the `max_tokens` and `context_window` (in tokens) of locally running models.
-
-For local mode, smaller context windows will use less RAM, so we recommend trying a much shorter window (~1000) if it's failing / if it's slow. Make sure `max_tokens` is less than `context_window`.
+#### 上下文窗口和最大令牌数
 
 ```shell
 interpreter --local --max_tokens 1000 --context_window 3000
 ```
 
-### Verbose mode
-
-To help you inspect Open Interpreter we have a `--verbose` mode for debugging.
-
-You can activate verbose mode by using its flag (`interpreter --verbose`), or mid-chat:
+### 配置文件
 
 ```shell
-$ interpreter
-...
-> %verbose true <- Turns on verbose mode
-
-> %verbose false <- Turns off verbose mode
-```
-
-### Interactive Mode Commands
-
-In the interactive mode, you can use the below commands to enhance your experience. Here's a list of available commands:
-
-**Available Commands:**
-
-- `%verbose [true/false]`: Toggle verbose mode. Without arguments or with `true` it
-  enters verbose mode. With `false` it exits verbose mode.
-- `%reset`: Resets the current session's conversation.
-- `%undo`: Removes the previous user message and the AI's response from the message history.
-- `%tokens [prompt]`: (_Experimental_) Calculate the tokens that will be sent with the next prompt as context and estimate their cost. Optionally calculate the tokens and estimated cost of a `prompt` if one is provided. Relies on [LiteLLM's `cost_per_token()` method](https://docs.litellm.ai/docs/completion/token_usage#2-cost_per_token) for estimated costs.
-- `%help`: Show the help message.
-
-### Configuration / Profiles
-
-Open Interpreter allows you to set default behaviors using `yaml` files.
-
-This provides a flexible way to configure the interpreter without changing command-line arguments every time.
-
-Run the following command to open the profiles directory:
-
-```
 interpreter --profiles
 ```
 
-You can add `yaml` files there. The default profile is named `default.yaml`.
-
-#### Multiple Profiles
-
-Open Interpreter supports multiple `yaml` files, allowing you to easily switch between configurations:
-
-```
-interpreter --profile my_profile.yaml
-```
-
-## Sample FastAPI Server
-
-The generator update enables Open Interpreter to be controlled via HTTP REST endpoints:
-
-```python
-# server.py
-
-from fastapi import FastAPI
-from fastapi.responses import StreamingResponse
-from interpreter import interpreter
-
-app = FastAPI()
-
-@app.get("/chat")
-def chat_endpoint(message: str):
-    def event_stream():
-        for result in interpreter.chat(message, stream=True):
-            yield f"data: {result}\n\n"
-
-    return StreamingResponse(event_stream(), media_type="text/event-stream")
-
-@app.get("/history")
-def history_endpoint():
-    return interpreter.messages
-```
-
-```shell
-pip install fastapi uvicorn
-uvicorn server:app --reload
-```
-
-You can also start a server identical to the one above by simply running `interpreter.server()`.
-
-## Android
-
-The step-by-step guide for installing Open Interpreter on your Android device can be found in the [open-interpreter-termux repo](https://github.com/MikeBirdTech/open-interpreter-termux).
-
-## Safety Notice
+## 🛡️ 安全注意事项
 
 Since generated code is executed in your local environment, it can interact with your files and system settings, potentially leading to unexpected outcomes like data loss or security risks.
 
@@ -377,15 +241,21 @@ You can run `interpreter -y` or set `interpreter.auto_run = True` to bypass this
 - Watch Open Interpreter like a self-driving car, and be prepared to end the process by closing your terminal.
 - Consider running Open Interpreter in a restricted environment like Google Colab or Replit. These environments are more isolated, reducing the risks of executing arbitrary code.
 
-There is **experimental** support for a [safe mode](https://github.com/OpenInterpreter/open-interpreter/blob/main/docs/SAFE_MODE.md) to help mitigate some risks.
+There is **experimental** support for a [safe mode](docs/SAFE_MODE.md) to help mitigate some risks.
 
-## How Does it Work?
+## 🔧 工作原理
 
 Open Interpreter equips a [function-calling language model](https://platform.openai.com/docs/guides/gpt/function-calling) with an `exec()` function, which accepts a `language` (like "Python" or "JavaScript") and `code` to run.
 
 We then stream the model's messages, code, and your system's outputs to the terminal as Markdown.
 
-# Access Documentation Offline
+## 📱 其他平台
+
+### Android
+
+The step-by-step guide for installing Open Interpreter on your Android device can be found in the [open-interpreter-termux repo](https://github.com/MikeBirdTech/open-interpreter-termux).
+
+## 🌐 离线文档
 
 The full [documentation](https://docs.openinterpreter.com/) is accessible on-the-go without the need for an internet connection.
 
@@ -413,15 +283,19 @@ mintlify dev
 
 A new browser window should open. The documentation will be available at [http://localhost:3000](http://localhost:3000) as long as the documentation server is running.
 
-# Contributing
+## 🤝 贡献
 
 Thank you for your interest in contributing! We welcome involvement from the community.
 
-Please see our [contributing guidelines](https://github.com/OpenInterpreter/open-interpreter/blob/main/docs/CONTRIBUTING.md) for more details on how to get involved.
+Please see our [contributing guidelines](docs/CONTRIBUTING.md) for more details on how to get involved.
 
-# Roadmap
+## 🗺️ 路线图
 
-Visit [our roadmap](https://github.com/OpenInterpreter/open-interpreter/blob/main/docs/ROADMAP.md) to preview the future of Open Interpreter.
+Visit [our roadmap](docs/ROADMAP.md) to preview the future of Open Interpreter.
+
+## 📄 许可证
+
+This project is licensed under the AGPL License - see the [LICENSE](LICENSE) file for details.
 
 **Note**: This software is not affiliated with OpenAI.
 
