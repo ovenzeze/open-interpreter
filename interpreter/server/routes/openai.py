@@ -1,14 +1,21 @@
 """OpenAI兼容接口路由处理"""
-from flask import Blueprint, request, jsonify, Response, current_app, stream_with_context
+from flask import request, jsonify, Response, current_app, stream_with_context
+from flask_openapi3 import APIBlueprint
 from ..message import Message, StreamingChunk
 from ..errors import ValidationError, MethodNotAllowedError, format_error_response
 from ..message_processor import MessageProcessor
+from ..openapi_models import (
+    ChatCompletionRequest,
+    ChatCompletionResponse,
+    ModelListResponse,
+    EngineListResponse
+)
 import uuid
 import time
 import functools
 from typing import Dict, List, Any, Union, cast
 
-openai_bp = Blueprint('openai', __name__)
+openai_bp = APIBlueprint('openai', __name__, url_prefix='')
 
 def handle_method_not_allowed(allowed_methods):
     """
@@ -49,8 +56,11 @@ def handle_method_not_allowed(allowed_methods):
         return wrapped
     return decorator
 
-@openai_bp.route('/v1/models', methods=['GET', 'OPTIONS'])
-@handle_method_not_allowed(['GET', 'OPTIONS'])
+@openai_bp.get(
+    '/v1/models',
+    summary="List available models",
+    description="Get a list of available models compatible with OpenAI API"
+)
 def list_models():
     """
     获取可用的模型列表
@@ -127,8 +137,11 @@ def list_models():
         
         return response, status_code
 
-@openai_bp.route('/v1/engines', methods=['GET', 'OPTIONS'])
-@handle_method_not_allowed(['GET', 'OPTIONS'])
+@openai_bp.get(
+    '/v1/engines',
+    summary="List available engines",
+    description="Get a list of available engines compatible with OpenAI API (legacy)"
+)
 def list_engines():
     """
     获取可用的引擎列表（兼容OpenAI旧版API）
@@ -223,15 +236,17 @@ def list_engines():
         
         return response, status_code
 
-@openai_bp.route('/v1/chat/completions', methods=['GET', 'POST', 'OPTIONS'])
-@handle_method_not_allowed(['GET', 'POST', 'OPTIONS'])
-def chat_completions():
+@openai_bp.post(
+    '/v1/chat/completions',
+    summary="Create chat completion",
+    description="OpenAI-compatible chat completion endpoint. Supports both streaming and non-streaming responses."
+)
+def chat_completions(body: ChatCompletionRequest):
     """
     OpenAI兼容的聊天完成接口
     
-    支持POST和GET方法:
+    支持POST方法:
     - POST: 标准OpenAI格式的JSON请求体
-    - GET: 通过URL查询参数发送消息
     
     Request Body (POST):
         {
@@ -240,12 +255,6 @@ def chat_completions():
             "model": str (可选),
             "session_id": str (可选)
         }
-        
-    Query Parameters (GET):
-        message: str - 消息内容
-        model: str - 模型名称（可选）
-        session_id: str - 会话ID（可选）
-        stream: bool - 是否流式响应（可选）
     
     Returns:
         OpenAI格式的响应
@@ -258,57 +267,29 @@ def chat_completions():
         
         chat_service = current_app.chat_service
         
-        # 针对不同的请求方法处理数据
+        # 从 body 参数获取数据
         message_dicts = []
-        if request.method == 'GET':
-            # 从URL查询参数中获取数据
-            message_content = request.args.get('message', 'Hello')
-            model = request.args.get('model', 'bedrock/anthropic.claude-3-sonnet-20240229-v1:0')
-            session_id = request.args.get('session_id')
-            stream = request.args.get('stream', 'false').lower() == 'true'
-            
-            # 创建消息数组
-            message_dicts = [
-                {
+        stream = body.stream if body.stream is not None else False
+        session_id = body.session_id
+        model = body.model
+        
+        # 转换消息为字典格式
+        for msg in body.messages:
+            if isinstance(msg, dict):
+                message_dicts.append(msg)
+            elif hasattr(msg, 'model_dump'):
+                message_dicts.append(msg.model_dump())
+            elif hasattr(msg, 'dict'):
+                message_dicts.append(msg.dict())
+            else:
+                # 如果消息格式无法识别，尝试转换为字符串
+                message_dicts.append({
                     "role": "user",
-                    "content": message_content,
+                    "content": str(msg),
                     "type": "message"
-                }
-            ]
-            
-            current_app.logger.info(f"Processing GET OpenAI chat request with message: {message_content}")
-        else:  # POST
-            if not request.is_json:
-                raise ValidationError("Content-Type must be application/json")
-                
-            data = request.get_json()
-            if data is None:
-                raise ValidationError("Invalid request data")
-                
-            # 获取原始消息
-            raw_messages = data.get('messages', [])
-            if not raw_messages:
-                raise ValidationError("Messages array is required")
-                
-            stream = data.get('stream', False)
-            session_id = data.get('session_id')
-            model = data.get('model')
-            
-            # 转换消息为字典格式
-            for msg in raw_messages:
-                if isinstance(msg, dict):
-                    message_dicts.append(msg)
-                elif hasattr(msg, 'to_dict'):
-                    message_dicts.append(msg.to_dict())
-                else:
-                    # 如果消息格式无法识别，尝试转换为字符串
-                    message_dicts.append({
-                        "role": "user",
-                        "content": str(msg),
-                        "type": "message"
-                    })
-            
-            current_app.logger.info(f"Processing POST OpenAI chat request with {len(raw_messages)} messages")
+                })
+        
+        current_app.logger.info(f"Processing POST OpenAI chat request with {len(body.messages)} messages")
         
         if stream:
             # 流式响应
@@ -316,7 +297,8 @@ def chat_completions():
                 for chunk in chat_service.process_streaming_chat(
                     messages=message_dicts,
                     session_id=session_id,
-                    model=model
+                    model=model,
+                    is_openai_format=True
                 ):
                     yield chunk
             
@@ -337,7 +319,8 @@ def chat_completions():
                 messages=message_dicts,
                 session_id=session_id,
                 stream=stream,
-                model=model
+                model=model,
+                is_openai_format=True
             )
             
             # 检查是否是错误响应
@@ -373,4 +356,7 @@ def chat_completions():
         response.headers['Access-Control-Allow-Methods'] = 'GET, POST, OPTIONS'
         response.headers['Access-Control-Allow-Headers'] = 'Content-Type, Authorization'
         
-        return response 
+        return response
+        response.headers['Access-Control-Allow-Headers'] = 'Content-Type, Authorization'
+        
+        return response

@@ -7,7 +7,8 @@ import pkg_resources
 import threading
 from typing import Optional, Union
 
-from flask import Flask, jsonify, request, g, current_app
+from flask import jsonify, request, g, current_app, redirect
+from flask_openapi3 import OpenAPI, Info
 # 移除 flask_cors 导入
 import interpreter
 from interpreter import OpenInterpreter
@@ -18,7 +19,7 @@ from .log_config import setup_logging, log_error
 from .session import SessionManager  # 直接从 session.py 导入
 from .routes import chat_bp, session_bp, health_bp, openai_bp, title_generator_bp  # 添加 title_generator_bp
 
-def configure_interpreter_instance(interpreter_instance: Union[OpenInterpreter, 'interpreter'], app: Flask) -> None:
+def configure_interpreter_instance(interpreter_instance: Union[OpenInterpreter, 'interpreter'], app: OpenAPI) -> None:
     """
     统一配置解释器实例
     
@@ -55,7 +56,7 @@ def configure_interpreter_instance(interpreter_instance: Union[OpenInterpreter, 
         app.logger.warning("Interpreter instance missing safe_mode property. Adding property and setting to 'off'.")
         setattr(interpreter_instance, 'safe_mode', 'off')
 
-def setup_interpreter(app: Flask, interpreter_instance: Optional[Union[OpenInterpreter, 'interpreter']]) -> None:
+def setup_interpreter(app: OpenAPI, interpreter_instance: Optional[Union[OpenInterpreter, 'interpreter']]) -> None:
     """
     配置解释器实例
     
@@ -81,7 +82,7 @@ def setup_interpreter(app: Flask, interpreter_instance: Optional[Union[OpenInter
     
     app.interpreter_instance = interpreter_instance
 
-def setup_components(app: Flask) -> None:
+def setup_components(app: OpenAPI) -> None:
     """
     设置应用组件
     
@@ -110,20 +111,26 @@ def setup_components(app: Flask) -> None:
         app.version = 'unknown'
         app.logger.warning("Could not determine package version")
 
-def register_blueprints(app: Flask) -> None:
+def register_blueprints(app: OpenAPI) -> None:
     """
     注册所有蓝图
     
     Args:
         app: Flask应用实例
     """
-    app.register_blueprint(chat_bp)
-    app.register_blueprint(session_bp)
-    app.register_blueprint(health_bp)
-    app.register_blueprint(openai_bp)  # 启用 OpenAI 兼容接口
-    app.register_blueprint(title_generator_bp)  # 启用标题生成接口
+    # 使用 register_api 注册 APIBlueprint 使其出现在 OpenAPI 文档中
+    app.register_api(chat_bp)
+    app.register_api(session_bp)
+    app.register_api(health_bp)
+    app.register_api(openai_bp)  # 启用 OpenAI 兼容接口
+    
+    # title_generator_bp 如果不是 APIBlueprint，使用 register_blueprint
+    try:
+        app.register_api(title_generator_bp)
+    except:
+        app.register_blueprint(title_generator_bp)
 
-def register_error_handlers(app: Flask) -> None:
+def register_error_handlers(app: OpenAPI) -> None:
     """
     注册错误处理器
     
@@ -156,7 +163,13 @@ def register_error_handlers(app: Flask) -> None:
         return response
 
 def create_app(config=None):
-    app = Flask(__name__)
+    # 创建 OpenAPI 应用
+    info = Info(
+        title="Open Interpreter Server API",
+        version="0.4.3",
+        description="OpenAI-compatible API server for Open Interpreter with automatic OpenAPI documentation"
+    )
+    app = OpenAPI(__name__, info=info)
     
     # 移除 CORS 初始化
     
@@ -242,6 +255,12 @@ def create_app(config=None):
         # 6. 注册蓝图和错误处理
         register_blueprints(app)
         register_error_handlers(app)
+        
+        # 7. 添加根路径重定向到 Swagger UI
+        @app.get("/")
+        def redirect_to_swagger():
+            """重定向根路径到 Swagger UI"""
+            return redirect("/openapi/swagger")
         
         app.logger.info("Application initialization complete")
         return app

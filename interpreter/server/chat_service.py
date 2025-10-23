@@ -34,7 +34,8 @@ class ChatService:
                     messages: List[Dict], 
                     session_id: Optional[str] = None, 
                     stream: bool = False, 
-                    model: Optional[str] = None) -> Union[Dict, List[Dict]]:
+                    model: Optional[str] = None,
+                    is_openai_format: bool = False) -> Union[Dict, List[Dict]]:
         """
         处理聊天请求（非流式）
         
@@ -43,6 +44,7 @@ class ChatService:
             session_id: 会话ID，如果为None则创建新会话
             stream: 是否使用流式响应
             model: 使用的模型名称
+            is_openai_format: 是否使用OpenAI格式响应
             
         Returns:
             处理结果
@@ -168,7 +170,8 @@ class ChatService:
     def process_streaming_chat(self, 
                               messages: List[Dict], 
                               session_id: Optional[str] = None, 
-                              model: Optional[str] = None) -> Generator:
+                              model: Optional[str] = None,
+                              is_openai_format: bool = False) -> Generator:
         """
         处理流式聊天请求
         
@@ -176,6 +179,7 @@ class ChatService:
             messages: 消息列表
             session_id: 会话ID，如果为None则创建新会话
             model: 使用的模型名称
+            is_openai_format: 是否使用OpenAI格式响应
             
         Returns:
             生成器，产生流式响应
@@ -344,7 +348,7 @@ class ChatService:
     
     def _get_interpreter(self, session_id: str, model: Optional[str]) -> Any:
         """
-        获取解释器实例
+        获取解释器实例，如果提供了新的模型参数，更新 session metadata
         
         Args:
             session_id: 会话ID
@@ -360,6 +364,20 @@ class ChatService:
                 interpreter.llm.model = model
             elif hasattr(interpreter, 'model'):
                 interpreter.model = model
+            
+            # 更新 session metadata 中的模型配置
+            try:
+                session = self.session_manager.get_session(session_id)
+                if session:
+                    if 'metadata' not in session:
+                        session['metadata'] = {}
+                    session['metadata']['model'] = model
+                    # 保存更新后的 session
+                    self.session_manager._persist_session(session_id, session)
+                    self.logger.info(f"Updated session {session_id} metadata with model: {model}")
+            except Exception as e:
+                self.logger.warning(f"Failed to update session metadata: {str(e)}")
+                
         return interpreter
     
     def _create_busy_response(self, session_id: str) -> Dict:

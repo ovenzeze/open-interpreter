@@ -8,11 +8,12 @@ import os
 import json
 import requests
 from flask import Blueprint, jsonify, request, current_app
+from flask_openapi3 import APIBlueprint
 from ..errors import ValidationError, format_error_response
 from ..log_config import logger
 
 # 创建蓝图
-bp = Blueprint('title_generator', __name__)
+bp = APIBlueprint('title_generator', __name__)
 
 @bp.route('/v1/sessions/<session_id>/generate-title', methods=['POST'])
 def generate_title(session_id):

@@ -9,7 +9,7 @@ const rootDir = __dirname;
 
 // 设置默认值
 const defaultConfig = {
-  PYTHON_PATH: process.env.PYTHON_PATH || 'python',
+  PYTHON_PATH: process.env.PYTHON_PATH || path.join(rootDir, '.venv/bin/python'),
   SERVER_PORT_PROD: process.env.SERVER_PORT_PROD || 5001,
   SERVER_PORT_DEV: process.env.SERVER_PORT_DEV || 5002,
   INTERPRETER_BASE: process.env.INTERPRETER_BASE || path.join(process.env.HOME, '.interpreter'),

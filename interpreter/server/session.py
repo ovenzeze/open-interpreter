@@ -221,7 +221,12 @@ class SessionManager:
         self.session_locks: Dict[str, threading.Lock] = {}
         
         # 使用实例管理器替代原有的实例管理代码
-        self.instance_manager = InterpreterInstanceManager(max_active_instances=max_active_instances)
+        self.instance_manager = InterpreterInstanceManager(
+            max_active_instances=max_active_instances, 
+            instance_timeout=session_timeout
+        )
+        # 设置会话管理器引用，避免循环依赖
+        self.instance_manager.set_session_manager(self)
         
         # 确保所有锁都被正确初始化
         self._sessions_lock = threading.Lock()

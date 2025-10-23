@@ -2,15 +2,17 @@
 健康检查路由模块
 """
 
-from flask import Blueprint, jsonify, request, current_app
+from flask import jsonify, request, current_app
+from flask_openapi3 import APIBlueprint
 from ..log_config import log_error, logger
 from ..errors import format_error_response
+from ..openapi_models import HealthCheckResponse, FullHealthCheckResponse # 注意：修改这里以从 openapi_models 导入
 from ..utils import get_system_info, format_size
 import time
 import psutil
 import os
 
-bp = Blueprint('health', __name__)
+bp = APIBlueprint('health', __name__, url_prefix='')
 
 def get_uptime():
     """获取服务器运行时间"""
@@ -37,7 +39,15 @@ def format_uptime(seconds):
     else:
         return f"{minutes}m"
 
-@bp.route('/v1/health', methods=['GET'])
+@bp.get(
+    '/v1/health',
+    summary="Health check",
+    description="Get system health status and information",
+    responses={
+        "200": FullHealthCheckResponse,
+        "200_basic": HealthCheckResponse
+    }
+)
 def health_check():
     """
     系统健康检查端点

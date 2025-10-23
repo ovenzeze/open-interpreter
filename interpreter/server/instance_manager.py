@@ -16,16 +16,18 @@ class InterpreterInstanceManager:
     使用ThreadPoolExecutor来管理实例资源，避免创建过多实例
     """
     
-    def __init__(self, max_active_instances: int = 3, instance_timeout: int = 3600):
+    def __init__(self, max_active_instances: int = 3, instance_timeout: int = 3600, session_manager=None):
         """
         初始化实例管理器
         
         Args:
             max_active_instances: 最大活跃实例数量
             instance_timeout: 实例超时时间（秒）
+            session_manager: 会话管理器实例，用于获取 session 配置
         """
         self.max_active_instances = max_active_instances
         self.instance_timeout = instance_timeout
+        self.session_manager = session_manager
         
         # 实例存储
         self.interpreter_instances: Dict[str, Any] = {}
@@ -50,6 +52,10 @@ class InterpreterInstanceManager:
         self.cleanup_thread.start()
         
         logger.info(f"实例管理器初始化完成，最大实例数: {max_active_instances}")
+    
+    def set_session_manager(self, session_manager):
+        """设置会话管理器，避免循环依赖"""
+        self.session_manager = session_manager
     
     def create_instance(self, session_id: str) -> Any:
         """
@@ -613,7 +619,7 @@ class InterpreterInstanceManager:
     
     def _create_new_interpreter(self, session_id: str) -> Any:
         """
-        创建新的解释器实例
+        创建新的解释器实例，从 session metadata 中读取配置
         
         Args:
             session_id: 会话ID
@@ -622,10 +628,98 @@ class InterpreterInstanceManager:
             解释器实例
         """
         from interpreter import OpenInterpreter
+        import os
+        
+        # 创建解释器实例
         interpreter = OpenInterpreter()
+        
+        # 基础配置
         interpreter.auto_run = True
         interpreter.conversation_history = True
+        
+        # 从 session metadata 中获取配置，如果没有则使用默认值
+        session_config = self._get_session_config(session_id)
+        
+        # 配置 LLM
+        if hasattr(interpreter, 'llm'):
+            # 设置模型
+            model = session_config.get('model', os.getenv('LITELLM_MODEL', 'gpt-3.5-turbo'))
+            if hasattr(interpreter.llm, 'model'):
+                interpreter.llm.model = model
+            
+            # 设置 API 基础 URL
+            api_base = session_config.get('api_base', 'https://llm.deth.dev')
+            if hasattr(interpreter.llm, 'api_base'):
+                interpreter.llm.api_base = api_base
+            elif hasattr(interpreter.llm, 'base_url'):
+                interpreter.llm.base_url = api_base
+            
+            # 设置 API 密钥
+            api_key = session_config.get('api_key', 'sk-isakeem')
+            if hasattr(interpreter.llm, 'api_key'):
+                interpreter.llm.api_key = api_key
+            elif hasattr(interpreter.llm, 'key'):
+                interpreter.llm.key = api_key
+            
+            # 设置其他参数
+            if hasattr(interpreter.llm, 'context_window'):
+                interpreter.llm.context_window = session_config.get('context_window', 10000)
+            if hasattr(interpreter.llm, 'max_tokens'):
+                interpreter.llm.max_tokens = session_config.get('max_tokens', 4096)
+            if hasattr(interpreter.llm, 'temperature'):
+                interpreter.llm.temperature = session_config.get('temperature', 0.7)
+        
+        # 设置环境变量，确保 OpenInterpreter 使用正确的配置
+        os.environ['OPENAI_API_KEY'] = session_config.get('api_key', 'sk-isakeem')
+        os.environ['OPENAI_API_BASE'] = session_config.get('api_base', 'https://llm.deth.dev')
+        
+        logger.info(f"Created interpreter instance for session {session_id} with config: model={session_config.get('model', 'default')}, api_base={session_config.get('api_base', 'default')}")
         return interpreter
+    
+    def _get_session_config(self, session_id: str) -> Dict[str, Any]:
+        """
+        从 session metadata 中获取配置
+        
+        Args:
+            session_id: 会话ID
+            
+        Returns:
+            配置字典
+        """
+        import os
+        
+        # 默认配置
+        default_config = {
+            'model': os.getenv('LITELLM_MODEL', 'claude-sonnet-4-5-20250929'),
+            'api_base': 'https://llm.deth.dev',
+            'api_key': 'sk-isakeem',
+            'context_window': 10000,
+            'max_tokens': 4096,
+            'temperature': 0.7
+        }
+        
+        # 如果有 session_manager，尝试从 session metadata 中获取配置
+        if self.session_manager:
+            try:
+                session = self.session_manager.get_session(session_id)
+                if session and 'metadata' in session:
+                    metadata = session['metadata']
+                    # 从 metadata 中提取配置，如果没有则使用默认值
+                    config = default_config.copy()
+                    config.update({
+                        'model': metadata.get('model', default_config['model']),
+                        'api_base': metadata.get('api_base', default_config['api_base']),
+                        'api_key': metadata.get('api_key', default_config['api_key']),
+                        'context_window': metadata.get('context_window', default_config['context_window']),
+                        'max_tokens': metadata.get('max_tokens', default_config['max_tokens']),
+                        'temperature': metadata.get('temperature', default_config['temperature'])
+                    })
+                    logger.info(f"Loaded session config for {session_id}: {config}")
+                    return config
+            except Exception as e:
+                logger.warning(f"Failed to load session config for {session_id}: {str(e)}")
+        
+        return default_config
     
     def get_instances_status(self) -> Dict[str, Any]:
         """

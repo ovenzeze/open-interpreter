@@ -1,0 +1,45 @@
+{
+  "timestamp": "2025-10-23T01:43:38.067773",
+  "base_url": "http://localhost:5002",
+  "total_tests": 5,
+  "passed": 4,
+  "failed": 1,
+  "pass_rate": 80.0,
+  "tests": [
+    {
+      "name": "模型列表",
+      "success": true,
+      "status_code": 200,
+      "response_time": 0.006421089172363281,
+      "error": null
+    },
+    {
+      "name": "引擎列表",
+      "success": true,
+      "status_code": 200,
+      "response_time": 0.0024118423461914062,
+      "error": null
+    },
+    {
+      "name": "非流式聊天",
+      "success": true,
+      "status_code": 200,
+      "response_time": 0.6517140865325928,
+      "error": null
+    },
+    {
+      "name": "流式聊天",
+      "success": false,
+      "status_code": null,
+      "response_time": null,
+      "error": "Expecting value: line 1 column 1 (char 0)"
+    },
+    {
+      "name": "CORS预检",
+      "success": true,
+      "status_code": 200,
+      "response_time": 0.00746607780456543,
+      "error": null
+    }
+  ]
+}

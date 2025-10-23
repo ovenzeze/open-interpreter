@@ -6,30 +6,33 @@
 import json
 import uuid
 import time
-from flask import Blueprint, jsonify, request, Response, stream_with_context, current_app
+from flask import jsonify, request, Response, stream_with_context, current_app
+from flask_openapi3 import APIBlueprint
 from ..message import Message, StreamingChunk
 from ..errors import ValidationError, format_error_response
 from ..log_config import log_error
+from ..openapi_models import ChatCompletionRequest, ChatCompletionResponse # 导入模型
 
-bp = Blueprint('chat', __name__)
+bp = APIBlueprint('chat', __name__, url_prefix='')
 
-@bp.route('/v1/chat', methods=['POST'])
-def chat():
+@bp.post(
+    '/v1/chat',
+    summary="Native chat interface",
+    description="Native Open Interpreter chat endpoint with streaming support",
+    responses={"200": ChatCompletionResponse} # 使用 ChatCompletionResponse 作为响应
+)
+def chat(body: ChatCompletionRequest): # 更改函数签名以接收 Pydantic body
     """Chat endpoint that handles both streaming and non-streaming responses"""
     try:
-        data = request.get_json()
-        if data is None:
-            current_app.logger.error("Invalid request: empty data")
-            raise ValidationError("Invalid request data")
-            
-        messages = data.get('messages', [])
+        # 从 body 参数获取数据
+        messages = body.messages
         if not messages:
             current_app.logger.error("Invalid request: empty messages array")
             raise ValidationError("Messages array is required")
             
-        stream = data.get('stream', False)
-        session_id = data.get('session_id')
-        model = data.get('model')
+        stream = body.stream if body.stream is not None else False
+        session_id = body.session_id
+        model = body.model
         
         # 获取聊天服务
         if not hasattr(current_app, 'chat_service'):
