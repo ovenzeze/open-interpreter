@@ -273,6 +273,12 @@ def chat_completions(body: ChatCompletionRequest):
         session_id = body.session_id
         model = body.model
         
+        # 从请求头获取 API Key
+        api_key = None
+        auth_header = request.headers.get('Authorization')
+        if auth_header and auth_header.startswith('Bearer '):
+            api_key = auth_header.split(' ')[1]
+
         # 转换消息为字典格式
         for msg in body.messages:
             if isinstance(msg, dict):
@@ -298,6 +304,7 @@ def chat_completions(body: ChatCompletionRequest):
                     messages=message_dicts,
                     session_id=session_id,
                     model=model,
+                    api_key=api_key,
                     is_openai_format=True
                 ):
                     yield chunk
@@ -320,6 +327,7 @@ def chat_completions(body: ChatCompletionRequest):
                 session_id=session_id,
                 stream=stream,
                 model=model,
+                api_key=api_key,
                 is_openai_format=True
             )
             

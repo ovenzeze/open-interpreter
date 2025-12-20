@@ -1,0 +1,1615 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "title": "Open Interpreter Server API",
+    "description": "OpenAI-compatible API server for Open Interpreter with automatic OpenAPI documentation",
+    "version": "0.4.3"
+  },
+  "paths": {
+    "/v1/chat": {
+      "post": {
+        "tags": [
+          "default"
+        ],
+        "summary": "Native chat interface",
+        "description": "Native Open Interpreter chat endpoint with streaming support",
+        "operationId": "chat_chat_v1_chat_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ChatCompletionRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ChatCompletionResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Unprocessable Entity",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/ValidationErrorModel"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/sessions": {
+      "get": {
+        "tags": [
+          "default"
+        ],
+        "summary": "List sessions",
+        "description": "Get a paginated list of all sessions",
+        "operationId": "session_list_sessions_v1_sessions_get",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SessionListResponse"
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "default"
+        ],
+        "summary": "Create session",
+        "description": "Create a new chat session",
+        "operationId": "session_create_session_v1_sessions_post",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SessionFull"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/sessions/{session_id}": {
+      "get": {
+        "tags": [
+          "default"
+        ],
+        "summary": "Get session",
+        "description": "Get details of a specific session",
+        "operationId": "session_get_session_v1_sessions__session_id__get",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SessionFull"
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "default"
+        ],
+        "summary": "Delete session",
+        "description": "Delete a session",
+        "operationId": "session_delete_session_v1_sessions__session_id__delete",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SuccessResponse"
+                }
+              }
+            }
+          }
+        }
+      },
+      "patch": {
+        "tags": [
+          "default"
+        ],
+        "summary": "Update session",
+        "description": "Update session metadata",
+        "operationId": "session_update_session_v1_sessions__session_id__patch",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SessionFull"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/sessions/{session_id}/messages": {
+      "get": {
+        "tags": [
+          "default"
+        ],
+        "summary": "Get messages",
+        "description": "Get all messages from a session",
+        "operationId": "session_get_messages_v1_sessions__session_id__messages_get",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/MessagesListResponse"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Session not found"
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "default"
+        ],
+        "summary": "Add message",
+        "description": "Add a message to a session",
+        "operationId": "session_add_message_v1_sessions__session_id__messages_post",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AddMessageResponse"
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "default"
+        ],
+        "summary": "Clear messages",
+        "description": "Clear all messages from a session",
+        "operationId": "session_clear_messages_v1_sessions__session_id__messages_delete",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SuccessResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/sessions/{session_id}/load": {
+      "post": {
+        "tags": [
+          "default"
+        ],
+        "summary": "Load session history",
+        "description": "Load messages into a session",
+        "operationId": "session_load_session_v1_sessions__session_id__load_post",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SuccessResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/sessions/{session_id}/export": {
+      "get": {
+        "tags": [
+          "default"
+        ],
+        "summary": "Export session",
+        "description": "Export complete session data",
+        "operationId": "session_export_session_v1_sessions__session_id__export_get",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SessionFull"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/health": {
+      "get": {
+        "tags": [
+          "default"
+        ],
+        "summary": "Health check",
+        "description": "Get system health status and information",
+        "operationId": "health_health_check_v1_health_get",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/FullHealthCheckResponse"
+                }
+              }
+            }
+          },
+          "200_basic": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HealthCheckResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/models": {
+      "get": {
+        "tags": [
+          "default"
+        ],
+        "summary": "List available models",
+        "description": "Get a list of available models compatible with OpenAI API",
+        "operationId": "openai_list_models_v1_models_get",
+        "responses": {}
+      }
+    },
+    "/v1/engines": {
+      "get": {
+        "tags": [
+          "default"
+        ],
+        "summary": "List available engines",
+        "description": "Get a list of available engines compatible with OpenAI API (legacy)",
+        "operationId": "openai_list_engines_v1_engines_get",
+        "responses": {}
+      }
+    },
+    "/v1/chat/completions": {
+      "post": {
+        "tags": [
+          "default"
+        ],
+        "summary": "Create chat completion",
+        "description": "OpenAI-compatible chat completion endpoint. Supports both streaming and non-streaming responses.",
+        "operationId": "openai_chat_completions_v1_chat_completions_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ChatCompletionRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "422": {
+            "description": "Unprocessable Entity",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/ValidationErrorModel"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/": {
+      "get": {
+        "tags": [
+          "default"
+        ],
+        "summary": "\u91cd\u5b9a\u5411\u6839\u8def\u5f84\u5230 Swagger UI",
+        "operationId": "redirect_to_swagger__get",
+        "responses": {}
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "ChatCompletionResponse": {
+        "title": "ChatCompletionResponse",
+        "required": [
+          "id",
+          "created",
+          "model",
+          "choices",
+          "usage"
+        ],
+        "type": "object",
+        "properties": {
+          "id": {
+            "title": "Id",
+            "type": "string",
+            "description": "\u54cd\u5e94ID"
+          },
+          "object": {
+            "title": "Object",
+            "type": "string",
+            "description": "\u5bf9\u8c61\u7c7b\u578b",
+            "default": "chat.completion"
+          },
+          "created": {
+            "title": "Created",
+            "type": "integer",
+            "description": "\u521b\u5efa\u65f6\u95f4\u6233"
+          },
+          "model": {
+            "title": "Model",
+            "type": "string",
+            "description": "\u4f7f\u7528\u7684\u6a21\u578b"
+          },
+          "choices": {
+            "title": "Choices",
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ChatCompletionChoice"
+            },
+            "description": "\u54cd\u5e94\u9009\u9879\u5217\u8868"
+          },
+          "usage": {
+            "$ref": "#/components/schemas/Usage"
+          }
+        },
+        "description": "\u804a\u5929\u5b8c\u6210\u54cd\u5e94"
+      },
+      "ChatCompletionChoice": {
+        "title": "ChatCompletionChoice",
+        "required": [
+          "message"
+        ],
+        "type": "object",
+        "properties": {
+          "index": {
+            "title": "Index",
+            "type": "integer",
+            "description": "\u9009\u9879\u7d22\u5f15",
+            "default": 0
+          },
+          "message": {
+            "$ref": "#/components/schemas/ChatMessage",
+            "description": "\u54cd\u5e94\u6d88\u606f"
+          },
+          "finish_reason": {
+            "title": "Finish Reason",
+            "type": "string",
+            "description": "\u7ed3\u675f\u539f\u56e0",
+            "default": "stop"
+          }
+        },
+        "description": "\u804a\u5929\u5b8c\u6210\u9009\u9879"
+      },
+      "ChatMessage": {
+        "title": "ChatMessage",
+        "required": [
+          "role",
+          "content"
+        ],
+        "type": "object",
+        "properties": {
+          "role": {
+            "title": "Role",
+            "type": "string",
+            "description": "\u6d88\u606f\u89d2\u8272: user, assistant, system",
+            "example": "user"
+          },
+          "content": {
+            "title": "Content",
+            "type": "string",
+            "description": "\u6d88\u606f\u5185\u5bb9",
+            "example": "Hello, how are you?"
+          },
+          "type": {
+            "title": "Type",
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "\u6d88\u606f\u7c7b\u578b",
+            "default": "message",
+            "example": "message"
+          }
+        },
+        "description": "\u804a\u5929\u6d88\u606f"
+      },
+      "Usage": {
+        "title": "Usage",
+        "type": "object",
+        "properties": {
+          "prompt_tokens": {
+            "title": "Prompt Tokens",
+            "type": "integer",
+            "description": "\u63d0\u793a\u8bcdtoken\u6570",
+            "default": 0
+          },
+          "completion_tokens": {
+            "title": "Completion Tokens",
+            "type": "integer",
+            "description": "\u5b8c\u6210token\u6570",
+            "default": 0
+          },
+          "total_tokens": {
+            "title": "Total Tokens",
+            "type": "integer",
+            "description": "\u603btoken\u6570",
+            "default": 0
+          }
+        },
+        "description": "Token\u4f7f\u7528\u60c5\u51b5"
+      },
+      "ChatCompletionRequest": {
+        "title": "ChatCompletionRequest",
+        "required": [
+          "messages"
+        ],
+        "type": "object",
+        "properties": {
+          "messages": {
+            "title": "Messages",
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ChatMessage"
+            },
+            "description": "\u6d88\u606f\u5217\u8868",
+            "example": [
+              {
+                "content": "Hello, can you help me?",
+                "role": "user"
+              }
+            ]
+          },
+          "model": {
+            "title": "Model",
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "\u6a21\u578b\u540d\u79f0 (\u53ef\u9009\uff0c\u9ed8\u8ba4\u4f7f\u7528\u670d\u52a1\u5668\u914d\u7f6e)",
+            "default": null,
+            "example": "bedrock/anthropic.claude-3-5-sonnet-20240620-v1:0"
+          },
+          "stream": {
+            "title": "Stream",
+            "anyOf": [
+              {
+                "type": "boolean"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "\u662f\u5426\u6d41\u5f0f\u54cd\u5e94",
+            "default": false,
+            "example": false
+          },
+          "session_id": {
+            "title": "Session Id",
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "\u4f1a\u8bddID (\u53ef\u9009\uff0c\u7528\u4e8e\u4fdd\u6301\u5bf9\u8bdd\u4e0a\u4e0b\u6587)",
+            "default": null,
+            "example": "session-123"
+          }
+        },
+        "description": "\u804a\u5929\u5b8c\u6210\u8bf7\u6c42",
+        "example": {
+          "messages": [
+            {
+              "content": "Hello, can you help me write a Python function?",
+              "role": "user"
+            }
+          ],
+          "model": "bedrock/anthropic.claude-3-5-sonnet-20240620-v1:0",
+          "session_id": null,
+          "stream": false
+        }
+      },
+      "SessionListResponse": {
+        "title": "SessionListResponse",
+        "required": [
+          "sessions",
+          "total"
+        ],
+        "type": "object",
+        "properties": {
+          "sessions": {
+            "title": "Sessions",
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Session"
+            }
+          },
+          "total": {
+            "title": "Total",
+            "type": "integer"
+          },
+          "page": {
+            "title": "Page",
+            "type": "integer",
+            "default": 1
+          },
+          "limit": {
+            "title": "Limit",
+            "type": "integer",
+            "default": 20
+          }
+        },
+        "description": "Session list response"
+      },
+      "MessageBase": {
+        "title": "MessageBase",
+        "required": [
+          "id",
+          "role",
+          "type"
+        ],
+        "type": "object",
+        "properties": {
+          "id": {
+            "title": "Id",
+            "type": "string"
+          },
+          "role": {
+            "title": "Role",
+            "enum": [
+              "user",
+              "assistant",
+              "computer"
+            ],
+            "type": "string"
+          },
+          "type": {
+            "title": "Type",
+            "enum": [
+              "message",
+              "code",
+              "image",
+              "console",
+              "file",
+              "confirmation"
+            ],
+            "type": "string"
+          },
+          "content": {
+            "title": "Content",
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null
+          },
+          "format": {
+            "title": "Format",
+            "anyOf": [
+              {
+                "enum": [
+                  "output",
+                  "path",
+                  "base64.png",
+                  "base64.jpeg",
+                  "python",
+                  "javascript",
+                  "shell",
+                  "html",
+                  "active_line",
+                  "execution"
+                ],
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null
+          },
+          "recipient": {
+            "title": "Recipient",
+            "anyOf": [
+              {
+                "enum": [
+                  "user",
+                  "assistant"
+                ],
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null
+          },
+          "created_at": {
+            "title": "Created At",
+            "type": "string"
+          },
+          "start": {
+            "title": "Start",
+            "anyOf": [
+              {
+                "type": "boolean"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null
+          },
+          "end": {
+            "title": "End",
+            "anyOf": [
+              {
+                "type": "boolean"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null
+          }
+        },
+        "description": "Base message structure following NCU format"
+      },
+      "Session": {
+        "title": "Session",
+        "required": [
+          "session_id"
+        ],
+        "type": "object",
+        "properties": {
+          "session_id": {
+            "title": "Session Id",
+            "type": "string"
+          },
+          "created_at": {
+            "title": "Created At",
+            "type": "string"
+          },
+          "last_active": {
+            "title": "Last Active",
+            "type": "string"
+          },
+          "messages": {
+            "title": "Messages",
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/MessageBase"
+            },
+            "default": []
+          },
+          "metadata": {
+            "$ref": "#/components/schemas/SessionMetadata",
+            "default": {}
+          }
+        },
+        "description": "Session structure"
+      },
+      "SessionMetadata": {
+        "title": "SessionMetadata",
+        "type": "object",
+        "properties": {
+          "title": {
+            "title": "Title",
+            "type": "string"
+          },
+          "description": {
+            "title": "Description",
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "tags": {
+            "title": "Tags",
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "model": {
+            "title": "Model",
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "safe_mode": {
+            "title": "Safe Mode",
+            "type": "boolean"
+          },
+          "preview": {
+            "title": "Preview",
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "language": {
+            "title": "Language",
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "is_starred": {
+            "title": "Is Starred",
+            "type": "boolean"
+          },
+          "status": {
+            "title": "Status",
+            "type": "string"
+          },
+          "turn_count": {
+            "title": "Turn Count",
+            "type": "integer"
+          },
+          "category": {
+            "title": "Category",
+            "type": "string"
+          },
+          "last_modified": {
+            "title": "Last Modified",
+            "type": "string"
+          },
+          "modified_by": {
+            "title": "Modified By",
+            "type": "string"
+          },
+          "context_window": {
+            "title": "Context Window",
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "max_tokens": {
+            "title": "Max Tokens",
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          }
+        },
+        "description": "Session metadata structure"
+      },
+      "SessionFull": {
+        "title": "SessionFull",
+        "required": [
+          "session_id",
+          "created_at",
+          "last_active",
+          "messages",
+          "metadata"
+        ],
+        "type": "object",
+        "properties": {
+          "session_id": {
+            "title": "Session Id",
+            "type": "string"
+          },
+          "created_at": {
+            "title": "Created At",
+            "type": "string"
+          },
+          "last_active": {
+            "title": "Last Active",
+            "type": "string"
+          },
+          "messages": {
+            "title": "Messages",
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/MessageMeta"
+            }
+          },
+          "metadata": {
+            "$ref": "#/components/schemas/SessionMeta"
+          }
+        },
+        "description": "\u4e00\u4e2a\u5b8c\u6574\u7684\u4f1a\u8bdd\u5bf9\u8c61"
+      },
+      "MessageMeta": {
+        "title": "MessageMeta",
+        "required": [
+          "id",
+          "role",
+          "type",
+          "created_at"
+        ],
+        "type": "object",
+        "properties": {
+          "id": {
+            "title": "Id",
+            "type": "string"
+          },
+          "role": {
+            "title": "Role",
+            "type": "string"
+          },
+          "type": {
+            "title": "Type",
+            "type": "string"
+          },
+          "content": {
+            "title": "Content",
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null
+          },
+          "format": {
+            "title": "Format",
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null
+          },
+          "recipient": {
+            "title": "Recipient",
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null
+          },
+          "created_at": {
+            "title": "Created At",
+            "type": "string"
+          },
+          "start": {
+            "title": "Start",
+            "anyOf": [
+              {
+                "type": "boolean"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null
+          },
+          "end": {
+            "title": "End",
+            "anyOf": [
+              {
+                "type": "boolean"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null
+          }
+        },
+        "description": "\u4f1a\u8bdd\u4e2d\u7684\u6d88\u606f\u5143\u6570\u636e"
+      },
+      "SessionMeta": {
+        "title": "SessionMeta",
+        "type": "object",
+        "properties": {
+          "title": {
+            "title": "Title",
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null
+          },
+          "description": {
+            "title": "Description",
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null
+          },
+          "tags": {
+            "title": "Tags",
+            "anyOf": [
+              {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null
+          },
+          "model": {
+            "title": "Model",
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null
+          },
+          "safe_mode": {
+            "title": "Safe Mode",
+            "anyOf": [
+              {
+                "type": "boolean"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null
+          },
+          "preview": {
+            "title": "Preview",
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null
+          },
+          "language": {
+            "title": "Language",
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null
+          },
+          "is_starred": {
+            "title": "Is Starred",
+            "anyOf": [
+              {
+                "type": "boolean"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null
+          },
+          "status": {
+            "title": "Status",
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null
+          },
+          "turn_count": {
+            "title": "Turn Count",
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null
+          },
+          "category": {
+            "title": "Category",
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null
+          },
+          "last_modified": {
+            "title": "Last Modified",
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null
+          },
+          "modified_by": {
+            "title": "Modified By",
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null
+          },
+          "context_window": {
+            "title": "Context Window",
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null
+          },
+          "max_tokens": {
+            "title": "Max Tokens",
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null
+          }
+        },
+        "description": "\u4f1a\u8bdd\u7684\u5143\u6570\u636e\u90e8\u5206"
+      },
+      "SuccessResponse": {
+        "title": "SuccessResponse",
+        "type": "object",
+        "properties": {
+          "success": {
+            "title": "Success",
+            "type": "boolean",
+            "description": "\u64cd\u4f5c\u662f\u5426\u6210\u529f",
+            "default": true
+          }
+        },
+        "description": "\u901a\u7528\u6210\u529f\u54cd\u5e94"
+      },
+      "MessagesListResponse": {
+        "title": "MessagesListResponse",
+        "required": [
+          "messages",
+          "total"
+        ],
+        "type": "object",
+        "properties": {
+          "messages": {
+            "title": "Messages",
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/MessageMeta"
+            },
+            "description": "\u6d88\u606f\u5217\u8868"
+          },
+          "total": {
+            "title": "Total",
+            "type": "integer",
+            "description": "\u6d88\u606f\u603b\u6570"
+          }
+        },
+        "description": "\u6d88\u606f\u5217\u8868\u54cd\u5e94"
+      },
+      "AddMessageResponse": {
+        "title": "AddMessageResponse",
+        "required": [
+          "session"
+        ],
+        "type": "object",
+        "properties": {
+          "success": {
+            "title": "Success",
+            "type": "boolean",
+            "description": "\u64cd\u4f5c\u662f\u5426\u6210\u529f",
+            "default": true
+          },
+          "session": {
+            "$ref": "#/components/schemas/SessionFull",
+            "description": "\u66f4\u65b0\u540e\u7684\u4f1a\u8bdd\u5bf9\u8c61"
+          }
+        },
+        "description": "\u6dfb\u52a0\u6d88\u606f\u54cd\u5e94"
+      },
+      "FullHealthCheckResponse": {
+        "title": "FullHealthCheckResponse",
+        "required": [
+          "status",
+          "version",
+          "uptime",
+          "llm",
+          "instances"
+        ],
+        "type": "object",
+        "properties": {
+          "status": {
+            "title": "Status",
+            "type": "string",
+            "description": "\u670d\u52a1\u72b6\u6001",
+            "example": "healthy"
+          },
+          "version": {
+            "title": "Version",
+            "type": "string",
+            "description": "\u670d\u52a1\u7248\u672c",
+            "example": "1.0.0"
+          },
+          "uptime": {
+            "title": "Uptime",
+            "type": "string",
+            "description": "\u670d\u52a1\u8fd0\u884c\u65f6\u95f4",
+            "example": "1d 2h 30m"
+          },
+          "llm": {
+            "$ref": "#/components/schemas/LLMHealthInfo"
+          },
+          "instances": {
+            "$ref": "#/components/schemas/InstanceHealthInfo"
+          },
+          "system": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/SystemInfo"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "\u7cfb\u7edf\u8be6\u7ec6\u4fe1\u606f (\u5f53 detail='full' \u65f6)",
+            "default": null
+          }
+        },
+        "description": "\u5b8c\u6574\u5065\u5eb7\u68c0\u67e5\u54cd\u5e94 (\u5305\u542b\u7cfb\u7edf\u4fe1\u606f)"
+      },
+      "InstanceHealthCounts": {
+        "title": "InstanceHealthCounts",
+        "type": "object",
+        "properties": {
+          "busy": {
+            "title": "Busy",
+            "type": "integer",
+            "description": "\u5fd9\u788c\u5b9e\u4f8b\u6570\u91cf",
+            "default": 0
+          },
+          "ready": {
+            "title": "Ready",
+            "type": "integer",
+            "description": "\u5c31\u7eea\u5b9e\u4f8b\u6570\u91cf",
+            "default": 0
+          },
+          "optimization": {
+            "title": "Optimization",
+            "type": "integer",
+            "description": "\u4f18\u5316\u4e2d\u5b9e\u4f8b\u6570\u91cf",
+            "default": 0
+          }
+        },
+        "description": "\u5b9e\u4f8b\u72b6\u6001\u8ba1\u6570"
+      },
+      "InstanceHealthInfo": {
+        "title": "InstanceHealthInfo",
+        "required": [
+          "max",
+          "active",
+          "status"
+        ],
+        "type": "object",
+        "properties": {
+          "max": {
+            "title": "Max",
+            "type": "integer",
+            "description": "\u6700\u5927\u5b9e\u4f8b\u6570"
+          },
+          "active": {
+            "title": "Active",
+            "type": "integer",
+            "description": "\u6d3b\u8dc3\u5b9e\u4f8b\u6570"
+          },
+          "status": {
+            "title": "Status",
+            "type": "string",
+            "description": "\u5b9e\u4f8b\u7ba1\u7406\u5668\u72b6\u6001",
+            "example": "available"
+          },
+          "status_counts": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/InstanceHealthCounts"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "\u5b9e\u4f8b\u8be6\u7ec6\u72b6\u6001\u8ba1\u6570",
+            "default": null
+          },
+          "is_optimizing": {
+            "title": "Is Optimizing",
+            "anyOf": [
+              {
+                "type": "boolean"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "\u662f\u5426\u6b63\u5728\u4f18\u5316",
+            "default": null
+          },
+          "error": {
+            "title": "Error",
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "\u9519\u8bef\u4fe1\u606f (\u5982\u679c\u5b58\u5728)",
+            "default": null
+          }
+        },
+        "description": "\u5b9e\u4f8b\u5065\u5eb7\u4fe1\u606f"
+      },
+      "LLMHealthInfo": {
+        "title": "LLMHealthInfo",
+        "required": [
+          "model",
+          "status"
+        ],
+        "type": "object",
+        "properties": {
+          "model": {
+            "title": "Model",
+            "type": "string",
+            "description": "LLM \u6a21\u578b\u540d\u79f0",
+            "example": "gpt-3.5-turbo"
+          },
+          "status": {
+            "title": "Status",
+            "type": "string",
+            "description": "LLM \u72b6\u6001",
+            "example": "ready"
+          },
+          "error": {
+            "title": "Error",
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "\u9519\u8bef\u4fe1\u606f (\u5982\u679c\u5b58\u5728)",
+            "default": null
+          }
+        },
+        "description": "LLM \u5065\u5eb7\u4fe1\u606f"
+      },
+      "SystemDiskInfo": {
+        "title": "SystemDiskInfo",
+        "required": [
+          "total",
+          "used",
+          "free",
+          "percent"
+        ],
+        "type": "object",
+        "properties": {
+          "total": {
+            "title": "Total",
+            "type": "string",
+            "description": "\u603b\u78c1\u76d8\u5927\u5c0f"
+          },
+          "used": {
+            "title": "Used",
+            "type": "string",
+            "description": "\u5df2\u4f7f\u7528\u78c1\u76d8\u5927\u5c0f"
+          },
+          "free": {
+            "title": "Free",
+            "type": "string",
+            "description": "\u7a7a\u95f2\u78c1\u76d8\u5927\u5c0f"
+          },
+          "percent": {
+            "title": "Percent",
+            "type": "number",
+            "description": "\u78c1\u76d8\u4f7f\u7528\u767e\u5206\u6bd4"
+          }
+        },
+        "description": "\u7cfb\u7edf\u78c1\u76d8\u4fe1\u606f"
+      },
+      "SystemInfo": {
+        "title": "SystemInfo",
+        "required": [
+          "os",
+          "cpu_cores",
+          "memory",
+          "disk"
+        ],
+        "type": "object",
+        "properties": {
+          "os": {
+            "title": "Os",
+            "type": "string",
+            "description": "\u64cd\u4f5c\u7cfb\u7edf"
+          },
+          "cpu_cores": {
+            "title": "Cpu Cores",
+            "type": "integer",
+            "description": "CPU \u6838\u5fc3\u6570"
+          },
+          "memory": {
+            "$ref": "#/components/schemas/SystemMemoryInfo",
+            "description": "\u5185\u5b58\u4fe1\u606f"
+          },
+          "disk": {
+            "$ref": "#/components/schemas/SystemDiskInfo",
+            "description": "\u78c1\u76d8\u4fe1\u606f"
+          }
+        },
+        "description": "\u7cfb\u7edf\u8be6\u7ec6\u4fe1\u606f"
+      },
+      "SystemMemoryInfo": {
+        "title": "SystemMemoryInfo",
+        "required": [
+          "total",
+          "available",
+          "percent"
+        ],
+        "type": "object",
+        "properties": {
+          "total": {
+            "title": "Total",
+            "type": "string",
+            "description": "\u603b\u5185\u5b58\u5927\u5c0f"
+          },
+          "available": {
+            "title": "Available",
+            "type": "string",
+            "description": "\u53ef\u7528\u5185\u5b58\u5927\u5c0f"
+          },
+          "percent": {
+            "title": "Percent",
+            "type": "number",
+            "description": "\u5185\u5b58\u4f7f\u7528\u767e\u5206\u6bd4"
+          }
+        },
+        "description": "\u7cfb\u7edf\u5185\u5b58\u4fe1\u606f"
+      },
+      "HealthCheckResponse": {
+        "title": "HealthCheckResponse",
+        "required": [
+          "status",
+          "version",
+          "uptime",
+          "llm",
+          "instances"
+        ],
+        "type": "object",
+        "properties": {
+          "status": {
+            "title": "Status",
+            "type": "string",
+            "description": "\u670d\u52a1\u72b6\u6001",
+            "example": "healthy"
+          },
+          "version": {
+            "title": "Version",
+            "type": "string",
+            "description": "\u670d\u52a1\u7248\u672c",
+            "example": "1.0.0"
+          },
+          "uptime": {
+            "title": "Uptime",
+            "type": "string",
+            "description": "\u670d\u52a1\u8fd0\u884c\u65f6\u95f4",
+            "example": "1d 2h 30m"
+          },
+          "llm": {
+            "$ref": "#/components/schemas/LLMHealthInfo"
+          },
+          "instances": {
+            "$ref": "#/components/schemas/InstanceHealthInfo"
+          }
+        },
+        "description": "\u57fa\u7840\u5065\u5eb7\u68c0\u67e5\u54cd\u5e94"
+      },
+      "ValidationErrorModel": {
+        "title": "ValidationErrorModel",
+        "required": [
+          "type",
+          "loc",
+          "msg",
+          "input"
+        ],
+        "type": "object",
+        "properties": {
+          "type": {
+            "title": "Error Type",
+            "type": "string",
+            "description": "A computer-readable identifier of the error type."
+          },
+          "loc": {
+            "title": "Location",
+            "type": "array",
+            "items": {},
+            "description": "The error's location as a list."
+          },
+          "msg": {
+            "title": "Message",
+            "type": "string",
+            "description": "A human readable explanation of the error."
+          },
+          "input": {
+            "title": "Input",
+            "description": "The input provided for validation."
+          },
+          "url": {
+            "title": "URL",
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "The URL to further information about the error.",
+            "default": null
+          },
+          "ctx": {
+            "title": "Error context",
+            "anyOf": [
+              {
+                "type": "object",
+                "additionalProperties": true
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "An optional object which contains values required to render the error message.",
+            "default": null
+          }
+        }
+      }
+    },
+    "securitySchemes": null
+  }
+}
