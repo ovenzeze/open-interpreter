@@ -669,11 +669,8 @@ class InterpreterInstanceManager:
             if hasattr(interpreter.llm, 'temperature'):
                 interpreter.llm.temperature = session_config.get('temperature', 0.7)
         
-        # 注意：不再设置全局环境变量 os.environ['OPENAI_API_KEY'] 和 os.environ['OPENAI_API_BASE']
-        # 因为在多线程环境下，这会影响其他并发的实例。
-        # 应该完全依赖于 interpreter 实例本身的配置。
-
         # 确保 interpreter.llm 具有正确的配置
+        # 不再依赖全局环境变量，而是直接配置实例
         if not interpreter.llm.api_key:
              interpreter.llm.api_key = session_config.get('api_key', 'sk-isakeem')
         if not interpreter.llm.api_base:
