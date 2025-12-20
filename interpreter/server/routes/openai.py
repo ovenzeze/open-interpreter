@@ -277,7 +277,11 @@ def chat_completions(body: ChatCompletionRequest):
         api_key = None
         auth_header = request.headers.get('Authorization')
         if auth_header and auth_header.startswith('Bearer '):
-            api_key = auth_header.split(' ')[1]
+            api_key = auth_header.split(' ')[1].strip()
+            # Basic validation: ensure API key is not empty and has reasonable length
+            if not api_key or len(api_key) < 10:
+                current_app.logger.warning("Invalid API key format in Authorization header")
+                api_key = None
 
         # 转换消息为字典格式
         for msg in body.messages:
@@ -362,9 +366,6 @@ def chat_completions(body: ChatCompletionRequest):
         # 添加CORS头
         response.headers['Access-Control-Allow-Origin'] = '*'
         response.headers['Access-Control-Allow-Methods'] = 'GET, POST, OPTIONS'
-        response.headers['Access-Control-Allow-Headers'] = 'Content-Type, Authorization'
-        
-        return response
         response.headers['Access-Control-Allow-Headers'] = 'Content-Type, Authorization'
         
         return response
