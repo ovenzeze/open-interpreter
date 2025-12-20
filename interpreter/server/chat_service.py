@@ -35,6 +35,7 @@ class ChatService:
                     session_id: Optional[str] = None, 
                     stream: bool = False, 
                     model: Optional[str] = None,
+                    api_key: Optional[str] = None,
                     is_openai_format: bool = False) -> Union[Dict, List[Dict]]:
         """
         处理聊天请求（非流式）
@@ -44,6 +45,7 @@ class ChatService:
             session_id: 会话ID，如果为None则创建新会话
             stream: 是否使用流式响应
             model: 使用的模型名称
+            api_key: API 密钥
             is_openai_format: 是否使用OpenAI格式响应
             
         Returns:
@@ -62,7 +64,7 @@ class ChatService:
             
             # 3. 获取解释器实例
             self.logger.info(f"Getting interpreter instance for session {session_id} with model {model}")
-            interpreter = self._get_interpreter(session_id, model)
+            interpreter = self._get_interpreter(session_id, model, api_key)
             if not interpreter:
                 self.logger.error(f"Failed to get interpreter instance for session {session_id}")
                 return self._create_session_not_found_response(session_id)
@@ -189,6 +191,7 @@ class ChatService:
                               messages: List[Dict], 
                               session_id: Optional[str] = None, 
                               model: Optional[str] = None,
+                              api_key: Optional[str] = None,
                               is_openai_format: bool = False) -> Generator:
         """
         处理流式聊天请求
@@ -197,6 +200,7 @@ class ChatService:
             messages: 消息列表
             session_id: 会话ID，如果为None则创建新会话
             model: 使用的模型名称
+            api_key: API 密钥
             is_openai_format: 是否使用OpenAI格式响应
             
         Returns:
@@ -223,7 +227,7 @@ class ChatService:
             self.logger.info(f"Session lock acquired for session {session_id} (streaming)")
             
             # 3. 获取解释器实例
-            interpreter = self._get_interpreter(session_id, model)
+            interpreter = self._get_interpreter(session_id, model, api_key)
             if not interpreter:
                 error_response = self._create_session_not_found_response(session_id)
                 error_chunk = StreamingChunk(
@@ -371,37 +375,50 @@ class ChatService:
         """
         self.session_manager.release_session_lock(session_id)
     
-    def _get_interpreter(self, session_id: str, model: Optional[str]) -> Any:
+    def _get_interpreter(self, session_id: str, model: Optional[str], api_key: Optional[str] = None) -> Any:
         """
-        获取解释器实例，如果提供了新的模型参数，更新 session metadata
+        获取解释器实例，如果提供了新的模型参数或API Key，更新配置
         
         Args:
             session_id: 会话ID
             model: 使用的模型名称
+            api_key: API 密钥
             
         Returns:
             解释器实例
         """
         interpreter = self.session_manager.get_interpreter(session_id)
-        if interpreter and model:
-            # 更新模型
-            if hasattr(interpreter, 'llm') and hasattr(interpreter.llm, 'model'):
-                interpreter.llm.model = model
-            elif hasattr(interpreter, 'model'):
-                interpreter.model = model
+        if interpreter:
+            updates = {}
+            if model:
+                # 更新模型
+                if hasattr(interpreter, 'llm') and hasattr(interpreter.llm, 'model'):
+                    interpreter.llm.model = model
+                elif hasattr(interpreter, 'model'):
+                    interpreter.model = model
+                updates['model'] = model
             
-            # 更新 session metadata 中的模型配置
-            try:
-                session = self.session_manager.get_session(session_id)
-                if session:
-                    if 'metadata' not in session:
-                        session['metadata'] = {}
-                    session['metadata']['model'] = model
-                    # 保存更新后的 session
-                    self.session_manager._persist_session(session_id, session)
-                    self.logger.info(f"Updated session {session_id} metadata with model: {model}")
-            except Exception as e:
-                self.logger.warning(f"Failed to update session metadata: {str(e)}")
+            if api_key:
+                # 更新 API Key
+                if hasattr(interpreter, 'llm') and hasattr(interpreter.llm, 'api_key'):
+                    interpreter.llm.api_key = api_key
+                elif hasattr(interpreter, 'llm') and hasattr(interpreter.llm, 'key'):
+                    interpreter.llm.key = api_key
+                updates['api_key'] = api_key
+
+            # 如果有更新，同步到 session metadata
+            if updates:
+                try:
+                    session = self.session_manager.get_session(session_id)
+                    if session:
+                        if 'metadata' not in session:
+                            session['metadata'] = {}
+                        session['metadata'].update(updates)
+                        # 保存更新后的 session
+                        self.session_manager._persist_session(session_id, session)
+                        self.logger.info(f"Updated session {session_id} metadata with: {updates}")
+                except Exception as e:
+                    self.logger.warning(f"Failed to update session metadata: {str(e)}")
                 
         return interpreter
     
