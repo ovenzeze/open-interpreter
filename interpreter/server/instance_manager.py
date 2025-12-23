@@ -655,7 +655,9 @@ class InterpreterInstanceManager:
                 interpreter.llm.base_url = api_base
             
             # 设置 API 密钥
-            api_key = session_config.get('api_key', 'sk-isakeem')
+            # Note: Default value is used only as last resort fallback for development
+            # Production deployments should always provide OPENAI_API_KEY environment variable
+            api_key = session_config.get('api_key', os.getenv('OPENAI_API_KEY', 'sk-isakeem'))
             if hasattr(interpreter.llm, 'api_key'):
                 interpreter.llm.api_key = api_key
             elif hasattr(interpreter.llm, 'key'):
@@ -672,9 +674,10 @@ class InterpreterInstanceManager:
         # 确保 interpreter.llm 具有正确的配置
         # 不再依赖全局环境变量，而是直接配置实例
         if not interpreter.llm.api_key:
-             interpreter.llm.api_key = session_config.get('api_key', 'sk-isakeem')
+             # Fallback to environment or default (development only)
+             interpreter.llm.api_key = session_config.get('api_key', os.getenv('OPENAI_API_KEY', 'sk-isakeem'))
         if not interpreter.llm.api_base:
-             interpreter.llm.api_base = session_config.get('api_base', 'https://llm.deth.dev')
+             interpreter.llm.api_base = session_config.get('api_base', os.getenv('OPENAI_API_BASE', 'https://llm.deth.dev'))
         
         logger.info(f"Created interpreter instance for session {session_id} with config: model={session_config.get('model', 'default')}, api_base={session_config.get('api_base', 'default')}")
         return interpreter
@@ -695,6 +698,7 @@ class InterpreterInstanceManager:
         default_config = {
             'model': os.getenv('OPENAI_MODEL_NAME', os.getenv('LITELLM_MODEL', 'gpt-3.5-turbo')),
             'api_base': os.getenv('OPENAI_API_BASE', os.getenv('ANTHROPIC_BASE_URL', 'https://llm.deth.dev')),
+            # Note: Fallback API key should only be used in development environments
             'api_key': os.getenv('OPENAI_API_KEY', os.getenv('ANTHROPIC_AUTH_TOKEN', 'sk-isakeem')),
             'context_window': 10000,
             'max_tokens': 4096,

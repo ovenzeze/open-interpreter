@@ -400,11 +400,18 @@ class ChatService:
             
             if api_key:
                 # 更新 API Key
+                api_key_set = False
                 if hasattr(interpreter, 'llm') and hasattr(interpreter.llm, 'api_key'):
                     interpreter.llm.api_key = api_key
+                    api_key_set = True
                 elif hasattr(interpreter, 'llm') and hasattr(interpreter.llm, 'key'):
                     interpreter.llm.key = api_key
-                updates['api_key'] = api_key
+                    api_key_set = True
+                
+                if api_key_set:
+                    updates['api_key'] = api_key
+                else:
+                    self.logger.warning(f"Unable to set API key for session {session_id}: interpreter.llm does not have 'api_key' or 'key' attribute")
 
             # 如果有更新，同步到 session metadata
             if updates:
