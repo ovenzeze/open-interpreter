@@ -21,6 +21,10 @@ from ..base_language import BaseLanguage
 
 DEBUG_MODE = False
 
+# Pre-compile regex for performance
+ANSI_ESCAPE_PATTERN = re.compile(r"\x1B\[[0-?]*[ -/]*[@-~]")
+ACTIVE_LINE_PATTERN = re.compile(r"##active_line\d+##\n")
+
 # When running from an executable, ipykernel calls itself infinitely
 # This is a workaround to detect it and launch it manually
 if "ipykernel_launcher" in sys.argv:
@@ -240,8 +244,7 @@ import matplotlib.pyplot as plt
                 elif msg["msg_type"] == "error":
                     content = "\n".join(content["traceback"])
                     # Remove color codes
-                    ansi_escape = re.compile(r"\x1B\[[0-?]*[ -/]*[@-~]")
-                    content = ansi_escape.sub("", content)
+                    content = ANSI_ESCAPE_PATTERN.sub("", content)
                     message_queue.put(
                         {
                             "type": "console",
@@ -313,7 +316,7 @@ import matplotlib.pyplot as plt
             except:
                 active_line = 0
             # Remove all ##active_line{number}##\n
-            line = re.sub(r"##active_line\d+##\n", "", line)
+            line = ACTIVE_LINE_PATTERN.sub("", line)
             return line, active_line
         return line, None
 
