@@ -69,26 +69,27 @@ def add_active_line_prints(code):
     return "\n".join(lines)
 
 
-def has_multiline_commands(script_text):
-    # Patterns that indicate a line continues
-    continuation_patterns = [
-        r"\\$",  # Line continuation character at the end of the line
-        r"\|$",  # Pipe character at the end of the line indicating a pipeline continuation
-        r"&&\s*$",  # Logical AND at the end of the line
-        r"\|\|\s*$",  # Logical OR at the end of the line
-        r"<\($",  # Start of process substitution
-        r"\($",  # Start of subshell
-        r"{\s*$",  # Start of a block
-        r"\bif\b",  # Start of an if statement
-        r"\bwhile\b",  # Start of a while loop
-        r"\bfor\b",  # Start of a for loop
-        r"do\s*$",  # 'do' keyword for loops
-        r"then\s*$",  # 'then' keyword for if statements
-    ]
+# Patterns that indicate a line continues
+CONTINUATION_PATTERN = re.compile(
+    r"\\$|"  # Line continuation character at the end of the line
+    r"\|$|"  # Pipe character at the end of the line indicating a pipeline continuation
+    r"&&\s*$|"  # Logical AND at the end of the line
+    r"\|\|\s*$|"  # Logical OR at the end of the line
+    r"<\($|"  # Start of process substitution
+    r"\($|"  # Start of subshell
+    r"{\s*$|"  # Start of a block
+    r"\bif\b|"  # Start of an if statement
+    r"\bwhile\b|"  # Start of a while loop
+    r"\bfor\b|"  # Start of a for loop
+    r"do\s*$|"  # 'do' keyword for loops
+    r"then\s*$"  # 'then' keyword for if statements
+)
 
+
+def has_multiline_commands(script_text):
     # Check each line for multiline patterns
     for line in script_text.splitlines():
-        if any(re.search(pattern, line.rstrip()) for pattern in continuation_patterns):
+        if CONTINUATION_PATTERN.search(line.rstrip()):
             return True
 
     return False
