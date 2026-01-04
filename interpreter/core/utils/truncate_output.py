@@ -12,32 +12,68 @@ def truncate_output(data, max_output_chars=5000, add_scrollbars=False):
     if not data:
         return data
 
+    # 1. Early return optimization:
+    # If data is within limits, return immediately.
+    # This avoids expensive regex searches on the common path.
+    if len(data) <= max_output_chars:
+        return data
+
     # Preserve critical error information
     error_pattern = r'\b(error|warning|exception|traceback)\b'
     error_matches = list(re.finditer(error_pattern, data, re.IGNORECASE))
     
-    # If no truncation needed, return original
-    if len(data) <= max_output_chars:
-        return data
-        
-    # Collect error context with improved ranges
     error_context = []
-    for match in error_matches:
-        # Capture more context around errors
-        start = max(0, match.start() - 200)  # Increased from 100
-        end = min(len(data), match.end() + 800)  # Increased from 500
-        # Get complete lines containing the error
-        while start > 0 and data[start] != '\n':
-            start -= 1
-        while end < len(data) and data[end] != '\n':
-            end += 1
-        error_context.append(data[start:end])
+    if error_matches:
+        # 2. Context Merging and Efficient Extraction
+        # Collect all desired ranges
+        ranges = []
+        for match in error_matches:
+            # Capture context around errors (-200 to +800)
+            start_index = max(0, match.start() - 200)
+            end_index = min(len(data), match.end() + 800)
+
+            # Expand to full lines efficiently using rfind/find
+            # Find newline before start_index
+            line_start = data.rfind('\n', 0, start_index)
+            if line_start == -1:
+                line_start = 0
+            else:
+                line_start += 1 # Start after the newline
+
+            # Find newline after end_index
+            line_end = data.find('\n', end_index)
+            if line_end == -1:
+                line_end = len(data)
+
+            ranges.append((line_start, line_end))
+
+        # Merge overlapping ranges
+        if ranges:
+            ranges.sort()
+            merged = [ranges[0]]
+            for current_start, current_end in ranges[1:]:
+                last_start, last_end = merged[-1]
+                if current_start <= last_end: # Overlap or adjacent
+                    # Merge
+                    merged[-1] = (last_start, max(last_end, current_end))
+                else:
+                    merged.append((current_start, current_end))
+
+            # Extract content from merged ranges
+            for start, end in merged:
+                error_context.append(data[start:end])
     
     # Basic truncation showing both start and end
     if error_context:
         # With errors, show error context and remaining space
         error_content = '\n'.join(error_context)
         available_chars = max_output_chars - len(error_content) - 100  # Buffer for messages
+
+        # If errors take up too much space, we still prioritize showing them,
+        # but we might need to be careful not to return a huge string if many errors exist.
+        # However, preserving errors is the priority.
+        # The original implementation allowed overflow for errors, so we stick to that.
+
         if available_chars > 0:
             start_portion = data[:available_chars//3]
             end_portion = data[-available_chars*2//3:]
