@@ -85,6 +85,8 @@ class OpenInterpreter:
         self.messages = [] if messages is None else messages
         self.responding = False
         self.last_messages_count = 0
+        self._respond_completed = threading.Event()
+        self._respond_completed.set()
 
         # Settings
         self.offline = offline
@@ -145,8 +147,8 @@ class OpenInterpreter:
         self = local_setup(self)
 
     def wait(self):
-        while self.responding:
-            time.sleep(0.2)
+        # Use threading.Event to wait for response completion without polling
+        self._respond_completed.wait()
         # Return new messages
         return self.messages[self.last_messages_count :]
 
@@ -163,6 +165,7 @@ class OpenInterpreter:
 
     def chat(self, message=None, display=True, stream=False, blocking=True):
         try:
+            self._respond_completed.clear()
             self.responding = True
             if self.anonymous_telemetry:
                 message_type = type(
@@ -192,14 +195,12 @@ class OpenInterpreter:
                 pass
 
             # Return new messages
-            self.responding = False
             return self.messages[self.last_messages_count :]
 
         except GeneratorExit:
-            self.responding = False
             # It's fine
+            pass
         except Exception as e:
-            self.responding = False
             if self.anonymous_telemetry:
                 message_type = type(message).__name__
                 send_telemetry(
@@ -213,6 +214,9 @@ class OpenInterpreter:
                 )
 
             raise
+        finally:
+            self.responding = False
+            self._respond_completed.set()
 
     def _streaming_chat(self, message=None, display=True):
         # Sometimes a little more code -> a much better experience!
