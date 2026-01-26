@@ -1,5 +1,8 @@
 import re
 
+# Pre-compile regex at module level
+ERROR_PATTERN = re.compile(r'\b(error|warning|exception|traceback)\b', re.IGNORECASE)
+
 def truncate_output(data, max_output_chars=5000, add_scrollbars=False):
     """
     Truncate output data while preserving error context.
@@ -12,13 +15,12 @@ def truncate_output(data, max_output_chars=5000, add_scrollbars=False):
     if not data:
         return data
 
-    # Preserve critical error information
-    error_pattern = r'\b(error|warning|exception|traceback)\b'
-    error_matches = list(re.finditer(error_pattern, data, re.IGNORECASE))
-    
-    # If no truncation needed, return original
+    # Check length first to avoid expensive operations
     if len(data) <= max_output_chars:
         return data
+
+    # Preserve critical error information
+    error_matches = list(ERROR_PATTERN.finditer(data))
         
     # Collect error context with improved ranges
     error_context = []
