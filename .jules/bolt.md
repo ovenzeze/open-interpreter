@@ -1,0 +1,3 @@
+## 2024-10-23 - Naive String Manipulation for AST Patching
+**Learning:** Attempting to "patch" Python code using regex or string splitting/replacement (e.g. injecting `pass` statements to preserve line numbers) before AST parsing is brittle and expensive. It creates O(N) overhead and often fails for complex structures (like comments inside expressions), leading to double parsing (try-except-fallback) which further degrades performance.
+**Action:** Use `ast` module capabilities directly. Trust the parser's line number information and avoid pre-processing source code with string manipulation unless absolutely necessary. If precise source mapping is needed, rely on `lineno` attributes of nodes rather than trying to force the AST to match visual lines via code modification.
