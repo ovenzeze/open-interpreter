@@ -1,5 +1,5 @@
 """
-This is NOT jupyter language, this is just python. 
+This is NOT jupyter language, this is just python.
 Gotta split this out, generalize it, and move all the python additions to python.py, which imports this
 """
 
@@ -319,8 +319,6 @@ import matplotlib.pyplot as plt
 
     def _capture_output(self, message_queue):
         while True:
-            time.sleep(0.1)
-
             # For async usage
             if (
                 hasattr(self.computer.interpreter, "stop_event")
@@ -338,8 +336,6 @@ import matplotlib.pyplot as plt
 
                 except queue.Empty:
                     if self.finish_flag:
-                        time.sleep(0.1)
-
                         try:
                             output = message_queue.get(timeout=0.1)
                             if DEBUG_MODE:
